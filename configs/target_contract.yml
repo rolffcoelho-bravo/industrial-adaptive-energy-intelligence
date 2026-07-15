@@ -1,0 +1,76 @@
+contract_version: "1.0.0"
+
+governance:
+  decision_gate: 2
+  status: locked
+  effective_date: "2026-07-16"
+
+prediction_origin:
+  timestamp_column: effective_timestamp
+  information_cutoff: inclusive_at_origin
+  cadence_minutes: 15
+  target_time_calendar_known: true
+
+targets:
+  regression:
+    name: usage_kwh_t_plus_1
+    source_column: Usage_kWh
+    horizon_steps: 1
+    horizon_minutes: 15
+    target_rule: next_observed_interval
+    incomplete_boundary: unavailable
+
+  peak_risk:
+    name: peak_within_next_60_minutes
+    source_column: Usage_kWh
+    horizon_steps: 4
+    horizon_minutes: 60
+    event_rule: any_future_value_greater_than_or_equal_to_threshold
+    incomplete_boundary: unavailable
+    threshold:
+      estimator: quantile
+      quantile: 0.90
+      interpolation: linear
+      comparison: greater_than_or_equal
+      fit_scope: training_partition_only
+      refit_each_chronological_origin: true
+      record_in_fold_manifest: true
+
+validation:
+  split_type: chronological
+  train_fraction: 0.60
+  validation_fraction: 0.20
+  test_fraction: 0.20
+  final_test_locked: true
+  random_split_forbidden: true
+
+leakage_policy:
+  permitted_information:
+    - observations_timestamped_at_or_before_origin
+    - current_interval_electrical_measurements
+    - historical_usage
+    - past_only_rolling_statistics
+    - deterministic_calendar_information
+    - known_target_time_calendar_fields
+
+  forbidden_operations:
+    - future_observation_as_feature
+    - centered_rolling_window
+    - backward_fill_from_future
+    - full_sample_scaling
+    - full_sample_encoding
+    - full_sample_peak_threshold
+    - random_train_test_split
+    - validation_outcome_in_feature_selection
+    - test_outcome_in_model_selection
+    - future_load_type
+    - future_electrical_measurement
+    - interpolation_across_prediction_boundary
+
+  enforcement:
+    threshold_fit_on_training_only: true
+    transformations_fit_on_training_only: true
+    incomplete_targets_are_not_imputed: true
+    target_timestamps_strictly_after_origins: true
+    chronological_row_order_required: true
+    explicit_leakage_tests_required: true

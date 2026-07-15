@@ -112,7 +112,7 @@ def write_supporting_files(
                 "",
                 "## Scope",
                 "",
-                "The snapshot is company-neutral and contains no proprietary data from a target organization.",
+                "The snapshot contains no proprietary company data.",
                 "Cleaning, feature engineering, and imputation are prohibited in this raw directory.",
                 "",
                 "## Attribution",

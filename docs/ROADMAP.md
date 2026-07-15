@@ -1,80 +1,107 @@
-# Execution roadmap
+# Implementation roadmap
 
-## Gate 0 - Repository foundation
+## Gate 0: Repository foundation
 
-**Status:** established.
+**Status:** Implemented.
 
-Acceptance criteria:
+Evidence:
 
-- company-neutral public identity;
+- reproducible Python package;
+- CI quality controls;
+- separated code and data licensing;
 - real-data-only rule;
-- code/data/report licensing separated;
-- CI and publication contracts present;
-- final PDF path and exact page count frozen;
-- no result placeholders accepted by the report builder.
+- schema and reporting contracts;
+- placeholder rejection.
 
-## Gate 1 - Data intake and immutable manifest
+## Gate 1: Data intake and immutable manifest
 
-- Download UCI dataset 851.
-- Verify schema, row count, timestamps, duplicates, missingness, and non-negative usage.
-- Record source URL, DOI, timestamps, hashes, license, and file sizes.
-- Decide whether the licensed raw snapshot is committed or attached to a release.
+**Status:** Implemented.
 
-## Gate 2 - Target and leakage contract
+Evidence:
 
-- Freeze the forecast horizon.
-- Freeze the peak definition using training data only.
-- Freeze permitted information at each prediction origin.
-- Add explicit leakage tests.
+- official UCI dataset retrieval;
+- immutable committed snapshot;
+- SHA-256 verification;
+- schema, row-count, missingness, duplicate, and non-negativity checks;
+- source-aware timestamp treatment;
+- offline verification path.
 
-## Gate 3 - Bronze/Silver/Gold implementation
+## Gate 2: Target and leakage contract
 
-- Local path: pandas/DuckDB/Parquet.
-- Databricks path: notebooks, SQL, Delta-oriented tables, workflow evidence.
-- Ensure both paths produce equivalent analytical tables.
+**Status:** Implemented.
 
-## Gate 4 - Model ladder and chronological validation
+Evidence:
 
-- Baselines, linear/ridge, tree ensembles, calibrated classifiers.
-- Expanding or rolling origins.
-- Locked final test block.
-- Average, peak-state, worst-window, calibration, and stability metrics.
+- next-interval regression target;
+- next-hour peak-risk target;
+- training-only peak threshold;
+- chronological ownership rules;
+- unavailable boundary treatment;
+- executable leakage and chronology tests.
 
-## Gate 5 - Structural-drift governance
+## Gate 3: Silver analytical layer
 
-- Frozen champion.
-- Local challenger estimated only from available information.
-- Normalized feature, residual, forecast-disagreement, and operator/parameter drift.
-- Stable/watch/adaptation-candidate states.
-- Strict positive worst-window promotion rule.
+Planned evidence:
 
-## Gate 6 - Constrained optimization
+- typed Parquet table;
+- governed effective timestamp;
+- source columns preserved;
+- data-quality flags;
+- deterministic calendar fields;
+- input and output hashes;
+- DuckDB and Databricks parity;
+- feature availability-at-origin matrix;
+- future-mutation causality tests.
 
-- Transparent objective.
-- Explicit flexibility and disruption constraints.
-- No automatic operational action.
-- Uncertainty and no-action state.
+## Gate 4: Model ladder and chronological validation
 
-## Gate 7 - Governed GenAI/multi-agent layer
+Planned evidence:
 
-- Deterministic reporting remains the mandatory fallback.
-- Optional local/open-source LLM or no-cost Databricks experiment.
-- Data Quality, Model Risk, and Operations Intelligence agents.
-- Supervisor routing, source traceability, and human approval.
+- naive and seasonal baselines;
+- linear and ridge models;
+- tree-based candidates;
+- calibrated peak-risk classifiers;
+- expanding or rolling origins;
+- locked final test block;
+- average, peak-state, worst-window, calibration, and stability metrics.
 
-## Gate 8 - Five-page publication build
+## Gate 5: Structural-drift governance
 
-- All report inputs final and contract-valid.
-- Four required charts and four required tables.
-- Exactly five pages.
-- Rendered PDF visually inspected.
-- GitHub Actions build artifact and tagged release.
+Planned evidence:
 
-## Gate 9 - Public release candidate
+- frozen champion;
+- locally estimated challenger using available information only;
+- normalized feature, residual, disagreement, and parameter drift;
+- stable, watch, and adaptation-candidate states;
+- strict positive worst-window promotion rule.
 
-- Green CI.
-- One-command reproduction.
-- No secrets or proprietary claims.
-- Clean README and architecture.
-- Real benchmark results.
-- Public release with PDF and checksums.
+## Gate 6: Constrained optimization
+
+Planned evidence:
+
+- transparent objective;
+- explicit flexibility limits;
+- disruption and feasibility constraints;
+- uncertainty-aware no-action state;
+- sensitivity analysis.
+
+## Gate 7: Governed agent layer
+
+Planned evidence:
+
+- deterministic reporting fallback;
+- Data Quality, Model Risk, and Operations Intelligence roles;
+- restricted tool permissions;
+- source traceability;
+- human authorization for consequential actions.
+
+## Gate 8: Technical brief and reproducible release
+
+Planned evidence:
+
+- final machine-readable tables;
+- validated decision figures;
+- visually inspected PDF;
+- one-command reproduction;
+- checksums and tagged release;
+- no secrets, proprietary claims, placeholders, or fabricated results.

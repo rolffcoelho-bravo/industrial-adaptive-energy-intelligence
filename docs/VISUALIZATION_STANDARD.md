@@ -14,33 +14,33 @@ The project uses Matplotlib as a decision-support layer, not as decoration. Ever
 - Units, sample period, source, figure identifier, and generation timestamp are mandatory.
 - Uncertainty must be visible whenever a point prediction or scenario estimate is shown.
 - Thresholds and intervention states must be explicitly labelled.
-- The most attractive model is never highlighted unless it passes the locked validation contract.
+- A candidate model is highlighted only after it passes the locked validation contract.
 
-## Five strategic brief figures
+## Required decision figures
 
-### Page 1: Executive decision timeline
+### Executive decision timeline
 
-A three-layer figure combining actual demand, forecast and interval, peak-risk probability, and the resulting no-action/watch/adaptation state. It should let a senior reviewer understand the decision within seconds.
+A three-layer figure combining actual demand, forecast uncertainty, peak-risk probability, and the resulting no-action, watch, or adaptation state. The operating decision must be understandable within seconds.
 
-### Page 2: Industrial load profile
+### Industrial load profile
 
-A temporal load heatmap with marginal intraday and weekday summaries, plus concise data-quality evidence. The objective is to expose structure, concentration, seasonality, and coverage rather than show a generic time-series plot.
+A temporal load heatmap with intraday and weekday summaries, plus concise data-quality evidence. The figure exposes structure, concentration, seasonality, and coverage rather than showing a generic time-series plot.
 
-### Page 3: Model validation dashboard
+### Model validation dashboard
 
 A chronological-fold performance matrix, benchmark comparison, peak-state metric panel, and calibration evidence. Average accuracy, peak performance, and worst-fold robustness must be visible together.
 
-### Page 4: Drift and optimization dashboard
+### Drift and optimization dashboard
 
-A synchronized drift-score timeline and global-versus-local disagreement panel, followed by the constrained cost/peak/disruption frontier. The selected operating point must be distinguished from feasible alternatives and from the no-action state.
+A synchronized drift-score timeline and global-versus-local disagreement panel, followed by the constrained cost, peak, and disruption frontier. The selected operating point must be distinguished from feasible alternatives and the no-action state.
 
-### Page 5: Business impact and governance
+### Business impact and governance
 
-An assumption-bounded value bridge or scenario range combined with evidence lineage and approval boundaries. It must separate measured results, derived estimates, assumptions, and decisions requiring human authorization.
+An assumption-bounded value bridge or scenario range combined with evidence lineage and authorization boundaries. The figure separates measured results, derived estimates, assumptions, and decisions requiring human authorization.
 
 ## Quality controls
 
-A chart is publication-ready only when:
+A chart passes the render gate only when:
 
 1. its input file is final and machine-readable;
 2. its labels contain no placeholder language;

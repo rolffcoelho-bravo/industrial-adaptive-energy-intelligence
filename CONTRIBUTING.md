@@ -1,3 +1,5 @@
 # Contributing
 
-Contributions must preserve the project's real-data-only policy, chronological validation, strict report gate, and company-neutral identity. Pull requests that add synthetic performance evidence, future leakage, automatic model promotion, or unbounded savings claims will not be accepted.
+Contributions must preserve the real-data-only policy, chronological validation, source attribution, independence controls, and strict evidence gates.
+
+Pull requests that introduce synthetic performance evidence, future leakage, automatic model promotion, unsupported causal claims, or unbounded savings estimates will not be accepted.

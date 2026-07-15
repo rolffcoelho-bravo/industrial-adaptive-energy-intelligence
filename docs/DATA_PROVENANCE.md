@@ -1,6 +1,6 @@
 # Data provenance and immutable snapshot policy
 
-The project uses the **Steel Industry Energy Consumption** dataset from the official UCI Machine Learning Repository (dataset 851, DOI `10.24432/C52G8C`). The dataset is licensed under **CC BY 4.0**.
+The project uses the **Steel Industry Energy Consumption** dataset from the official UCI Machine Learning Repository, dataset 851, DOI `10.24432/C52G8C`. The dataset is licensed under **CC BY 4.0**.
 
 ## Dual reproducibility route
 
@@ -10,9 +10,11 @@ The project uses the **Steel Industry Energy Consumption** dataset from the offi
 
 ## Source timestamp convention
 
-The source CSV contains 365 operational-day blocks with 96 observations per block. Within each block, rows are ordered from `00:15` through `23:45`, followed by `00:00`. The final `00:00` row represents the interval ending at the next calendar-day boundary.
+The source CSV contains 365 operational-day blocks with 96 observations per block. Within each block, rows are ordered from `00:15` through `23:45`, followed by `00:00`.
 
-This is a source convention, not a data-quality failure. The raw CSV remains byte-for-byte unchanged and is never sorted. Chronological validation constructs an **effective timestamp in memory** by adding one calendar day only where `NSM = 0`. The resulting effective sequence is continuous at 15-minute intervals from `2018-01-01 00:15` through `2019-01-01 00:00`.
+The final `00:00` row represents the interval ending at the next calendar-day boundary. This is a source convention, not a data-quality failure. The raw CSV remains byte-for-byte unchanged and is never sorted.
+
+Chronological validation constructs an **effective timestamp in memory** by adding one calendar day only where `NSM = 0`. The resulting effective sequence is continuous at 15-minute intervals from `2018-01-01 00:15` through `2019-01-01 00:00`.
 
 ## Raw-layer restrictions
 
@@ -22,6 +24,6 @@ No cleaning, sorting, renaming, recoding, imputation, feature engineering, or ro
 
 The downloader validates the candidate snapshot before replacing any repository artifact. The manifest is published last. If validation fails, no new snapshot is declared valid and no partial manifest is created.
 
-## Company-neutral scope
+## Independence
 
-The public dataset comes from an independent South Korean steel producer. It is not proprietary data from any target organization, and the repository must not imply otherwise.
+The dataset comes from an independent South Korean steel producer. It is not proprietary to any organization associated with this project.

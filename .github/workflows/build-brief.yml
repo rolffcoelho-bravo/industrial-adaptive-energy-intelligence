@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   build:
-    name: Generate governed five-page evidence brief
+    name: Generate governed evidence brief
     runs-on: ubuntu-latest
 
     steps:
@@ -37,7 +37,7 @@ jobs:
       - name: Run governed analytical pipeline
         run: python scripts/run_pipeline.py --all
 
-      - name: Build five-page technical brief
+      - name: Build technical brief
         run: python scripts/build_brief.py
 
       - name: Upload brief and evidence

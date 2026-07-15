@@ -36,7 +36,7 @@ def main() -> None:
     if args.all:
         check_foundation()
         raise ContractError(
-            "Full analytical stages are intentionally gated. Implement and approve Decision Gates 1-7 "
+            "Full analytical stages are intentionally gated. Complete Decision Gates 1-7 "
             "before enabling --all; no placeholder results will be generated."
         )
     parser.error("Choose --check or --all")

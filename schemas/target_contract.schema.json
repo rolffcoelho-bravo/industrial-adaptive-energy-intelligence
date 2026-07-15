@@ -1,0 +1,267 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/blob/main/schemas/target_contract.schema.json",
+  "title": "IAEI Decision Gate 2 target and leakage contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "governance",
+    "prediction_origin",
+    "targets",
+    "validation",
+    "leakage_policy"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_gate",
+        "status",
+        "effective_date"
+      ],
+      "properties": {
+        "decision_gate": {
+          "const": 2
+        },
+        "status": {
+          "const": "locked"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "prediction_origin": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "timestamp_column",
+        "information_cutoff",
+        "cadence_minutes",
+        "target_time_calendar_known"
+      ],
+      "properties": {
+        "timestamp_column": {
+          "const": "effective_timestamp"
+        },
+        "information_cutoff": {
+          "const": "inclusive_at_origin"
+        },
+        "cadence_minutes": {
+          "const": 15
+        },
+        "target_time_calendar_known": {
+          "const": true
+        }
+      }
+    },
+    "targets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "regression",
+        "peak_risk"
+      ],
+      "properties": {
+        "regression": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "source_column",
+            "horizon_steps",
+            "horizon_minutes",
+            "target_rule",
+            "incomplete_boundary"
+          ],
+          "properties": {
+            "name": {
+              "const": "usage_kwh_t_plus_1"
+            },
+            "source_column": {
+              "const": "Usage_kWh"
+            },
+            "horizon_steps": {
+              "const": 1
+            },
+            "horizon_minutes": {
+              "const": 15
+            },
+            "target_rule": {
+              "const": "next_observed_interval"
+            },
+            "incomplete_boundary": {
+              "const": "unavailable"
+            }
+          }
+        },
+        "peak_risk": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "name",
+            "source_column",
+            "horizon_steps",
+            "horizon_minutes",
+            "event_rule",
+            "incomplete_boundary",
+            "threshold"
+          ],
+          "properties": {
+            "name": {
+              "const": "peak_within_next_60_minutes"
+            },
+            "source_column": {
+              "const": "Usage_kWh"
+            },
+            "horizon_steps": {
+              "const": 4
+            },
+            "horizon_minutes": {
+              "const": 60
+            },
+            "event_rule": {
+              "const": "any_future_value_greater_than_or_equal_to_threshold"
+            },
+            "incomplete_boundary": {
+              "const": "unavailable"
+            },
+            "threshold": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "estimator",
+                "quantile",
+                "interpolation",
+                "comparison",
+                "fit_scope",
+                "refit_each_chronological_origin",
+                "record_in_fold_manifest"
+              ],
+              "properties": {
+                "estimator": {
+                  "const": "quantile"
+                },
+                "quantile": {
+                  "const": 0.9
+                },
+                "interpolation": {
+                  "const": "linear"
+                },
+                "comparison": {
+                  "const": "greater_than_or_equal"
+                },
+                "fit_scope": {
+                  "const": "training_partition_only"
+                },
+                "refit_each_chronological_origin": {
+                  "const": true
+                },
+                "record_in_fold_manifest": {
+                  "const": true
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "split_type",
+        "train_fraction",
+        "validation_fraction",
+        "test_fraction",
+        "final_test_locked",
+        "random_split_forbidden"
+      ],
+      "properties": {
+        "split_type": {
+          "const": "chronological"
+        },
+        "train_fraction": {
+          "const": 0.6
+        },
+        "validation_fraction": {
+          "const": 0.2
+        },
+        "test_fraction": {
+          "const": 0.2
+        },
+        "final_test_locked": {
+          "const": true
+        },
+        "random_split_forbidden": {
+          "const": true
+        }
+      }
+    },
+    "leakage_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "permitted_information",
+        "forbidden_operations",
+        "enforcement"
+      ],
+      "properties": {
+        "permitted_information": {
+          "type": "array",
+          "minItems": 6,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "forbidden_operations": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "enforcement": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "threshold_fit_on_training_only",
+            "transformations_fit_on_training_only",
+            "incomplete_targets_are_not_imputed",
+            "target_timestamps_strictly_after_origins",
+            "chronological_row_order_required",
+            "explicit_leakage_tests_required"
+          ],
+          "properties": {
+            "threshold_fit_on_training_only": {
+              "const": true
+            },
+            "transformations_fit_on_training_only": {
+              "const": true
+            },
+            "incomplete_targets_are_not_imputed": {
+              "const": true
+            },
+            "target_timestamps_strictly_after_origins": {
+              "const": true
+            },
+            "chronological_row_order_required": {
+              "const": true
+            },
+            "explicit_leakage_tests_required": {
+              "const": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

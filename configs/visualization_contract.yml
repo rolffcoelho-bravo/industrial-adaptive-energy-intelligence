@@ -45,7 +45,7 @@ visualization:
       filename: business_impact_governance.png
       purpose: Assumption-bounded impact, evidence provenance, and human approval boundaries.
   publication_gate:
-    exact_brief_figures: 5
+    required_brief_figures: 5
     minimum_width_pixels: 2400
     minimum_height_pixels: 1200
     minimum_file_size_bytes: 30000

@@ -1,17 +1,30 @@
-# Decision gates and ownership
+# Validation gates
 
-The project is built through explicit research and engineering approvals. No analytical choice is silently introduced because it is convenient to code.
+The project advances through explicit evidence contracts. Each stage must pass its technical controls before dependent stages are enabled.
 
-| Gate | Decision | Evidence required |
-|---|---|---|
-| 0 | Repository identity and contracts | CI, policies, schemas |
-| 1 | Data source and snapshot | Manifest, hash, license, QA |
-| 2 | Forecast target and peak definition | Leakage-safe target specification |
-| 3 | Feature universe | Availability-at-origin table |
-| 4 | Validation and model ladder | Chronological backtest contract |
-| 5 | Drift score and promotion rule | Multi-origin robustness evidence |
-| 6 | Optimization assumptions | Feasibility and sensitivity table |
-| 7 | Agent boundaries | Tool permissions and human controls |
-| 8 | Final brief publication | Five-page PDF and visual verification |
+| Gate | Technical decision | Status | Required evidence |
+|---:|---|---|---|
+| 0 | Repository identity and contracts | Implemented | CI, policies, schemas |
+| 1 | Data source and immutable snapshot | Implemented | Manifest, hash, license, data-quality checks |
+| 2 | Forecast target and peak definition | Implemented | Target schema, leakage controls, executable tests |
+| 3 | Silver table and feature universe | Pending | Typed analytical table, availability-at-origin matrix, feature-causality tests |
+| 4 | Validation and model ladder | Pending | Chronological backtest contract and benchmark evidence |
+| 5 | Drift score and promotion rule | Pending | Multi-origin robustness evidence |
+| 6 | Optimization assumptions | Pending | Feasibility checks and sensitivity analysis |
+| 7 | Agent boundaries | Pending | Tool permissions, evidence traceability, human controls |
+| 8 | Technical brief and release artifacts | Pending | Validated PDF, figures, tables, checksums, and visual QA |
 
-A failed gate blocks downstream publication. The repository must report failure directly rather than manufacture substitute observations or metrics.
+## Decision Gate 2 boundary
+
+Decision Gate 2 locks:
+
+- `usage_kwh_t_plus_1` as the 15-minute regression target;
+- `peak_within_next_60_minutes` as the primary risk target;
+- a training-only 90th-percentile peak threshold;
+- chronological validation and a locked final test block;
+- prohibited leakage operations;
+- unavailable treatment for incomplete forward windows.
+
+The contract is defined in `configs/target_contract.yml`, validated by `schemas/target_contract.schema.json`, and explained in `docs/TARGET_AND_LEAKAGE_CONTRACT.md`.
+
+The repository reports failed controls directly. It does not manufacture substitute observations, targets, metrics, or performance evidence.

@@ -1,35 +1,35 @@
-# Five-page technical brief specification
+# Technical brief evidence specification
 
-## Page 1 - Executive decision
+## Executive decision
 
-Business problem, system decision, three validated results, operational meaning, and boundaries.
+The opening section presents the operating question, system decision, validated results, uncertainty, and decision boundaries.
 
-## Page 2 - Data and Databricks architecture
+## Data and architecture
 
-Data provenance, quality results, Bronze/Silver/Gold flow, Python/SQL split, workflow evidence.
+This section presents data provenance, quality results, Bronze/Silver/Gold flow, Python and SQL responsibilities, Databricks execution, and portable reproducibility.
 
-## Page 3 - Machine learning and chronological validation
+## Machine learning and chronological validation
 
-Regression, classification, ensemble logic, benchmark table, peak-state performance, locked test.
+This section presents regression, classification, benchmark comparisons, calibration, peak-state performance, worst-window robustness, and the locked test result.
 
-## Page 4 - Structural drift and constrained optimization
+## Structural drift and constrained optimization
 
-Champion/challenger gate, drift states, promotion rule, objective function, constraints, no-action state.
+This section presents champion/challenger evidence, drift states, promotion rules, the optimization objective, feasibility constraints, and the no-action state.
 
-## Page 5 - Governed agents and business impact
+## Governance and business impact
 
-Agent roles, supervisor, permissions, evidence traceability, scenario-bounded value, production boundaries.
+This section presents evidence lineage, agent permissions, human controls, measured outputs, derived scenarios, assumptions, and decision boundaries.
 
-## Publication controls
+## Integrity controls
 
-- exactly five pages;
-- no appendix inside the PDF;
 - no placeholder language;
 - no unsupported company-specific conclusion;
 - every result linked to a machine-readable output;
 - every value estimate accompanied by assumptions;
-- visual render checked before release.
+- figures reconciled with source tables;
+- final render visually inspected;
+- no appendix used to hide unresolved evidence.
 
 ## Visual structure
 
-Each page contains one strategically selected, publication-quality Matplotlib figure. The five required figures and their evidence roles are controlled by `configs/visualization_contract.yml`. Complexity is allowed only when aligned panels form a single decision chain; decorative complexity is prohibited.
+Each section contains one dominant, decision-grade Matplotlib figure. Multiple panels are permitted only when they form one coherent evidence chain. Decorative complexity is prohibited.

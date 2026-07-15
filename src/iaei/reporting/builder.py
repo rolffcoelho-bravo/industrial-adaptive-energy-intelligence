@@ -38,11 +38,11 @@ def _figure(path_value: str) -> Image:
     if not chart_path.is_absolute():
         chart_path = ROOT / chart_path
     if not chart_path.exists() or chart_path.stat().st_size < 30_000:
-        raise ContractError(f"Required publication figure is missing or below size gate: {chart_path}")
+        raise ContractError(f"Required report figure is missing or below size gate: {chart_path}")
     with PILImage.open(chart_path) as image:
         width, height = image.size
     if width < 2_400 or height < 1_200:
-        raise ContractError(f"Publication figure is below the required dimensions: {chart_path} ({width}x{height})")
+        raise ContractError(f"Report figure is below the required dimensions: {chart_path} ({width}x{height})")
     target_width = 180 * mm
     target_height = target_width * height / width
     if target_height > 91 * mm:
@@ -51,7 +51,7 @@ def _figure(path_value: str) -> Image:
     return Image(str(chart_path), width=target_width, height=target_height)
 
 
-def build_five_page_brief(payload_path: Path, output_path: Path) -> Path:
+def build_technical_brief(payload_path: Path, output_path: Path) -> Path:
     payload = validate_report_payload(payload_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -126,7 +126,7 @@ def build_five_page_brief(payload_path: Path, output_path: Path) -> Path:
         story.append(Spacer(1, 2.5 * mm))
         story.append(
             Paragraph(
-                "Independent proof of work. Public industrial energy data only. "
+                "Independent industrial energy analysis. Licensed real industrial energy data only. "
                 "No proprietary company data or unsupported savings claim.",
                 small,
             )

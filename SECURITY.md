@@ -1,3 +1,5 @@
 # Security policy
 
-Do not open a public issue containing credentials, private Databricks workspace URLs, tokens, personal application documents, or proprietary company information. Report security concerns privately to the repository owner.
+Do not open an issue containing credentials, private Databricks workspace URLs, tokens, confidential documents, personal information, or proprietary company data.
+
+Report security concerns privately to the repository owner.

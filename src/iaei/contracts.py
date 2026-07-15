@@ -11,7 +11,7 @@ from iaei.paths import CONFIGS, SCHEMAS
 
 
 class ContractError(RuntimeError):
-    """Raised when a publication or analytical contract is violated."""
+    """Raised when an analytical or reporting contract is violated."""
 
 
 def load_yaml(path: Path) -> dict[str, Any]:
@@ -30,13 +30,35 @@ def load_json(path: Path) -> dict[str, Any]:
     return value
 
 
+def _validate_payload(
+    payload: dict[str, Any],
+    schema: dict[str, Any],
+    *,
+    label: str,
+) -> None:
+    errors = sorted(
+        Draft202012Validator(schema).iter_errors(payload),
+        key=lambda error: list(error.path),
+    )
+    if errors:
+        details = "\n".join(
+            f"- {'/'.join(map(str, error.path)) or '<root>'}: {error.message}"
+            for error in errors
+        )
+        raise ContractError(f"{label} failed validation:\n{details}")
+
+
+def validate_target_contract() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "target_contract.yml")
+    schema = load_json(SCHEMAS / "target_contract.schema.json")
+    _validate_payload(contract, schema, label="Target and leakage contract")
+    return contract
+
+
 def validate_report_payload(payload_path: Path) -> dict[str, Any]:
     payload = load_json(payload_path)
     schema = load_json(SCHEMAS / "report_payload.schema.json")
-    errors = sorted(Draft202012Validator(schema).iter_errors(payload), key=lambda e: list(e.path))
-    if errors:
-        details = "\n".join(f"- {'/'.join(map(str, e.path)) or '<root>'}: {e.message}" for e in errors)
-        raise ContractError(f"Report payload failed validation:\n{details}")
+    _validate_payload(payload, schema, label="Report payload")
 
     serialized = json.dumps(payload).lower()
     forbidden = ("populate_", "placeholder", "todo", "tbd", "dummy", "synthetic")
@@ -47,18 +69,28 @@ def validate_report_payload(payload_path: Path) -> dict[str, Any]:
 
 
 def validate_repository_contracts() -> None:
-    required = [
+    required_yaml = [
         CONFIGS / "project.yml",
         CONFIGS / "data_contract.yml",
         CONFIGS / "model_contract.yml",
+        CONFIGS / "target_contract.yml",
         CONFIGS / "drift_policy.yml",
         CONFIGS / "report_contract.yml",
         CONFIGS / "visualization_contract.yml",
-        SCHEMAS / "report_payload.schema.json",
     ]
+    required_json = [
+        SCHEMAS / "report_payload.schema.json",
+        SCHEMAS / "target_contract.schema.json",
+    ]
+    required = [*required_yaml, *required_json]
+
     missing = [str(path) for path in required if not path.exists()]
     if missing:
         raise ContractError(f"Missing required contracts: {missing}")
-    for path in required[:-1]:
+
+    for path in required_yaml:
         load_yaml(path)
-    load_json(required[-1])
+    for path in required_json:
+        load_json(path)
+
+    validate_target_contract()

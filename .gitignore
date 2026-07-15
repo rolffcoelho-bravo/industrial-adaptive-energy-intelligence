@@ -27,3 +27,7 @@ outputs/brief/*
 .env
 *.token
 .databricks/
+*.egg-info/
+.mypy_cache/
+.coverage
+htmlcov/

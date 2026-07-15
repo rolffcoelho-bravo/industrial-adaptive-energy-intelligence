@@ -1,4 +1,4 @@
-# Free toolchain
+# Portable enterprise execution stack
 
 | Layer | Tool |
 |---|---|
@@ -8,9 +8,12 @@
 | Columnar storage | Parquet / PyArrow |
 | Charts | Matplotlib |
 | PDF | ReportLab |
-| Industrial notebook evidence | Databricks Free Edition |
+| Enterprise data and ML execution | Databricks notebooks, governed SQL, workflows, and experiment tracking |
 | SQL evidence | DuckDB locally and Databricks SQL in workspace |
 | Agent fallback | Deterministic Python summaries |
 | Optional local LLM | Open-source model, isolated from mandatory pipeline |
 
-The mandatory pipeline cannot require a credit card, paid API key, proprietary LLM endpoint, or enterprise Databricks feature.
+The mandatory execution path remains fully reproducible with open-source components and does not depend on paid APIs, proprietary LLM endpoints, or platform-specific enterprise services.
+## Execution architecture
+
+Databricks provides the enterprise execution layer for modular notebooks, governed SQL transformations, workflow orchestration, and traceable machine-learning experimentation. A parallel open-source execution path preserves portability, auditability, and full reproducibility beyond any single platform.

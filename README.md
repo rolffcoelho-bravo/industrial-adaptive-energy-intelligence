@@ -71,7 +71,7 @@ exactly five-page technical brief (PDF)
 ## Two execution paths
 
 1. **Local/GitHub Actions:** pandas, scikit-learn, DuckDB, Matplotlib, ReportLab. This is the reproducibility path and must always work without Databricks.
-2. **Databricks Free Edition:** notebooks, SQL, workflow orchestration, and ML experiment evidence. This is the vacancy-alignment path, but the public project never depends exclusively on a proprietary platform.
+2. **Enterprise Databricks execution:** The project combines an enterprise-grade Databricks execution layer with a fully reproducible open-source implementation. Databricks supports governed data transformations, orchestrated analytical workflows, and traceable ML experimentation, while the platform-independent pipeline ensures that every result can be audited, reproduced, and extended without dependence on a single vendor.
 
 ## Strict report gate
 
@@ -127,4 +127,4 @@ Do not invite reviewers to an empty or broken repository. Make the repository pu
 
 - Source code: MIT License.
 - Dataset: CC BY 4.0, attributed separately.
-- Generated analysis and brief: Ã‚Â© Rodolfo Pereira, released for portfolio review unless a later release states otherwise.
+- Generated analysis and brief: ÃƒÆ’Ã¢â‚¬Å¡Â© Rodolfo Pereira, released for technical review and reproducible research use unless a later release states otherwise.

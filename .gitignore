@@ -31,3 +31,5 @@ outputs/brief/*
 .mypy_cache/
 .coverage
 htmlcov/
+!data/raw/uci_steel_energy/
+!data/raw/uci_steel_energy/**

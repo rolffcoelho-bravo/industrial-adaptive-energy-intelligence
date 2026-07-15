@@ -1,9 +1,18 @@
 dataset:
   id: uci-851
   name: Steel Industry Energy Consumption
-  expected_min_rows: 35000
+  official_page: https://archive.ics.uci.edu/dataset/851/steel%2Bindustry%2Benergy%2Bconsumption
+  doi: 10.24432/C52G8C
+  license: CC BY 4.0
+  raw_snapshot_path: data/raw/uci_steel_energy/Steel_industry_data.csv
+  manifest_path: data/manifests/uci_steel_energy_manifest.json
+  expected_rows: 35040
+  expected_columns: 11
   expected_frequency_minutes: 15
+  expected_source_days: 365
+  observations_per_source_day: 96
   timestamp_column: date
+  timestamp_format: "%d/%m/%Y %H:%M"
   target_column: Usage_kWh
   required_columns:
     - date
@@ -17,9 +26,23 @@ dataset:
     - WeekStatus
     - Day_of_week
     - Load_Type
+
+timestamp_governance:
+  raw_row_order_preserved: true
+  source_block_order: "00:15 through 23:45, followed by 00:00"
+  midnight_interpretation: "NSM=0 is the interval ending at the next calendar-day boundary"
+  effective_timestamp_rule: "source timestamp plus one day when NSM=0"
+  chronological_validation_layer: in_memory_intake_and_silver
+  raw_sorting_allowed: false
+
 quality_rules:
   missing_target_max_fraction: 0.0
-  duplicate_timestamp_max_fraction: 0.0
+  missing_values_total: 0
+  duplicate_effective_timestamp_max_fraction: 0.0
   negative_usage_allowed: false
-  chronological_order_required: true
+  effective_chronological_order_required: true
+  source_block_order_required: true
+  nsm_timestamp_consistency_required: true
   manifest_required: true
+  sha256_match_required: true
+  raw_mutation_allowed: false

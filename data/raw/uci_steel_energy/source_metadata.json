@@ -1,0 +1,13 @@
+{
+  "dataset_id": "uci-851",
+  "dataset_name": "Steel Industry Energy Consumption",
+  "official_dataset_page": "https://archive.ics.uci.edu/dataset/851/steel%2Bindustry%2Benergy%2Bconsumption",
+  "official_archive_url": "https://archive.ics.uci.edu/static/public/851/steel%2Bindustry%2Benergy%2Bconsumption.zip",
+  "doi": "10.24432/C52G8C",
+  "license": "CC BY 4.0",
+  "citation": "V E, S., Shin, C., & Cho, Y. (2021). Steel Industry Energy Consumption [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C52G8C.",
+  "source_status": "official",
+  "snapshot_policy": "immutable_raw_snapshot",
+  "retrieved_at_utc": "2026-07-15T22:29:12.902775+00:00",
+  "timestamp_convention": "The source preserves 96-row operational-day blocks ordered from 00:15 through 23:45, followed by a 00:00 row that represents the interval ending at the next calendar-day boundary. Raw row order is preserved; chronological validation uses an effective timestamp that adds one day only to NSM=0 rows."
+}

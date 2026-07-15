@@ -1,0 +1,25 @@
+dataset:
+  id: uci-851
+  name: Steel Industry Energy Consumption
+  expected_min_rows: 35000
+  expected_frequency_minutes: 15
+  timestamp_column: date
+  target_column: Usage_kWh
+  required_columns:
+    - date
+    - Usage_kWh
+    - Lagging_Current_Reactive.Power_kVarh
+    - Leading_Current_Reactive_Power_kVarh
+    - CO2(tCO2)
+    - Lagging_Current_Power_Factor
+    - Leading_Current_Power_Factor
+    - NSM
+    - WeekStatus
+    - Day_of_week
+    - Load_Type
+quality_rules:
+  missing_target_max_fraction: 0.0
+  duplicate_timestamp_max_fraction: 0.0
+  negative_usage_allowed: false
+  chronological_order_required: true
+  manifest_required: true

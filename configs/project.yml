@@ -1,0 +1,10 @@
+project:
+  name: Industrial Adaptive Energy Intelligence
+  slug: industrial-adaptive-energy-intelligence
+  owner: Rodolfo Pereira
+  company_affiliation: none
+  public_repository: true
+  allow_synthetic_data: false
+  allow_fabricated_results: false
+  brief_pages: 5
+  timezone: UTC

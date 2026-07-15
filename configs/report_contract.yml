@@ -1,0 +1,30 @@
+report:
+  filename: industrial_adaptive_energy_intelligence_technical_brief.pdf
+  exact_pages: 5
+  sections:
+    1: Executive decision
+    2: Data and Databricks architecture
+    3: Machine learning and chronological validation
+    4: Structural drift and constrained optimization
+    5: Governed agents and business impact
+  required_charts:
+    - executive_decision_timeline.png
+    - industrial_load_profile.png
+    - model_validation_dashboard.png
+    - drift_optimization_dashboard.png
+    - business_impact_governance.png
+  required_tables:
+    - model_comparison.csv
+    - drift_history.csv
+    - optimization_results.csv
+    - business_impact_summary.csv
+  required_metadata:
+    - dataset_hash
+    - dataset_citation
+    - run_timestamp_utc
+    - git_commit
+    - model_version
+    - promotion_decision
+    - all_results_final
+  forbid_placeholders: true
+  forbid_unbounded_savings_claims: true

@@ -1,0 +1,16 @@
+states:
+  - stable
+  - watch
+  - adaptation_candidate
+components:
+  feature_distribution:
+    enabled: true
+  forecast_disagreement:
+    enabled: true
+  residual_instability:
+    enabled: true
+  operator_or_parameter_change:
+    enabled: true
+automatic_retraining: false
+automatic_promotion: false
+human_review_required: true

@@ -1,0 +1,37 @@
+name: Build technical brief
+
+on:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - name: Install
+        run: pip install -e ".[dev]"
+      - name: Download licensed real data
+        run: python scripts/download_data.py
+      - name: Run full governed pipeline
+        run: python scripts/run_pipeline.py --all
+      - name: Build five-page PDF
+        run: python scripts/build_brief.py
+      - name: Upload brief and machine-readable evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: industrial-adaptive-energy-intelligence-evidence
+          path: |
+            outputs/brief/*.pdf
+            outputs/tables/*
+            outputs/report_payload.json
+          if-no-files-found: error
+          retention-days: 14

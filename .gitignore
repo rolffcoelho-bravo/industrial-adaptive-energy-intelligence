@@ -1,0 +1,29 @@
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.DS_Store
+.vscode/
+.idea/
+
+# Raw/intermediate data are downloaded or generated.
+data/raw/*
+!data/raw/.gitkeep
+data/interim/*
+!data/interim/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Generated outputs.
+outputs/charts/*
+!outputs/charts/.gitkeep
+outputs/tables/*
+!outputs/tables/.gitkeep
+outputs/brief/*
+!outputs/brief/.gitkeep
+
+# Local secrets and platform state.
+.env
+*.token
+.databricks/

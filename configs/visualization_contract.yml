@@ -1,0 +1,55 @@
+visualization:
+  engine: matplotlib
+  output_format: png
+  dpi: 300
+  background: light
+  color_accessibility: colorblind_conscious
+  default_dimensions_inches: [11.0, 6.4]
+  font_family: DejaVu Sans
+  minimum_font_size_pt: 8
+  title_size_pt: 15
+  subtitle_size_pt: 10
+  axis_label_size_pt: 9
+  tick_size_pt: 8
+  line_width_pt: 1.8
+  grid_alpha: 0.18
+  footer_required: true
+  footer_fields:
+    - figure_id
+    - source
+    - sample
+    - generated_utc
+  forbid:
+    - dark_background
+    - three_dimensional_effects
+    - decorative_gradients
+    - unexplained_dual_axes
+    - truncated_axes_without_disclosure
+    - synthetic_or_placeholder_data
+    - unsupported_causal_language
+    - company_branding
+  brief_figures:
+    page_1:
+      filename: executive_decision_timeline.png
+      purpose: Forecast, uncertainty, peak risk, and operational decision in one evidence chain.
+    page_2:
+      filename: industrial_load_profile.png
+      purpose: Temporal structure, concentration, and data quality of the observed load process.
+    page_3:
+      filename: model_validation_dashboard.png
+      purpose: Chronological robustness, peak-state performance, and probability calibration.
+    page_4:
+      filename: drift_optimization_dashboard.png
+      purpose: Structural-drift evidence, adaptation decision, and constrained operating frontier.
+    page_5:
+      filename: business_impact_governance.png
+      purpose: Assumption-bounded impact, evidence provenance, and human approval boundaries.
+  publication_gate:
+    exact_brief_figures: 5
+    minimum_width_pixels: 2400
+    minimum_height_pixels: 1200
+    minimum_file_size_bytes: 30000
+    no_placeholder_labels: true
+    source_note_required: true
+    units_required: true
+    sample_dates_required: true

@@ -1,0 +1,122 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Technical brief payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "metadata",
+    "visuals",
+    "executive",
+    "data",
+    "models",
+    "drift",
+    "optimization",
+    "agents",
+    "impact"
+  ],
+  "properties": {
+    "metadata": {
+      "type": "object",
+      "required": [
+        "dataset_hash",
+        "dataset_citation",
+        "run_timestamp_utc",
+        "git_commit",
+        "model_version",
+        "promotion_decision",
+        "all_results_final"
+      ],
+      "properties": {
+        "dataset_hash": {
+          "type": "string",
+          "minLength": 32
+        },
+        "dataset_citation": {
+          "type": "string",
+          "minLength": 20
+        },
+        "run_timestamp_utc": {
+          "type": "string",
+          "minLength": 10
+        },
+        "git_commit": {
+          "type": "string",
+          "minLength": 7
+        },
+        "model_version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "promotion_decision": {
+          "enum": [
+            "retain_champion",
+            "promote_challenger",
+            "no_model_approved"
+          ]
+        },
+        "all_results_final": {
+          "const": true
+        }
+      }
+    },
+    "executive": {
+      "type": "object"
+    },
+    "data": {
+      "type": "object"
+    },
+    "models": {
+      "type": "object"
+    },
+    "drift": {
+      "type": "object"
+    },
+    "optimization": {
+      "type": "object"
+    },
+    "agents": {
+      "type": "object"
+    },
+    "impact": {
+      "type": "object"
+    },
+    "visuals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "page_1",
+        "page_2",
+        "page_3",
+        "page_4",
+        "page_5"
+      ],
+      "properties": {
+        "page_1": {
+          "type": "string",
+          "minLength": 10,
+          "pattern": "\\.png$"
+        },
+        "page_2": {
+          "type": "string",
+          "minLength": 10,
+          "pattern": "\\.png$"
+        },
+        "page_3": {
+          "type": "string",
+          "minLength": 10,
+          "pattern": "\\.png$"
+        },
+        "page_4": {
+          "type": "string",
+          "minLength": 10,
+          "pattern": "\\.png$"
+        },
+        "page_5": {
+          "type": "string",
+          "minLength": 10,
+          "pattern": "\\.png$"
+        }
+      }
+    }
+  }
+}

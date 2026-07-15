@@ -1,0 +1,25 @@
+{
+  "metadata": {
+    "dataset_hash": "POPULATE_FROM_REAL_MANIFEST",
+    "dataset_citation": "POPULATE_FROM_DATA_LICENSE",
+    "run_timestamp_utc": "POPULATE_FROM_PIPELINE",
+    "git_commit": "POPULATE_FROM_GIT",
+    "model_version": "POPULATE_FROM_MLFLOW_OR_LOCAL_REGISTRY",
+    "promotion_decision": "no_model_approved",
+    "all_results_final": false
+  },
+  "visuals": {
+    "page_1": "POPULATE_outputs/charts/page_1.png",
+    "page_2": "POPULATE_outputs/charts/page_2.png",
+    "page_3": "POPULATE_outputs/charts/page_3.png",
+    "page_4": "POPULATE_outputs/charts/page_4.png",
+    "page_5": "POPULATE_outputs/charts/page_5.png"
+  },
+  "executive": {},
+  "data": {},
+  "models": {},
+  "drift": {},
+  "optimization": {},
+  "agents": {},
+  "impact": {}
+}

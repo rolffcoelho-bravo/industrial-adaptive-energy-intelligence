@@ -1,0 +1,26 @@
+validation:
+  split_type: chronological
+  train_fraction: 0.60
+  validation_fraction: 0.20
+  test_fraction: 0.20
+  random_split_forbidden: true
+  final_test_locked: true
+  leakage_tests_required: true
+regression_metrics:
+  - mae
+  - rmse
+  - peak_mae
+  - worst_window_mae
+classification_metrics:
+  - precision
+  - recall
+  - f1
+  - pr_auc
+  - brier_score
+  - calibration_error
+promotion:
+  human_approval_required: true
+  average_improvement_required: true
+  peak_performance_non_degradation_required: true
+  worst_window_non_degradation_required: true
+  multi_origin_persistence_required: true

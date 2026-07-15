@@ -1,7 +1,6 @@
 # Industrial Adaptive Energy Intelligence
 
 [![CI](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/ci.yml)
-[![Build technical brief](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/build-brief.yml/badge.svg)](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/build-brief.yml)
 
 A public, reproducible proof of work for industrial data science: energy-demand forecasting, peak-risk classification, constrained optimization, structural-drift governance, and decision-grade reporting.
 
@@ -128,4 +127,4 @@ Do not invite reviewers to an empty or broken repository. Make the repository pu
 
 - Source code: MIT License.
 - Dataset: CC BY 4.0, attributed separately.
-- Generated analysis and brief: © Rodolfo Pereira, released for portfolio review unless a later release states otherwise.
+- Generated analysis and brief: Â© Rodolfo Pereira, released for portfolio review unless a later release states otherwise.

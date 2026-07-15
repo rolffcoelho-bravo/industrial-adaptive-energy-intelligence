@@ -22,3 +22,6 @@ Makefile text eol=lf
 *.parquet binary
 *.xlsx binary
 *.zip binary
+
+# Preserve the immutable source CSV byte-for-byte across operating systems.
+data/raw/uci_steel_energy/Steel_industry_data.csv binary

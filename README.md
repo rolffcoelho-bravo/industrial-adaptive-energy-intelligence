@@ -127,4 +127,4 @@ Do not invite reviewers to an empty or broken repository. Make the repository pu
 
 - Source code: MIT License.
 - Dataset: CC BY 4.0, attributed separately.
-- Generated analysis and brief: ÃƒÆ’Ã¢â‚¬Å¡Â© Rodolfo Pereira, released for technical review and reproducible research use unless a later release states otherwise.
+Analysis, engineering, and technical brief by Rodolfo Pereira. Released for technical review and reproducible research use unless a later release states otherwise.

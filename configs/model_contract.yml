@@ -148,6 +148,9 @@ outputs:
   ridge_validation_results: ridge_validation_results.csv
   ridge_candidate_manifest: ridge_candidate_manifest.json
   ridge_out_of_fold_predictions: ridge_out_of_fold_predictions.parquet
+  elastic_net_validation_results: elastic_net_validation_results.csv
+  elastic_net_candidate_manifest: elastic_net_candidate_manifest.json
+  elastic_net_out_of_fold_predictions: elastic_net_out_of_fold_predictions.parquet
   selected_model_manifest: selected_model_manifest.json
   locked_test_results: locked_test_results.json
   feature_lineage: feature_lineage.csv
@@ -174,3 +177,40 @@ candidate_selection:
     - 10.0
     - 100.0
     - 1000.0
+  elastic_net_alpha_grid:
+    - 0.0001
+    - 0.001
+    - 0.01
+    - 0.1
+    - 1.0
+    - 10.0
+  elastic_net_l1_ratio_grid:
+    - 0.05
+    - 0.25
+    - 0.50
+    - 0.75
+    - 0.95
+  elastic_net_max_iter: 20000
+  elastic_net_tolerance: 0.0001
+  elastic_net_selection: cyclic
+  elastic_net_warm_start: true
+  elastic_net_require_convergence: true
+  elastic_net_alpha_path_order: descending
+  elastic_net_precompute: true
+  elastic_net_tie_break: stronger_regularization
+  elastic_net_alpha_grid:
+    - 0.0001
+    - 0.001
+    - 0.01
+    - 0.1
+    - 1.0
+    - 10.0
+  elastic_net_l1_ratio_grid:
+    - 0.05
+    - 0.25
+    - 0.50
+    - 0.75
+    - 0.95
+  elastic_net_max_iter: 20000
+  elastic_net_tolerance: 0.0001
+  elastic_net_selection: cyclic

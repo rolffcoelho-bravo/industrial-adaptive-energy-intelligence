@@ -1,0 +1,54 @@
+{
+  "artifacts": {
+    "benchmark_manifest": "outputs/modeling/benchmark_manifest.json",
+    "ridge_out_of_fold_predictions": "outputs/modeling/ridge_out_of_fold_predictions.parquet",
+    "ridge_validation_results": "outputs/modeling/ridge_validation_results.csv"
+  },
+  "candidate": "ridge",
+  "candidate_metrics": {
+    "mean_mae": 6.749507879404726,
+    "mean_peak_mae": 22.847911471962828,
+    "worst_fold_mae": 7.852345835016631
+  },
+  "contract_version": "2.0.0",
+  "failed_promotion_criteria": [
+    "aggregate_mae_improvement",
+    "peak_mae_non_degradation",
+    "worst_fold_mae_non_degradation"
+  ],
+  "governance_gate": "4C1",
+  "locked_test_evaluated": false,
+  "locked_test_start": 28032,
+  "locked_test_stop": 35040,
+  "maximum_prediction_origin": 28027,
+  "maximum_target_dependency": 28031,
+  "prediction_row_count": 7004,
+  "promotion_checks": {
+    "aggregate_mae_improvement": false,
+    "peak_mae_non_degradation": false,
+    "worst_fold_mae_non_degradation": false
+  },
+  "promotion_decision": "rejected",
+  "reference": "persistence",
+  "reference_metrics": {
+    "mean_mae": 5.790702455739577,
+    "mean_peak_mae": 21.247666035110896,
+    "worst_fold_mae": 7.278098229583095
+  },
+  "relative_evidence": {
+    "mae_improvement": -0.16557670351630807,
+    "peak_mae_change": 0.07531393962083138,
+    "worst_fold_mae_change": 0.07890077700509822
+  },
+  "selected_alpha_by_fold": {
+    "1": 1.0,
+    "2": 1.0,
+    "3": 1.0,
+    "4": 0.1
+  },
+  "status": "validated",
+  "test_purge_start": 28028,
+  "test_purge_stop": 28032,
+  "validation_fold_count": 4,
+  "validation_origin_count": 7004
+}

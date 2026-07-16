@@ -145,6 +145,9 @@ outputs:
   regression_validation_results: regression_validation_results.csv
   peak_validation_results: peak_validation_results.csv
   out_of_fold_predictions: out_of_fold_predictions.parquet
+  ridge_validation_results: ridge_validation_results.csv
+  ridge_candidate_manifest: ridge_candidate_manifest.json
+  ridge_out_of_fold_predictions: ridge_out_of_fold_predictions.parquet
   selected_model_manifest: selected_model_manifest.json
   locked_test_results: locked_test_results.json
   feature_lineage: feature_lineage.csv
@@ -156,3 +159,18 @@ publication_controls:
   locked_test_separated_from_selection: true
   machine_readable_evidence_required: true
   graphical_evidence_generated_from_final_results: true
+
+candidate_selection:
+  inner_split_type: time_series
+  inner_splits: 3
+  inner_gap_steps: 4
+  scoring: neg_mean_absolute_error
+  refit_on_outer_training: true
+  ridge_alpha_grid:
+    - 0.001
+    - 0.01
+    - 0.1
+    - 1.0
+    - 10.0
+    - 100.0
+    - 1000.0

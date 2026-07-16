@@ -19,6 +19,7 @@ validation:
   test_fraction: 0.20
   validation_folds: 4
   purge_steps: 4
+  test_boundary_purge_steps: 4
   random_split_forbidden: true
   final_test_locked: true
   final_test_access_once: true

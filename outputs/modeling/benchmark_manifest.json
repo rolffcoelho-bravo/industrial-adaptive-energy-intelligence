@@ -1,0 +1,45 @@
+{
+  "artifacts": {
+    "out_of_fold_predictions": "outputs/modeling/out_of_fold_predictions.parquet",
+    "peak_validation_results": "outputs/modeling/peak_validation_results.csv",
+    "regression_validation_results": "outputs/modeling/regression_validation_results.csv"
+  },
+  "classification_mean_metrics": {
+    "brier_score": 0.10799568609227143,
+    "expected_calibration_error": 0.05600120940624636,
+    "log_loss": 0.3762853230049692,
+    "pr_auc": 0.11993146773272417,
+    "roc_auc": 0.5,
+    "worst_fold_recall": 0.1
+  },
+  "classification_reference": "training_prevalence",
+  "contract_version": "2.0.0",
+  "governance_gate": "4B",
+  "locked_test_start": 28032,
+  "locked_test_stop": 35040,
+  "maximum_prediction_origin": 28027,
+  "maximum_target_dependency": 28031,
+  "prediction_row_count": 28016,
+  "regression_mean_mae": {
+    "persistence": 5.790702455739577,
+    "seasonal_naive_daily": 14.906280696744718,
+    "seasonal_naive_weekly": 13.11438178183895
+  },
+  "regression_mean_peak_mae": {
+    "persistence": 21.247666035110896,
+    "seasonal_naive_daily": 62.04663160781488,
+    "seasonal_naive_weekly": 44.01164594843463
+  },
+  "regression_worst_fold_mae": {
+    "persistence": 7.278098229583095,
+    "seasonal_naive_daily": 18.052364363221017,
+    "seasonal_naive_weekly": 15.910137064534553
+  },
+  "silver_row_count": 35040,
+  "status": "validated",
+  "strongest_naive_regression_reference": "persistence",
+  "test_purge_start": 28028,
+  "test_purge_stop": 28032,
+  "validation_fold_count": 4,
+  "validation_origin_count": 7004
+}

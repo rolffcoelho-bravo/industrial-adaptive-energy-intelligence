@@ -30,6 +30,11 @@ def main() -> None:
         "row_count": len(timestamps),
         "validation_fold_count": len(folds),
         "purge_steps": contract["validation"]["purge_steps"],
+        "test_boundary_purge_steps": contract["validation"][
+            "test_boundary_purge_steps"
+        ],
+        "test_purge_start": folds[0].test_purge_start,
+        "test_purge_stop": folds[0].test_purge_stop,
         "locked_test_start": folds[0].test_start,
         "locked_test_stop": folds[0].test_stop,
         "folds": [fold.as_dict() for fold in folds],

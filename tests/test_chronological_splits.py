@@ -50,6 +50,8 @@ def test_exact_locked_boundaries(folds) -> None:
             fold.purge_stop,
             fold.validation_start,
             fold.validation_stop,
+            fold.test_purge_start,
+            fold.test_purge_stop,
             fold.test_start,
             fold.test_stop,
         )
@@ -57,10 +59,10 @@ def test_exact_locked_boundaries(folds) -> None:
     ]
 
     expected = [
-        (0, 21020, 21020, 21024, 21024, 22776, 28032, 35040),
-        (0, 22772, 22772, 22776, 22776, 24528, 28032, 35040),
-        (0, 24524, 24524, 24528, 24528, 26280, 28032, 35040),
-        (0, 26276, 26276, 26280, 26280, 28032, 28032, 35040),
+        (0, 21020, 21020, 21024, 21024, 22775, 28028, 28032, 28032, 35040),
+        (0, 22771, 22771, 22775, 22775, 24526, 28028, 28032, 28032, 35040),
+        (0, 24522, 24522, 24526, 24526, 26277, 28028, 28032, 28032, 35040),
+        (0, 26273, 26273, 26277, 26277, 28028, 28028, 28032, 28032, 35040),
     ]
 
     assert observed == expected
@@ -84,6 +86,13 @@ def test_validation_windows_do_not_overlap(folds) -> None:
     for current, following in zip(folds, folds[1:]):
         assert current.validation_stop == following.validation_start
 
+
+def test_locked_test_has_a_four_step_boundary_purge(folds) -> None:
+    for fold in folds:
+        assert fold.test_purge_start == 28028
+        assert fold.test_purge_stop == 28032
+        assert fold.test_purge_stop - fold.test_purge_start == 4
+        assert fold.validation_stop <= fold.test_purge_start
 
 def test_locked_test_is_identical_across_folds(folds) -> None:
     test_boundaries = {

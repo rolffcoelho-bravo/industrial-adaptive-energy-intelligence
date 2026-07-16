@@ -19,6 +19,8 @@ class ChronologicalFold:
     purge_stop: int
     validation_start: int
     validation_stop: int
+    test_purge_start: int
+    test_purge_stop: int
     test_start: int
     test_stop: int
     train_start_timestamp: str
@@ -67,6 +69,9 @@ def build_expanding_window_folds(
     test_stop = row_count
     fold_count = int(validation["validation_folds"])
     purge_steps = int(validation["purge_steps"])
+    test_boundary_purge_steps = int(
+        validation["test_boundary_purge_steps"]
+    )
 
     if fold_count < 1:
         raise SplitContractError("At least one validation fold is required")
@@ -74,15 +79,22 @@ def build_expanding_window_folds(
     if purge_steps < 0:
         raise SplitContractError("Purge steps cannot be negative")
 
-    if not 0 < validation_start < test_start < test_stop:
+    if test_boundary_purge_steps < purge_steps:
+        raise SplitContractError(
+            "Locked-test purge is shorter than the target horizon"
+        )
+
+    validation_stop = test_start - test_boundary_purge_steps
+
+    if not 0 < validation_start < validation_stop < test_start < test_stop:
         raise SplitContractError("Chronological split boundaries are invalid")
 
-    validation_rows = test_start - validation_start
+    validation_rows = validation_stop - validation_start
     boundaries = [
         validation_start + validation_rows * index // fold_count
         for index in range(fold_count + 1)
     ]
-    boundaries[-1] = test_start
+    boundaries[-1] = validation_stop
 
     folds: list[ChronologicalFold] = []
 
@@ -106,6 +118,8 @@ def build_expanding_window_folds(
                 purge_stop=fold_validation_start,
                 validation_start=fold_validation_start,
                 validation_stop=fold_validation_stop,
+                test_purge_start=validation_stop,
+                test_purge_stop=test_start,
                 test_start=test_start,
                 test_stop=test_stop,
                 train_start_timestamp=_timestamp_at(ordered, 0),

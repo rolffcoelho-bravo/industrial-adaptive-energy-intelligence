@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import hashlib
 import json
 from pathlib import Path
 from typing import Any
@@ -9,6 +8,13 @@ import duckdb
 import pandas as pd
 
 from iaei.contracts import load_yaml
+from iaei.data.fingerprint import (
+    LOGICAL_FRAME_FLOAT_DECIMALS,
+    LOGICAL_FRAME_HASH_CONTRACT,
+    NORMALIZED_TEXT_HASH_CONTRACT,
+    logical_frame_sha256,
+    normalized_text_sha256,
+)
 from iaei.modeling.selection import (
     SelectionBoundary,
     freeze_hist_gradient_boosting_selection,
@@ -58,15 +64,6 @@ HISTOGRAM_MANIFEST_PATH = (
 OUTPUT_DIRECTORY = ROOT / 'outputs' / 'modeling'
 
 
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-
-    with path.open('rb') as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b''):
-            digest.update(block)
-
-    return digest.hexdigest()
-
 
 def _load_json(path: Path) -> dict[str, Any]:
     if not path.is_file():
@@ -78,7 +75,8 @@ def _load_json(path: Path) -> dict[str, Any]:
 def _source_record(path: Path) -> dict[str, str]:
     return {
         'path': path.relative_to(ROOT).as_posix(),
-        'sha256': _sha256(path),
+        'hash_contract': NORMALIZED_TEXT_HASH_CONTRACT,
+        'normalized_text_sha256': normalized_text_sha256(path),
     }
 
 
@@ -398,9 +396,15 @@ def main() -> None:
         },
         'data_identity': {
             'raw_csv_sha256': raw_manifest['csv_sha256'],
-            'silver_parquet_sha256': silver_processing[
-                'output'
-            ]['parquet_sha256'],
+            'selection_input_logical_sha256': (
+                logical_frame_sha256(selection_frame)
+            ),
+            'selection_input_logical_hash_contract': (
+                LOGICAL_FRAME_HASH_CONTRACT
+            ),
+            'selection_input_logical_float_decimals': (
+                LOGICAL_FRAME_FLOAT_DECIMALS
+            ),
             'silver_row_count': int(
                 silver_processing['output']['row_count']
             ),

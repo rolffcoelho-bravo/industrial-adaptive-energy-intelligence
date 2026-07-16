@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import copy
-import hashlib
 import json
 from pathlib import Path
 
@@ -10,6 +9,13 @@ import pandas as pd
 import pytest
 
 from iaei.contracts import load_yaml
+from iaei.data.fingerprint import (
+    LOGICAL_FRAME_FLOAT_DECIMALS,
+    LOGICAL_FRAME_HASH_CONTRACT,
+    NORMALIZED_TEXT_HASH_CONTRACT,
+    logical_frame_sha256,
+    normalized_text_sha256,
+)
 from iaei.modeling.selection import (
     SelectedModelFreeze,
     SelectedModelFreezeError,
@@ -40,15 +46,6 @@ SELECTED_MANIFEST_PATH = (
     / 'selected_model_manifest.json'
 )
 
-
-def _sha256(path: Path) -> str:
-    digest = hashlib.sha256()
-
-    with path.open('rb') as handle:
-        for block in iter(lambda: handle.read(1024 * 1024), b''):
-            digest.update(block)
-
-    return digest.hexdigest()
 
 
 @pytest.fixture(scope='module')
@@ -280,20 +277,31 @@ def test_static_source_hashes_match_repository(
         path = ROOT / record['path']
 
         assert path.is_file()
-        assert _sha256(path) == record['sha256']
+        assert record['hash_contract'] == (
+            NORMALIZED_TEXT_HASH_CONTRACT
+        )
+        assert record['normalized_text_sha256'] == (
+            normalized_text_sha256(path)
+        )
+        assert 'sha256' not in record
 
 
 def test_silver_identity_matches_reconstructed_layer(
     manifest: dict,
+    selection_frame: pd.DataFrame,
 ) -> None:
-    processing = json.loads(
-        PROCESSING_MANIFEST_PATH.read_text(encoding='utf-8')
-    )
     identity = manifest['data_identity']
 
-    assert identity['silver_parquet_sha256'] == (
-        processing['output']['parquet_sha256']
+    assert identity['selection_input_logical_sha256'] == (
+        logical_frame_sha256(selection_frame)
     )
+    assert identity[
+        'selection_input_logical_hash_contract'
+    ] == LOGICAL_FRAME_HASH_CONTRACT
+    assert identity[
+        'selection_input_logical_float_decimals'
+    ] == LOGICAL_FRAME_FLOAT_DECIMALS
+    assert 'silver_parquet_sha256' not in identity
     assert identity['silver_row_count'] == 35_040
     assert identity['silver_column_count'] == 57
     assert identity['quality_flag_dq_any'] == 0

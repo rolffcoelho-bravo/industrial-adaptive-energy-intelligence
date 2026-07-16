@@ -4,29 +4,33 @@
     "elastic_net": {
       "decision": "rejected",
       "manifest": {
-        "path": "outputs/modeling/elastic_net_candidate_manifest.json",
-        "sha256": "0135c85f75b583b2dadde678928c6067abe0eeb4e1fd5d22c47088e116153adc"
+        "hash_contract": "utf8_lf_sha256_v1",
+        "normalized_text_sha256": "c5f282df9fd9907b7257dd7b0f6098951df4e6a4e0bd0a7d0fe2a3fb4611d1db",
+        "path": "outputs/modeling/elastic_net_candidate_manifest.json"
       }
     },
     "hist_gradient_boosting": {
       "decision": "promoted",
       "manifest": {
-        "path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json",
-        "sha256": "2da4cb4de2aaca2aa7ea88b0ec4867481dc012a0cda15e55701fd89a3495aad5"
+        "hash_contract": "utf8_lf_sha256_v1",
+        "normalized_text_sha256": "5918471dca6e781ad3f2d3b67428b3edb6e0a3fa788c5566e0f7b1bf364abb63",
+        "path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json"
       }
     },
     "persistence": {
       "manifest": {
-        "path": "outputs/modeling/benchmark_manifest.json",
-        "sha256": "cb6f2dfb8e687a6215213f3cc72bdf0eb19b0c86e692f184d8b1db28d3a72b63"
+        "hash_contract": "utf8_lf_sha256_v1",
+        "normalized_text_sha256": "3b0c4a846bc8c7b6a0e2671ac0874e65f2da3cd9d15b7c5a1c0c57f6304811cf",
+        "path": "outputs/modeling/benchmark_manifest.json"
       },
       "role": "formal_reference"
     },
     "ridge": {
       "decision": "rejected",
       "manifest": {
-        "path": "outputs/modeling/ridge_candidate_manifest.json",
-        "sha256": "428af551934b109d1b48ea8a5a71ca582b08222a31729b13e3c9268adc565ea0"
+        "hash_contract": "utf8_lf_sha256_v1",
+        "normalized_text_sha256": "d22c037f4e0a648d69ef4ba32d87dfa540273cef414ddb7861b50b934a6ca813",
+        "path": "outputs/modeling/ridge_candidate_manifest.json"
       }
     }
   },
@@ -34,8 +38,10 @@
   "data_identity": {
     "quality_flag_dq_any": 0,
     "raw_csv_sha256": "9b1cee6f9cb9cd9df2b95814ca90a9a2ff15b7f5f1fba0fae3c643e82072eacc",
+    "selection_input_logical_float_decimals": 12,
+    "selection_input_logical_hash_contract": "iaei_logical_frame_v1",
+    "selection_input_logical_sha256": "1313c50aded2659af7a24d4dbd68dce2e1c0e713c8d1ff5e514198cf237ba808",
     "silver_column_count": 57,
-    "silver_parquet_sha256": "6619ee6cb42154ab8b30c691482db03647eba457f8ceb6cd1766e56a738bef76",
     "silver_row_count": 35040
   },
   "fitted_model_evidence": {
@@ -94,40 +100,49 @@
   },
   "source_evidence": {
     "benchmark_manifest": {
-      "path": "outputs/modeling/benchmark_manifest.json",
-      "sha256": "cb6f2dfb8e687a6215213f3cc72bdf0eb19b0c86e692f184d8b1db28d3a72b63"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "3b0c4a846bc8c7b6a0e2671ac0874e65f2da3cd9d15b7c5a1c0c57f6304811cf",
+      "path": "outputs/modeling/benchmark_manifest.json"
     },
     "chronological_folds": {
-      "path": "outputs/modeling/chronological_folds.json",
-      "sha256": "b2bd39aa4d843c2c3ace167d03601192e60d695e7d36dbc587de00fd9bb67de0"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "0fa23939394ca944d43a6133f738a89573d453ee4312b44a015f0761727e1f0e",
+      "path": "outputs/modeling/chronological_folds.json"
     },
     "elastic_net_candidate_manifest": {
-      "path": "outputs/modeling/elastic_net_candidate_manifest.json",
-      "sha256": "0135c85f75b583b2dadde678928c6067abe0eeb4e1fd5d22c47088e116153adc"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "c5f282df9fd9907b7257dd7b0f6098951df4e6a4e0bd0a7d0fe2a3fb4611d1db",
+      "path": "outputs/modeling/elastic_net_candidate_manifest.json"
     },
     "hist_gradient_boosting_candidate_manifest": {
-      "path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json",
-      "sha256": "2da4cb4de2aaca2aa7ea88b0ec4867481dc012a0cda15e55701fd89a3495aad5"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "5918471dca6e781ad3f2d3b67428b3edb6e0a3fa788c5566e0f7b1bf364abb63",
+      "path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json"
     },
     "model_contract": {
-      "path": "configs/model_contract.yml",
-      "sha256": "f7835a80e9bdb8734a4f0750adbc1ece0ae8e76b72035bce74fe2a42960d1026"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "cf253f68c1c420769aa29bd02287ec1f87d51b9e4c273a0db1b2cc6db19e0600",
+      "path": "configs/model_contract.yml"
     },
     "raw_manifest": {
-      "path": "data/manifests/uci_steel_energy_manifest.json",
-      "sha256": "9165d4114e1a79f57ecf0c791192b66cfb0d05faacccba575cf4e7ab02aeab61"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "870faa3933b7684227882da002f07af70dd00a22d9a040d7383251ee3e8b1470",
+      "path": "data/manifests/uci_steel_energy_manifest.json"
     },
     "ridge_candidate_manifest": {
-      "path": "outputs/modeling/ridge_candidate_manifest.json",
-      "sha256": "428af551934b109d1b48ea8a5a71ca582b08222a31729b13e3c9268adc565ea0"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "d22c037f4e0a648d69ef4ba32d87dfa540273cef414ddb7861b50b934a6ca813",
+      "path": "outputs/modeling/ridge_candidate_manifest.json"
     },
     "silver_contract": {
-      "path": "configs/silver_contract.yml",
-      "sha256": "d1263e204458bd3806f9e7169a824fd5dd31df427aca0a89757becb3e58a1f6b"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "d1263e204458bd3806f9e7169a824fd5dd31df427aca0a89757becb3e58a1f6b",
+      "path": "configs/silver_contract.yml"
     },
     "target_contract": {
-      "path": "configs/target_contract.yml",
-      "sha256": "132260926bff8d09665bf3ab3af1865a16c9443e5cb01cc4e6f69946dc22d45e"
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "132260926bff8d09665bf3ab3af1865a16c9443e5cb01cc4e6f69946dc22d45e",
+      "path": "configs/target_contract.yml"
     }
   },
   "status": "frozen",

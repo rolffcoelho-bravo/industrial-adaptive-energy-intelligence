@@ -33,3 +33,13 @@ outputs/brief/*
 htmlcov/
 !data/raw/uci_steel_energy/
 !data/raw/uci_steel_energy/**
+
+# Large modeling artifacts are reproducible but not versioned.
+outputs/modeling/*.parquet
+outputs/modeling/*.joblib
+outputs/modeling/*.pkl
+outputs/modeling/*.onnx
+outputs/modeling/*.bin
+outputs/modeling/*.tmp
+outputs/modeling/models/
+outputs/modeling/checkpoints/

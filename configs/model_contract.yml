@@ -1,26 +1,157 @@
+contract_version: "2.0.0"
+
+governance:
+  decision_gate: 4
+  status: locked
+  effective_date: "2026-07-16"
+
+objectives:
+  regression_target: usage_kwh_t_plus_1
+  regression_horizon_minutes: 15
+  classification_target: peak_within_next_60_minutes
+  classification_horizon_minutes: 60
+
 validation:
-  split_type: chronological
+  split_type: expanding_window
+  timestamp_column: effective_timestamp
   train_fraction: 0.60
   validation_fraction: 0.20
   test_fraction: 0.20
+  validation_folds: 4
+  purge_steps: 4
   random_split_forbidden: true
   final_test_locked: true
+  final_test_access_once: true
+  transformations_fit_on_training_only: true
+  peak_threshold_fit_on_training_only: true
+  refit_transformations_each_fold: true
+  refit_peak_threshold_each_fold: true
+  chronological_order_required: true
   leakage_tests_required: true
+
+feature_policy:
+  numeric_features:
+    - usage_kwh
+    - lagging_reactive_power_kvarh
+    - leading_reactive_power_kvarh
+    - co2_tco2
+    - lagging_power_factor
+    - leading_power_factor
+    - nsm_seconds
+    - origin_month
+    - origin_day_of_week
+    - origin_hour
+    - origin_minute
+    - origin_interval_of_day
+    - origin_is_weekend
+    - origin_time_sin
+    - origin_time_cos
+    - origin_day_of_week_sin
+    - origin_day_of_week_cos
+    - target_hour_t_plus_1
+    - target_day_of_week_t_plus_1
+    - target_is_weekend_t_plus_1
+    - usage_lag_1
+    - usage_lag_4
+    - usage_lag_96
+    - usage_rolling_mean_4
+    - usage_rolling_std_4
+    - usage_rolling_mean_96
+    - usage_rolling_std_96
+    - usage_rolling_min_96
+    - usage_rolling_max_96
+  categorical_features:
+    - week_status
+    - day_name
+    - load_type
+  forbidden_feature_prefixes:
+    - raw_
+    - dq_
+  forbidden_features:
+    - source_timestamp
+    - source_timestamp_text
+    - target_timestamp_t_plus_1
+    - usage_kwh_t_plus_1
+    - peak_within_next_60_minutes
+    - peak_threshold_kwh
+  missing_history_policy: model_pipeline_only
+  numeric_imputation: training_median
+  categorical_imputation: training_most_frequent
+  categorical_encoding: training_one_hot
+  scaling_scope: training_fold_only
+
+regression_ladder:
+  benchmarks:
+    - persistence
+    - seasonal_naive_daily
+    - seasonal_naive_weekly
+  candidates:
+    - ridge
+    - elastic_net
+    - histogram_gradient_boosting
+  seasonal_daily_lag_steps: 96
+  seasonal_weekly_lag_steps: 672
+
+classification_ladder:
+  benchmarks:
+    - training_prevalence
+  candidates:
+    - logistic_regression
+    - class_weighted_logistic_regression
+    - histogram_gradient_boosting_classifier
+  calibration_candidate_enabled: true
+  calibration_method: sigmoid
+  calibration_fit_scope: validation_only
+
 regression_metrics:
   - mae
   - rmse
+  - mase
   - peak_mae
-  - worst_window_mae
+  - worst_fold_mae
+  - maximum_rolling_96_mae
+
 classification_metrics:
-  - precision
-  - recall
-  - f1
   - pr_auc
+  - roc_auc
   - brier_score
-  - calibration_error
+  - log_loss
+  - recall_at_controlled_alert_rate
+  - precision_at_controlled_alert_rate
+  - expected_calibration_error
+  - worst_fold_recall
+
+operating_threshold:
+  controlled_alert_rate: 0.10
+  calibration_bins: 10
+  threshold_selection_scope: validation_only
+
 promotion:
-  human_approval_required: true
-  average_improvement_required: true
-  peak_performance_non_degradation_required: true
-  worst_window_non_degradation_required: true
-  multi_origin_persistence_required: true
+  strongest_naive_is_reference: true
+  aggregate_mae_improvement_required: true
+  peak_mae_non_degradation_required: true
+  worst_fold_mae_non_degradation_required: true
+  probability_calibration_required: true
+  multi_origin_stability_required: true
+  recorded_promotion_decision_required: true
+  minimum_relative_mae_improvement: 0.0
+  maximum_relative_peak_mae_degradation: 0.0
+  maximum_relative_worst_fold_mae_degradation: 0.0
+
+outputs:
+  directory: outputs/modeling
+  chronological_folds: chronological_folds.json
+  regression_validation_results: regression_validation_results.csv
+  peak_validation_results: peak_validation_results.csv
+  out_of_fold_predictions: out_of_fold_predictions.parquet
+  selected_model_manifest: selected_model_manifest.json
+  locked_test_results: locked_test_results.json
+  feature_lineage: feature_lineage.csv
+  validation_chart: outputs/charts/model_validation_dashboard.png
+
+publication_controls:
+  synthetic_results_forbidden: true
+  placeholder_metrics_forbidden: true
+  locked_test_separated_from_selection: true
+  machine_readable_evidence_required: true
+  graphical_evidence_generated_from_final_results: true

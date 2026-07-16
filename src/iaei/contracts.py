@@ -17,16 +17,20 @@ class ContractError(RuntimeError):
 def load_yaml(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         value = yaml.safe_load(handle)
+
     if not isinstance(value, dict):
         raise ContractError(f"Expected a mapping in {path}")
+
     return value
 
 
 def load_json(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         value = json.load(handle)
+
     if not isinstance(value, dict):
         raise ContractError(f"Expected an object in {path}")
+
     return value
 
 
@@ -40,9 +44,11 @@ def _validate_payload(
         Draft202012Validator(schema).iter_errors(payload),
         key=lambda error: list(error.path),
     )
+
     if errors:
         details = "\n".join(
-            f"- {'/'.join(map(str, error.path)) or '<root>'}: {error.message}"
+            f"- {'/'.join(map(str, error.path)) or '<root>'}: "
+            f"{error.message}"
             for error in errors
         )
         raise ContractError(f"{label} failed validation:\n{details}")
@@ -51,20 +57,56 @@ def _validate_payload(
 def validate_target_contract() -> dict[str, Any]:
     contract = load_yaml(CONFIGS / "target_contract.yml")
     schema = load_json(SCHEMAS / "target_contract.schema.json")
-    _validate_payload(contract, schema, label="Target and leakage contract")
+
+    _validate_payload(
+        contract,
+        schema,
+        label="Target and leakage contract",
+    )
+
+    return contract
+
+
+def validate_silver_contract() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "silver_contract.yml")
+    schema = load_json(SCHEMAS / "silver_contract.schema.json")
+
+    _validate_payload(
+        contract,
+        schema,
+        label="Silver analytical-layer contract",
+    )
+
     return contract
 
 
 def validate_report_payload(payload_path: Path) -> dict[str, Any]:
     payload = load_json(payload_path)
     schema = load_json(SCHEMAS / "report_payload.schema.json")
-    _validate_payload(payload, schema, label="Report payload")
+
+    _validate_payload(
+        payload,
+        schema,
+        label="Report payload",
+    )
 
     serialized = json.dumps(payload).lower()
-    forbidden = ("populate_", "placeholder", "todo", "tbd", "dummy", "synthetic")
+    forbidden = (
+        "populate_",
+        "placeholder",
+        "todo",
+        "tbd",
+        "dummy",
+        "synthetic",
+    )
     hits = [term for term in forbidden if term in serialized]
+
     if hits:
-        raise ContractError(f"Report payload contains forbidden placeholder terms: {hits}")
+        raise ContractError(
+            "Report payload contains forbidden placeholder terms: "
+            f"{hits}"
+        )
+
     return payload
 
 
@@ -74,23 +116,29 @@ def validate_repository_contracts() -> None:
         CONFIGS / "data_contract.yml",
         CONFIGS / "model_contract.yml",
         CONFIGS / "target_contract.yml",
+        CONFIGS / "silver_contract.yml",
         CONFIGS / "drift_policy.yml",
         CONFIGS / "report_contract.yml",
         CONFIGS / "visualization_contract.yml",
     ]
+
     required_json = [
         SCHEMAS / "report_payload.schema.json",
         SCHEMAS / "target_contract.schema.json",
+        SCHEMAS / "silver_contract.schema.json",
     ]
-    required = [*required_yaml, *required_json]
 
+    required = [*required_yaml, *required_json]
     missing = [str(path) for path in required if not path.exists()]
+
     if missing:
         raise ContractError(f"Missing required contracts: {missing}")
 
     for path in required_yaml:
         load_yaml(path)
+
     for path in required_json:
         load_json(path)
 
     validate_target_contract()
+    validate_silver_contract()

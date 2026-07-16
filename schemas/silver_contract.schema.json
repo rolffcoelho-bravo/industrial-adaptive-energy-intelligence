@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/silver_contract.schema.json",
+  "title": "Silver analytical layer contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "governance",
+    "source",
+    "chronology",
+    "outputs",
+    "canonical_aliases",
+    "calendar_fields",
+    "past_only_features",
+    "quality_flags",
+    "forbidden_transformations",
+    "parity",
+    "publication"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.0.0"
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "decision_gate",
+        "status",
+        "effective_date"
+      ],
+      "properties": {
+        "decision_gate": {
+          "const": 3
+        },
+        "status": {
+          "const": "locked"
+        },
+        "effective_date": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "raw_csv_path",
+        "raw_manifest_path",
+        "preserve_raw_columns",
+        "raw_sorting_allowed"
+      ],
+      "properties": {
+        "raw_csv_path": {
+          "const": "data/raw/uci_steel_energy/Steel_industry_data.csv"
+        },
+        "raw_manifest_path": {
+          "const": "data/manifests/uci_steel_energy_manifest.json"
+        },
+        "preserve_raw_columns": {
+          "const": true
+        },
+        "raw_sorting_allowed": {
+          "const": false
+        }
+      }
+    },
+    "chronology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source_timestamp_column",
+        "effective_timestamp_column",
+        "frequency_minutes",
+        "duplicate_effective_timestamps_allowed",
+        "effective_order_required"
+      ],
+      "properties": {
+        "source_timestamp_column": {
+          "const": "date"
+        },
+        "effective_timestamp_column": {
+          "const": "effective_timestamp"
+        },
+        "frequency_minutes": {
+          "const": 15
+        },
+        "duplicate_effective_timestamps_allowed": {
+          "const": false
+        },
+        "effective_order_required": {
+          "const": true
+        }
+      }
+    },
+    "outputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "parquet_path",
+        "quality_report_path",
+        "schema_path",
+        "processing_manifest_path",
+        "feature_availability_path",
+        "parquet_compression",
+        "parquet_index_written"
+      ],
+      "properties": {
+        "parquet_path": {
+          "type": "string"
+        },
+        "quality_report_path": {
+          "type": "string"
+        },
+        "schema_path": {
+          "type": "string"
+        },
+        "processing_manifest_path": {
+          "type": "string"
+        },
+        "feature_availability_path": {
+          "type": "string"
+        },
+        "parquet_compression": {
+          "const": "zstd"
+        },
+        "parquet_index_written": {
+          "const": false
+        }
+      }
+    },
+    "canonical_aliases": {
+      "type": "object",
+      "minProperties": 11,
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "calendar_fields": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "past_only_features": {
+      "type": "array",
+      "minItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "source",
+          "operation",
+          "lookback_steps",
+          "shift_steps"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "source": {
+            "const": "usage_kwh"
+          },
+          "operation": {
+            "enum": [
+              "lag",
+              "rolling_mean",
+              "rolling_std",
+              "rolling_min",
+              "rolling_max"
+            ]
+          },
+          "lookback_steps": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "shift_steps": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      }
+    },
+    "quality_flags": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "forbidden_transformations": {
+      "type": "array",
+      "minItems": 8,
+      "uniqueItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
+    "parity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "duckdb_validation_required",
+        "databricks_schema_compatibility_required",
+        "databricks_notebook_path",
+        "sql_validation_path"
+      ],
+      "properties": {
+        "duckdb_validation_required": {
+          "const": true
+        },
+        "databricks_schema_compatibility_required": {
+          "const": true
+        },
+        "databricks_notebook_path": {
+          "type": "string"
+        },
+        "sql_validation_path": {
+          "type": "string"
+        }
+      }
+    },
+    "publication": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "atomic_artifact_writes",
+        "processing_manifest_written_last",
+        "input_output_hashes_required",
+        "supervised_targets_excluded"
+      ],
+      "properties": {
+        "atomic_artifact_writes": {
+          "const": true
+        },
+        "processing_manifest_written_last": {
+          "const": true
+        },
+        "input_output_hashes_required": {
+          "const": true
+        },
+        "supervised_targets_excluded": {
+          "const": true
+        }
+      }
+    }
+  }
+}

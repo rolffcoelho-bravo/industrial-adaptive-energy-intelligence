@@ -109,6 +109,20 @@ The pipeline blocks reporting when required evidence is missing or invalid. Cont
 - real figures generated from final machine-readable outputs;
 - rejection of placeholder or provisional results.
 
+## Decision visualizations
+
+The analytical pipeline converts validated tables and model outputs into five decision-grade Matplotlib figures. Each figure is tied to a specific operational or model-risk question.
+
+| Figure | Decision value |
+|---|---|
+| Executive decision timeline | Connects observed demand, forecast uncertainty, peak risk, and the active operating state. |
+| Industrial load profile | Reveals intraday structure, weekday effects, concentration, seasonality, and data coverage. |
+| Model validation dashboard | Compares benchmarks, chronological folds, peak-state performance, calibration, and worst-window robustness. |
+| Drift and optimization dashboard | Connects structural-change evidence with the feasible cost, peak, and disruption frontier. |
+| Business impact and governance | Separates measured outcomes, derived estimates, assumptions, evidence lineage, and authorization boundaries. |
+
+Every figure is generated from final machine-readable outputs. Units, sample dates, sources, uncertainty, thresholds, and model status are mandatory. Synthetic demonstrations, placeholder curves, decorative dashboards, and unsupported causal claims are prohibited.
+
 ## Current implementation
 
 Implemented:

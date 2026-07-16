@@ -1,0 +1,140 @@
+contract_version: "1.0.0"
+
+governance:
+  decision_gate: 3
+  status: locked
+  effective_date: "2026-07-16"
+
+source:
+  raw_csv_path: data/raw/uci_steel_energy/Steel_industry_data.csv
+  raw_manifest_path: data/manifests/uci_steel_energy_manifest.json
+  preserve_raw_columns: true
+  raw_sorting_allowed: false
+
+chronology:
+  source_timestamp_column: date
+  effective_timestamp_column: effective_timestamp
+  frequency_minutes: 15
+  duplicate_effective_timestamps_allowed: false
+  effective_order_required: true
+
+outputs:
+  parquet_path: data/processed/steel_energy_silver.parquet
+  quality_report_path: data/processed/steel_energy_quality_report.json
+  schema_path: data/processed/steel_energy_schema.json
+  processing_manifest_path: data/processed/steel_energy_processing_manifest.json
+  feature_availability_path: data/processed/steel_energy_feature_availability.csv
+  parquet_compression: zstd
+  parquet_index_written: false
+
+canonical_aliases:
+  date: source_timestamp_text
+  Usage_kWh: usage_kwh
+  Lagging_Current_Reactive.Power_kVarh: lagging_reactive_power_kvarh
+  Leading_Current_Reactive_Power_kVarh: leading_reactive_power_kvarh
+  CO2(tCO2): co2_tco2
+  Lagging_Current_Power_Factor: lagging_power_factor
+  Leading_Current_Power_Factor: leading_power_factor
+  NSM: nsm_seconds
+  WeekStatus: week_status
+  Day_of_week: day_name
+  Load_Type: load_type
+
+calendar_fields:
+  - origin_year
+  - origin_quarter
+  - origin_month
+  - origin_day
+  - origin_day_of_week
+  - origin_hour
+  - origin_minute
+  - origin_interval_of_day
+  - origin_is_weekend
+  - origin_time_sin
+  - origin_time_cos
+  - origin_day_of_week_sin
+  - origin_day_of_week_cos
+  - target_timestamp_t_plus_1
+  - target_hour_t_plus_1
+  - target_day_of_week_t_plus_1
+  - target_is_weekend_t_plus_1
+
+past_only_features:
+  - name: usage_lag_1
+    source: usage_kwh
+    operation: lag
+    lookback_steps: 1
+    shift_steps: 1
+  - name: usage_lag_4
+    source: usage_kwh
+    operation: lag
+    lookback_steps: 4
+    shift_steps: 4
+  - name: usage_lag_96
+    source: usage_kwh
+    operation: lag
+    lookback_steps: 96
+    shift_steps: 96
+  - name: usage_rolling_mean_4
+    source: usage_kwh
+    operation: rolling_mean
+    lookback_steps: 4
+    shift_steps: 1
+  - name: usage_rolling_std_4
+    source: usage_kwh
+    operation: rolling_std
+    lookback_steps: 4
+    shift_steps: 1
+  - name: usage_rolling_mean_96
+    source: usage_kwh
+    operation: rolling_mean
+    lookback_steps: 96
+    shift_steps: 1
+  - name: usage_rolling_std_96
+    source: usage_kwh
+    operation: rolling_std
+    lookback_steps: 96
+    shift_steps: 1
+  - name: usage_rolling_min_96
+    source: usage_kwh
+    operation: rolling_min
+    lookback_steps: 96
+    shift_steps: 1
+  - name: usage_rolling_max_96
+    source: usage_kwh
+    operation: rolling_max
+    lookback_steps: 96
+    shift_steps: 1
+
+quality_flags:
+  - dq_missing_source_value
+  - dq_negative_usage
+  - dq_nsm_timestamp_mismatch
+  - dq_non_15_minute_gap
+  - dq_duplicate_effective_timestamp
+  - dq_any
+
+forbidden_transformations:
+  - target_construction
+  - full_sample_scaling
+  - full_sample_encoding
+  - centered_rolling_window
+  - backward_fill
+  - future_value_fill
+  - interpolation_across_prediction_boundary
+  - model_based_imputation
+  - winsorization
+  - outlier_deletion
+  - row_reordering
+
+parity:
+  duckdb_validation_required: true
+  databricks_schema_compatibility_required: true
+  databricks_notebook_path: notebooks/databricks/01_validate_silver.py
+  sql_validation_path: sql/validate_silver.sql
+
+publication:
+  atomic_artifact_writes: true
+  processing_manifest_written_last: true
+  input_output_hashes_required: true
+  supervised_targets_excluded: true

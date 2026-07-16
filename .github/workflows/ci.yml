@@ -35,8 +35,14 @@ jobs:
       - name: Run Ruff
         run: python -m ruff check src scripts tests
 
+      - name: Verify governed raw snapshot
+        run: python scripts/download_data.py --verify
+
+      - name: Build governed Silver analytical layer
+        run: python scripts/run_pipeline.py --silver
+
       - name: Run tests
-        run: python -m pytest -q
+        run: python -W error::DeprecationWarning -m pytest -q
 
       - name: Validate repository foundation
         run: python scripts/run_pipeline.py --check

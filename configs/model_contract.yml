@@ -151,6 +151,9 @@ outputs:
   elastic_net_validation_results: elastic_net_validation_results.csv
   elastic_net_candidate_manifest: elastic_net_candidate_manifest.json
   elastic_net_out_of_fold_predictions: elastic_net_out_of_fold_predictions.parquet
+  hist_gradient_boosting_validation_results: hist_gradient_boosting_validation_results.csv
+  hist_gradient_boosting_candidate_manifest: hist_gradient_boosting_candidate_manifest.json
+  hist_gradient_boosting_out_of_fold_predictions: hist_gradient_boosting_out_of_fold_predictions.parquet
   selected_model_manifest: selected_model_manifest.json
   locked_test_results: locked_test_results.json
   feature_lineage: feature_lineage.csv
@@ -198,6 +201,24 @@ candidate_selection:
   elastic_net_alpha_path_order: descending
   elastic_net_precompute: true
   elastic_net_tie_break: stronger_regularization
+  hist_gradient_boosting_learning_rate_grid:
+    - 0.05
+    - 0.10
+  hist_gradient_boosting_max_iter_grid:
+    - 150
+    - 300
+  hist_gradient_boosting_max_leaf_nodes_grid:
+    - 15
+    - 31
+  hist_gradient_boosting_l2_regularization_grid:
+    - 0.0
+    - 1.0
+  hist_gradient_boosting_loss: absolute_error
+  hist_gradient_boosting_min_samples_leaf: 20
+  hist_gradient_boosting_max_bins: 255
+  hist_gradient_boosting_max_features: 1.0
+  hist_gradient_boosting_early_stopping: false
+  hist_gradient_boosting_random_state: 20260716
   elastic_net_alpha_grid:
     - 0.0001
     - 0.001

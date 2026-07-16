@@ -1,0 +1,157 @@
+{
+  "authorized_next_gate": "4E",
+  "candidate_ladder": {
+    "elastic_net": {
+      "decision": "rejected",
+      "manifest": {
+        "path": "outputs/modeling/elastic_net_candidate_manifest.json",
+        "sha256": "0135c85f75b583b2dadde678928c6067abe0eeb4e1fd5d22c47088e116153adc"
+      }
+    },
+    "hist_gradient_boosting": {
+      "decision": "promoted",
+      "manifest": {
+        "path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json",
+        "sha256": "2da4cb4de2aaca2aa7ea88b0ec4867481dc012a0cda15e55701fd89a3495aad5"
+      }
+    },
+    "persistence": {
+      "manifest": {
+        "path": "outputs/modeling/benchmark_manifest.json",
+        "sha256": "cb6f2dfb8e687a6215213f3cc72bdf0eb19b0c86e692f184d8b1db28d3a72b63"
+      },
+      "role": "formal_reference"
+    },
+    "ridge": {
+      "decision": "rejected",
+      "manifest": {
+        "path": "outputs/modeling/ridge_candidate_manifest.json",
+        "sha256": "428af551934b109d1b48ea8a5a71ca582b08222a31729b13e3c9268adc565ea0"
+      }
+    }
+  },
+  "contract_version": "2.0.0",
+  "data_identity": {
+    "quality_flag_dq_any": 0,
+    "raw_csv_sha256": "9b1cee6f9cb9cd9df2b95814ca90a9a2ff15b7f5f1fba0fae3c643e82072eacc",
+    "silver_column_count": 57,
+    "silver_parquet_sha256": "6619ee6cb42154ab8b30c691482db03647eba457f8ceb6cd1766e56a738bef76",
+    "silver_row_count": 35040
+  },
+  "fitted_model_evidence": {
+    "feature_count": 41,
+    "fitted_iteration_count": 300,
+    "internal_early_stopping": false,
+    "model_binary_committed": false
+  },
+  "governance_gate": "4D",
+  "locked_test_evaluated": false,
+  "locked_test_prediction_rows_produced": 0,
+  "reconstruction_contract": {
+    "estimator_module": "src/iaei/modeling/hist_gradient_boosting.py",
+    "refit_required_before_test_evaluation": true,
+    "selected_parameters_are_immutable": true,
+    "selection_module": "src/iaei/modeling/selection.py",
+    "selection_script": "scripts/build_selected_model_manifest.py"
+  },
+  "search_governance": {
+    "inner_gap_steps": 4,
+    "inner_splits": 3,
+    "inner_validation_mae": 4.459075982374422,
+    "internal_early_stopping": false,
+    "parameter_combinations": 16,
+    "refit_on_all_pretest_training_origins": true,
+    "scoring": "neg_mean_absolute_error",
+    "shuffle": false,
+    "strategy": "chronological_grid_search",
+    "total_inner_fit_count": 48
+  },
+  "selected_model": "hist_gradient_boosting",
+  "selected_parameters": {
+    "l2_regularization": 1.0,
+    "learning_rate": 0.05,
+    "loss": "absolute_error",
+    "max_bins": 255,
+    "max_features": 1.0,
+    "max_iter": 300,
+    "max_leaf_nodes": 31,
+    "min_samples_leaf": 20,
+    "random_state": 20260716
+  },
+  "selection_basis": "validation_only",
+  "selection_input_boundary": {
+    "locked_test_rows_materialized": false,
+    "physical_storage_byte_exclusion_claimed": false,
+    "purge_dependency_start": 28028,
+    "purge_dependency_stop_exclusive": 28032,
+    "purge_rows_used_as_prediction_origins": false,
+    "purge_rows_used_only_for_future_target_dependencies": true,
+    "row_count": 28032,
+    "selection_input_timestamp_end": "2018-10-20T00:00:00",
+    "start": 0,
+    "stop_exclusive": 28032,
+    "training_origin_stop_exclusive": 28028
+  },
+  "source_evidence": {
+    "benchmark_manifest": {
+      "path": "outputs/modeling/benchmark_manifest.json",
+      "sha256": "cb6f2dfb8e687a6215213f3cc72bdf0eb19b0c86e692f184d8b1db28d3a72b63"
+    },
+    "chronological_folds": {
+      "path": "outputs/modeling/chronological_folds.json",
+      "sha256": "b2bd39aa4d843c2c3ace167d03601192e60d695e7d36dbc587de00fd9bb67de0"
+    },
+    "elastic_net_candidate_manifest": {
+      "path": "outputs/modeling/elastic_net_candidate_manifest.json",
+      "sha256": "0135c85f75b583b2dadde678928c6067abe0eeb4e1fd5d22c47088e116153adc"
+    },
+    "hist_gradient_boosting_candidate_manifest": {
+      "path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json",
+      "sha256": "2da4cb4de2aaca2aa7ea88b0ec4867481dc012a0cda15e55701fd89a3495aad5"
+    },
+    "model_contract": {
+      "path": "configs/model_contract.yml",
+      "sha256": "f7835a80e9bdb8734a4f0750adbc1ece0ae8e76b72035bce74fe2a42960d1026"
+    },
+    "raw_manifest": {
+      "path": "data/manifests/uci_steel_energy_manifest.json",
+      "sha256": "9165d4114e1a79f57ecf0c791192b66cfb0d05faacccba575cf4e7ab02aeab61"
+    },
+    "ridge_candidate_manifest": {
+      "path": "outputs/modeling/ridge_candidate_manifest.json",
+      "sha256": "428af551934b109d1b48ea8a5a71ca582b08222a31729b13e3c9268adc565ea0"
+    },
+    "silver_contract": {
+      "path": "configs/silver_contract.yml",
+      "sha256": "d1263e204458bd3806f9e7169a824fd5dd31df427aca0a89757becb3e58a1f6b"
+    },
+    "target_contract": {
+      "path": "configs/target_contract.yml",
+      "sha256": "132260926bff8d09665bf3ab3af1865a16c9443e5cb01cc4e6f69946dc22d45e"
+    }
+  },
+  "status": "frozen",
+  "test_access_controls": {
+    "locked_test_features_used_for_prediction": false,
+    "locked_test_metrics_computed": false,
+    "locked_test_predictions_written": false,
+    "locked_test_rows_materialized": false,
+    "locked_test_targets_used_for_scoring": false,
+    "physical_storage_byte_exclusion_claimed": false,
+    "single_evaluation_authorized_gate": "4E"
+  },
+  "training_boundary": {
+    "locked_test_start": 28032,
+    "locked_test_stop": 35040,
+    "maximum_target_dependency": 28031,
+    "maximum_training_origin": 28027,
+    "test_purge_start": 28028,
+    "test_purge_stop": 28032,
+    "training_label_count": 28028,
+    "training_origin_count": 28028,
+    "training_start": 0,
+    "training_stop_exclusive": 28028,
+    "training_timestamp_end": "2018-10-19T23:00:00",
+    "training_timestamp_start": "2018-01-01T00:15:00"
+  }
+}

@@ -1,0 +1,108 @@
+contract_version: "1.0.0"
+
+governance:
+  decision_gate: "4E"
+  status: "locked_pending_execution"
+  authorization: "single_locked_test_evaluation"
+  approved_source_commit: "80d82039613f7a6c72958268379b0a71cc33ccdd"
+  maximum_evaluation_count: 1
+  repeated_test_evaluation_prohibited: true
+  model_redevelopment_inside_gate_prohibited: true
+  result_must_be_reported_regardless_of_outcome: true
+
+selected_model_source:
+  manifest_path: "outputs/modeling/selected_model_manifest.json"
+  required_governance_gate: "4D"
+  required_status: "frozen"
+  required_selection_basis: "validation_only"
+  required_selected_model: "hist_gradient_boosting"
+  required_locked_test_evaluated: false
+  parameters_immutable: true
+
+refit_boundary:
+  training_origin_start: 0
+  training_origin_stop_exclusive: 28028
+  purge_dependency_start: 28028
+  purge_dependency_stop_exclusive: 28032
+  locked_test_rows_used_for_refit: false
+
+locked_test_boundary:
+  locked_test_start: 28032
+  locked_test_stop_exclusive: 35040
+  maximum_target_horizon_steps: 4
+  evaluation_origin_start: 28032
+  evaluation_origin_stop_exclusive: 35036
+  evaluation_origin_count: 7004
+  maximum_evaluation_origin: 35035
+  maximum_target_dependency: 35039
+
+targets:
+  regression_target: "usage_kwh_t_plus_1"
+  peak_state_target: "peak_within_next_60_minutes"
+  common_origin_set_required: true
+
+formal_reference:
+  name: "persistence"
+  prediction: "current_origin_usage_kwh"
+  role: "formal_locked_test_benchmark"
+
+metrics:
+  primary:
+    name: "aggregate_mae"
+    candidate_metric: "mean_absolute_error"
+    reference_metric: "mean_absolute_error"
+    relative_improvement_required: true
+  peak_state:
+    name: "peak_state_mae"
+    subset_rule: "peak_within_next_60_minutes_equals_one"
+    candidate_metric: "mean_absolute_error"
+    reference_metric: "mean_absolute_error"
+  temporal_stability:
+    metric: "mean_absolute_error"
+    block_count: 4
+    equal_origin_count_per_block: 1751
+    blocks:
+      - block_id: 1
+        origin_start: 28032
+        origin_stop_exclusive: 29783
+      - block_id: 2
+        origin_start: 29783
+        origin_stop_exclusive: 31534
+      - block_id: 3
+        origin_start: 31534
+        origin_stop_exclusive: 33285
+      - block_id: 4
+        origin_start: 33285
+        origin_stop_exclusive: 35036
+
+execution_controls:
+  hyperparameter_changes_allowed: false
+  feature_changes_allowed: false
+  target_changes_allowed: false
+  threshold_changes_allowed: false
+  benchmark_changes_allowed: false
+  temporal_block_changes_allowed: false
+  second_evaluation_allowed: false
+  model_binary_committed: false
+
+outputs:
+  predictions_path: "outputs/modeling/locked_test_predictions.csv"
+  results_path: "outputs/modeling/locked_test_results.json"
+  write_once: true
+  predictions_required_columns:
+    - "source_row_number"
+    - "effective_timestamp"
+    - "actual_usage_kwh_t_plus_1"
+    - "candidate_prediction"
+    - "persistence_prediction"
+    - "candidate_absolute_error"
+    - "persistence_absolute_error"
+    - "peak_within_next_60_minutes"
+    - "temporal_block_id"
+
+reporting:
+  confirmatory_not_promotional: true
+  report_candidate_and_reference_metrics: true
+  report_all_temporal_blocks: true
+  report_adverse_result_without_reestimation: true
+  authorized_execution_script: "scripts/evaluate_locked_test_once.py"

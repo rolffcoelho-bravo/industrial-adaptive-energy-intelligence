@@ -18,19 +18,19 @@ The analytical system addresses two separate questions:
 | Field | Locked definition |
 |---|---|
 | Name | `usage_kwh_t_plus_1` |
-| Source | `Usage_kWh` |
+| Source | `usage_kwh` |
 | Horizon | One observation, equal to 15 minutes |
 | Rule | The next observed interval |
 | Boundary | The final origin is unavailable and never imputed |
 
-At prediction origin \(t\), the regression label is the observed `Usage_kWh` value at \(t+1\).
+At prediction origin \(t\), the regression label is the observed `usage_kwh` value at \(t+1\).
 
 ## Peak-risk target
 
 | Field | Locked definition |
 |---|---|
 | Name | `peak_within_next_60_minutes` |
-| Source | `Usage_kWh` |
+| Source | `usage_kwh` |
 | Horizon | Four observations, equal to 60 minutes |
 | Event | Any of the next four usage values is at or above the locked threshold |
 | Boundary | The final four origins are unavailable and never imputed |
@@ -39,7 +39,7 @@ The comparison is inclusive. A future observation equal to the threshold is a pe
 
 ## Peak-threshold governance
 
-The primary threshold is the 90th percentile of `Usage_kWh` in the applicable training partition.
+The primary threshold is the 90th percentile of `usage_kwh` in the applicable training partition.
 
 The threshold:
 

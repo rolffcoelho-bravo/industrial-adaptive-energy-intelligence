@@ -85,7 +85,7 @@
               "const": "usage_kwh_t_plus_1"
             },
             "source_column": {
-              "const": "Usage_kWh"
+              "const": "usage_kwh"
             },
             "horizon_steps": {
               "const": 1
@@ -118,7 +118,7 @@
               "const": "peak_within_next_60_minutes"
             },
             "source_column": {
-              "const": "Usage_kWh"
+              "const": "usage_kwh"
             },
             "horizon_steps": {
               "const": 4

@@ -6,6 +6,7 @@ import pandas as pd
 import pytest
 
 from iaei.contracts import ContractError, validate_target_contract
+from iaei.data import build_silver_frame
 from iaei.targets import (
     TargetConstructionError,
     build_supervised_targets,
@@ -25,7 +26,7 @@ def _frame() -> pd.DataFrame:
     return pd.DataFrame(
         {
             "effective_timestamp": timestamps,
-            "Usage_kWh": [10, 12, 14, 16, 18, 20, 22, 24, 26, 28],
+            "usage_kwh": [10, 12, 14, 16, 18, 20, 22, 24, 26, 28],
         }
     )
 
@@ -47,7 +48,7 @@ def test_regression_target_is_exactly_next_observed_usage() -> None:
     artifacts = build_supervised_targets(frame, training_mask)
     target = artifacts.frame["usage_kwh_t_plus_1"]
 
-    expected = frame["Usage_kWh"].shift(-1).astype(float)
+    expected = frame["usage_kwh"].shift(-1).astype(float)
     pd.testing.assert_series_equal(target, expected, check_names=False)
     assert pd.isna(target.iloc[-1])
 
@@ -60,7 +61,7 @@ def test_peak_label_uses_only_the_next_four_intervals() -> None:
     threshold = artifacts.peak_threshold_kwh
     labels = artifacts.frame["peak_within_next_60_minutes"]
 
-    expected_first = int(frame.loc[1:4, "Usage_kWh"].ge(threshold).any())
+    expected_first = int(frame.loc[1:4, "usage_kwh"].ge(threshold).any())
     assert labels.iloc[0] == expected_first
     assert labels.iloc[-4:].isna().all()
 
@@ -72,14 +73,14 @@ def test_peak_threshold_is_fit_on_training_partition_only() -> None:
     baseline = build_supervised_targets(frame, training_mask).peak_threshold_kwh
 
     changed_future = frame.copy()
-    changed_future.loc[6:, "Usage_kWh"] = [2000, 3000, 4000, 5000]
+    changed_future.loc[6:, "usage_kwh"] = [2000, 3000, 4000, 5000]
     changed = build_supervised_targets(
         changed_future,
         training_mask,
     ).peak_threshold_kwh
 
     assert baseline == changed
-    expected = frame.loc[training_mask, "Usage_kWh"].quantile(
+    expected = frame.loc[training_mask, "usage_kwh"].quantile(
         0.90,
         interpolation="linear",
     )
@@ -189,3 +190,29 @@ def test_invalid_contract_is_rejected(tmp_path: Path, monkeypatch: pytest.Monkey
 
     with pytest.raises(ContractError, match="Target and leakage contract"):
         contracts.validate_target_contract()
+
+def test_target_builder_accepts_governed_silver_table() -> None:
+    raw_path = (
+        ROOT
+        / "data"
+        / "raw"
+        / "uci_steel_energy"
+        / "Steel_industry_data.csv"
+    )
+    raw = pd.read_csv(raw_path)
+    silver = build_silver_frame(raw).frame
+    training_mask = silver.index < int(len(silver) * 0.60)
+
+    artifacts = build_supervised_targets(silver, training_mask)
+    targets = artifacts.frame
+
+    assert targets["usage_kwh_t_plus_1"].notna().sum() == len(silver) - 1
+    assert (
+        targets["peak_within_next_60_minutes"].notna().sum()
+        == len(silver) - 4
+    )
+    expected_threshold = silver.loc[training_mask, "usage_kwh"].quantile(
+        0.90,
+        interpolation="linear",
+    )
+    assert artifacts.peak_threshold_kwh == pytest.approx(expected_threshold)

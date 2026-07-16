@@ -14,7 +14,7 @@ prediction_origin:
 targets:
   regression:
     name: usage_kwh_t_plus_1
-    source_column: Usage_kWh
+    source_column: usage_kwh
     horizon_steps: 1
     horizon_minutes: 15
     target_rule: next_observed_interval
@@ -22,7 +22,7 @@ targets:
 
   peak_risk:
     name: peak_within_next_60_minutes
-    source_column: Usage_kWh
+    source_column: usage_kwh
     horizon_steps: 4
     horizon_minutes: 60
     event_rule: any_future_value_greater_than_or_equal_to_threshold

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -331,13 +332,24 @@ def test_ci_does_not_invoke_locked_test_script() -> None:
     assert "evaluate_locked_test_once.py" not in workflow
 
 
-def test_real_locked_test_outputs_remain_absent() -> None:
-    assert not (
+def test_real_locked_test_outputs_are_immutable() -> None:
+    predictions_path = (
         ROOT / "outputs" / "modeling" / "locked_test_predictions.csv"
-    ).exists()
-    assert not (
+    )
+    results_path = (
         ROOT / "outputs" / "modeling" / "locked_test_results.json"
-    ).exists()
+    )
+
+    assert hashlib.sha256(
+        predictions_path.read_bytes()
+    ).hexdigest() == (
+        "ec5d1bad7ea3af6b7f2b4c7605be8e3a1efdf067cf452c91e22e8ac37a959b4c"
+    )
+    assert hashlib.sha256(
+        results_path.read_bytes()
+    ).hexdigest() == (
+        "7b312fe66dd8443b94646055fbfa619aa1bcb6210891cd968cc09dd6bd381a9b"
+    )
 
 def test_failure_after_reservation_is_finalized(
     monkeypatch: pytest.MonkeyPatch,

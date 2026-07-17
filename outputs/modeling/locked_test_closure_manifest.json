@@ -1,0 +1,171 @@
+{
+  "artifacts": {
+    "predictions": {
+      "path": "outputs/modeling/locked_test_predictions.csv",
+      "required_columns": [
+        "source_row_number",
+        "effective_timestamp",
+        "actual_usage_kwh_t_plus_1",
+        "candidate_prediction",
+        "persistence_prediction",
+        "candidate_absolute_error",
+        "persistence_absolute_error",
+        "peak_within_next_60_minutes",
+        "temporal_block_id"
+      ],
+      "row_count": 7004,
+      "sha256": "ec5d1bad7ea3af6b7f2b4c7605be8e3a1efdf067cf452c91e22e8ac37a959b4c"
+    },
+    "results": {
+      "path": "outputs/modeling/locked_test_results.json",
+      "sha256": "7b312fe66dd8443b94646055fbfa619aa1bcb6210891cd968cc09dd6bd381a9b"
+    }
+  },
+  "boundaries": {
+    "evaluation_origin_start": 28032,
+    "evaluation_origin_stop_exclusive": 35036,
+    "maximum_target_dependency": 35039,
+    "training_origin_start": 0,
+    "training_origin_stop_exclusive": 28028
+  },
+  "closure_checks": {
+    "aggregate_superiority_confirmed": true,
+    "all_temporal_blocks_positive": true,
+    "equal_origin_count_per_block": 1751,
+    "evaluator_must_not_run_again": true,
+    "historical_gate_4d_manifest_preserved": true,
+    "historical_gate_4e_contract_preserved": true,
+    "model_redevelopment_performed": false,
+    "peak_state_superiority_confirmed": true,
+    "reestimation_performed": false,
+    "second_evaluation_allowed": false,
+    "single_evaluation_consumed": true,
+    "temporal_block_count": 4
+  },
+  "confirmatory_metrics": {
+    "aggregate": {
+      "candidate_mae": 3.943511719476711,
+      "persistence_mae": 5.444476013706454,
+      "relative_mae_improvement": 0.27568572080234516
+    },
+    "maximum_block_relative_mae_improvement": 0.31399244462887516,
+    "minimum_block_relative_mae_improvement": 0.22000530609156443,
+    "peak_state": {
+      "candidate_mae": 14.301186239128736,
+      "persistence_mae": 18.46708278580815,
+      "relative_mae_improvement": 0.2255849824792512,
+      "row_count": 761
+    },
+    "temporal_blocks": {
+      "block_count": 4,
+      "blocks": [
+        {
+          "block_id": 1,
+          "candidate_mae": 4.6140531243081035,
+          "origin_count": 1751,
+          "origin_start": 28032,
+          "origin_stop_exclusive": 29783,
+          "persistence_mae": 6.725950885208452,
+          "relative_mae_improvement": 0.31399244462887516
+        },
+        {
+          "block_id": 2,
+          "candidate_mae": 4.5737755381380385,
+          "origin_count": 1751,
+          "origin_start": 29783,
+          "origin_stop_exclusive": 31534,
+          "persistence_mae": 6.5408109651627635,
+          "relative_mae_improvement": 0.30073265188390547
+        },
+        {
+          "block_id": 3,
+          "candidate_mae": 3.781865078255551,
+          "origin_count": 1751,
+          "origin_start": 31534,
+          "origin_stop_exclusive": 33285,
+          "persistence_mae": 4.848577955454026,
+          "relative_mae_improvement": 0.22000530609156443
+        },
+        {
+          "block_id": 4,
+          "candidate_mae": 2.8043531372051502,
+          "origin_count": 1751,
+          "origin_start": 33285,
+          "origin_stop_exclusive": 35036,
+          "persistence_mae": 3.6625642490005714,
+          "relative_mae_improvement": 0.2343197425218157
+        }
+      ]
+    }
+  },
+  "contract_version": "2.0.0",
+  "created_at_utc": "2026-07-17T16:30:58.368651+00:00",
+  "execution": {
+    "authorized_execution_script": "scripts/evaluate_locked_test_once.py",
+    "authorized_execution_script_sha256": "f79f8e4fa369043980f8e34131f7bd8db8a42b336b65549403e1d1287605ce55",
+    "evaluation_count": 1,
+    "executed_at_utc": "2026-07-17T15:27:29.852652+00:00",
+    "execution_commit": "9d47bd598b08e9cf7a6b371448bc493d76c8b5e9",
+    "repository_clean_before_reservation": true,
+    "retry_or_force_option_available": false
+  },
+  "gate_4e_result_status": "evaluation_complete_in_memory",
+  "governance_gate": "4F",
+  "historical_source_evidence": {
+    "locked_test_contract": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "5de98de22efb24013a74d926c713e6c245fcfe4e57f4cbe7f14cb80e6e1bc590",
+      "path": "configs/locked_test_contract.yml"
+    },
+    "model_contract": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "cf253f68c1c420769aa29bd02287ec1f87d51b9e4c273a0db1b2cc6db19e0600",
+      "path": "configs/model_contract.yml"
+    },
+    "raw_manifest": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "870faa3933b7684227882da002f07af70dd00a22d9a040d7383251ee3e8b1470",
+      "path": "data/manifests/uci_steel_energy_manifest.json"
+    },
+    "selected_model_manifest": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "6ebcaff485fb673be6ec58dd5c79f92de7c00474a61c36e4ec7a8102ab86bc8b",
+      "path": "outputs/modeling/selected_model_manifest.json"
+    },
+    "silver_contract": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "d1263e204458bd3806f9e7169a824fd5dd31df427aca0a89757becb3e58a1f6b",
+      "path": "configs/silver_contract.yml"
+    },
+    "silver_processing_manifest": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "9f691b0404ec149c6bdcd3f0b028ab5013cf33e9b2437fda3e4ceb00a025974c",
+      "path": "data/processed/steel_energy_processing_manifest.json"
+    },
+    "target_contract": {
+      "hash_contract": "utf8_lf_sha256_v1",
+      "normalized_text_sha256": "132260926bff8d09665bf3ab3af1865a16c9443e5cb01cc4e6f69946dc22d45e",
+      "path": "configs/target_contract.yml"
+    }
+  },
+  "model": {
+    "selected_model": "hist_gradient_boosting",
+    "selected_parameters": {
+      "l2_regularization": 1.0,
+      "learning_rate": 0.05,
+      "loss": "absolute_error",
+      "max_bins": 255,
+      "max_features": 1.0,
+      "max_iter": 300,
+      "max_leaf_nodes": 31,
+      "min_samples_leaf": 20,
+      "random_state": 20260716
+    }
+  },
+  "outcome": "success",
+  "peak_state": {
+    "row_count": 761,
+    "threshold_kwh": 80.96
+  },
+  "status": "confirmatory_evaluation_closed"
+}

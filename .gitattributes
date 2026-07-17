@@ -1,4 +1,5 @@
 * text=auto
+.gitattributes text eol=lf
 
 *.py text eol=lf
 *.yml text eol=lf
@@ -25,3 +26,5 @@ Makefile text eol=lf
 
 # Preserve the immutable source CSV byte-for-byte across operating systems.
 data/raw/uci_steel_energy/Steel_industry_data.csv binary
+# Preserve the immutable Gate 4E prediction evidence byte-for-byte.
+outputs/modeling/locked_test_predictions.csv binary

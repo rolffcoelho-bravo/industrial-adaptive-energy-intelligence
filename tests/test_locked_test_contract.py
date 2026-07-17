@@ -92,10 +92,10 @@ def test_execution_controls_prohibit_adaptation() -> None:
     assert controls["second_evaluation_allowed"] is False
 
 
-def test_gate_outputs_are_declared_but_not_created() -> None:
+def test_gate_outputs_are_declared_and_closed() -> None:
     outputs = _contract()["outputs"]
 
     assert outputs["write_once"] is True
     assert len(outputs["predictions_required_columns"]) == 9
-    assert not (ROOT / outputs["predictions_path"]).exists()
-    assert not (ROOT / outputs["results_path"]).exists()
+    assert (ROOT / outputs["predictions_path"]).is_file()
+    assert (ROOT / outputs["results_path"]).is_file()

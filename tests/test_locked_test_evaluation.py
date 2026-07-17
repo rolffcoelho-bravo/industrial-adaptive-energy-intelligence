@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import hashlib
 from copy import deepcopy
 from pathlib import Path
 
@@ -299,12 +300,31 @@ def test_frozen_training_boundary_change_is_rejected() -> None:
         )
 
 
-def test_in_memory_evaluation_creates_no_repository_artifacts() -> None:
+def test_in_memory_evaluation_preserves_terminal_artifacts() -> None:
+    predictions_path = (
+        ROOT / "outputs" / "modeling" / "locked_test_predictions.csv"
+    )
+    results_path = (
+        ROOT / "outputs" / "modeling" / "locked_test_results.json"
+    )
+    before = {
+        predictions_path: hashlib.sha256(
+            predictions_path.read_bytes()
+        ).hexdigest(),
+        results_path: hashlib.sha256(
+            results_path.read_bytes()
+        ).hexdigest(),
+    }
+
     _evaluate()
 
-    assert not (
-        ROOT / "outputs" / "modeling" / "locked_test_predictions.csv"
-    ).exists()
-    assert not (
-        ROOT / "outputs" / "modeling" / "locked_test_results.json"
-    ).exists()
+    after = {
+        predictions_path: hashlib.sha256(
+            predictions_path.read_bytes()
+        ).hexdigest(),
+        results_path: hashlib.sha256(
+            results_path.read_bytes()
+        ).hexdigest(),
+    }
+
+    assert after == before

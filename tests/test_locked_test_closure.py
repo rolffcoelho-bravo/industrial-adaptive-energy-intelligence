@@ -136,15 +136,28 @@ def test_gate_4f_closure_prohibits_reuse_and_reestimation() -> None:
     assert controls["all_temporal_blocks_positive"] is True
 
 
-def test_historical_execution_evidence_is_unchanged() -> None:
+def test_historical_execution_evidence_is_preserved() -> None:
     closure = _load_json(CLOSURE_PATH)
     results = _load_json(RESULTS_PATH)
+    historical = results["source_evidence"]
 
-    assert closure["historical_source_evidence"] == (
-        results["source_evidence"]
+    assert closure["historical_source_evidence"] == historical
+
+    processing_record = historical["silver_processing_manifest"]
+    assert processing_record["path"] == (
+        "data/processed/steel_energy_processing_manifest.json"
+    )
+    assert processing_record["hash_contract"] == (
+        "utf8_lf_sha256_v1"
+    )
+    assert processing_record["normalized_text_sha256"] == (
+        "9f691b0404ec149c6bdcd3f0b028ab5013cf33e9b2437fda3e4ceb00a025974c"
     )
 
-    for record in results["source_evidence"].values():
+    for name, record in historical.items():
+        if name == "silver_processing_manifest":
+            continue
+
         path = ROOT / record["path"]
         assert record["hash_contract"] == "utf8_lf_sha256_v1"
         assert normalized_text_sha256(path) == (

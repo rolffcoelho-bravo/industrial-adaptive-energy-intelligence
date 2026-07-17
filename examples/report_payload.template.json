@@ -4,22 +4,24 @@
     "dataset_citation": "POPULATE_FROM_DATA_LICENSE",
     "run_timestamp_utc": "POPULATE_FROM_PIPELINE",
     "git_commit": "POPULATE_FROM_GIT",
-    "model_version": "POPULATE_FROM_MLFLOW_OR_LOCAL_REGISTRY",
-    "promotion_decision": "no_model_approved",
-    "all_results_final": false
+    "model_version": "POPULATE_FROM_SELECTED_MODEL_MANIFEST",
+    "promotion_decision": "promote_challenger",
+    "all_results_final": false,
+    "evidence_gate": "4F",
+    "locked_test_execution_commit": "POPULATE_FROM_GATE_4E",
+    "predictions_sha256": "POPULATE_FROM_GATE_4F",
+    "results_sha256": "POPULATE_FROM_GATE_4F"
   },
   "visuals": {
-    "page_1": "POPULATE_outputs/charts/page_1.png",
-    "page_2": "POPULATE_outputs/charts/page_2.png",
-    "page_3": "POPULATE_outputs/charts/page_3.png",
-    "page_4": "POPULATE_outputs/charts/page_4.png",
-    "page_5": "POPULATE_outputs/charts/page_5.png"
+    "page_1": "POPULATE_outputs/charts/confirmatory_forecasting_verdict.png",
+    "page_2": "POPULATE_outputs/charts/governed_data_architecture.png",
+    "page_3": "POPULATE_outputs/charts/model_ladder_chronological_validation.png",
+    "page_4": "POPULATE_outputs/charts/locked_test_temporal_stability.png",
+    "page_5": "POPULATE_outputs/charts/evidence_governance_model_boundaries.png"
   },
   "executive": {},
   "data": {},
-  "models": {},
-  "drift": {},
-  "optimization": {},
-  "agents": {},
-  "impact": {}
+  "validation": {},
+  "locked_test": {},
+  "governance": {}
 }

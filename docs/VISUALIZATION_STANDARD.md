@@ -1,42 +1,41 @@
 # Visualization standard
 
-The project uses Matplotlib as a decision-support layer, not as decoration. Every chart must answer a specific operating, modelling, governance, or business question.
+The project uses Matplotlib as a decision-support and evidence-governance layer. Every chart must answer a specific forecasting, validation, data, or model-risk question.
 
 ## Visual doctrine
 
 - Light background only.
-- Editorial, institutional composition suitable for a technical decision brief.
-- Complex figures are permitted only when multiple panels form one coherent evidence chain.
+- Editorial, institutional composition suitable for a five-page technical brief.
 - One dominant message per figure.
-- Real observations and validated model outputs only.
+- Real observations and final machine-readable model outputs only.
 - No synthetic demonstrations, placeholder curves, or visually implied results.
 - Direct labels are preferred over large legends.
 - Units, sample period, source, figure identifier, and generation timestamp are mandatory.
-- Uncertainty must be visible whenever a point prediction or scenario estimate is shown.
-- Thresholds and intervention states must be explicitly labelled.
-- A candidate model is highlighted only after it passes the locked validation contract.
+- Candidate and reference values must remain visually distinguishable.
+- Locked metrics must reconcile exactly with the terminal evidence.
+- No personal name or project publisher label appears inside figures.
 
 ## Required decision figures
 
-### Executive decision timeline
+### Confirmatory forecasting verdict
 
-A three-layer figure combining actual demand, forecast uncertainty, peak-risk probability, and the resulting no-action, watch, or adaptation state. The operating decision must be understandable within seconds.
+A compact executive figure comparing candidate and persistence MAE, aggregate and peak-state improvement, and the four positive temporal-block results. It reports the closed verdict without implying operational intervention.
 
-### Industrial load profile
+### Governed data architecture
 
-A temporal load heatmap with intraday and weekday summaries, plus concise data-quality evidence. The figure exposes structure, concentration, seasonality, and coverage rather than showing a generic time-series plot.
+A provenance and analytical-flow figure presenting the immutable raw snapshot, source-aware chronology, Silver layer, quality controls, modeling evidence, and portable and Databricks execution paths.
 
-### Model validation dashboard
+### Model ladder and chronological validation
 
-A chronological-fold performance matrix, benchmark comparison, peak-state metric panel, and calibration evidence. Average accuracy, peak performance, and worst-fold robustness must be visible together.
+A validation figure showing the benchmark and candidate ladder, fold-level performance, promotion decisions, and the boundary between validation-only selection and untouched confirmatory evaluation.
 
-### Drift and optimization dashboard
+### Locked-test temporal stability
 
-A synchronized drift-score timeline and global-versus-local disagreement panel, followed by the constrained cost, peak, and disruption frontier. The selected operating point must be distinguished from feasible alternatives and the no-action state.
+A confirmatory figure showing candidate and persistence MAE across the four prespecified temporal blocks, peak-state performance, and exact test boundaries.
 
-### Business impact and governance
+### Evidence governance and model boundaries
 
-An assumption-bounded value bridge or scenario range combined with evidence lineage and authorization boundaries. The figure separates measured results, derived estimates, assumptions, and decisions requiring human authorization.
+A governance figure showing decision gates, execution identity, immutable artifact hashes, single-evaluation controls, and claims that remain outside the validated scope.
 
 ## Quality controls
 
@@ -45,7 +44,8 @@ A chart passes the render gate only when:
 1. its input file is final and machine-readable;
 2. its labels contain no placeholder language;
 3. its dimensions and resolution satisfy `configs/visualization_contract.yml`;
-4. its numerical annotations reconcile with the source output table;
+4. every numerical annotation reconciles with the source artifact;
 5. its source note and sample period are present;
 6. its rendering is visually inspected at PDF size;
-7. it does not imply access to proprietary company information.
+7. it does not imply access to proprietary company information;
+8. it does not present drift, optimization, savings, or production claims without approved evidence.

@@ -1,6 +1,6 @@
 {
-  "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Technical brief payload",
+  "": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Evidence-aligned technical brief payload",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -8,15 +8,14 @@
     "visuals",
     "executive",
     "data",
-    "models",
-    "drift",
-    "optimization",
-    "agents",
-    "impact"
+    "validation",
+    "locked_test",
+    "governance"
   ],
   "properties": {
     "metadata": {
       "type": "object",
+      "additionalProperties": false,
       "required": [
         "dataset_hash",
         "dataset_citation",
@@ -24,12 +23,16 @@
         "git_commit",
         "model_version",
         "promotion_decision",
-        "all_results_final"
+        "all_results_final",
+        "evidence_gate",
+        "locked_test_execution_commit",
+        "predictions_sha256",
+        "results_sha256"
       ],
       "properties": {
         "dataset_hash": {
           "type": "string",
-          "minLength": 32
+          "pattern": "^[0-9a-f]{64}$"
         },
         "dataset_citation": {
           "type": "string",
@@ -48,37 +51,27 @@
           "minLength": 1
         },
         "promotion_decision": {
-          "enum": [
-            "retain_champion",
-            "promote_challenger",
-            "no_model_approved"
-          ]
+          "const": "promote_challenger"
         },
         "all_results_final": {
           "const": true
+        },
+        "evidence_gate": {
+          "const": "4F"
+        },
+        "locked_test_execution_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "predictions_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "results_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
         }
       }
-    },
-    "executive": {
-      "type": "object"
-    },
-    "data": {
-      "type": "object"
-    },
-    "models": {
-      "type": "object"
-    },
-    "drift": {
-      "type": "object"
-    },
-    "optimization": {
-      "type": "object"
-    },
-    "agents": {
-      "type": "object"
-    },
-    "impact": {
-      "type": "object"
     },
     "visuals": {
       "type": "object",
@@ -115,6 +108,243 @@
           "type": "string",
           "minLength": 10,
           "pattern": "\\.png$"
+        }
+      }
+    },
+    "executive": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "narrative",
+        "selected_model",
+        "candidate_mae",
+        "persistence_mae",
+        "relative_mae_improvement",
+        "peak_relative_mae_improvement",
+        "prediction_row_count",
+        "all_temporal_blocks_positive",
+        "decision_statement"
+      ],
+      "properties": {
+        "narrative": {
+          "type": "string",
+          "minLength": 40
+        },
+        "selected_model": {
+          "const": "hist_gradient_boosting"
+        },
+        "candidate_mae": {
+          "type": "number",
+          "minimum": 0
+        },
+        "persistence_mae": {
+          "type": "number",
+          "minimum": 0
+        },
+        "relative_mae_improvement": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "peak_relative_mae_improvement": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "prediction_row_count": {
+          "const": 7004
+        },
+        "all_temporal_blocks_positive": {
+          "const": true
+        },
+        "decision_statement": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "narrative",
+        "dataset_id",
+        "raw_row_count",
+        "interval_minutes",
+        "silver_column_count",
+        "dq_any_count",
+        "sample_start",
+        "sample_end",
+        "architecture_statement"
+      ],
+      "properties": {
+        "narrative": {
+          "type": "string",
+          "minLength": 40
+        },
+        "dataset_id": {
+          "const": "uci-851"
+        },
+        "raw_row_count": {
+          "const": 35040
+        },
+        "interval_minutes": {
+          "const": 15
+        },
+        "silver_column_count": {
+          "const": 57
+        },
+        "dq_any_count": {
+          "const": 0
+        },
+        "sample_start": {
+          "type": "string",
+          "minLength": 10
+        },
+        "sample_end": {
+          "type": "string",
+          "minLength": 10
+        },
+        "architecture_statement": {
+          "type": "string",
+          "minLength": 40
+        }
+      }
+    },
+    "validation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "narrative",
+        "validation_fold_count",
+        "validation_origin_count",
+        "candidate_ladder",
+        "selected_model",
+        "selection_basis",
+        "internal_early_stopping",
+        "locked_test_used_for_selection"
+      ],
+      "properties": {
+        "narrative": {
+          "type": "string",
+          "minLength": 40
+        },
+        "validation_fold_count": {
+          "const": 4
+        },
+        "validation_origin_count": {
+          "const": 7004
+        },
+        "candidate_ladder": {
+          "type": "string",
+          "minLength": 20
+        },
+        "selected_model": {
+          "const": "hist_gradient_boosting"
+        },
+        "selection_basis": {
+          "const": "validation_only"
+        },
+        "internal_early_stopping": {
+          "const": false
+        },
+        "locked_test_used_for_selection": {
+          "const": false
+        }
+      }
+    },
+    "locked_test": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "narrative",
+        "evaluation_origin_count",
+        "peak_state_row_count",
+        "peak_threshold_kwh",
+        "minimum_block_relative_mae_improvement",
+        "maximum_block_relative_mae_improvement",
+        "temporal_block_count",
+        "all_temporal_blocks_positive",
+        "evaluation_count"
+      ],
+      "properties": {
+        "narrative": {
+          "type": "string",
+          "minLength": 40
+        },
+        "evaluation_origin_count": {
+          "const": 7004
+        },
+        "peak_state_row_count": {
+          "const": 761
+        },
+        "peak_threshold_kwh": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minimum_block_relative_mae_improvement": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "maximum_block_relative_mae_improvement": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "temporal_block_count": {
+          "const": 4
+        },
+        "all_temporal_blocks_positive": {
+          "const": true
+        },
+        "evaluation_count": {
+          "const": 1
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "narrative",
+        "execution_commit",
+        "predictions_sha256",
+        "results_sha256",
+        "single_evaluation_consumed",
+        "second_evaluation_allowed",
+        "reestimation_performed",
+        "evaluator_retired",
+        "model_boundary_statement"
+      ],
+      "properties": {
+        "narrative": {
+          "type": "string",
+          "minLength": 40
+        },
+        "execution_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
+        "predictions_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "results_sha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "single_evaluation_consumed": {
+          "const": true
+        },
+        "second_evaluation_allowed": {
+          "const": false
+        },
+        "reestimation_performed": {
+          "const": false
+        },
+        "evaluator_retired": {
+          "const": true
+        },
+        "model_boundary_statement": {
+          "type": "string",
+          "minLength": 60
         }
       }
     }

@@ -28,22 +28,25 @@ visualization:
     - synthetic_or_placeholder_data
     - unsupported_causal_language
     - company_branding
+    - unsupported_structural_drift_result
+    - optimization_without_machine_readable_evidence
+    - business_impact_without_explicit_assumptions
   brief_figures:
     page_1:
-      filename: executive_decision_timeline.png
-      purpose: Forecast, uncertainty, peak risk, and operational decision in one evidence chain.
+      filename: confirmatory_forecasting_verdict.png
+      purpose: Candidate-versus-persistence performance, peak-state robustness, and the closed confirmatory verdict.
     page_2:
-      filename: industrial_load_profile.png
-      purpose: Temporal structure, concentration, and data quality of the observed load process.
+      filename: governed_data_architecture.png
+      purpose: Provenance, data quality, analytical-layer construction, and portable execution controls.
     page_3:
-      filename: model_validation_dashboard.png
-      purpose: Chronological robustness, peak-state performance, and probability calibration.
+      filename: model_ladder_chronological_validation.png
+      purpose: Benchmark evidence, candidate promotion decisions, chronological folds, and validation-only selection.
     page_4:
-      filename: drift_optimization_dashboard.png
-      purpose: Structural-drift evidence, adaptation decision, and constrained operating frontier.
+      filename: locked_test_temporal_stability.png
+      purpose: Prespecified temporal-block performance, peak-state results, and exact evaluation boundaries.
     page_5:
-      filename: business_impact_governance.png
-      purpose: Assumption-bounded impact, evidence provenance, and human approval boundaries.
+      filename: evidence_governance_model_boundaries.png
+      purpose: Gate lineage, artifact identity, single-evaluation controls, and explicit model boundaries.
   publication_gate:
     required_brief_figures: 5
     minimum_width_pixels: 2400
@@ -53,3 +56,4 @@ visualization:
     source_note_required: true
     units_required: true
     sample_dates_required: true
+    terminal_metric_reconciliation_required: true

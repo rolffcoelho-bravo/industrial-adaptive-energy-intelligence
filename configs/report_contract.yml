@@ -1,23 +1,26 @@
 report:
   filename: industrial_adaptive_energy_intelligence_technical_brief.pdf
+  title: Industrial Adaptive Energy Intelligence
+  subtitle: Confirmatory Forecasting Evidence, Temporal Robustness, and Model Governance
   exact_pages: 5
   sections:
-    1: Executive decision
-    2: Data and Databricks architecture
-    3: Machine learning and chronological validation
-    4: Structural drift and constrained optimization
-    5: Governed agents and business impact
+    1: Confirmatory forecasting verdict
+    2: Governed data and analytical architecture
+    3: Model ladder and chronological validation
+    4: Locked-test stability and peak-state robustness
+    5: Evidence governance and model boundaries
   required_charts:
-    - executive_decision_timeline.png
-    - industrial_load_profile.png
-    - model_validation_dashboard.png
-    - drift_optimization_dashboard.png
-    - business_impact_governance.png
+    - confirmatory_forecasting_verdict.png
+    - governed_data_architecture.png
+    - model_ladder_chronological_validation.png
+    - locked_test_temporal_stability.png
+    - evidence_governance_model_boundaries.png
   required_tables:
-    - model_comparison.csv
-    - drift_history.csv
-    - optimization_results.csv
-    - business_impact_summary.csv
+    - confirmatory_metrics.csv
+    - data_quality_summary.csv
+    - model_ladder_summary.csv
+    - temporal_block_results.csv
+    - evidence_lineage.csv
   required_metadata:
     - dataset_hash
     - dataset_citation
@@ -26,5 +29,22 @@ report:
     - model_version
     - promotion_decision
     - all_results_final
+    - evidence_gate
+    - locked_test_execution_commit
+    - predictions_sha256
+    - results_sha256
+  terminal_evidence_sources:
+    - outputs/modeling/locked_test_predictions.csv
+    - outputs/modeling/locked_test_results.json
+    - outputs/modeling/locked_test_closure_manifest.json
+  locked_metrics_must_be_read_from_terminal_artifacts: true
+  second_locked_test_evaluation_prohibited: true
   forbid_placeholders: true
   forbid_unbounded_savings_claims: true
+  prohibited_claims:
+    - unsupported_structural_drift_result
+    - optimization_recommendation_without_evidence
+    - business_savings_claim
+    - live_production_claim
+    - company_specific_operational_conclusion
+    - causal_effect_claim

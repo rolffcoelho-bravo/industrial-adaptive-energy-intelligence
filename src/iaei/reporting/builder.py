@@ -16,11 +16,11 @@ from iaei.paths import ROOT
 
 
 PAGE_TITLES = (
-    "1. Executive decision",
-    "2. Data and Databricks architecture",
-    "3. Machine learning and chronological validation",
-    "4. Structural drift and constrained optimization",
-    "5. Governed agents and business impact",
+    "1. Confirmatory forecasting verdict",
+    "2. Governed data and analytical architecture",
+    "3. Model ladder and chronological validation",
+    "4. Locked-test stability and peak-state robustness",
+    "5. Evidence governance and model boundaries",
 )
 
 
@@ -82,16 +82,19 @@ def build_technical_brief(payload_path: Path, output_path: Path) -> Path:
         leftMargin=15 * mm,
         topMargin=12 * mm,
         bottomMargin=12 * mm,
-        title="Industrial Adaptive Energy Intelligence - Technical Brief",
+        title=(
+            "Industrial Adaptive Energy Intelligence - "
+            "Confirmatory Evidence Brief"
+        ),
         author="Rodolfo Pereira",
     )
 
     sections = [
         payload["executive"],
         payload["data"],
-        payload["models"],
-        {**payload["drift"], **payload["optimization"]},
-        {**payload["agents"], **payload["impact"]},
+        payload["validation"],
+        payload["locked_test"],
+        payload["governance"],
     ]
 
     story: list[Any] = []
@@ -126,8 +129,9 @@ def build_technical_brief(payload_path: Path, output_path: Path) -> Path:
         story.append(Spacer(1, 2.5 * mm))
         story.append(
             Paragraph(
-                "Independent industrial energy analysis. Licensed real industrial energy data only. "
-                "No proprietary company data or unsupported savings claim.",
+                "Independent industrial energy analysis. Licensed real industrial energy data and "
+                "immutable model evidence only. No proprietary company data, optimization "
+                "recommendation, or unsupported savings claim.",
                 small,
             )
         )

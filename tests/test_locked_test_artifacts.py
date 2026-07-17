@@ -203,3 +203,45 @@ def test_output_path_escape_is_rejected(tmp_path: Path) -> None:
         match="escapes the repository root",
     ):
         reserve_locked_test_outputs(tmp_path, contract)
+
+def test_failure_finalization_writes_terminal_evidence(
+    tmp_path: Path,
+) -> None:
+    predictions_path, results_path = reserve_locked_test_outputs(
+        tmp_path,
+        _contract(),
+    )
+    required_columns = _contract()["outputs"][
+        "predictions_required_columns"
+    ]
+    failed = LockedTestEvaluation(
+        predictions=pd.DataFrame(columns=required_columns),
+        results={
+            "governance_gate": "4E",
+            "status": "evaluation_failed",
+            "outcome": "failure",
+            "locked_test_evaluated": False,
+            "prediction_row_count": 0,
+            "failure": {
+                "stage": "silver_reconstruction",
+                "error_type": "RuntimeError",
+                "error_message": "controlled fixture failure",
+            },
+        },
+    )
+
+    finalize_locked_test_outputs(
+        tmp_path,
+        _contract(),
+        failed,
+    )
+
+    predictions = pd.read_csv(predictions_path)
+    results = json.loads(results_path.read_text(encoding="utf-8"))
+
+    assert predictions.empty
+    assert list(predictions.columns) == required_columns
+    assert results["status"] == "evaluation_failed"
+    assert results["locked_test_evaluated"] is False
+    assert results["prediction_row_count"] == 0
+    assert results["failure"]["stage"] == "silver_reconstruction"

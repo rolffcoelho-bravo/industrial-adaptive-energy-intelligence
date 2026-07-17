@@ -141,14 +141,37 @@ def _validate_evaluation(
         evaluation.results.get("governance_gate") == "4E",
         "Locked-test result has the wrong governance gate",
     )
+
+    row_count = int(
+        evaluation.results.get("prediction_row_count", -1)
+    )
+    _require(
+        row_count == len(evaluation.predictions),
+        "Locked-test result row count is inconsistent",
+    )
+
+    status = str(evaluation.results.get("status", ""))
+
+    if status == "evaluation_failed":
+        _require(
+            evaluation.results.get("locked_test_evaluated") is False,
+            "Failed evaluation must not claim successful scoring",
+        )
+        _require(
+            row_count == 0 and evaluation.predictions.empty,
+            "Failed evaluation must contain no predictions",
+        )
+
+        failure = evaluation.results.get("failure")
+        _require(
+            isinstance(failure, dict) and bool(failure),
+            "Failed evaluation does not contain failure evidence",
+        )
+        return
+
     _require(
         evaluation.results.get("locked_test_evaluated") is True,
         "Locked-test result is not marked as evaluated",
-    )
-    _require(
-        int(evaluation.results.get("prediction_row_count", -1))
-        == len(evaluation.predictions),
-        "Locked-test result row count is inconsistent",
     )
 
 

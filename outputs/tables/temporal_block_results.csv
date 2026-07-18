@@ -1,0 +1,5 @@
+block_id,origin_start,origin_stop_exclusive,origin_count,candidate_mae,persistence_mae,relative_mae_improvement,source_artifact,governance_gate
+1,28032,29783,1751,4.6140531243081035,6.725950885208452,0.31399244462887516,outputs/modeling/locked_test_results.json,4E
+2,29783,31534,1751,4.5737755381380385,6.5408109651627635,0.30073265188390547,outputs/modeling/locked_test_results.json,4E
+3,31534,33285,1751,3.781865078255551,4.848577955454026,0.22000530609156443,outputs/modeling/locked_test_results.json,4E
+4,33285,35036,1751,2.8043531372051502,3.6625642490005714,0.2343197425218157,outputs/modeling/locked_test_results.json,4E

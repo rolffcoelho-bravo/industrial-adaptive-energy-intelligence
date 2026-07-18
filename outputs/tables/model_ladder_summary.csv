@@ -1,0 +1,5 @@
+model,role,mean_validation_mae,mean_peak_state_mae,worst_fold_mae,relative_mae_improvement_vs_persistence,promotion_decision,governance_gate,status,validation_fold_count,validation_origin_count,locked_test_used_for_selection
+persistence,formal_reference,5.790702455739577,21.247666035110896,7.278098229583095,0.0,formal_reference,4B,validated,4,7004,false
+ridge,candidate,6.749507879404726,22.847911471962828,7.852345835016631,-0.16557670351630807,rejected,4C1,validated,4,7004,false
+elastic_net,candidate,6.91363109865755,23.211636937628903,8.12536785115831,-0.19391924408151182,rejected,4C2,validated,4,7004,false
+hist_gradient_boosting,selected_candidate,3.999653251243056,18.40539904619677,4.787898889427443,0.30929739840479714,promoted,4C3,validated,4,7004,false

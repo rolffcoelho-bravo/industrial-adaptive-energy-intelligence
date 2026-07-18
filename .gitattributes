@@ -1,5 +1,6 @@
 * text=auto
 .gitattributes text eol=lf
+.gitignore text eol=lf
 
 *.py text eol=lf
 *.yml text eol=lf
@@ -28,3 +29,11 @@ Makefile text eol=lf
 data/raw/uci_steel_energy/Steel_industry_data.csv binary
 # Preserve the immutable Gate 4E prediction evidence byte-for-byte.
 outputs/modeling/locked_test_predictions.csv binary
+
+# Preserve deterministic Gate 5B reporting evidence.
+outputs/tables/confirmatory_metrics.csv text eol=lf
+outputs/tables/data_quality_summary.csv text eol=lf
+outputs/tables/model_ladder_summary.csv text eol=lf
+outputs/tables/temporal_block_results.csv text eol=lf
+outputs/tables/evidence_lineage.csv text eol=lf
+outputs/reporting_evidence_manifest.json text eol=lf

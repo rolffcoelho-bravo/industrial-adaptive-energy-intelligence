@@ -43,3 +43,11 @@ outputs/modeling/*.bin
 outputs/modeling/*.tmp
 outputs/modeling/models/
 outputs/modeling/checkpoints/
+
+# Governed Gate 5B reporting evidence.
+!outputs/tables/confirmatory_metrics.csv
+!outputs/tables/data_quality_summary.csv
+!outputs/tables/model_ladder_summary.csv
+!outputs/tables/temporal_block_results.csv
+!outputs/tables/evidence_lineage.csv
+!outputs/reporting_evidence_manifest.json

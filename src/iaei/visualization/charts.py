@@ -1,14 +1,17 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Iterable
+from typing import Any, Iterable, Mapping
 
-import matplotlib.dates as mdates
+import matplotlib as mpl
+
+mpl.use("Agg", force=True)
+
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from matplotlib.colors import LinearSegmentedColormap
 from matplotlib.gridspec import GridSpec
+from matplotlib.patches import FancyArrowPatch, FancyBboxPatch
 
 from iaei.visualization.style import (
     PALETTE,
@@ -19,421 +22,1247 @@ from iaei.visualization.style import (
 )
 
 
-def _require_frame(frame: pd.DataFrame, columns: Iterable[str], name: str) -> None:
+def _require_frame(
+    frame: pd.DataFrame,
+    columns: Iterable[str],
+    name: str,
+) -> None:
     if frame.empty:
-        raise ValueError(f"{name} cannot be empty; placeholder charts are prohibited")
-    missing = [column for column in columns if column not in frame.columns]
+        raise ValueError(
+            f"{name} cannot be empty; placeholder charts are prohibited"
+        )
+
+    missing = [
+        column
+        for column in columns
+        if column not in frame.columns
+    ]
     if missing:
         raise ValueError(f"{name} is missing required columns: {missing}")
 
 
-def _datetime(frame: pd.DataFrame, column: str) -> pd.Series:
-    values = pd.to_datetime(frame[column], errors="raise", utc=True)
-    return values.dt.tz_convert(None)
-
-
-def _metric_text(value: float, digits: int = 2) -> str:
-    if not np.isfinite(value):
-        return "n/a"
-    return f"{value:.{digits}f}"
-
-
-def plot_executive_decision_timeline(
+def _numeric(
     frame: pd.DataFrame,
+    columns: Iterable[str],
+    name: str,
+) -> pd.DataFrame:
+    data = frame.copy()
+
+    for column in columns:
+        data[column] = pd.to_numeric(data[column], errors="raise")
+        values = data[column].to_numpy(dtype=float)
+        if not np.isfinite(values).all():
+            raise ValueError(f"{name} contains non-finite values")
+
+    return data
+
+
+def _truthy(value: object) -> bool:
+    if isinstance(value, bool):
+        return value
+
+    normalized = str(value).strip().lower()
+    if normalized == "true":
+        return True
+    if normalized == "false":
+        return False
+
+    raise ValueError(f"Cannot interpret boolean value: {value}")
+
+
+def _model_label(value: str) -> str:
+    labels = {
+        "persistence": "Persistence",
+        "ridge": "Ridge",
+        "elastic_net": "Elastic Net",
+        "hist_gradient_boosting": "Histogram gradient boosting",
+    }
+    return labels.get(value, value.replace("_", " ").title())
+
+
+def _relative_label(value: float) -> str:
+    if value > 0:
+        return f"{value:.1%} better"
+    if value < 0:
+        return f"{abs(value):.1%} worse"
+    return "Reference"
+
+
+def _paired_mae_panel(
+    ax: plt.Axes,
+    row: pd.Series,
+    *,
+    title: str,
+) -> None:
+    candidate = float(row["candidate_mae"])
+    reference = float(row["reference_mae"])
+    improvement = float(row["relative_mae_improvement"])
+
+    labels = ["Frozen HGB", "Persistence"]
+    values = np.array([candidate, reference])
+    positions = np.array([1, 0])
+    colors = [PALETTE["teal"], PALETTE["slate"]]
+    bars = ax.barh(positions, values, color=colors, height=0.52)
+    maximum = float(values.max())
+
+    for bar, value in zip(bars, values, strict=True):
+        ax.text(
+            value + maximum * 0.025,
+            bar.get_y() + bar.get_height() / 2,
+            f"{value:.2f} kWh",
+            va="center",
+            fontsize=8.5,
+            fontweight="bold",
+        )
+
+    ax.text(
+        0.98,
+        0.92,
+        f"{improvement:.1%} lower MAE",
+        transform=ax.transAxes,
+        ha="right",
+        va="top",
+        fontsize=12,
+        fontweight="bold",
+        color=PALETTE["teal"],
+    )
+    ax.set_yticks(positions, labels=labels)
+    ax.set_xlim(0, maximum * 1.34)
+    ax.set_xlabel("MAE, kWh")
+    ax.set_title(title, loc="left")
+    style_axis(ax, grid_axis="x")
+
+
+def plot_confirmatory_forecasting_verdict(
+    confirmatory: pd.DataFrame,
+    blocks: pd.DataFrame,
     output_path: Path,
     *,
     source: str,
     sample: str,
-    timestamp: str = "timestamp",
-    actual: str = "actual",
-    forecast: str = "forecast",
-    lower: str = "forecast_lower",
-    upper: str = "forecast_upper",
-    peak_probability: str = "peak_probability",
-    decision_state: str = "decision_state",
+    evidence_id: str,
 ) -> Path:
-    required = [timestamp, actual, forecast, lower, upper, peak_probability, decision_state]
-    _require_frame(frame, required, "executive timeline")
-    data = frame.sort_values(timestamp).copy()
-    x = _datetime(data, timestamp)
+    _require_frame(
+        confirmatory,
+        [
+            "metric_scope",
+            "candidate_mae",
+            "reference_mae",
+            "relative_mae_improvement",
+            "origin_count",
+        ],
+        "confirmatory metrics",
+    )
+    _require_frame(
+        blocks,
+        [
+            "block_id",
+            "candidate_mae",
+            "persistence_mae",
+            "relative_mae_improvement",
+            "origin_count",
+        ],
+        "temporal blocks",
+    )
+
+    metrics = _numeric(
+        confirmatory,
+        [
+            "candidate_mae",
+            "reference_mae",
+            "relative_mae_improvement",
+            "origin_count",
+        ],
+        "confirmatory metrics",
+    ).set_index("metric_scope")
+
+    if set(metrics.index) != {"aggregate", "peak_state"}:
+        raise ValueError(
+            "Confirmatory metrics require aggregate and peak_state rows"
+        )
+
+    temporal = _numeric(
+        blocks,
+        [
+            "block_id",
+            "candidate_mae",
+            "persistence_mae",
+            "relative_mae_improvement",
+            "origin_count",
+        ],
+        "temporal blocks",
+    ).sort_values("block_id")
+
+    if len(temporal) != 4:
+        raise ValueError(
+            "Exactly four prespecified temporal blocks are required"
+        )
+    if (temporal["relative_mae_improvement"] <= 0).any():
+        raise ValueError(
+            "Every temporal block must retain positive improvement"
+        )
 
     with publication_style():
-        fig = plt.figure(figsize=(11, 6.4))
-        grid = GridSpec(3, 1, figure=fig, height_ratios=[3.3, 1.25, 0.65], hspace=0.12)
-        ax_main = fig.add_subplot(grid[0])
-        ax_risk = fig.add_subplot(grid[1], sharex=ax_main)
-        ax_state = fig.add_subplot(grid[2], sharex=ax_main)
+        fig = plt.figure(figsize=(11.2, 6.4))
+        grid = GridSpec(
+            2,
+            2,
+            figure=fig,
+            height_ratios=[1.0, 1.38],
+            hspace=0.47,
+            wspace=0.33,
+        )
+        ax_aggregate = fig.add_subplot(grid[0, 0])
+        ax_peak = fig.add_subplot(grid[0, 1])
+        ax_blocks = fig.add_subplot(grid[1, :])
+
         add_figure_header(
             fig,
-            "Executive decision timeline",
-            "Observed demand, forecast uncertainty, peak-load risk, and governed operating state.",
+            "Confirmatory forecasting verdict",
+            (
+                "The frozen model beat persistence in aggregate, during "
+                "peak-demand states, and in every prespecified time block."
+            ),
         )
 
-        ax_main.fill_between(x, data[lower], data[upper], color=PALETTE["blue"], alpha=0.16, linewidth=0)
-        ax_main.plot(x, data[actual], color=PALETTE["ink"], linewidth=1.55, label="Observed demand")
-        ax_main.plot(x, data[forecast], color=PALETTE["blue"], linewidth=1.75, label="Forecast")
-        ax_main.set_ylabel("Energy demand")
-        style_axis(ax_main)
-        ax_main.legend(loc="upper left", ncols=2)
-
-        ax_risk.plot(x, data[peak_probability], color=PALETTE["amber"], linewidth=1.65)
-        ax_risk.fill_between(x, 0, data[peak_probability], color=PALETTE["amber"], alpha=0.14)
-        ax_risk.axhline(0.5, color=PALETTE["muted"], linestyle="--", linewidth=0.9)
-        ax_risk.set_ylim(0, 1)
-        ax_risk.set_ylabel("Peak risk")
-        style_axis(ax_risk)
-
-        state_map = {"stable": 0, "watch": 1, "adaptation_candidate": 2, "no_action": 0}
-        states = data[decision_state].astype(str).str.lower().map(state_map)
-        if states.isna().any():
-            unknown = sorted(data.loc[states.isna(), decision_state].astype(str).unique())
-            raise ValueError(f"Unknown decision states: {unknown}")
-        state_colors = [PALETTE["teal"], PALETTE["amber"], PALETTE["vermillion"]]
-        cmap = LinearSegmentedColormap.from_list("decision", state_colors, N=3)
-        ax_state.imshow(
-            states.to_numpy()[None, :],
-            aspect="auto",
-            interpolation="nearest",
-            cmap=cmap,
-            vmin=0,
-            vmax=2,
-            extent=[mdates.date2num(x.iloc[0]), mdates.date2num(x.iloc[-1]), 0, 1],
+        _paired_mae_panel(
+            ax_aggregate,
+            metrics.loc["aggregate"],
+            title="All confirmatory origins",
         )
-        ax_state.set_yticks([0.5], labels=["Decision"])
-        ax_state.set_xlabel("Time")
-        ax_state.grid(False)
-        ax_state.spines[["top", "right", "left"]].set_visible(False)
-        ax_state.xaxis_date()
-        ax_state.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=5, maxticks=9))
-        ax_state.xaxis.set_major_formatter(mdates.ConciseDateFormatter(ax_state.xaxis.get_major_locator()))
-        plt.setp(ax_main.get_xticklabels(), visible=False)
-        plt.setp(ax_risk.get_xticklabels(), visible=False)
-        fig.subplots_adjust(left=0.075, right=0.98, top=0.86, bottom=0.105)
+        _paired_mae_panel(
+            ax_peak,
+            metrics.loc["peak_state"],
+            title="Peak-demand states",
+        )
+
+        x = np.arange(len(temporal))
+        width = 0.34
+        candidate = temporal["candidate_mae"].to_numpy(dtype=float)
+        reference = temporal["persistence_mae"].to_numpy(dtype=float)
+        improvements = temporal["relative_mae_improvement"].to_numpy(
+            dtype=float
+        )
+
+        candidate_bars = ax_blocks.bar(
+            x - width / 2,
+            candidate,
+            width,
+            color=PALETTE["teal"],
+            label="Frozen HGB",
+        )
+        reference_bars = ax_blocks.bar(
+            x + width / 2,
+            reference,
+            width,
+            color=PALETTE["slate"],
+            label="Persistence",
+        )
+        reference_max = float(reference.max())
+
+        for position, improvement in enumerate(improvements):
+            top = max(candidate[position], reference[position])
+            ax_blocks.text(
+                position,
+                top + reference_max * 0.055,
+                f"{improvement:.1%} lower",
+                ha="center",
+                fontsize=8.2,
+                fontweight="bold",
+                color=PALETTE["teal"],
+            )
+
+        for bars in (candidate_bars, reference_bars):
+            for bar in bars:
+                ax_blocks.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bar.get_height() + reference_max * 0.012,
+                    f"{bar.get_height():.2f}",
+                    ha="center",
+                    va="bottom",
+                    fontsize=7.4,
+                )
+
+        ax_blocks.set_xticks(
+            x,
+            labels=[
+                f"Block {int(value)}"
+                for value in temporal["block_id"]
+            ],
+        )
+        ax_blocks.set_ylabel("MAE, kWh")
+        ax_blocks.set_title(
+            "Prespecified temporal stability",
+            loc="left",
+        )
+        ax_blocks.legend(loc="upper right", ncols=2)
+        ax_blocks.set_ylim(0, reference_max * 1.29)
+        style_axis(ax_blocks)
+
+        fig.subplots_adjust(
+            left=0.075,
+            right=0.98,
+            top=0.84,
+            bottom=0.12,
+        )
         return save_publication_figure(
             fig,
             output_path,
             figure_id="Figure 1",
             source=source,
             sample=sample,
+            evidence_id=evidence_id,
         )
 
 
-def plot_industrial_load_profile(
-    frame: pd.DataFrame,
+def _architecture_box(
+    ax: plt.Axes,
+    *,
+    x: float,
+    title: str,
+    lines: list[str],
+    accent: str,
+) -> None:
+    box = FancyBboxPatch(
+        (x, 0.42),
+        0.17,
+        0.43,
+        boxstyle="round,pad=0.012,rounding_size=0.012",
+        transform=ax.transAxes,
+        linewidth=1.0,
+        edgecolor=accent,
+        facecolor=PALETTE["white"],
+    )
+    ax.add_patch(box)
+
+    ax.add_patch(
+        FancyBboxPatch(
+            (x, 0.80),
+            0.17,
+            0.05,
+            boxstyle="round,pad=0.012,rounding_size=0.012",
+            transform=ax.transAxes,
+            linewidth=0,
+            facecolor=accent,
+        )
+    )
+    ax.text(
+        x + 0.012,
+        0.775,
+        title,
+        transform=ax.transAxes,
+        ha="left",
+        va="top",
+        fontsize=8.5,
+        fontweight="bold",
+    )
+    ax.text(
+        x + 0.012,
+        0.725,
+        "\n".join(lines),
+        transform=ax.transAxes,
+        ha="left",
+        va="top",
+        fontsize=7.6,
+        linespacing=1.45,
+        color=PALETTE["muted"],
+    )
+
+
+def plot_governed_data_architecture(
+    data_quality: pd.DataFrame,
+    manifest: Mapping[str, Any],
     output_path: Path,
     *,
     source: str,
     sample: str,
-    timestamp: str = "timestamp",
-    value: str = "energy_demand",
+    evidence_id: str,
 ) -> Path:
-    _require_frame(frame, [timestamp, value], "industrial load profile")
-    data = frame.copy()
-    data["_timestamp"] = _datetime(data, timestamp)
-    data["_weekday"] = data["_timestamp"].dt.dayofweek
-    data["_hour"] = data["_timestamp"].dt.hour
-    pivot = data.pivot_table(index="_weekday", columns="_hour", values=value, aggfunc="mean")
-    pivot = pivot.reindex(index=range(7), columns=range(24))
-    weekday_labels = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-    hourly = data.groupby("_hour", observed=True)[value].agg(["mean", "std"]).reindex(range(24))
-    daily = data.groupby("_weekday", observed=True)[value].mean().reindex(range(7))
+    _require_frame(
+        data_quality,
+        [
+            "dataset_id",
+            "license",
+            "raw_csv_sha256",
+            "raw_row_count",
+            "source_column_count",
+            "expected_frequency_minutes",
+            "silver_row_count",
+            "silver_column_count",
+            "dq_any_count",
+            "source_order_preserved",
+            "supervised_targets_present",
+        ],
+        "data quality summary",
+    )
+
+    if len(data_quality) != 1:
+        raise ValueError(
+            "Data quality summary must contain exactly one row"
+        )
+
+    row = data_quality.iloc[0]
+    generated = manifest.get("generated_artifacts", {})
+    sources = manifest.get("source_artifacts", {})
+    controls = manifest.get("controls", {})
+
+    if len(generated) != 5:
+        raise ValueError(
+            "Gate 5B manifest must govern five evidence tables"
+        )
+    if controls.get("locked_predictions_parsed") is not False:
+        raise ValueError(
+            "Locked prediction parsing control is not closed"
+        )
+    if not _truthy(row["source_order_preserved"]):
+        raise ValueError("Source order preservation did not pass")
+    if _truthy(row["supervised_targets_present"]):
+        raise ValueError("Silver layer contains supervised targets")
+
+    dataset_id = str(row["dataset_id"])
+    license_name = str(row["license"])
+    raw_rows = int(row["raw_row_count"])
+    source_columns = int(row["source_column_count"])
+    interval_minutes = int(row["expected_frequency_minutes"])
+    silver_rows = int(row["silver_row_count"])
+    silver_columns = int(row["silver_column_count"])
+    quality_exceptions = int(row["dq_any_count"])
+    raw_hash = str(row["raw_csv_sha256"])[:12]
+
+    stages = [
+        (
+            "Official source",
+            [
+                f"Dataset {dataset_id}",
+                f"{raw_rows:,} rows",
+                f"{source_columns} source fields",
+                license_name,
+            ],
+            PALETTE["navy"],
+        ),
+        (
+            "Immutable raw layer",
+            [
+                "Source order preserved",
+                f"SHA256 {raw_hash}...",
+                "No sorting or imputation",
+                "Licensed public evidence",
+            ],
+            PALETTE["blue"],
+        ),
+        (
+            "Source-aware chronology",
+            [
+                f"{interval_minutes}-minute intervals",
+                "Operational midnight corrected",
+                "Continuous effective time",
+                "Future values excluded",
+            ],
+            PALETTE["teal"],
+        ),
+        (
+            "Governed Silver layer",
+            [
+                f"{silver_rows:,} rows",
+                f"{silver_columns} analytical fields",
+                f"{quality_exceptions} quality exceptions",
+                "No supervised targets stored",
+            ],
+            PALETTE["amber"],
+        ),
+        (
+            "Evidence synthesis",
+            [
+                f"{len(sources)} governed inputs",
+                f"{len(generated)} final tables",
+                "Deterministic serialization",
+                "Reporting downstream only",
+            ],
+            PALETTE["vermillion"],
+        ),
+    ]
 
     with publication_style():
-        fig = plt.figure(figsize=(11, 6.4))
-        grid = GridSpec(2, 3, figure=fig, width_ratios=[4.8, 1.55, 1.55], height_ratios=[3.5, 1.35], hspace=0.35, wspace=0.35)
-        ax_heat = fig.add_subplot(grid[:, 0])
-        ax_hour = fig.add_subplot(grid[0, 1:])
-        ax_day = fig.add_subplot(grid[1, 1:])
+        fig, ax = plt.subplots(figsize=(11.2, 6.4))
         add_figure_header(
             fig,
-            "Industrial load structure",
-            "Average energy intensity by weekday and hour, with marginal operating profiles.",
+            "Governed data and analytical architecture",
+            (
+                "The reporting layer preserves provenance, chronology, "
+                "quality controls, and separation from confirmatory "
+                "model execution."
+            ),
+        )
+        ax.axis("off")
+
+        x_positions = [0.025, 0.22, 0.415, 0.61, 0.805]
+
+        for index, (stage, x) in enumerate(
+            zip(stages, x_positions, strict=True)
+        ):
+            title, lines, accent = stage
+            _architecture_box(
+                ax,
+                x=x,
+                title=title,
+                lines=lines,
+                accent=accent,
+            )
+
+            if index < len(stages) - 1:
+                arrow = FancyArrowPatch(
+                    (x + 0.173, 0.635),
+                    (x_positions[index + 1] - 0.004, 0.635),
+                    transform=ax.transAxes,
+                    arrowstyle="-|>",
+                    mutation_scale=10,
+                    linewidth=1.0,
+                    color=PALETTE["slate"],
+                )
+                ax.add_patch(arrow)
+
+        controls_text = (
+            "CONTROL BOUNDARY\n"
+            "Raw source unchanged   |   "
+            "No future targets in Silver   |   "
+            "Locked prediction rows not parsed   |   "
+            "No model fitting in reporting"
+        )
+        ax.text(
+            0.5,
+            0.20,
+            controls_text,
+            transform=ax.transAxes,
+            ha="center",
+            va="center",
+            fontsize=8.0,
+            fontweight="bold",
+            linespacing=1.5,
+            color=PALETTE["navy"],
+            bbox={
+                "boxstyle": "round,pad=0.55",
+                "facecolor": PALETTE["light"],
+                "edgecolor": PALETTE["grid"],
+            },
         )
 
-        cmap = LinearSegmentedColormap.from_list("industrial_load", [PALETTE["light"], PALETTE["blue"], PALETTE["navy"]])
-        image = ax_heat.imshow(pivot.to_numpy(), aspect="auto", cmap=cmap, interpolation="nearest")
-        ax_heat.set_yticks(range(7), labels=weekday_labels)
-        ax_heat.set_xticks(range(0, 24, 3), labels=[f"{hour:02d}:00" for hour in range(0, 24, 3)])
-        ax_heat.set_xlabel("Hour of day")
-        ax_heat.set_ylabel("Weekday")
-        colorbar = fig.colorbar(image, ax=ax_heat, fraction=0.035, pad=0.025)
-        colorbar.set_label("Average energy demand", fontsize=8)
-
-        hours = np.arange(24)
-        ax_hour.plot(hours, hourly["mean"], color=PALETTE["navy"], linewidth=2.0)
-        ax_hour.fill_between(
-            hours,
-            hourly["mean"] - hourly["std"].fillna(0),
-            hourly["mean"] + hourly["std"].fillna(0),
-            color=PALETTE["blue"],
-            alpha=0.15,
-            linewidth=0,
+        fig.subplots_adjust(
+            left=0.04,
+            right=0.985,
+            top=0.86,
+            bottom=0.09,
         )
-        ax_hour.set_title("Intraday profile", loc="left", fontsize=10)
-        ax_hour.set_xlim(0, 23)
-        ax_hour.set_ylabel("Energy demand")
-        style_axis(ax_hour)
-
-        ax_day.barh(weekday_labels, daily.to_numpy(), color=PALETTE["teal"], alpha=0.88)
-        ax_day.set_title("Weekday concentration", loc="left", fontsize=10)
-        ax_day.set_xlabel("Average energy demand")
-        style_axis(ax_day, grid_axis="x")
-        fig.subplots_adjust(left=0.075, right=0.98, top=0.86, bottom=0.105)
         return save_publication_figure(
             fig,
             output_path,
             figure_id="Figure 2",
             source=source,
             sample=sample,
+            evidence_id=evidence_id,
         )
 
 
-def plot_model_validation_dashboard(
-    folds: pd.DataFrame,
-    calibration: pd.DataFrame,
+def plot_model_ladder_chronological_validation(
+    ladder: pd.DataFrame,
     output_path: Path,
     *,
     source: str,
     sample: str,
-    model: str = "model",
-    fold: str = "fold",
-    metric_value: str = "metric_value",
-    probability: str = "probability",
-    target: str = "target",
+    evidence_id: str,
 ) -> Path:
-    _require_frame(folds, [model, fold, metric_value], "chronological fold results")
-    _require_frame(calibration, [probability, target], "probability calibration")
-    matrix = folds.pivot_table(index=model, columns=fold, values=metric_value, aggfunc="mean")
-    matrix = matrix.sort_index()
-    mean_score = matrix.mean(axis=1)
-    worst_score = matrix.max(axis=1)
-
-    bins = np.linspace(0, 1, 11)
-    calibrated = calibration.copy()
-    calibrated["_bin"] = pd.cut(calibrated[probability], bins=bins, include_lowest=True, duplicates="drop")
-    grouped = calibrated.groupby("_bin", observed=True).agg(
-        predicted=(probability, "mean"), observed=(target, "mean"), count=(target, "size")
+    _require_frame(
+        ladder,
+        [
+            "model",
+            "mean_validation_mae",
+            "mean_peak_state_mae",
+            "worst_fold_mae",
+            "relative_mae_improvement_vs_persistence",
+            "promotion_decision",
+            "validation_fold_count",
+            "validation_origin_count",
+            "locked_test_used_for_selection",
+        ],
+        "model ladder",
     )
-    brier = float(np.mean((calibrated[probability].to_numpy() - calibrated[target].to_numpy()) ** 2))
+
+    data = _numeric(
+        ladder,
+        [
+            "mean_validation_mae",
+            "mean_peak_state_mae",
+            "worst_fold_mae",
+            "relative_mae_improvement_vs_persistence",
+            "validation_fold_count",
+            "validation_origin_count",
+        ],
+        "model ladder",
+    )
+
+    expected_models = {
+        "persistence",
+        "ridge",
+        "elastic_net",
+        "hist_gradient_boosting",
+    }
+    if set(data["model"]) != expected_models:
+        raise ValueError("Unexpected model ladder membership")
+
+    if any(
+        _truthy(value)
+        for value in data["locked_test_used_for_selection"]
+    ):
+        raise ValueError("Locked test was used for model selection")
+
+    if data["validation_fold_count"].nunique() != 1:
+        raise ValueError("Validation fold count is inconsistent")
+    if data["validation_origin_count"].nunique() != 1:
+        raise ValueError("Validation origin count is inconsistent")
+
+    order = [
+        "hist_gradient_boosting",
+        "persistence",
+        "ridge",
+        "elastic_net",
+    ]
+    data = data.set_index("model").loc[order].reset_index()
+    labels = [_model_label(value) for value in data["model"]]
+    colors = [
+        PALETTE["teal"],
+        PALETTE["slate"],
+        PALETTE["amber"],
+        PALETTE["vermillion"],
+    ]
+    positions = np.arange(len(data))[::-1]
 
     with publication_style():
-        fig = plt.figure(figsize=(11, 6.4))
-        grid = GridSpec(2, 3, figure=fig, width_ratios=[3.9, 1.7, 2.4], height_ratios=[3.3, 1.3], hspace=0.38, wspace=0.42)
-        ax_matrix = fig.add_subplot(grid[:, 0])
-        ax_summary = fig.add_subplot(grid[0, 1])
-        ax_cal = fig.add_subplot(grid[0, 2])
-        ax_count = fig.add_subplot(grid[1, 1:])
+        fig = plt.figure(figsize=(11.2, 6.4))
+        grid = GridSpec(
+            1,
+            2,
+            figure=fig,
+            width_ratios=[1.0, 1.0],
+            wspace=0.32,
+        )
+        ax_mean = fig.add_subplot(grid[0, 0])
+        ax_peak = fig.add_subplot(grid[0, 1])
+
         add_figure_header(
             fig,
-            "Chronological model validation",
-            "Fold-level robustness, average-versus-worst performance, and peak-risk probability calibration.",
+            "Model ladder and chronological validation",
+            (
+                "Four expanding-window folds selected the nonlinear "
+                "candidate using validation evidence only. The locked "
+                "test was excluded from model choice."
+            ),
         )
 
-        heatmap = ax_matrix.imshow(matrix.to_numpy(), aspect="auto", cmap="RdYlGn_r", interpolation="nearest")
-        ax_matrix.set_yticks(range(len(matrix.index)), labels=matrix.index)
-        ax_matrix.set_xticks(range(len(matrix.columns)), labels=matrix.columns, rotation=35, ha="right")
-        ax_matrix.set_xlabel("Chronological validation fold")
-        ax_matrix.set_ylabel("Candidate model")
-        fig.colorbar(heatmap, ax=ax_matrix, fraction=0.04, pad=0.025, label="Error metric")
+        mean_values = data["mean_validation_mae"].to_numpy(dtype=float)
+        mean_bars = ax_mean.barh(
+            positions,
+            mean_values,
+            color=colors,
+            height=0.58,
+        )
+        mean_max = float(mean_values.max())
 
-        y = np.arange(len(matrix.index))
-        ax_summary.hlines(y, mean_score, worst_score, color=PALETTE["grid"], linewidth=2.4)
-        ax_summary.scatter(mean_score, y, color=PALETTE["teal"], s=38, label="Mean")
-        ax_summary.scatter(worst_score, y, color=PALETTE["vermillion"], s=38, marker="D", label="Worst")
-        ax_summary.set_yticks(y, labels=[])
-        ax_summary.set_title("Robustness spread", loc="left", fontsize=10)
-        ax_summary.set_xlabel("Error metric")
-        style_axis(ax_summary, grid_axis="x")
-        ax_summary.legend(loc="lower right")
+        for row_index, (bar, value) in enumerate(
+            zip(mean_bars, mean_values, strict=True)
+        ):
+            relative = float(
+                data.iloc[row_index][
+                    "relative_mae_improvement_vs_persistence"
+                ]
+            )
+            weight = (
+                "bold"
+                if data.iloc[row_index]["model"]
+                == "hist_gradient_boosting"
+                else "normal"
+            )
+            ax_mean.text(
+                value + mean_max * 0.025,
+                bar.get_y() + bar.get_height() / 2,
+                f"{value:.2f}  |  {_relative_label(relative)}",
+                va="center",
+                fontsize=7.7,
+                fontweight=weight,
+            )
 
-        ax_cal.plot([0, 1], [0, 1], color=PALETTE["slate"], linestyle="--", linewidth=1.0)
-        ax_cal.plot(grouped["predicted"], grouped["observed"], color=PALETTE["navy"], marker="o", markersize=4.5)
-        ax_cal.set_xlim(0, 1)
-        ax_cal.set_ylim(0, 1)
-        ax_cal.set_title("Peak-risk calibration", loc="left", fontsize=10)
-        ax_cal.set_xlabel("Predicted probability")
-        ax_cal.set_ylabel("Observed frequency")
-        ax_cal.text(0.04, 0.91, f"Brier score: {_metric_text(brier, 3)}", transform=ax_cal.transAxes, fontsize=8)
-        style_axis(ax_cal)
+        persistence_mean = float(
+            data.loc[
+                data["model"] == "persistence",
+                "mean_validation_mae",
+            ].iloc[0]
+        )
+        ax_mean.axvline(
+            persistence_mean,
+            color=PALETTE["slate"],
+            linestyle="--",
+            linewidth=1.0,
+        )
+        ax_mean.set_yticks(positions, labels=labels)
+        ax_mean.set_xlim(0, mean_max * 1.52)
+        ax_mean.set_xlabel("Mean validation MAE, kWh")
+        ax_mean.set_title("Aggregate validation", loc="left")
+        style_axis(ax_mean, grid_axis="x")
 
-        ax_count.bar(grouped["predicted"], grouped["count"], width=0.065, color=PALETTE["blue"], alpha=0.78)
-        ax_count.set_title("Calibration-bin support", loc="left", fontsize=10)
-        ax_count.set_xlabel("Mean predicted probability")
-        ax_count.set_ylabel("Observations")
-        style_axis(ax_count)
-        fig.subplots_adjust(left=0.08, right=0.98, top=0.86, bottom=0.12)
+        peak_values = data["mean_peak_state_mae"].to_numpy(dtype=float)
+        worst_values = data["worst_fold_mae"].to_numpy(dtype=float)
+        peak_bars = ax_peak.barh(
+            positions,
+            peak_values,
+            color=colors,
+            height=0.58,
+            alpha=0.9,
+        )
+        peak_max = float(peak_values.max())
+
+        for bar, peak_value, worst_value in zip(
+            peak_bars,
+            peak_values,
+            worst_values,
+            strict=True,
+        ):
+            ax_peak.text(
+                peak_value + peak_max * 0.02,
+                bar.get_y() + bar.get_height() / 2,
+                f"Peak {peak_value:.2f}  |  Worst fold {worst_value:.2f}",
+                va="center",
+                fontsize=7.5,
+            )
+
+        ax_peak.set_yticks(positions, labels=[])
+        ax_peak.set_xlim(0, peak_max * 1.56)
+        ax_peak.set_xlabel("Mean peak-state MAE, kWh")
+        ax_peak.set_title(
+            "Peak-state and worst-fold evidence",
+            loc="left",
+        )
+        style_axis(ax_peak, grid_axis="x")
+
+        fold_count = int(data["validation_fold_count"].iloc[0])
+        origin_count = int(data["validation_origin_count"].iloc[0])
+        fig.text(
+            0.055,
+            0.082,
+            (
+                f"SELECTION CONTROL   {fold_count} chronological folds  |  "
+                f"{origin_count:,} validation origins  |  "
+                "locked test used for selection: no"
+            ),
+            fontsize=8.1,
+            fontweight="bold",
+            color=PALETTE["navy"],
+        )
+
+        fig.subplots_adjust(
+            left=0.17,
+            right=0.98,
+            top=0.84,
+            bottom=0.17,
+        )
         return save_publication_figure(
             fig,
             output_path,
             figure_id="Figure 3",
             source=source,
             sample=sample,
+            evidence_id=evidence_id,
         )
 
 
-def plot_drift_optimization_dashboard(
-    drift: pd.DataFrame,
-    frontier: pd.DataFrame,
+def plot_locked_test_temporal_stability(
+    blocks: pd.DataFrame,
+    confirmatory: pd.DataFrame,
     output_path: Path,
     *,
     source: str,
     sample: str,
-    timestamp: str = "timestamp",
-    drift_score: str = "drift_score",
-    disagreement: str = "forecast_disagreement",
-    state: str = "decision_state",
-    cost: str = "expected_cost",
-    peak_exposure: str = "peak_exposure",
-    disruption: str = "schedule_disruption",
-    selected: str = "selected",
+    evidence_id: str,
 ) -> Path:
-    _require_frame(drift, [timestamp, drift_score, disagreement, state], "drift history")
-    _require_frame(frontier, [cost, peak_exposure, disruption, selected], "optimization frontier")
-    timeline = drift.sort_values(timestamp).copy()
-    x = _datetime(timeline, timestamp)
+    _require_frame(
+        blocks,
+        [
+            "block_id",
+            "origin_start",
+            "origin_stop_exclusive",
+            "origin_count",
+            "candidate_mae",
+            "persistence_mae",
+            "relative_mae_improvement",
+        ],
+        "temporal blocks",
+    )
+    _require_frame(
+        confirmatory,
+        [
+            "metric_scope",
+            "candidate_mae",
+            "reference_mae",
+            "relative_mae_improvement",
+            "origin_count",
+            "peak_threshold_kwh",
+        ],
+        "confirmatory metrics",
+    )
+
+    temporal = _numeric(
+        blocks,
+        [
+            "block_id",
+            "origin_start",
+            "origin_stop_exclusive",
+            "origin_count",
+            "candidate_mae",
+            "persistence_mae",
+            "relative_mae_improvement",
+        ],
+        "temporal blocks",
+    ).sort_values("block_id")
+
+    metrics = _numeric(
+        confirmatory,
+        [
+            "candidate_mae",
+            "reference_mae",
+            "relative_mae_improvement",
+            "origin_count",
+        ],
+        "confirmatory metrics",
+    ).set_index("metric_scope")
+
+    if len(temporal) != 4:
+        raise ValueError("Exactly four temporal blocks are required")
+    if temporal["origin_count"].nunique() != 1:
+        raise ValueError("Temporal blocks must have equal origin counts")
+    if set(metrics.index) != {"aggregate", "peak_state"}:
+        raise ValueError("Unexpected confirmatory metric scopes")
+
+    peak_threshold = float(
+        confirmatory.loc[
+            confirmatory["metric_scope"] == "peak_state",
+            "peak_threshold_kwh",
+        ].iloc[0]
+    )
 
     with publication_style():
-        fig = plt.figure(figsize=(11, 6.4))
-        grid = GridSpec(2, 2, figure=fig, width_ratios=[3.25, 2.1], height_ratios=[2.1, 1.45], hspace=0.35, wspace=0.34)
-        ax_drift = fig.add_subplot(grid[0, 0])
-        ax_disagree = fig.add_subplot(grid[1, 0], sharex=ax_drift)
-        ax_frontier = fig.add_subplot(grid[:, 1])
+        fig = plt.figure(figsize=(11.2, 6.4))
+        grid = GridSpec(
+            2,
+            2,
+            figure=fig,
+            height_ratios=[1.55, 0.85],
+            width_ratios=[1.35, 1.0],
+            hspace=0.44,
+            wspace=0.34,
+        )
+        ax_blocks = fig.add_subplot(grid[0, :])
+        ax_metrics = fig.add_subplot(grid[1, 0])
+        ax_boundary = fig.add_subplot(grid[1, 1])
+
         add_figure_header(
             fig,
-            "Structural drift and constrained operating frontier",
-            "Adapt only when predictive structure moves materially and a feasible decision improves the locked objective.",
+            "Locked-test temporal stability",
+            (
+                "The frozen model retained lower MAE in all four equal, "
+                "prespecified blocks and during the governed peak state."
+            ),
         )
 
-        ax_drift.plot(x, timeline[drift_score], color=PALETTE["navy"], linewidth=1.8)
-        ax_drift.axhline(0.6, color=PALETTE["amber"], linestyle="--", linewidth=1.0, label="Watch threshold")
-        ax_drift.axhline(0.8, color=PALETTE["vermillion"], linestyle="--", linewidth=1.0, label="Adaptation threshold")
-        ax_drift.fill_between(x, 0.8, timeline[drift_score], where=timeline[drift_score] >= 0.8, color=PALETTE["vermillion"], alpha=0.16)
-        ax_drift.set_ylabel("Normalized drift score")
-        ax_drift.set_ylim(bottom=0)
-        style_axis(ax_drift)
-        ax_drift.legend(loc="upper left", ncols=2)
+        x = np.arange(len(temporal))
+        candidate = temporal["candidate_mae"].to_numpy(dtype=float)
+        reference = temporal["persistence_mae"].to_numpy(dtype=float)
+        improvement = temporal["relative_mae_improvement"].to_numpy(
+            dtype=float
+        )
 
-        ax_disagree.plot(x, timeline[disagreement], color=PALETTE["teal"], linewidth=1.55)
-        ax_disagree.set_ylabel("Forecast disagreement")
-        ax_disagree.set_xlabel("Time")
-        ax_disagree.xaxis.set_major_locator(mdates.AutoDateLocator(minticks=4, maxticks=7))
-        ax_disagree.xaxis.set_major_formatter(mdates.ConciseDateFormatter(ax_disagree.xaxis.get_major_locator()))
-        style_axis(ax_disagree)
-        plt.setp(ax_drift.get_xticklabels(), visible=False)
+        ax_blocks.plot(
+            x,
+            candidate,
+            marker="o",
+            markersize=7,
+            color=PALETTE["teal"],
+            label="Frozen HGB",
+        )
+        ax_blocks.plot(
+            x,
+            reference,
+            marker="o",
+            markersize=7,
+            color=PALETTE["slate"],
+            label="Persistence",
+        )
 
-        sizes = 45 + 160 * (frontier[disruption] - frontier[disruption].min()) / max(
-            frontier[disruption].max() - frontier[disruption].min(), 1e-12
+        for position in range(len(temporal)):
+            ax_blocks.fill_between(
+                [position - 0.08, position + 0.08],
+                [candidate[position], candidate[position]],
+                [reference[position], reference[position]],
+                color=PALETTE["teal"],
+                alpha=0.15,
+            )
+            ax_blocks.text(
+                position,
+                reference[position] + 0.28,
+                f"{improvement[position]:.1%} lower",
+                ha="center",
+                fontsize=8.2,
+                fontweight="bold",
+                color=PALETTE["teal"],
+            )
+
+        ax_blocks.set_xticks(
+            x,
+            labels=[
+                f"Block {int(value)}\n{int(count):,} origins"
+                for value, count in zip(
+                    temporal["block_id"],
+                    temporal["origin_count"],
+                    strict=True,
+                )
+            ],
         )
-        scatter = ax_frontier.scatter(
-            frontier[peak_exposure],
-            frontier[cost],
-            c=frontier[disruption],
-            s=sizes,
-            cmap="viridis",
-            alpha=0.72,
-            edgecolors=PALETTE["white"],
-            linewidths=0.7,
+        ax_blocks.set_ylabel("MAE, kWh")
+        ax_blocks.set_title(
+            "Candidate and reference performance by locked block",
+            loc="left",
         )
-        chosen = frontier[frontier[selected].astype(bool)]
-        if len(chosen) != 1:
-            raise ValueError("Optimization frontier must contain exactly one selected operating point")
-        ax_frontier.scatter(
-            chosen[peak_exposure],
-            chosen[cost],
-            s=165,
-            facecolors="none",
-            edgecolors=PALETTE["vermillion"],
-            linewidths=2.0,
-            label="Selected point",
+        ax_blocks.legend(loc="upper right", ncols=2)
+        ax_blocks.set_ylim(0, float(reference.max()) * 1.23)
+        style_axis(ax_blocks)
+
+        aggregate = metrics.loc["aggregate"]
+        peak = metrics.loc["peak_state"]
+
+        ax_metrics.axis("off")
+        ax_metrics.text(
+            0.0,
+            0.96,
+            "Confirmatory summary",
+            transform=ax_metrics.transAxes,
+            va="top",
+            fontsize=10,
+            fontweight="bold",
         )
-        ax_frontier.set_title("Feasible operating frontier", loc="left", fontsize=10)
-        ax_frontier.set_xlabel("Peak exposure")
-        ax_frontier.set_ylabel("Expected cost")
-        style_axis(ax_frontier)
-        fig.colorbar(scatter, ax=ax_frontier, fraction=0.05, pad=0.03, label="Schedule disruption")
-        ax_frontier.legend(loc="best")
-        fig.subplots_adjust(left=0.075, right=0.98, top=0.86, bottom=0.115)
+        ax_metrics.text(
+            0.0,
+            0.68,
+            f"{float(aggregate['relative_mae_improvement']):.1%}",
+            transform=ax_metrics.transAxes,
+            fontsize=21,
+            fontweight="bold",
+            color=PALETTE["teal"],
+        )
+        ax_metrics.text(
+            0.0,
+            0.48,
+            (
+                "aggregate MAE reduction\n"
+                f"{int(aggregate['origin_count']):,} confirmatory origins"
+            ),
+            transform=ax_metrics.transAxes,
+            fontsize=8.2,
+            linespacing=1.35,
+        )
+        ax_metrics.text(
+            0.58,
+            0.68,
+            f"{float(peak['relative_mae_improvement']):.1%}",
+            transform=ax_metrics.transAxes,
+            fontsize=21,
+            fontweight="bold",
+            color=PALETTE["teal"],
+        )
+        ax_metrics.text(
+            0.58,
+            0.48,
+            (
+                "peak-state MAE reduction\n"
+                f"{int(peak['origin_count']):,} governed rows"
+            ),
+            transform=ax_metrics.transAxes,
+            fontsize=8.2,
+            linespacing=1.35,
+        )
+
+        first = temporal.iloc[0]
+        last = temporal.iloc[-1]
+        origin_start = int(first["origin_start"])
+        origin_stop = int(last["origin_stop_exclusive"]) - 1
+        block_size = int(first["origin_count"])
+
+        ax_boundary.axis("off")
+        ax_boundary.text(
+            0.0,
+            0.96,
+            "Locked evaluation boundary",
+            transform=ax_boundary.transAxes,
+            va="top",
+            fontsize=10,
+            fontweight="bold",
+        )
+
+        boundary_lines = [
+            f"Evaluation origins: {origin_start:,} to {origin_stop:,}",
+            f"Four equal blocks: {block_size:,} origins each",
+            f"Peak threshold: {peak_threshold:.2f} kWh",
+            "Evaluation count: one",
+        ]
+
+        for line_index, line in enumerate(boundary_lines):
+            ax_boundary.text(
+                0.0,
+                0.69 - line_index * 0.17,
+                line,
+                transform=ax_boundary.transAxes,
+                fontsize=8.5,
+                color=PALETTE["muted"],
+            )
+
+        fig.subplots_adjust(
+            left=0.075,
+            right=0.98,
+            top=0.84,
+            bottom=0.12,
+        )
         return save_publication_figure(
             fig,
             output_path,
             figure_id="Figure 4",
             source=source,
             sample=sample,
+            evidence_id=evidence_id,
         )
 
 
-def plot_business_impact_governance(
-    impact: pd.DataFrame,
-    evidence: pd.DataFrame,
+def plot_evidence_governance_model_boundaries(
+    lineage: pd.DataFrame,
+    manifest: Mapping[str, Any],
     output_path: Path,
     *,
     source: str,
     sample: str,
-    component: str = "component",
-    value: str = "value",
-    evidence_stage: str = "stage",
-    evidence_status: str = "status",
+    evidence_id: str,
 ) -> Path:
-    _require_frame(impact, [component, value], "business impact bridge")
-    _require_frame(evidence, [evidence_stage, evidence_status], "evidence lineage")
-    values = impact[value].astype(float).to_numpy()
-    starts = np.r_[0.0, np.cumsum(values)[:-1]]
-    totals = np.cumsum(values)
-    colors = [PALETTE["teal"] if item >= 0 else PALETTE["vermillion"] for item in values]
+    _require_frame(
+        lineage,
+        [
+            "sequence",
+            "governance_gate",
+            "artifact_role",
+            "status",
+            "decision",
+            "sha256",
+        ],
+        "evidence lineage",
+    )
+
+    data = _numeric(
+        lineage,
+        ["sequence"],
+        "evidence lineage",
+    ).sort_values("sequence")
+    controls = manifest.get("controls", {})
+
+    if len(data) != 8:
+        raise ValueError(
+            "Evidence lineage must contain eight governed records"
+        )
+    if controls.get("second_locked_test_evaluation_performed") is not False:
+        raise ValueError("Second-evaluation control is not closed")
+    if controls.get("model_fitting_performed") is not False:
+        raise ValueError("Reporting model-fitting control is not closed")
+    if controls.get("evaluator_invoked") is not False:
+        raise ValueError("Evaluator invocation control is not closed")
+
+    positive_decisions = {
+        "promoted",
+        "model_frozen",
+        "success",
+        "confirmatory_metrics_recorded",
+        "single_evaluation_consumed",
+        "persistence_reference_locked",
+    }
 
     with publication_style():
-        fig = plt.figure(figsize=(11, 6.4))
-        grid = GridSpec(1, 2, figure=fig, width_ratios=[3.6, 2.1], wspace=0.38)
-        ax_bridge = fig.add_subplot(grid[0, 0])
-        ax_evidence = fig.add_subplot(grid[0, 1])
+        fig = plt.figure(figsize=(11.2, 6.4))
+        grid = GridSpec(
+            1,
+            2,
+            figure=fig,
+            width_ratios=[1.4, 1.0],
+            wspace=0.28,
+        )
+        ax_lineage = fig.add_subplot(grid[0, 0])
+        ax_controls = fig.add_subplot(grid[0, 1])
+
         add_figure_header(
             fig,
-            "Assumption-bounded impact and evidence governance",
-            "Measured outputs, derived scenario effects, and human authorization remain visibly separated.",
+            "Evidence governance and model boundaries",
+            (
+                "Every public claim is tied to a governed artifact, "
+                "while operational and causal claims remain outside "
+                "the validated scope."
+            ),
         )
 
-        positions = np.arange(len(values))
-        ax_bridge.bar(positions, values, bottom=starts, color=colors, width=0.68, alpha=0.9)
-        ax_bridge.plot(positions, totals, color=PALETTE["ink"], linewidth=1.2, marker="o", markersize=3.5)
-        ax_bridge.axhline(0, color=PALETTE["ink"], linewidth=0.8)
-        ax_bridge.set_xticks(positions, labels=impact[component], rotation=25, ha="right")
-        ax_bridge.set_ylabel("Illustrative value under stated assumptions")
-        ax_bridge.set_title("Impact bridge", loc="left", fontsize=10)
-        style_axis(ax_bridge)
-        for x_pos, start, increment in zip(positions, starts, values, strict=True):
-            ax_bridge.text(
-                x_pos,
-                start + increment / 2,
-                _metric_text(increment, 1),
-                ha="center",
+        positions = np.arange(len(data))[::-1]
+        ax_lineage.vlines(
+            0.08,
+            positions.min(),
+            positions.max(),
+            color=PALETTE["grid"],
+            linewidth=2.0,
+        )
+
+        for y_value, (_, row) in zip(
+            positions,
+            data.iterrows(),
+            strict=True,
+        ):
+            decision = str(row["decision"])
+            color = (
+                PALETTE["teal"]
+                if decision in positive_decisions
+                else PALETTE["slate"]
+            )
+            role = str(row["artifact_role"]).replace("_", " ").title()
+            hash_prefix = str(row["sha256"])[:12]
+            decision_label = decision.replace("_", " ")
+
+            ax_lineage.scatter(
+                0.08,
+                y_value,
+                s=82,
+                color=color,
+                edgecolor=PALETTE["white"],
+                linewidth=0.8,
+                zorder=3,
+            )
+            ax_lineage.text(
+                0.0,
+                y_value,
+                str(row["governance_gate"]),
+                ha="right",
                 va="center",
-                fontsize=7.5,
-                color=PALETTE["white"] if abs(increment) > 0 else PALETTE["ink"],
+                fontsize=8.2,
+                fontweight="bold",
+                color=PALETTE["navy"],
+            )
+            ax_lineage.text(
+                0.14,
+                y_value + 0.14,
+                role,
+                ha="left",
+                va="center",
+                fontsize=8.5,
+                fontweight="bold",
+            )
+            ax_lineage.text(
+                0.14,
+                y_value - 0.14,
+                f"{decision_label}  |  sha256 {hash_prefix}...",
+                ha="left",
+                va="center",
+                fontsize=7.2,
+                color=PALETTE["muted"],
             )
 
-        status_order = {"passed": 2, "review": 1, "blocked": 0}
-        status_colors = {"passed": PALETTE["teal"], "review": PALETTE["amber"], "blocked": PALETTE["vermillion"]}
-        evidence_data = evidence.copy()
-        evidence_data["_status"] = evidence_data[evidence_status].astype(str).str.lower()
-        unknown = sorted(set(evidence_data["_status"]) - set(status_order))
-        if unknown:
-            raise ValueError(f"Unknown evidence statuses: {unknown}")
-        y = np.arange(len(evidence_data))[::-1]
-        ax_evidence.hlines(y, 0, 1, color=PALETTE["grid"], linewidth=1.2)
-        for y_pos, (_, row) in zip(y, evidence_data.iterrows(), strict=True):
-            status_value = row["_status"]
-            ax_evidence.scatter(0.93, y_pos, s=90, color=status_colors[status_value])
-            ax_evidence.text(0.02, y_pos, str(row[evidence_stage]), va="center", fontsize=8.5)
-            ax_evidence.text(0.88, y_pos, status_value.upper(), va="center", ha="right", fontsize=7, color=PALETTE["muted"])
-        ax_evidence.set_xlim(0, 1)
-        ax_evidence.set_ylim(-0.7, len(evidence_data) - 0.3)
-        ax_evidence.set_title("Evidence and approval state", loc="left", fontsize=10)
-        ax_evidence.axis("off")
-        fig.subplots_adjust(left=0.075, right=0.98, top=0.86, bottom=0.17)
+        ax_lineage.set_xlim(-0.03, 1.0)
+        ax_lineage.set_ylim(-0.6, len(data) - 0.4)
+        ax_lineage.set_title(
+            "Gate 4B to Gate 4F evidence lineage",
+            loc="left",
+        )
+        ax_lineage.axis("off")
+
+        ax_controls.axis("off")
+        ax_controls.text(
+            0.0,
+            0.98,
+            "Closed controls",
+            transform=ax_controls.transAxes,
+            va="top",
+            fontsize=10,
+            fontweight="bold",
+        )
+
+        closed_controls = [
+            "Single locked evaluation consumed",
+            "Second locked evaluation prohibited",
+            "Locked prediction rows not parsed",
+            "No model fitting or re-estimation",
+            "Evaluator not imported or invoked",
+            "Terminal artifact hashes preserved",
+        ]
+
+        for control_index, text in enumerate(closed_controls):
+            y_position = 0.88 - control_index * 0.095
+            ax_controls.scatter(
+                0.025,
+                y_position,
+                s=46,
+                color=PALETTE["teal"],
+                transform=ax_controls.transAxes,
+            )
+            ax_controls.text(
+                0.075,
+                y_position,
+                text,
+                transform=ax_controls.transAxes,
+                va="center",
+                fontsize=8.2,
+            )
+
+        ax_controls.text(
+            0.0,
+            0.28,
+            "Outside validated scope",
+            transform=ax_controls.transAxes,
+            va="top",
+            fontsize=10,
+            fontweight="bold",
+        )
+
+        outside_scope = [
+            "Structural drift conclusions",
+            "Optimization recommendations",
+            "Savings or business-impact estimates",
+            "Causal effects",
+            "Live production performance",
+        ]
+        outside_text = "\n".join(
+            f"- {item}"
+            for item in outside_scope
+        )
+        ax_controls.text(
+            0.0,
+            0.21,
+            outside_text,
+            transform=ax_controls.transAxes,
+            va="top",
+            fontsize=8.2,
+            linespacing=1.55,
+            color=PALETTE["muted"],
+            bbox={
+                "boxstyle": "round,pad=0.65",
+                "facecolor": PALETTE["light"],
+                "edgecolor": PALETTE["grid"],
+            },
+        )
+
+        fig.subplots_adjust(
+            left=0.075,
+            right=0.98,
+            top=0.84,
+            bottom=0.12,
+        )
         return save_publication_figure(
             fig,
             output_path,
             figure_id="Figure 5",
             source=source,
             sample=sample,
+            evidence_id=evidence_id,
         )

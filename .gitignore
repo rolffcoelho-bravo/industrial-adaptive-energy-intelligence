@@ -18,6 +18,11 @@ data/processed/*
 # Generated outputs.
 outputs/charts/*
 !outputs/charts/.gitkeep
+!outputs/charts/confirmatory_forecasting_verdict.png
+!outputs/charts/governed_data_architecture.png
+!outputs/charts/model_ladder_chronological_validation.png
+!outputs/charts/locked_test_temporal_stability.png
+!outputs/charts/evidence_governance_model_boundaries.png
 outputs/tables/*
 !outputs/tables/.gitkeep
 outputs/brief/*

@@ -1,17 +1,17 @@
-"""Publication-quality Matplotlib figures for the technical brief."""
+"""Evidence-aligned Matplotlib figures for the technical brief."""
 
 from iaei.visualization.charts import (
-    plot_business_impact_governance,
-    plot_drift_optimization_dashboard,
-    plot_executive_decision_timeline,
-    plot_industrial_load_profile,
-    plot_model_validation_dashboard,
+    plot_confirmatory_forecasting_verdict,
+    plot_evidence_governance_model_boundaries,
+    plot_governed_data_architecture,
+    plot_locked_test_temporal_stability,
+    plot_model_ladder_chronological_validation,
 )
 
 __all__ = [
-    "plot_business_impact_governance",
-    "plot_drift_optimization_dashboard",
-    "plot_executive_decision_timeline",
-    "plot_industrial_load_profile",
-    "plot_model_validation_dashboard",
+    "plot_confirmatory_forecasting_verdict",
+    "plot_evidence_governance_model_boundaries",
+    "plot_governed_data_architecture",
+    "plot_locked_test_temporal_stability",
+    "plot_model_ladder_chronological_validation",
 ]

@@ -1,51 +1,52 @@
 # Visualization standard
 
-The project uses Matplotlib as a decision-support and evidence-governance layer. Every chart must answer a specific forecasting, validation, data, or model-risk question.
+The project uses Matplotlib as an evidence-governance layer. Every figure must answer a specific forecasting, validation, data, or model-risk question.
 
 ## Visual doctrine
 
 - Light background only.
 - Editorial, institutional composition suitable for a five-page technical brief.
 - One dominant message per figure.
-- Real observations and final machine-readable model outputs only.
+- Real observations and final machine-readable evidence only.
 - No synthetic demonstrations, placeholder curves, or visually implied results.
 - Direct labels are preferred over large legends.
-- Units, sample period, source, figure identifier, and generation timestamp are mandatory.
+- Units, sample period, source, figure identifier, and evidence identity are mandatory.
 - Candidate and reference values must remain visually distinguishable.
-- Locked metrics must reconcile exactly with the terminal evidence.
-- No personal name or project publisher label appears inside figures.
+- Locked metrics must reconcile exactly with the committed Gate 5B tables.
+- No personal name or publisher label appears inside figures.
+- Same-environment repeated rendering must reproduce identical PNG bytes.
+- Cross-platform byte identity is not claimed.
 
-## Required decision figures
+## Permitted evidence
+
+The renderer may read only the five committed Gate 5B tables and `outputs/reporting_evidence_manifest.json`.
+
+It must not read locked prediction rows, reconstruct forecasts, fit models, estimate thresholds, define new subgroups, or invoke the retired evaluator.
+
+## Required figures
 
 ### Confirmatory forecasting verdict
 
-A compact executive figure comparing candidate and persistence MAE, aggregate and peak-state improvement, and the four positive temporal-block results. It reports the closed verdict without implying operational intervention.
+Candidate and persistence MAE, aggregate and peak-state improvement, and the four prespecified temporal blocks.
 
 ### Governed data architecture
 
-A provenance and analytical-flow figure presenting the immutable raw snapshot, source-aware chronology, Silver layer, quality controls, modeling evidence, and portable and Databricks execution paths.
+Official source provenance, immutable raw evidence, source-aware chronology, governed Silver construction, and deterministic reporting evidence.
 
 ### Model ladder and chronological validation
 
-A validation figure showing the benchmark and candidate ladder, fold-level performance, promotion decisions, and the boundary between validation-only selection and untouched confirmatory evaluation.
+The formal reference, rejected linear candidates, promoted nonlinear candidate, chronological validation, and validation-only selection.
 
 ### Locked-test temporal stability
 
-A confirmatory figure showing candidate and persistence MAE across the four prespecified temporal blocks, peak-state performance, and exact test boundaries.
+Candidate and persistence MAE across four equal prespecified blocks, peak-state performance, and the exact evaluation boundary.
 
 ### Evidence governance and model boundaries
 
-A governance figure showing decision gates, execution identity, immutable artifact hashes, single-evaluation controls, and claims that remain outside the validated scope.
+Gate lineage, artifact identity, single-evaluation controls, and claims outside the validated scope.
 
-## Quality controls
+## Publication controls
 
-A chart passes the render gate only when:
+A figure passes only when its inputs are committed Gate 5B artifacts, its annotations reconcile with those inputs, its dimensions satisfy the contract, and it has been inspected at full size and PDF size.
 
-1. its input file is final and machine-readable;
-2. its labels contain no placeholder language;
-3. its dimensions and resolution satisfy `configs/visualization_contract.yml`;
-4. every numerical annotation reconciles with the source artifact;
-5. its source note and sample period are present;
-6. its rendering is visually inspected at PDF size;
-7. it does not imply access to proprietary company information;
-8. it does not present drift, optimization, savings, or production claims without approved evidence.
+Figures must not imply structural drift conclusions, optimization recommendations, savings, causal effects, proprietary operations, or live production performance.

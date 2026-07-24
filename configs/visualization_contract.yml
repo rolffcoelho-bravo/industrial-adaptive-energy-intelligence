@@ -1,10 +1,11 @@
 visualization:
   engine: matplotlib
+  backend: Agg
   output_format: png
   dpi: 300
   background: light
   color_accessibility: colorblind_conscious
-  default_dimensions_inches: [11.0, 6.4]
+  default_dimensions_inches: [11.2, 6.4]
   font_family: DejaVu Sans
   minimum_font_size_pt: 8
   title_size_pt: 15
@@ -12,13 +13,22 @@ visualization:
   axis_label_size_pt: 9
   tick_size_pt: 8
   line_width_pt: 1.8
-  grid_alpha: 0.18
+  grid_alpha: 0.25
+  deterministic_png_metadata: true
+  deterministic_scope: same_environment
   footer_required: true
   footer_fields:
     - figure_id
     - source
     - sample
-    - generated_utc
+    - evidence_id
+  permitted_inputs:
+    - outputs/reporting_evidence_manifest.json
+    - outputs/tables/confirmatory_metrics.csv
+    - outputs/tables/data_quality_summary.csv
+    - outputs/tables/model_ladder_summary.csv
+    - outputs/tables/temporal_block_results.csv
+    - outputs/tables/evidence_lineage.csv
   forbid:
     - dark_background
     - three_dimensional_effects
@@ -34,10 +44,10 @@ visualization:
   brief_figures:
     page_1:
       filename: confirmatory_forecasting_verdict.png
-      purpose: Candidate-versus-persistence performance, peak-state robustness, and the closed confirmatory verdict.
+      purpose: Candidate versus persistence performance, peak-state robustness, and the closed confirmatory verdict.
     page_2:
       filename: governed_data_architecture.png
-      purpose: Provenance, data quality, analytical-layer construction, and portable execution controls.
+      purpose: Provenance, data quality, analytical-layer construction, and portable evidence controls.
     page_3:
       filename: model_ladder_chronological_validation.png
       purpose: Benchmark evidence, candidate promotion decisions, chronological folds, and validation-only selection.
@@ -56,4 +66,6 @@ visualization:
     source_note_required: true
     units_required: true
     sample_dates_required: true
+    evidence_identity_required: true
     terminal_metric_reconciliation_required: true
+    visual_inspection_required: true

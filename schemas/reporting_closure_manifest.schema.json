@@ -25,9 +25,27 @@
     "canonical_pdf": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["path", "sha256", "size_bytes", "page_count", "page_format", "title", "author"],
+      "required": [
+        "artifact_path",
+        "release_asset_name",
+        "publication_state",
+        "sha256",
+        "size_bytes",
+        "page_count",
+        "page_format",
+        "title",
+        "author"
+      ],
       "properties": {
-        "path": {"const": "reports/industrial_adaptive_energy_intelligence_technical_brief.pdf"},
+        "artifact_path": {
+          "const": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf"
+        },
+        "release_asset_name": {
+          "const": "industrial_adaptive_energy_intelligence_technical_brief.pdf"
+        },
+        "publication_state": {
+          "const": "approved_pending_gate_5e_release"
+        },
         "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
         "size_bytes": {"type": "integer", "minimum": 100000},
         "page_count": {"const": 5},
@@ -41,7 +59,9 @@
       "additionalProperties": false,
       "required": ["path", "sha256", "source_commit"],
       "properties": {
-        "path": {"const": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex"},
+        "path": {
+          "const": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex"
+        },
         "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
         "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
       }
@@ -60,8 +80,13 @@
         "accepted_layout_boundary"
       ],
       "properties": {
-        "approval_path": {"const": "reports/latex/GATE_5D3_VISUAL_APPROVAL.md"},
-        "approval_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "approval_path": {
+          "const": "reports/latex/GATE_5D3_VISUAL_APPROVAL.md"
+        },
+        "approval_commit": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{40}$"
+        },
         "renderer": {"const": "pdftoppm"},
         "dpi": {"const": 200},
         "page_width_pixels": {"const": 1654},
@@ -72,7 +97,10 @@
           "maxItems": 5,
           "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
         },
-        "accepted_layout_boundary": {"type": "string", "minLength": 1}
+        "accepted_layout_boundary": {
+          "type": "string",
+          "minLength": 1
+        }
       }
     },
     "workflow": {
@@ -92,10 +120,22 @@
         "name": {"const": "Build technical brief"},
         "approved_run_id": {"type": "integer", "minimum": 1},
         "approved_artifact_id": {"type": "integer", "minimum": 1},
-        "approved_artifact_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
-        "post_approval_validation_run_id": {"type": "integer", "minimum": 1},
-        "post_approval_validation_artifact_id": {"type": "integer", "minimum": 1},
-        "post_approval_validation_artifact_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "approved_artifact_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
+        "post_approval_validation_run_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "post_approval_validation_artifact_id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "post_approval_validation_artifact_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        },
         "visual_equivalence_across_runs": {"const": true}
       }
     },
@@ -122,7 +162,9 @@
         "report_payload_changed",
         "personal_author_metadata_present",
         "human_visual_approval_recorded",
+        "canonical_pdf_frozen",
         "canonical_pdf_committed",
+        "release_asset_pending",
         "v1_reporting_mutable"
       ],
       "properties": {
@@ -135,7 +177,9 @@
         "report_payload_changed": {"const": false},
         "personal_author_metadata_present": {"const": false},
         "human_visual_approval_recorded": {"const": true},
-        "canonical_pdf_committed": {"const": true},
+        "canonical_pdf_frozen": {"const": true},
+        "canonical_pdf_committed": {"const": false},
+        "release_asset_pending": {"const": true},
         "v1_reporting_mutable": {"const": false}
       }
     },
@@ -154,7 +198,10 @@
     "hashMap": {
       "type": "object",
       "minProperties": 1,
-      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      "additionalProperties": {
+        "type": "string",
+        "pattern": "^[0-9a-f]{64}$"
+      }
     }
   }
 }

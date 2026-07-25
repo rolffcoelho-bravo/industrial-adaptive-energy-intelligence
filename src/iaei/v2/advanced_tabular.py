@@ -333,7 +333,7 @@ def execute_advanced_tabular_gate(root: Path) -> AdvancedTabularArtifacts:
     maximum_dependency_exclusive = int(boundary["maximum_target_dependency_exclusive"])
     if int(fold_payload["test_purge_start"]) != maximum_origin_exclusive:
         raise AdvancedTabularError("Gate 6B prediction boundary differs from the frozen chronology")
-    if int(fold_payload["test_start"]) != maximum_dependency_exclusive:
+    if int(fold_payload["locked_test_start"]) != maximum_dependency_exclusive:
         raise AdvancedTabularError("Gate 6B dependency boundary differs from the frozen chronology")
 
     features = _feature_frame(silver, model_contract)

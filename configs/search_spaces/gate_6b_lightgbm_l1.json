@@ -33,7 +33,7 @@
   "hard_constraints": ["chronology_violation_count", "leakage_violation_count", "locked_test_access_count", "missing_required_artifact_count", "nonfinite_objective_count", "portability_failure_count", "ungoverned_parameter_count"],
   "provenance": {
     "optimization_contract_version": "1.0.0",
-    "code_commit": "f814d022d46a61ede616d6b15da749b7c9f42142",
+    "code_commit": "720b1799420f9e03b1d4123a8267ffa901f29268",
     "created_by_role": "human",
     "human_approved": true,
     "approved_before_execution": true

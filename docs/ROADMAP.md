@@ -74,23 +74,23 @@ Completed evidence:
 
 ### Gate 5E: frozen V1 release closure
 
-**Status:** Next and pending.
+**Status:** Closed.
 
-Required evidence:
+Completed evidence:
 
-- final V1 release manifest;
-- immutable V1 version and Git tag;
+- final schema-validated V1 release manifest;
+- package version `1.0.0` and immutable tag `v1.0.0`;
 - GitHub Release published from synchronized `main`;
 - exact approved canonical PDF attached as a permanent release asset;
 - release asset hash verified against Gate 5D4;
-- payload, tables, figures, source, approval, and closure identities recorded;
-- final CI and report workflow success;
-- V1 immutability statement and release notes;
-- Gate 6A unblocked only after complete verification.
+- payload, tables, figures, source, approval, closure, and locked-test identities recorded;
+- final CI, report, and release workflow success;
+- V1 immutability statement, release notes, and checksum asset;
+- V2 Gate 6A unblocked only after complete verification.
 
 ## V2 architecture after V1 release
 
-V2 remains blocked until Gate 5E closes.
+V1 remains immutable. V2 uses a separate architecture and version sequence.
 
 The approved architectural direction is:
 

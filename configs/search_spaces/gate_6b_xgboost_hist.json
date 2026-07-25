@@ -1,0 +1,41 @@
+{
+  "contract_version": "1.0.0",
+  "gate": "6B",
+  "search_space_id": "gate_6b_xgboost_hist_1.0.0",
+  "candidate_family": "advanced_tabular",
+  "algorithm_id": "xgboost_hist",
+  "data_boundary": {
+    "admissible_partitions": ["training", "validation"],
+    "locked_test_access_permitted": false,
+    "fold_strategy": "nested_expanding_window",
+    "outer_fold_count": 4,
+    "inner_fold_count": 3,
+    "purge_intervals": 4
+  },
+  "parameter_space": [
+    {"name": "n_estimators", "type": "categorical", "required": true, "values": [200, 300, 250, 400]},
+    {"name": "learning_rate", "type": "categorical", "required": true, "values": [0.05, 0.03, 0.05, 0.02]},
+    {"name": "max_depth", "type": "categorical", "required": true, "values": [4, 5, 6, 4]},
+    {"name": "min_child_weight", "type": "categorical", "required": true, "values": [5, 5, 10, 10]},
+    {"name": "subsample", "type": "categorical", "required": true, "values": [0.9, 0.9, 1.0, 1.0]},
+    {"name": "colsample_bytree", "type": "categorical", "required": true, "values": [0.9, 1.0, 0.8, 1.0]},
+    {"name": "reg_lambda", "type": "categorical", "required": true, "values": [1.0, 2.0, 5.0, 10.0]},
+    {"name": "reg_alpha", "type": "categorical", "required": true, "values": [0.0, 0.0, 0.1, 0.1]}
+  ],
+  "budget": {
+    "max_unique_trials": 4,
+    "max_parallel_trials": 1,
+    "max_retries_per_trial": 1,
+    "max_wall_clock_minutes": 120
+  },
+  "seeds": [20260725],
+  "objectives": ["aggregate_mae", "peak_state_mae", "temporal_fold_dispersion", "model_size_bytes", "p95_inference_latency_ms_per_1000_rows", "portability_failure_count"],
+  "hard_constraints": ["chronology_violation_count", "leakage_violation_count", "locked_test_access_count", "missing_required_artifact_count", "nonfinite_objective_count", "portability_failure_count", "ungoverned_parameter_count"],
+  "provenance": {
+    "optimization_contract_version": "1.0.0",
+    "code_commit": "f814d022d46a61ede616d6b15da749b7c9f42142",
+    "created_by_role": "human",
+    "human_approved": true,
+    "approved_before_execution": true
+  }
+}

@@ -127,6 +127,19 @@ def validate_reporting_closure_manifest() -> dict[str, Any]:
     return manifest
 
 
+def validate_v1_release_manifest() -> dict[str, Any]:
+    manifest = load_json(ROOT / "outputs" / "v1_release_manifest.json")
+    schema = load_json(SCHEMAS / "v1_release_manifest.schema.json")
+
+    _validate_payload(
+        manifest,
+        schema,
+        label="Gate 5E V1 release manifest",
+    )
+
+    return manifest
+
+
 def validate_repository_contracts() -> None:
     required_yaml = [
         CONFIGS / "project.yml",
@@ -142,6 +155,7 @@ def validate_repository_contracts() -> None:
     required_json = [
         SCHEMAS / "report_payload.schema.json",
         SCHEMAS / "reporting_closure_manifest.schema.json",
+        SCHEMAS / "v1_release_manifest.schema.json",
         SCHEMAS / "target_contract.schema.json",
         SCHEMAS / "silver_contract.schema.json",
     ]
@@ -161,3 +175,4 @@ def validate_repository_contracts() -> None:
     validate_target_contract()
     validate_silver_contract()
     validate_reporting_closure_manifest()
+    validate_v1_release_manifest()

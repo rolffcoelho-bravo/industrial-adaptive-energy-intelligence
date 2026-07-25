@@ -4,7 +4,9 @@
   "version": "v1",
   "closed_at_utc": "2026-07-25T17:16:04Z",
   "canonical_pdf": {
-    "path": "reports/industrial_adaptive_energy_intelligence_technical_brief.pdf",
+    "artifact_path": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf",
+    "release_asset_name": "industrial_adaptive_energy_intelligence_technical_brief.pdf",
+    "publication_state": "approved_pending_gate_5e_release",
     "sha256": "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3",
     "size_bytes": 1218669,
     "page_count": 5,
@@ -73,7 +75,9 @@
     "report_payload_changed": false,
     "personal_author_metadata_present": false,
     "human_visual_approval_recorded": true,
-    "canonical_pdf_committed": true,
+    "canonical_pdf_frozen": true,
+    "canonical_pdf_committed": false,
+    "release_asset_pending": true,
     "v1_reporting_mutable": false
   },
   "next_gate": "5E"

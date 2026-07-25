@@ -1,0 +1,104 @@
+{
+  "gate": "5E",
+  "status": "closed",
+  "release_version": "1.0.0",
+  "tag": "v1.0.0",
+  "release_name": "Industrial Adaptive Energy Intelligence v1.0.0",
+  "release_base_commit": "91039533930b66743909b2b9674d79bbb15ec841",
+  "release_url": "https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/releases/tag/v1.0.0",
+  "published_by_workflow": ".github/workflows/publish-v1-release.yml",
+  "canonical_assets": {
+    "technical_brief": {
+      "name": "industrial_adaptive_energy_intelligence_technical_brief.pdf",
+      "sha256": "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3",
+      "size_bytes": 1218669,
+      "source_artifact_id": 8621498159
+    },
+    "release_manifest": {
+      "name": "v1_release_manifest.json",
+      "path": "outputs/v1_release_manifest.json"
+    },
+    "reporting_closure_manifest": {
+      "name": "reporting_closure_manifest.json",
+      "path": "outputs/reporting_closure_manifest.json"
+    },
+    "latex_source": {
+      "name": "industrial_adaptive_energy_intelligence_technical_brief.tex",
+      "path": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex"
+    },
+    "release_notes": {
+      "name": "V1.0.0.md",
+      "path": "docs/releases/V1.0.0.md"
+    },
+    "checksums": {
+      "name": "v1_release_checksums.sha256",
+      "generated_by_workflow": true
+    }
+  },
+  "governed_evidence": {
+    "reporting_closure": {
+      "path": "outputs/reporting_closure_manifest.json",
+      "git_blob_sha": "c4efb639be9f78119ad210a77b9686e22d96bf4d",
+      "gate": "5D4",
+      "status": "closed"
+    },
+    "report_payload": {
+      "path": "outputs/report_payload.json",
+      "sha256": "3ac6d400acd18bcb4c26f58258fcb1e4868ab2a5b6e7927d2e03d140310445aa"
+    },
+    "latex_source": {
+      "path": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex",
+      "sha256": "145687346d882af70fc1e6a1893554660ddbac0341d5bf4267506b9b295bc65b"
+    },
+    "figures": {
+      "outputs/charts/confirmatory_forecasting_verdict.png": "5bd81c6d72fa7f42de1a9fac341dd986d6d505293dcd39492d04bef9c0fdcb11",
+      "outputs/charts/governed_data_architecture.png": "e121f57a84fb70266b62bae545bde5f9cfabc3330371eb23d1136f4dbe18dc04",
+      "outputs/charts/model_ladder_chronological_validation.png": "b3836b2bf61d4a8dbaf9f16d2774ab8fd8509532ad619762a6761ddb415d453e",
+      "outputs/charts/locked_test_temporal_stability.png": "3770c9e100b607ca73af5b470d256d4beae088f95503afd44703d24663c92d46",
+      "outputs/charts/evidence_governance_model_boundaries.png": "65446260ef8167a5d24493569fc32501abf5d4b10f40f72c35d7fc1f5d9c1c04"
+    },
+    "tables": {
+      "outputs/tables/confirmatory_metrics.csv": "bd6816dcd518fc3a18eed95049adbf5a4d9b6d0f19252740bfc2a362a5ff3073",
+      "outputs/tables/data_quality_summary.csv": "43ae0a766d3afa3e49a1653bcccd9eaaa61492dff1241eb728e860b168b6566a",
+      "outputs/tables/model_ladder_summary.csv": "a61cbab367ad83a4199919c04d5fc9285f9abffba1da9ab762134d03866d3c58",
+      "outputs/tables/temporal_block_results.csv": "58ab345ca592b279fc8a41e65642d663a868b334cee28a6fa8cfd0a517446d27",
+      "outputs/tables/evidence_lineage.csv": "ae3c7229370e556ed7e8bb22deb3d195d4e07506e4018edc9269f0c62db34507"
+    },
+    "locked_test": {
+      "closure_path": "outputs/modeling/locked_test_closure_manifest.json",
+      "execution_commit": "9d47bd598b08e9cf7a6b371448bc493d76c8b5e9",
+      "prediction_sha256": "ec5d1bad7ea3af6b7f2b4c7605be8e3a1efdf067cf452c91e22e8ac37a959b4c",
+      "results_sha256": "7b312fe66dd8443b94646055fbfa619aa1bcb6210891cd968cc09dd6bd381a9b",
+      "evaluation_count": 1,
+      "authorization_consumed": true,
+      "second_evaluation_permitted": false
+    },
+    "historical_contracts": {
+      "configs/locked_test_contract.yml": "5de98de22efb24013a74d926c713e6c245fcfe4e57f4cbe7f14cb80e6e1bc590",
+      "configs/model_contract.yml": "cf253f68c1c420769aa29bd02287ec1f87d51b9e4c273a0db1b2cc6db19e0600",
+      "data/manifests/uci_steel_energy_manifest.json": "870faa3933b7684227882da002f07af70dd00a22d9a040d7383251ee3e8b1470",
+      "outputs/modeling/selected_model_manifest.json": "6ebcaff485fb673be6ec58dd5c79f92de7c00474a61c36e4ec7a8102ab86bc8b",
+      "configs/silver_contract.yml": "d1263e204458bd3806f9e7169a824fd5dd31df427aca0a89757becb3e58a1f6b",
+      "data/processed/steel_energy_processing_manifest.json": "9f691b0404ec149c6bdcd3f0b028ab5013cf33e9b2437fda3e4ceb00a025974c",
+      "configs/target_contract.yml": "132260926bff8d09665bf3ab3af1865a16c9443e5cb01cc4e6f69946dc22d45e"
+    }
+  },
+  "release_controls": {
+    "main_only": true,
+    "draft": false,
+    "prerelease": false,
+    "immutable_tag": true,
+    "asset_overwrite_permitted": false,
+    "model_reestimated": false,
+    "locked_test_reused": false,
+    "retired_evaluator_invoked": false,
+    "locked_predictions_parsed": false,
+    "metrics_recalculated": false,
+    "approved_figures_changed": false,
+    "report_payload_changed": false,
+    "reporting_source_changed_after_approval": false,
+    "canonical_pdf_replaced": false,
+    "v1_mutable": false
+  },
+  "next_gate": "6A"
+}

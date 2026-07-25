@@ -13,6 +13,17 @@ A governed industrial energy forecasting and validation system that converts int
 
 Can a governed industrial analytical system forecast next-interval electricity demand, quantify peak-state performance, and preserve chronological, leakage, and single-evaluation controls from model selection through public reporting?
 
+## V1 release
+
+V1 is the immutable confirmatory release of the governed forecasting system.
+
+- Release: [`v1.0.0`](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/releases/tag/v1.0.0)
+- Approved technical brief: [`industrial_adaptive_energy_intelligence_technical_brief.pdf`](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/releases/download/v1.0.0/industrial_adaptive_energy_intelligence_technical_brief.pdf)
+- Release manifest: [`outputs/v1_release_manifest.json`](outputs/v1_release_manifest.json)
+- Reporting closure: [`outputs/reporting_closure_manifest.json`](outputs/reporting_closure_manifest.json)
+
+The release preserves the frozen model, untouched confirmatory evidence, five approved figures, five reporting tables, governed LaTeX source, and visually approved five-page PDF. V1 artifacts cannot be silently replaced or recalculated.
+
 ## Analytical system
 
 | Layer | Technical role |
@@ -72,7 +83,7 @@ Silver: validated chronology, typed analytical table, leakage-safe features
       single locked-test evaluation
               |
               v
-closure manifest, figures, tables, LaTeX brief, visual approval
+closure manifest, figures, tables, LaTeX brief, frozen V1 release
 ```
 
 ## Locked target contract
@@ -100,7 +111,7 @@ Databricks provides the enterprise execution layer for governed transformations,
 
 ## Evidence integrity
 
-The pipeline blocks reporting when required evidence is missing or invalid. Controls include:
+The pipeline blocks reporting and release when required evidence is missing or invalid. Controls include:
 
 - immutable data and terminal-result hashes;
 - explicit schemas and contracts;
@@ -111,8 +122,10 @@ The pipeline blocks reporting when required evidence is missing or invalid. Cont
 - a single authorized locked-test evaluation;
 - permanent closure of the confirmatory gate;
 - figures generated only from final machine-readable outputs;
-- LaTeX source and report closure contracts;
+- LaTeX source and reporting-closure contracts;
 - human visual approval with rendered-page fingerprints;
+- a schema-validated V1 release manifest;
+- exact release-asset checksum verification;
 - rejection of placeholder, provisional, or unsupported results.
 
 ## Confirmatory result
@@ -130,21 +143,20 @@ Machine-readable evidence:
 
 ## Technical brief
 
-The five-page technical brief is a first-class governed repository artifact.
+The five-page technical brief is a first-class governed V1 release artifact.
 
+- Permanent PDF: [`industrial_adaptive_energy_intelligence_technical_brief.pdf`](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/releases/download/v1.0.0/industrial_adaptive_energy_intelligence_technical_brief.pdf)
 - LaTeX source: [`reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex`](reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex)
 - reporting workflow: [Build technical brief](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/build-brief.yml)
 - visual approval: [`reports/latex/GATE_5D3_VISUAL_APPROVAL.md`](reports/latex/GATE_5D3_VISUAL_APPROVAL.md)
 - formal reporting closure: [`docs/GATE_5D4_REPORTING_CLOSURE.md`](docs/GATE_5D4_REPORTING_CLOSURE.md)
 - closure manifest: [`outputs/reporting_closure_manifest.json`](outputs/reporting_closure_manifest.json)
 
-The visually approved canonical PDF is frozen with SHA-256:
+The approved PDF is frozen with SHA-256:
 
 ```text
 35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3
 ```
-
-Gate 5E publishes that exact approved PDF as the permanent GitHub Release asset.
 
 ## Decision visualizations
 
@@ -162,7 +174,7 @@ Every figure must reconcile with final machine-readable evidence. Units, sample 
 
 ## Current implementation
 
-Completed and governed:
+Completed, governed, and released in V1:
 
 - repository contracts and CI;
 - governed UCI data intake and immutable cross-platform snapshot;
@@ -178,11 +190,10 @@ Completed and governed:
 - deterministic report payload;
 - GitHub-native five-page LaTeX brief;
 - Gate 5D3 human visual approval;
-- Gate 5D4 formal reporting closure.
+- Gate 5D4 formal reporting closure;
+- Gate 5E immutable V1 release manifest, tag, release notes, and permanent assets.
 
-The only open V1 step is Gate 5E, which creates the frozen release manifest, tag, GitHub Release, and permanent canonical PDF asset. V2 work remains blocked until Gate 5E is complete.
-
-Future V2 decision gates remain separate and unclaimed: advanced model optimization, uncertainty, robust selection, governed GenAI, and human decision integration.
+V2 work may now begin under a separate architecture. It cannot mutate V1 evidence, model identity, confirmatory results, figures, tables, reporting source, or release artifacts.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 
@@ -206,7 +217,7 @@ python scripts/audit_public_content.py
 pytest
 ```
 
-The technical brief is compiled and verified by `.github/workflows/build-brief.yml`. Local PDF tooling is not required.
+The technical brief and V1 release package are built and verified entirely in GitHub Actions. Local PDF tooling is not required.
 
 ## License and attribution
 

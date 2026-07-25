@@ -10,6 +10,7 @@ The numerical evidence remains governed by:
 - `outputs/modeling/locked_test_results.json`
 - `outputs/modeling/locked_test_closure_manifest.json`
 - the five approved figures under `outputs/charts/`
+- `outputs/reporting_closure_manifest.json`
 
 The LaTeX file is a presentation layer only. It must not recalculate locked metrics, parse locked prediction rows, fit models, invoke the retired evaluator, or introduce unsupported claims.
 
@@ -20,15 +21,29 @@ The workflow `.github/workflows/build-brief.yml` compiles the LaTeX source in Gi
 The workflow:
 
 1. verifies the governed payload and approved figures;
-2. checks the five-page source contract and prohibited public claims;
-3. compiles `industrial_adaptive_energy_intelligence_technical_brief.tex`;
-4. verifies the PDF page count and metadata;
-5. uploads the PDF, LaTeX source, payload, figures, and reporting tables as a GitHub Actions artifact;
-6. attaches the PDF to a GitHub Release when the workflow is triggered by a published release.
+2. validates the Gate 5D4 closure manifest;
+3. checks the five-page source contract and prohibited public claims;
+4. compiles `industrial_adaptive_energy_intelligence_technical_brief.tex`;
+5. verifies PDF page count and project-level metadata;
+6. retrieves the exact Gate 5D3 approved canonical PDF;
+7. verifies visual equivalence between the rebuild and canonical PDF at 200 DPI;
+8. uploads the canonical PDF, rebuild, LaTeX source, payload, figures, tables, and closure evidence as a GitHub Actions artifact;
+9. attaches the exact approved canonical PDF to the GitHub Release when Gate 5E publishes V1.
 
 ## Report files
 
 - Source: `reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex`
-- Generated PDF: `reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf`
+- Visual approval: `reports/latex/GATE_5D3_VISUAL_APPROVAL.md`
+- Formal closure: `docs/GATE_5D4_REPORTING_CLOSURE.md`
+- Closure manifest: `outputs/reporting_closure_manifest.json`
+- Canonical release asset name: `industrial_adaptive_energy_intelligence_technical_brief.pdf`
 
-The generated PDF is not committed during design review. It becomes a GitHub Actions artifact and, after release approval, a permanent GitHub Release asset.
+## Canonical PDF identity
+
+The approved canonical PDF is frozen with SHA-256:
+
+```text
+35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3
+```
+
+The PDF is retained in the approved GitHub Actions artifact during Gate 5D closure. Gate 5E publishes the exact artifact as a permanent GitHub Release asset. A later timestamped LaTeX rebuild cannot silently replace it, even when the rendered pages are visually identical.

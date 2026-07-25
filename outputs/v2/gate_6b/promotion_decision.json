@@ -1,0 +1,59 @@
+{
+  "candidate_id": "lightgbm_l1",
+  "contract_version": "1.0.0",
+  "decided_by": {
+    "authority": "human",
+    "human_approval_recorded": true,
+    "role": "head_of_research"
+  },
+  "decision": "reject",
+  "decision_id": "gate_6b_advanced_tabular_human_decision_1.0.0",
+  "evidence_commit": "7a1cb109dd7f26d215b5d0d831ed528230357697",
+  "evidence_manifest_sha256": "dcd00f54ea6c40fdc66ee27df39c792cda71461721889a9d29d76fec80a55eb7",
+  "gate": "6B",
+  "genai_role": {
+    "advisory_only": true,
+    "authoritative_metric_calculation_permitted": false,
+    "vote_permitted": false
+  },
+  "hard_constraints_all_pass": true,
+  "next_action": "retain_incumbent",
+  "pareto_status": "eligible",
+  "promotion_requirements": [
+    {
+      "id": "minimum_mean_validation_mae_relative_improvement",
+      "observed": 0.007766039599075688,
+      "passed": false,
+      "required_value": 0.01
+    },
+    {
+      "id": "minimum_positive_outer_folds",
+      "observed": 4,
+      "passed": true,
+      "required_value": 3
+    },
+    {
+      "id": "maximum_single_fold_mae_relative_degradation",
+      "observed": -0.006066420428765428,
+      "passed": true,
+      "required_value": 0.02
+    },
+    {
+      "id": "maximum_peak_state_mae_relative_degradation",
+      "observed": 0.013285098436648095,
+      "passed": false,
+      "required_value": 0.01
+    },
+    {
+      "id": "hard_constraints_all_pass",
+      "observed": true,
+      "passed": true,
+      "required_value": true
+    }
+  ],
+  "rationale": "Reject LightGBM L1, XGBoost histogram boosting, and CatBoost MAE for promotion. LightGBM was the strongest challenger but did not meet the frozen 1 percent aggregate improvement requirement and exceeded the permitted peak-state degradation. XGBoost and CatBoost also failed one or more promotion requirements. Retain the immutable V1 histogram-gradient-boosting incumbent.",
+  "reference_ids": [
+    "v1_frozen_champion",
+    "persistence"
+  ]
+}

@@ -16,7 +16,7 @@ def test_gate_6b_contract_validates_from_repository_checks() -> None:
     contract = validate_advanced_tabular_contract()
 
     assert contract["gate"] == "6B"
-    assert contract["status"] == "approved_for_execution"
+    assert contract["status"] == "closed"
     assert contract["v1_boundary"]["locked_test_access_permitted"] is False
     assert contract["data_boundary"]["admissible_partitions"] == [
         "training",

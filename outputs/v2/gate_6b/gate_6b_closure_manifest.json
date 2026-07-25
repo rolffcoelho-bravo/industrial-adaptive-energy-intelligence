@@ -1,0 +1,80 @@
+{
+  "candidate_outcomes": [
+    {
+      "algorithm_id": "lightgbm_l1",
+      "decision": "rejected",
+      "hard_constraints_all_pass": true,
+      "mean_mae": 3.9685917857113306,
+      "mean_validation_mae_relative_improvement": 0.007766039599075688,
+      "peak_state_mae_relative_degradation": 0.013285098436648095,
+      "positive_outer_folds": 4,
+      "promotion_eligible": false
+    },
+    {
+      "algorithm_id": "xgboost_hist",
+      "decision": "rejected",
+      "hard_constraints_all_pass": true,
+      "mean_mae": 3.982222407321668,
+      "mean_validation_mae_relative_improvement": 0.004358088770812968,
+      "peak_state_mae_relative_degradation": 0.018090344660728185,
+      "positive_outer_folds": 2,
+      "promotion_eligible": false
+    },
+    {
+      "algorithm_id": "catboost_mae",
+      "decision": "rejected",
+      "hard_constraints_all_pass": true,
+      "mean_mae": 4.190236476289172,
+      "mean_validation_mae_relative_improvement": -0.04764993690062622,
+      "peak_state_mae_relative_degradation": 0.08091283310192281,
+      "positive_outer_folds": 0,
+      "promotion_eligible": false
+    }
+  ],
+  "claim_controls": {
+    "causal_claim_permitted": false,
+    "confirmatory_claim_permitted": false,
+    "drift_claim_permitted": false,
+    "production_claim_permitted": false,
+    "savings_claim_permitted": false
+  },
+  "contract_version": "1.0.0",
+  "evidence_boundary": {
+    "admissible_partitions": [
+      "training",
+      "validation"
+    ],
+    "locked_test_start": 28032,
+    "maximum_prediction_origin": 28027,
+    "maximum_target_dependency": 28028
+  },
+  "execution": {
+    "evidence_commit": "7a1cb109dd7f26d215b5d0d831ed528230357697",
+    "execution_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+    "execution_manifest_sha256": "dcd00f54ea6c40fdc66ee27df39c792cda71461721889a9d29d76fec80a55eb7",
+    "inner_fold_count": 3,
+    "leaderboard_sha256": "94366cff63e3ec9027c476abaeae3df015c90b98b8f3deae85773d5a8fff5fa3",
+    "outer_fold_count": 4,
+    "unique_configuration_count": 12,
+    "validation_origin_count_per_candidate": 7004
+  },
+  "gate": "6B",
+  "human_decision": {
+    "approval_recorded": true,
+    "authority": "human",
+    "decision": "reject_all_challengers",
+    "decision_artifact": "outputs/v2/gate_6b/promotion_decision.json",
+    "decision_artifact_sha256": "0c01bc83370caa8e072123724dc71b0e8ceecb2ff34a71c65bf9d4acdcdf0e33",
+    "decision_commit": "fd0af92e6ed3c0bb551833c0c3bebbf2ec0485c8",
+    "retained_model": "v1_frozen_champion"
+  },
+  "next_gate": "6C",
+  "status": "closed",
+  "v1_boundary": {
+    "confirmatory_evaluation_performed": false,
+    "immutable": true,
+    "locked_predictions_parsed": false,
+    "locked_test_accessed": false,
+    "tag": "v1.0.0"
+  }
+}

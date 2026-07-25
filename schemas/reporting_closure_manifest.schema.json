@@ -74,6 +74,7 @@
         "approval_commit",
         "renderer",
         "dpi",
+        "fingerprint_type",
         "page_width_pixels",
         "page_height_pixels",
         "page_sha256",
@@ -89,6 +90,7 @@
         },
         "renderer": {"const": "pdftoppm"},
         "dpi": {"const": 200},
+        "fingerprint_type": {"const": "rgb_pixel_bytes_sha256"},
         "page_width_pixels": {"const": 1654},
         "page_height_pixels": {"const": 2339},
         "page_sha256": {

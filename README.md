@@ -1,6 +1,7 @@
 # Industrial Adaptive Energy Intelligence
 
 [![CI](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/ci.yml/badge.svg)](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/ci.yml)
+[![Technical brief](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/build-brief.yml/badge.svg)](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/build-brief.yml)
 
 A governed industrial energy forecasting and validation system that converts interval electricity measurements into leakage-controlled demand forecasts, peak-state diagnostics, chronological model evidence, and traceable technical reporting.
 
@@ -21,9 +22,9 @@ Can a governed industrial analytical system forecast next-interval electricity d
 | Peak-state diagnostics | Training-derived peak labels and separate classification benchmark evidence |
 | Model selection | Prespecified candidate ladder with chronological validation and training-only parameter selection |
 | Confirmatory evaluation | One frozen model, one untouched test period, and one terminal evaluation |
-| Reporting | Machine-readable tables, decision-grade figures, and a governed five-page technical brief |
+| Reporting | Machine-readable tables, decision-grade figures, governed LaTeX, visual approval, and formal closure |
 | Enterprise execution | Databricks notebooks, SQL transformations, workflow orchestration, and traceable experiments |
-| Portable execution | Python, DuckDB, Parquet, scikit-learn, Matplotlib, ReportLab, and GitHub Actions |
+| Portable execution | Python, DuckDB, Parquet, scikit-learn, Matplotlib, LaTeX, and GitHub Actions |
 
 ## Data and provenance
 
@@ -71,7 +72,7 @@ Silver: validated chronology, typed analytical table, leakage-safe features
       single locked-test evaluation
               |
               v
-closure manifest, figures, tables, technical brief
+closure manifest, figures, tables, LaTeX brief, visual approval
 ```
 
 ## Locked target contract
@@ -89,9 +90,9 @@ See [`docs/TARGET_AND_LEAKAGE_CONTRACT.md`](docs/TARGET_AND_LEAKAGE_CONTRACT.md)
 
 ## Execution paths
 
-### Local and GitHub Actions
+### Portable and GitHub-native execution
 
-The portable path uses pandas, scikit-learn, DuckDB, PyArrow, Matplotlib, and ReportLab. It remains the reproducibility baseline.
+The portable analytical path uses pandas, scikit-learn, DuckDB, PyArrow, and Matplotlib. The governed report is compiled in GitHub Actions from the committed LaTeX source using a containerized TeXLive environment. No local LaTeX installation is required.
 
 ### Databricks
 
@@ -110,6 +111,8 @@ The pipeline blocks reporting when required evidence is missing or invalid. Cont
 - a single authorized locked-test evaluation;
 - permanent closure of the confirmatory gate;
 - figures generated only from final machine-readable outputs;
+- LaTeX source and report closure contracts;
+- human visual approval with rendered-page fingerprints;
 - rejection of placeholder, provisional, or unsupported results.
 
 ## Confirmatory result
@@ -125,9 +128,27 @@ Machine-readable evidence:
 - [`locked_test_results.json`](outputs/modeling/locked_test_results.json)
 - [`locked_test_closure_manifest.json`](outputs/modeling/locked_test_closure_manifest.json)
 
+## Technical brief
+
+The five-page technical brief is a first-class governed repository artifact.
+
+- LaTeX source: [`reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex`](reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex)
+- reporting workflow: [Build technical brief](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/workflows/build-brief.yml)
+- visual approval: [`reports/latex/GATE_5D3_VISUAL_APPROVAL.md`](reports/latex/GATE_5D3_VISUAL_APPROVAL.md)
+- formal reporting closure: [`docs/GATE_5D4_REPORTING_CLOSURE.md`](docs/GATE_5D4_REPORTING_CLOSURE.md)
+- closure manifest: [`outputs/reporting_closure_manifest.json`](outputs/reporting_closure_manifest.json)
+
+The visually approved canonical PDF is frozen with SHA-256:
+
+```text
+35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3
+```
+
+Gate 5E publishes that exact approved PDF as the permanent GitHub Release asset.
+
 ## Decision visualizations
 
-Gate 5A converts the completed model and confirmatory evidence into five decision-grade Matplotlib figures. Each figure is tied to a specific forecasting, validation, data, or governance question.
+The reporting layer converts completed model and confirmatory evidence into five decision-grade Matplotlib figures. Each figure is tied to a specific forecasting, validation, data, or governance question.
 
 | Figure | Decision value |
 |---|---|
@@ -153,16 +174,15 @@ Completed and governed:
 - validation-only model selection and model freeze;
 - single-use locked-test execution;
 - immutable confirmatory closure with all four temporal blocks positive;
-- evidence-aligned Gate 5A reporting contracts.
+- final synthesis tables and five approved figures;
+- deterministic report payload;
+- GitHub-native five-page LaTeX brief;
+- Gate 5D3 human visual approval;
+- Gate 5D4 formal reporting closure.
 
-Approved Gate 5A build stage:
+The only open V1 step is Gate 5E, which creates the frozen release manifest, tag, GitHub Release, and permanent canonical PDF asset. V2 work remains blocked until Gate 5E is complete.
 
-- final synthesis tables;
-- five evidence-aligned figures;
-- validated report payload;
-- five-page technical brief.
-
-Future decision gates remain separate and unclaimed: structural-drift scoring, constrained optimization, governed agents, and assumption-bounded business-impact analysis.
+Future V2 decision gates remain separate and unclaimed: advanced model optimization, uncertainty, robust selection, governed GenAI, and human decision integration.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 
@@ -186,21 +206,10 @@ python scripts/audit_public_content.py
 pytest
 ```
 
-After the Gate 5A synthesis tables, figures, and report payload are generated and validated:
-
-```bash
-python scripts/build_brief.py
-```
-
-The generated report is written to:
-
-```text
-outputs/brief/industrial_adaptive_energy_intelligence_technical_brief.pdf
-```
+The technical brief is compiled and verified by `.github/workflows/build-brief.yml`. Local PDF tooling is not required.
 
 ## License and attribution
 
 - Source code: MIT License.
 - Dataset: CC BY 4.0, attributed separately.
-
-Analysis, engineering, and technical brief by Rodolfo Pereira. Source code and data use are governed by the licenses stated above.
+- Research artifacts are governed by the repository contracts and evidence boundaries stated above.

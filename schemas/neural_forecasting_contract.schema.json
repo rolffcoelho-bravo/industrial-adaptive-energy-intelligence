@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/neural_forecasting_contract.schema.json",
+  "title": "Gate 6C Neural Forecasting Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "gate",
+    "status",
+    "execution_name",
+    "predecessor_boundary",
+    "v1_boundary",
+    "data_boundary",
+    "sequence",
+    "static_features",
+    "training",
+    "search",
+    "candidate_families",
+    "objectives",
+    "promotion",
+    "outputs",
+    "claim_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "gate": {"const": "6C"},
+    "status": {"enum": ["approved_for_execution", "closed"]},
+    "execution_name": {"const": "governed_neural_forecasting_challengers"},
+    "predecessor_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_6b_status", "closure_manifest_path", "retained_reference"],
+      "properties": {
+        "gate_6b_status": {"const": "closed"},
+        "closure_manifest_path": {"const": "outputs/v2/gate_6b/gate_6b_closure_manifest.json"},
+        "retained_reference": {"const": "v1_frozen_champion"}
+      }
+    },
+    "v1_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["immutable_tag", "immutable_commit", "locked_test_access_permitted", "locked_prediction_parsing_permitted", "confirmatory_evaluation_permitted"],
+      "properties": {
+        "immutable_tag": {"const": "v1.0.0"},
+        "immutable_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "locked_test_access_permitted": {"const": false},
+        "locked_prediction_parsing_permitted": {"const": false},
+        "confirmatory_evaluation_permitted": {"const": false}
+      }
+    },
+    "data_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["silver_path", "outer_folds_path", "incumbent_results_path", "model_contract_path", "target_contract_path", "admissible_partitions", "outer_fold_count", "inner_fold_count", "purge_intervals", "maximum_prediction_origin_exclusive", "maximum_target_dependency_exclusive"],
+      "properties": {
+        "silver_path": {"type": "string", "minLength": 1},
+        "outer_folds_path": {"type": "string", "minLength": 1},
+        "incumbent_results_path": {"type": "string", "minLength": 1},
+        "model_contract_path": {"type": "string", "minLength": 1},
+        "target_contract_path": {"type": "string", "minLength": 1},
+        "admissible_partitions": {"const": ["training", "validation"]},
+        "outer_fold_count": {"const": 4},
+        "inner_fold_count": {"const": 3},
+        "purge_intervals": {"const": 4},
+        "maximum_prediction_origin_exclusive": {"const": 28028},
+        "maximum_target_dependency_exclusive": {"const": 28032}
+      }
+    },
+    "sequence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["length_intervals", "interval_minutes", "lookback_minutes", "channels", "include_prediction_origin", "future_values_permitted", "sequence_scaling", "minimum_history_policy"],
+      "properties": {
+        "length_intervals": {"type": "integer", "minimum": 4, "maximum": 96},
+        "interval_minutes": {"const": 15},
+        "lookback_minutes": {"type": "integer", "minimum": 60, "maximum": 1440},
+        "channels": {"type": "array", "minItems": 1, "maxItems": 12, "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+        "include_prediction_origin": {"const": true},
+        "future_values_permitted": {"const": false},
+        "sequence_scaling": {"const": "outer_training_channel_standardization"},
+        "minimum_history_policy": {"const": "exclude_origins_without_complete_history"}
+      }
+    },
+    "static_features": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["source", "preprocessing_fit_scope", "dense_output_required", "target_columns_permitted"],
+      "properties": {
+        "source": {"const": "frozen_v1_feature_policy"},
+        "preprocessing_fit_scope": {"const": "applicable_training_partition_only"},
+        "dense_output_required": {"const": true},
+        "target_columns_permitted": {"const": false}
+      }
+    },
+    "training": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["framework", "device", "dtype", "optimizer", "loss", "batch_size", "maximum_epochs", "internal_early_stopping_permitted", "gradient_clip_norm", "weight_decay", "torch_threads", "deterministic_algorithms_required", "selection_seed", "stochastic_seeds"],
+      "properties": {
+        "framework": {"const": "pytorch"},
+        "device": {"const": "cpu"},
+        "dtype": {"const": "float32"},
+        "optimizer": {"const": "adamw"},
+        "loss": {"const": "l1"},
+        "batch_size": {"type": "integer", "minimum": 128, "maximum": 4096},
+        "maximum_epochs": {"type": "integer", "minimum": 1, "maximum": 100},
+        "internal_early_stopping_permitted": {"const": false},
+        "gradient_clip_norm": {"type": "number", "exclusiveMinimum": 0},
+        "weight_decay": {"type": "number", "minimum": 0},
+        "torch_threads": {"type": "integer", "minimum": 1, "maximum": 4},
+        "deterministic_algorithms_required": {"const": true},
+        "selection_seed": {"type": "integer", "minimum": 1},
+        "stochastic_seeds": {"type": "array", "minItems": 5, "maxItems": 5, "uniqueItems": true, "items": {"type": "integer", "minimum": 1}}
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["strategy", "scoring", "unique_configuration_count", "max_parallel_trials", "max_retries_per_trial", "max_wall_clock_minutes", "configurations_per_family", "selection_seed_count", "outer_evaluation_seed_count", "refit_selected_configuration_on_outer_training"],
+      "properties": {
+        "strategy": {"const": "prespecified_nested_chronological_search"},
+        "scoring": {"const": "mean_absolute_error"},
+        "unique_configuration_count": {"const": 6},
+        "max_parallel_trials": {"type": "integer", "minimum": 1, "maximum": 4},
+        "max_retries_per_trial": {"type": "integer", "minimum": 0, "maximum": 1},
+        "max_wall_clock_minutes": {"type": "integer", "minimum": 1, "maximum": 720},
+        "configurations_per_family": {"const": 2},
+        "selection_seed_count": {"const": 1},
+        "outer_evaluation_seed_count": {"const": 5},
+        "refit_selected_configuration_on_outer_training": {"const": true}
+      }
+    },
+    "candidate_families": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["algorithm_id", "architecture", "search_space_path", "configuration_count", "uses_sequence", "configurations"],
+        "properties": {
+          "algorithm_id": {"enum": ["residual_mlp", "causal_tcn", "gru_sequence"]},
+          "architecture": {"type": "string", "minLength": 1},
+          "search_space_path": {"type": "string", "minLength": 1},
+          "configuration_count": {"const": 2},
+          "uses_sequence": {"type": "boolean"},
+          "configurations": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 2,
+            "items": {
+              "type": "object",
+              "minProperties": 2,
+              "required": ["configuration_id"],
+              "properties": {"configuration_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"}},
+              "additionalProperties": {"type": ["string", "number", "integer", "boolean"]}
+            }
+          }
+        }
+      }
+    },
+    "objectives": {"type": "object", "minProperties": 4},
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["reference_id", "minimum_mean_validation_mae_relative_improvement", "minimum_positive_outer_folds", "maximum_single_fold_mae_relative_degradation", "maximum_peak_state_mae_relative_degradation", "complete_seed_evidence_required", "required_seed_count", "hard_constraints_all_pass_required", "pareto_eligible_required", "automatic_promotion_permitted", "final_authority"],
+      "properties": {
+        "reference_id": {"const": "v1_frozen_champion"},
+        "minimum_mean_validation_mae_relative_improvement": {"const": 0.01},
+        "minimum_positive_outer_folds": {"const": 3},
+        "maximum_single_fold_mae_relative_degradation": {"const": 0.02},
+        "maximum_peak_state_mae_relative_degradation": {"const": 0.01},
+        "complete_seed_evidence_required": {"const": true},
+        "required_seed_count": {"const": 5},
+        "hard_constraints_all_pass_required": {"const": true},
+        "pareto_eligible_required": {"const": true},
+        "automatic_promotion_permitted": {"const": false},
+        "final_authority": {"const": "human"}
+      }
+    },
+    "outputs": {"type": "object", "minProperties": 10, "additionalProperties": {"type": "string", "minLength": 1}},
+    "claim_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_claim_permitted", "savings_claim_permitted", "drift_claim_permitted", "causal_claim_permitted", "optimization_impact_claim_permitted", "confirmatory_claim_permitted", "provisional_validation_language_required"],
+      "properties": {
+        "production_claim_permitted": {"const": false},
+        "savings_claim_permitted": {"const": false},
+        "drift_claim_permitted": {"const": false},
+        "causal_claim_permitted": {"const": false},
+        "optimization_impact_claim_permitted": {"const": false},
+        "confirmatory_claim_permitted": {"const": false},
+        "provisional_validation_language_required": {"const": true}
+      }
+    },
+    "next_gate": {"const": "6D"}
+  }
+}

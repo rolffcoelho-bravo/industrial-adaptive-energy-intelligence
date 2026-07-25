@@ -7,31 +7,38 @@ on:
     paths:
       - ".github/workflows/build-brief.yml"
       - "reports/latex/**"
+      - "docs/GATE_5D4_REPORTING_CLOSURE.md"
       - "outputs/report_payload.json"
+      - "outputs/reporting_closure_manifest.json"
       - "outputs/charts/**"
       - "outputs/tables/**"
       - "outputs/modeling/locked_test_results.json"
       - "outputs/modeling/locked_test_closure_manifest.json"
+      - "schemas/reporting_closure_manifest.schema.json"
   pull_request:
     paths:
       - ".github/workflows/build-brief.yml"
       - "reports/latex/**"
+      - "docs/GATE_5D4_REPORTING_CLOSURE.md"
       - "outputs/report_payload.json"
+      - "outputs/reporting_closure_manifest.json"
       - "outputs/charts/**"
       - "outputs/tables/**"
       - "outputs/modeling/locked_test_results.json"
       - "outputs/modeling/locked_test_closure_manifest.json"
+      - "schemas/reporting_closure_manifest.schema.json"
   workflow_dispatch:
   release:
     types:
       - published
 
 permissions:
+  actions: read
   contents: write
 
 jobs:
   build:
-    name: Compile governed LaTeX evidence brief
+    name: Compile and verify governed LaTeX evidence brief
     runs-on: ubuntu-latest
 
     steps:
@@ -55,6 +62,19 @@ jobs:
         run: |
           python scripts/build_report_payload.py
           git diff --exit-code -- outputs/report_payload.json
+
+      - name: Validate Gate 5D4 closure contract
+        run: |
+          python - <<'PY'
+          from iaei.contracts import validate_reporting_closure_manifest
+
+          manifest = validate_reporting_closure_manifest()
+          if manifest["status"] != "closed":
+              raise SystemExit("Gate 5D4 reporting closure is not closed")
+          if manifest["next_gate"] != "5E":
+              raise SystemExit("Unexpected gate transition after Gate 5D4")
+          print("Gate 5D4 closure contract: PASS")
+          PY
 
       - name: Verify approved figure identities
         shell: bash
@@ -113,7 +133,9 @@ jobs:
               raise SystemExit(f"Missing governed LaTeX fragments: {missing}")
 
           if text.count("\\newpage") != 4:
-              raise SystemExit("The report source must contain exactly four page breaks")
+              raise SystemExit(
+                  "The report source must contain exactly four page breaks"
+              )
 
           lowered = text.lower()
           found = [value for value in prohibited if value in lowered]
@@ -133,20 +155,120 @@ jobs:
           compiler: latexmk
           args: -pdf -file-line-error -halt-on-error -interaction=nonstopmode
 
-      - name: Validate compiled PDF
+      - name: Install PDF inspection tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends poppler-utils unzip
+
+      - name: Validate rebuilt PDF
         shell: bash
         run: |
           set -euo pipefail
           PDF="reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf"
           test -s "$PDF"
-          sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends poppler-utils
-          pdfinfo "$PDF" > reports/latex/pdfinfo.txt
-          grep -Eq '^Pages:[[:space:]]+5$' reports/latex/pdfinfo.txt
-          grep -Eq '^Title:.*Industrial Adaptive Energy Intelligence' reports/latex/pdfinfo.txt
-          grep -Eq '^Author:.*Industrial Adaptive Energy Intelligence' reports/latex/pdfinfo.txt
+          pdfinfo "$PDF" > reports/latex/rebuild_pdfinfo.txt
+          grep -Eq '^Pages:[[:space:]]+5$' reports/latex/rebuild_pdfinfo.txt
+          grep -Eq '^Title:.*Industrial Adaptive Energy Intelligence' reports/latex/rebuild_pdfinfo.txt
+          grep -Eq '^Author:.*Industrial Adaptive Energy Intelligence' reports/latex/rebuild_pdfinfo.txt
           test "$(stat -c%s "$PDF")" -gt 100000
-          sha256sum "$PDF" | tee reports/latex/pdf.sha256
+          sha256sum "$PDF" | tee reports/latex/rebuild_pdf.sha256
+
+      - name: Retrieve the approved canonical PDF
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/artifacts/8621498159/zip" \
+            > /tmp/approved-report.zip
+          mkdir -p reports/latex/canonical
+          unzip -p \
+            /tmp/approved-report.zip \
+            reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf \
+            > reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf
+          CANONICAL="reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf"
+          echo "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3  $CANONICAL" \
+            | sha256sum --check --strict
+          test "$(stat -c%s "$CANONICAL")" -eq 1218669
+          pdfinfo "$CANONICAL" > reports/latex/canonical_pdfinfo.txt
+          grep -Eq '^Pages:[[:space:]]+5$' reports/latex/canonical_pdfinfo.txt
+          grep -Eq '^Title:.*Industrial Adaptive Energy Intelligence' reports/latex/canonical_pdfinfo.txt
+          grep -Eq '^Author:.*Industrial Adaptive Energy Intelligence' reports/latex/canonical_pdfinfo.txt
+          sha256sum "$CANONICAL" | tee reports/latex/canonical_pdf.sha256
+
+      - name: Verify approved visual equivalence
+        shell: bash
+        run: |
+          set -euo pipefail
+          REBUILD="reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf"
+          CANONICAL="reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf"
+          rm -rf /tmp/iaei-rebuild-pages /tmp/iaei-canonical-pages
+          mkdir -p /tmp/iaei-rebuild-pages /tmp/iaei-canonical-pages
+          pdftoppm -png -r 200 "$REBUILD" /tmp/iaei-rebuild-pages/page
+          pdftoppm -png -r 200 "$CANONICAL" /tmp/iaei-canonical-pages/page
+          python - <<'PY'
+          from __future__ import annotations
+
+          import hashlib
+          import json
+          from pathlib import Path
+
+          from PIL import Image
+
+          manifest = json.loads(
+              Path("outputs/reporting_closure_manifest.json").read_text(
+                  encoding="utf-8"
+              )
+          )
+          approval = manifest["visual_approval"]
+          expected_size = (
+              approval["page_width_pixels"],
+              approval["page_height_pixels"],
+          )
+          expected_hashes = approval["page_sha256"]
+
+          for page_number, expected_hash in enumerate(expected_hashes, start=1):
+              rebuild_path = Path(
+                  f"/tmp/iaei-rebuild-pages/page-{page_number}.png"
+              )
+              canonical_path = Path(
+                  f"/tmp/iaei-canonical-pages/page-{page_number}.png"
+              )
+
+              with Image.open(rebuild_path) as rebuild_image:
+                  rebuild_rgb = rebuild_image.convert("RGB")
+
+              with Image.open(canonical_path) as canonical_image:
+                  canonical_rgb = canonical_image.convert("RGB")
+
+              if rebuild_rgb.size != expected_size:
+                  raise SystemExit(
+                      f"Unexpected rebuilt page size for page {page_number}: "
+                      f"{rebuild_rgb.size}"
+                  )
+              if canonical_rgb.size != expected_size:
+                  raise SystemExit(
+                      f"Unexpected canonical page size for page {page_number}: "
+                      f"{canonical_rgb.size}"
+                  )
+
+              canonical_bytes = canonical_rgb.tobytes()
+              rebuild_bytes = rebuild_rgb.tobytes()
+              canonical_hash = hashlib.sha256(canonical_bytes).hexdigest()
+
+              if canonical_hash != expected_hash:
+                  raise SystemExit(
+                      f"Canonical visual fingerprint mismatch on page {page_number}"
+                  )
+              if rebuild_bytes != canonical_bytes:
+                  raise SystemExit(
+                      f"Rebuilt PDF is not visually identical on page {page_number}"
+                  )
+
+          print("Five-page visual equivalence: PASS")
+          PY
 
       - name: Upload governed report package
         uses: actions/upload-artifact@v4
@@ -154,23 +276,35 @@ jobs:
           name: industrial-adaptive-energy-intelligence-technical-brief
           path: |
             reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf
+            reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf
             reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex
             reports/latex/README.md
-            reports/latex/pdfinfo.txt
-            reports/latex/pdf.sha256
+            reports/latex/GATE_5D3_VISUAL_APPROVAL.md
+            reports/latex/rebuild_pdfinfo.txt
+            reports/latex/rebuild_pdf.sha256
+            reports/latex/canonical_pdfinfo.txt
+            reports/latex/canonical_pdf.sha256
+            docs/GATE_5D4_REPORTING_CLOSURE.md
             outputs/report_payload.json
+            outputs/reporting_closure_manifest.json
             outputs/charts/*.png
             outputs/tables/*.csv
+            schemas/reporting_closure_manifest.schema.json
           if-no-files-found: error
           retention-days: 90
 
-      - name: Attach PDF to published GitHub release
+      - name: Attach the approved PDF to a published GitHub release
         if: github.event_name == 'release'
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
+          set -euo pipefail
+          mkdir -p /tmp/iaei-release
+          cp \
+            reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf \
+            /tmp/iaei-release/industrial_adaptive_energy_intelligence_technical_brief.pdf
           gh release upload \
             "${{ github.event.release.tag_name }}" \
-            reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf \
+            /tmp/iaei-release/industrial_adaptive_energy_intelligence_technical_brief.pdf \
             --clobber

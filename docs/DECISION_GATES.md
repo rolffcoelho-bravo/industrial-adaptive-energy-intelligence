@@ -26,8 +26,8 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | Gate | Technical decision | Status | Required evidence |
 |---:|---|---|---|
 | 6A | V2 architecture and optimization governance | Closed | Provider-neutral architecture, optimization contract, artifact schemas, V1 immutability checks, acceptance tests |
-| 6B | Advanced tabular challengers | Next | Approved search spaces, nested chronological evidence, complete trial records, Pareto and promotion evidence |
-| 6C | Neural forecasting | Planned | Multiple governed seeds, variance evidence, chronological evaluation, resource and portability evidence |
+| 6B | Advanced tabular challengers | Closed | Approved search spaces, nested chronological evidence, complete trial records, Pareto evidence, human rejection record, retained V1 incumbent |
+| 6C | Neural forecasting | Next | Multiple governed seeds, variance evidence, chronological evaluation, resource and portability evidence |
 | 6D | Time-series foundation models | Planned | Prespecified model access, context and adaptation rules, chronological evidence, cost and portability controls |
 | 6E | Probabilistic optimization and uncertainty | Planned | Separate calibration, coverage and width evidence, governed uncertainty promotion |
 | 6F | Ensembles and governed routing | Planned | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
@@ -86,8 +86,22 @@ Gate 6A freezes the V2 development rules before any V2 model execution:
 
 Gate 6A performed no model fitting, optimization trial, locked-test access, or confirmatory evaluation.
 
+## Gate 6B closure boundary
+
+Gate 6B freezes:
+
+- XGBoost histogram, LightGBM L1, and CatBoost MAE as the evaluated advanced tabular families;
+- exactly 12 prespecified configurations;
+- four outer folds, three inner folds, and the four-interval purge;
+- complete validation, trial, resource, portability, and out-of-fold evidence;
+- the human decision rejecting all three challengers;
+- retention of the frozen V1 histogram-gradient-boosting incumbent;
+- the rule that Gate 6B evidence remains validation-only and cannot be represented as confirmatory evidence.
+
+The maximum Gate 6B prediction origin is 28,027. The maximum target dependency is 28,028. The locked test begins at 28,032 and was not accessed.
+
 ## Next permitted decision
 
-V1 remains closed and immutable. Gate 6A is closed as a design and governance stage.
+V1 remains closed and immutable. Gates 6A and 6B are closed.
 
-The next permitted gate is **Gate 6B: advanced tabular challengers**. Gate 6B must operate only on training and validation evidence under the Gate 6A contracts.
+The next permitted gate is **Gate 6C: neural forecasting**. Gate 6C must use training and validation evidence only, apply multiple governed seeds, report across-seed variance, and preserve final human promotion authority.

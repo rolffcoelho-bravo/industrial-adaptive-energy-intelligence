@@ -43,9 +43,9 @@ LaTeX rebuilds from the same source can contain different PDF creation timestamp
 The closure manifest freezes both:
 
 1. the exact canonical PDF hash; and
-2. the five approved rendered-page fingerprints.
+2. five rendered-page fingerprints from the approval environment.
 
-GitHub Actions must verify visual equivalence to those fingerprints before accepting a rebuilt report. Gate 5E must publish the exact approved canonical PDF rather than silently substituting a later timestamped rebuild.
+GitHub Actions verifies the exact canonical PDF hash and compares each rebuilt page with that canonical PDF in a common renderer. The stored fingerprints preserve the visual-review lineage but are not used to replace the canonical binary. Gate 5E must publish the exact approved canonical PDF rather than silently substituting a later timestamped rebuild.
 
 ## Frozen reporting boundary
 

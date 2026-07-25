@@ -19,7 +19,7 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | 5D1-5D2 | GitHub-native LaTeX reporting implementation | Closed | Governed source, build workflow, structural validation |
 | 5D3 | Human visual approval | Closed | Five-page 200 DPI review and approval record |
 | 5D4 | Formal reporting closure | Closed | Canonical PDF identity, visual fingerprints, closure schema and manifest |
-| 5E | Frozen V1 release closure | Pending | Release manifest, immutable tag, GitHub Release, canonical PDF asset, final verification |
+| 5E | Frozen V1 release closure | Closed | Release manifest, `v1.0.0` tag, GitHub Release, canonical PDF asset, final checksum verification |
 
 ## Closed confirmatory boundary
 
@@ -43,10 +43,22 @@ Gate 5D4 freezes:
 - five figures and five reporting tables;
 - section order, conclusions, model boundaries, and approval evidence.
 
-The exact approved PDF remains the only admissible V1 release asset. A later timestamped LaTeX rebuild may be accepted only as a visual-equivalence check and cannot replace the frozen canonical binary.
+The exact approved PDF is the only admissible V1 release asset. A later timestamped LaTeX rebuild may be accepted only as a visual-equivalence check and cannot replace the frozen canonical binary.
+
+## V1 release boundary
+
+Gate 5E freezes:
+
+- release version `1.0.0` and tag `v1.0.0`;
+- the V1 release manifest and release notes;
+- the exact canonical PDF release asset;
+- reporting closure, payload, LaTeX source, figures, and tables;
+- selected-model and locked-test identities;
+- the checksum file published with the release;
+- the rule that V1 assets cannot be overwritten or silently replaced.
 
 ## Next permitted decision
 
-The only open V1 gate is **Gate 5E: frozen V1 release closure**.
+V1 is closed and immutable.
 
-V2 Gate 6A is defined but blocked until Gate 5E is closed. No V2 architecture, optimization, uncertainty, GenAI, cloud-adapter, or human-decision work may be represented as active V1 evidence.
+The next permitted gate is **Gate 6A: V2 architecture and optimization governance**. V2 work must be separately versioned and cannot mutate V1 evidence, conclusions, release assets, or governance records.

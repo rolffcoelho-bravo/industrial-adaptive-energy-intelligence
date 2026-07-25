@@ -1,0 +1,60 @@
+name: Freeze canonical Gate 5D4 report
+
+on:
+  push:
+    branches:
+      - gate-5d4-reporting-closure
+    paths:
+      - ".github/workflows/freeze-canonical-report.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  freeze:
+    name: Commit approved canonical PDF
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out reporting closure branch
+        uses: actions/checkout@v6
+        with:
+          ref: gate-5d4-reporting-closure
+          fetch-depth: 0
+
+      - name: Download approved Gate 5D3 artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/artifacts/8621498159/zip" \
+            > /tmp/approved-report.zip
+
+      - name: Extract and verify canonical PDF
+        run: |
+          set -euo pipefail
+          mkdir -p reports
+          unzip -p \
+            /tmp/approved-report.zip \
+            reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf \
+            > reports/industrial_adaptive_energy_intelligence_technical_brief.pdf
+          echo "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3  reports/industrial_adaptive_energy_intelligence_technical_brief.pdf" \
+            | sha256sum --check --strict
+          test "$(stat -c%s reports/industrial_adaptive_energy_intelligence_technical_brief.pdf)" -eq 1218669
+
+      - name: Commit canonical report
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add reports/industrial_adaptive_energy_intelligence_technical_brief.pdf
+          if git diff --cached --quiet; then
+            echo "Canonical PDF is already committed."
+            exit 0
+          fi
+          git commit -m "Commit approved canonical technical brief"
+          git push origin HEAD:gate-5d4-reporting-closure

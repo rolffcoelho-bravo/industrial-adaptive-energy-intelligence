@@ -32,9 +32,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify release metadata and immutable tag
+      - name: Verify immutable V1 tag
         env:
-          GH_TOKEN: ${{ github.token }}
           TAG: v1.0.0
           EXPECTED_COMMIT: 9e8cfe567d2174639675cbc784f21fe968dafe92
         shell: bash
@@ -42,45 +41,6 @@ jobs:
           set -euo pipefail
           git fetch --tags --force
           test "$(git rev-list -n 1 "$TAG")" = "$EXPECTED_COMMIT"
-
-          release_json="$(gh release view "$TAG" --json tagName,isDraft,isPrerelease,url,assets)"
-          python - "$release_json" <<'PY'
-          from __future__ import annotations
-
-          import json
-          import sys
-
-          release = json.loads(sys.argv[1])
-          supporting_assets = {
-              "v1_release_manifest.json",
-              "reporting_closure_manifest.json",
-              "industrial_adaptive_energy_intelligence_technical_brief.tex",
-              "V1.0.0.md",
-              "v1_release_checksums.sha256",
-          }
-          canonical_pdf = (
-              "industrial_adaptive_energy_intelligence_technical_brief.pdf"
-          )
-          observed_assets = {asset["name"] for asset in release["assets"]}
-          permitted_assets = supporting_assets | {canonical_pdf}
-
-          assert release["tagName"] == "v1.0.0"
-          assert release["isDraft"] is False
-          assert release["isPrerelease"] is False
-          assert supporting_assets <= observed_assets, (
-              observed_assets,
-              supporting_assets,
-          )
-          assert observed_assets <= permitted_assets, (
-              observed_assets,
-              permitted_assets,
-          )
-
-          print(release["url"])
-          print("Observed release assets:")
-          for asset in sorted(observed_assets):
-              print(asset)
-          PY
 
       - name: Retrieve exact approved canonical PDF
         env:
@@ -122,8 +82,7 @@ jobs:
             echo "Exact approved canonical PDF asset uploaded."
           fi
 
-      - name: Verify exact published asset set
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+      - name: Verify exact published release metadata and assets
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: v1.0.0
@@ -156,10 +115,11 @@ jobs:
               expected_assets,
           )
           print(release["url"])
+          for asset in sorted(observed_assets):
+              print(asset)
           PY
 
       - name: Download and verify every published asset
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: v1.0.0
@@ -178,7 +138,6 @@ jobs:
           )
 
       - name: Validate published release manifests
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail

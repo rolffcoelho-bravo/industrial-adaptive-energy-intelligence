@@ -1,0 +1,273 @@
+contract_version: "2.0.0"
+gate: "6A"
+status: closed
+architecture_name: governed_v2_energy_intelligence
+
+v1_baseline:
+  tag: v1.0.0
+  commit: 9e8cfe567d2174639675cbc784f21fe968dafe92
+  release_manifest: outputs/v1_release_manifest.json
+  mutable: false
+  locked_test_access_permitted: false
+  frozen_paths:
+    - configs/locked_test_contract.yml
+    - configs/model_contract.yml
+    - configs/report_contract.yml
+    - configs/silver_contract.yml
+    - configs/target_contract.yml
+    - configs/visualization_contract.yml
+    - data/manifests/uci_steel_energy_manifest.json
+    - data/processed/steel_energy_processing_manifest.json
+    - outputs/modeling/selected_model_manifest.json
+    - outputs/modeling/locked_test_results.json
+    - outputs/modeling/locked_test_closure_manifest.json
+    - outputs/modeling/locked_test_predictions.csv
+    - outputs/report_payload.json
+    - outputs/reporting_evidence_manifest.json
+    - outputs/reporting_closure_manifest.json
+    - outputs/charts/confirmatory_forecasting_verdict.png
+    - outputs/charts/governed_data_architecture.png
+    - outputs/charts/model_ladder_chronological_validation.png
+    - outputs/charts/locked_test_temporal_stability.png
+    - outputs/charts/evidence_governance_model_boundaries.png
+    - outputs/tables/confirmatory_metrics.csv
+    - outputs/tables/data_quality_summary.csv
+    - outputs/tables/model_ladder_summary.csv
+    - outputs/tables/temporal_block_results.csv
+    - outputs/tables/evidence_lineage.csv
+    - reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex
+    - reports/latex/GATE_5D3_VISUAL_APPROVAL.md
+    - docs/GATE_5D4_REPORTING_CLOSURE.md
+    - outputs/v1_release_manifest.json
+    - docs/releases/V1.0.0.md
+    - schemas/report_payload.schema.json
+    - schemas/reporting_closure_manifest.schema.json
+    - schemas/v1_release_manifest.schema.json
+  prohibited_operations:
+    - mutate_v1_evidence
+    - parse_locked_predictions_for_new_analysis
+    - reuse_locked_test
+    - reactivate_retired_evaluator
+    - recalculate_confirmatory_metrics
+    - replace_release_assets
+    - alter_v1_conclusions
+
+layers:
+  - order: 1
+    id: data_evidence
+    owner: deterministic_system
+    inputs:
+      - governed_real_observations
+      - frozen_data_contracts
+    outputs:
+      - validated_evidence_contracts
+      - chronological_partitions
+    responsibilities:
+      - preserve_provenance
+      - enforce_feature_availability
+      - reject_leakage
+
+  - order: 2
+    id: predictive_models
+    owner: deterministic_system
+    inputs:
+      - training_partition
+      - validation_partition
+      - governed_search_space
+    outputs:
+      - fitted_candidate_artifacts
+      - out_of_fold_predictions
+    responsibilities:
+      - fit_only_with_admissible_partitions
+      - record_parameters_and_seeds
+      - preserve_reproducibility
+
+  - order: 3
+    id: governed_model_optimization
+    owner: deterministic_system
+    inputs:
+      - governed_search_space
+      - objective_specification
+      - compute_budget
+    outputs:
+      - trial_evidence
+      - constrained_pareto_set
+    responsibilities:
+      - execute_prespecified_trials
+      - enforce_budgets_and_constraints
+      - serialize_complete_trial_lineage
+
+  - order: 4
+    id: uncertainty
+    owner: deterministic_system
+    inputs:
+      - point_forecast_evidence
+      - calibration_partition
+    outputs:
+      - calibrated_intervals
+      - coverage_evidence
+    responsibilities:
+      - separate_calibration_from_point_fit
+      - report_coverage_and_width
+      - preserve_chronological_calibration
+
+  - order: 5
+    id: robust_selection
+    owner: human_with_deterministic_evidence
+    inputs:
+      - constrained_pareto_set
+      - robustness_evidence
+      - portability_evidence
+    outputs:
+      - promotion_decision
+    responsibilities:
+      - expose_tradeoffs
+      - apply_hard_constraints
+      - require_human_approval
+
+  - order: 6
+    id: generative_interpretation
+    owner: genai_advisory
+    inputs:
+      - approved_machine_readable_evidence
+    outputs:
+      - draft_interpretation
+      - review_questions
+    responsibilities:
+      - cite_governed_evidence
+      - distinguish_fact_from_inference
+      - avoid_numerical_execution
+
+  - order: 7
+    id: human_decision
+    owner: human
+    inputs:
+      - promotion_decision
+      - draft_interpretation
+      - model_boundary_record
+    outputs:
+      - approved_action
+      - rejected_action
+      - deferred_action
+    responsibilities:
+      - approve_consequential_promotion
+      - record_rationale
+      - preserve_accountability
+
+interfaces:
+  trial_executor:
+    provider_neutral: true
+    request_schema: schemas/governed_search_space.schema.json
+    response_schema: schemas/trial_evidence.schema.json
+    admissible_partitions:
+      - training
+      - validation
+    prohibited_partitions:
+      - locked_test
+
+  objective_evaluator:
+    provider_neutral: true
+    request_schema: schemas/objective_record.schema.json
+    response_schema: schemas/objective_record.schema.json
+    deterministic_measurement_required: true
+
+  promotion_authority:
+    provider_neutral: true
+    request_schema: schemas/promotion_decision.schema.json
+    final_authority: human
+    genai_vote_permitted: false
+
+  artifact_store:
+    provider_neutral: true
+    required_capabilities:
+      - content_addressed_identity
+      - immutable_versioning
+      - checksum_verification
+      - access_audit
+
+adapters:
+  gcp:
+    status: planned_not_implemented
+    role: execution_adapter
+    core_dependency_permitted: false
+    must_preserve:
+      - contract_identical_inputs
+      - contract_identical_outputs
+      - deterministic_artifact_identity
+      - provider_neutral_domain_logic
+    prohibited:
+      - redefine_objectives
+      - change_promotion_rules
+      - access_locked_test
+      - create_unverified_performance_claims
+
+  google_workspace:
+    status: planned_not_implemented
+    role: collaboration_approval_and_decision_distribution
+    training_environment: false
+    allowed:
+      - publish_approved_summaries
+      - collect_human_approvals
+      - distribute_decision_records
+    prohibited:
+      - fit_models
+      - calculate_metrics
+      - mutate_governed_evidence
+
+  databricks:
+    status: existing_execution_path
+    role: enterprise_execution_adapter
+    core_dependency_permitted: false
+    must_preserve:
+      - portable_contracts
+      - chronology
+      - evidence_lineage
+
+decision_rights:
+  genai:
+    allowed:
+      - propose_candidate_families
+      - draft_search_space_rationale
+      - summarize_approved_evidence
+      - critique_model_boundaries
+      - generate_review_questions
+    prohibited:
+      - execute_trials
+      - calculate_authoritative_metrics
+      - fabricate_evidence
+      - approve_model_promotion
+      - access_locked_test
+
+  deterministic_system:
+    allowed:
+      - validate_contracts
+      - execute_prespecified_trials
+      - calculate_objectives
+      - enforce_constraints
+      - serialize_evidence
+    prohibited:
+      - override_human_promotion_decision
+      - change_prespecified_rules_during_execution
+
+  human:
+    allowed:
+      - approve_contract_changes_before_execution
+      - approve_or_reject_promotion
+      - stop_execution
+      - authorize_new_confirmatory_protocol
+    required_records:
+      - decision
+      - rationale
+      - evidence_identity
+      - approver_role
+
+gate_boundary:
+  design_only: true
+  model_fitting_performed: false
+  confirmatory_evaluation_performed: false
+  locked_test_accessed: false
+  optimization_impact_claim_permitted: false
+  production_claim_permitted: false
+  savings_claim_permitted: false
+  causal_claim_permitted: false
+  next_gate: "6B"

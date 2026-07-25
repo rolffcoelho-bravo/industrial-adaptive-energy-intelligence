@@ -86,13 +86,13 @@ Completed evidence:
 - payload, tables, figures, source, approval, closure, and locked-test identities recorded;
 - final CI, report, and release workflow success;
 - V1 immutability statement, release notes, and checksum asset;
-- V2 Gate 6A unblocked only after complete verification.
+- independent post-publication verification.
 
-## V2 architecture after V1 release
+## V2 governed development
 
-V1 remains immutable. V2 uses a separate architecture and version sequence.
+V1 remains immutable. V2 uses a separate architecture, evidence sequence, and version history.
 
-The approved architectural direction is:
+The architectural sequence is:
 
 ```text
 Data Evidence
@@ -104,15 +104,55 @@ Data Evidence
     -> Human Decision
 ```
 
-Planned sequence:
+### Gate 6A: architecture and optimization governance
 
-- Gate 6A: architecture and optimization governance;
-- Gate 6B: advanced tabular candidates;
-- Gate 6C: neural forecasting;
-- Gate 6D: time-series foundation models;
+**Status:** Closed.
+
+Completed evidence:
+
+- exact seven-layer V2 architecture contract;
+- provider-neutral trial, objective, artifact, and promotion interfaces;
+- planned GCP adapter boundary without a cloud dependency in the analytical core;
+- Google Workspace restricted to collaboration, approval, and decision distribution;
+- Databricks retained as a separate enterprise execution adapter;
+- nested expanding-window validation rules;
+- locked-test exclusion across fitting, calibration, ensembles, and promotion;
+- multiobjective accuracy, robustness, stability, calibration, complexity, latency, and portability definitions;
+- hard constraints, search budgets, fixed seeds, and change control;
+- constrained Pareto selection with final human authority;
+- governed schemas for search spaces, objective records, trial evidence, and promotion decisions;
+- CI enforcement of the immutable V1 boundary;
+- Gate 6A closure manifest and acceptance tests.
+
+Gate 6A performed no model fitting, optimization trial, uncertainty calibration, locked-test access, or confirmatory evaluation.
+
+### Gate 6B: advanced tabular challengers
+
+**Status:** Next.
+
+Required evidence:
+
+- candidate-family decision and dependency boundary;
+- approved machine-readable search spaces;
+- nested chronological training and validation execution;
+- complete trial, failure, resource, and portability records;
+- comparison with persistence and the frozen V1 champion on admissible validation evidence;
+- constrained Pareto set;
+- human promotion, rejection, or deferral record;
+- no V1 artifact mutation and no locked-test access.
+
+### Gates 6C-6G
+
+**Status:** Planned.
+
+Sequence:
+
+- Gate 6C: neural forecasting with multiple governed seeds and variance evidence;
+- Gate 6D: time-series foundation models with access, adaptation, cost, and portability controls;
 - Gate 6E: probabilistic optimization and uncertainty calibration;
-- Gate 6F: ensembles and governed routing;
-- Gate 6G: efficiency and portability;
-- later cloud execution adapters, governed GenAI, and human decision integration.
+- Gate 6F: ensembles and governed routing using out-of-fold evidence only;
+- Gate 6G: efficiency, portability, and adapter parity.
 
-V2 must preserve V1 unchanged. GenAI may propose and interpret, deterministic systems execute and measure, and humans approve consequential promotion decisions.
+Later stages may add executable cloud adapters, governed generative interpretation, and human decision integrations. Each stage requires separate evidence and cannot inherit an unsupported claim from architecture alone.
+
+V2 must preserve V1 unchanged. Generative AI may propose and interpret, deterministic systems execute and measure, and humans approve consequential promotion decisions.

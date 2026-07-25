@@ -140,6 +140,47 @@ def validate_v1_release_manifest() -> dict[str, Any]:
     return manifest
 
 
+def validate_v2_architecture_contract() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "v2_architecture_contract.yml")
+    schema = load_json(SCHEMAS / "v2_architecture_contract.schema.json")
+
+    _validate_payload(
+        contract,
+        schema,
+        label="Gate 6A V2 architecture contract",
+    )
+
+    return contract
+
+
+def validate_optimization_governance() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "optimization_governance.yml")
+    schema = load_json(SCHEMAS / "optimization_governance.schema.json")
+
+    _validate_payload(
+        contract,
+        schema,
+        label="Gate 6A optimization governance contract",
+    )
+
+    return contract
+
+
+def validate_gate_6a_closure_manifest() -> dict[str, Any]:
+    manifest = load_json(
+        ROOT / "outputs" / "v2" / "gate_6a_architecture_manifest.json"
+    )
+    schema = load_json(SCHEMAS / "gate_6a_closure_manifest.schema.json")
+
+    _validate_payload(
+        manifest,
+        schema,
+        label="Gate 6A architecture closure manifest",
+    )
+
+    return manifest
+
+
 def validate_repository_contracts() -> None:
     required_yaml = [
         CONFIGS / "project.yml",
@@ -150,6 +191,8 @@ def validate_repository_contracts() -> None:
         CONFIGS / "drift_policy.yml",
         CONFIGS / "report_contract.yml",
         CONFIGS / "visualization_contract.yml",
+        CONFIGS / "v2_architecture_contract.yml",
+        CONFIGS / "optimization_governance.yml",
     ]
 
     required_json = [
@@ -158,6 +201,13 @@ def validate_repository_contracts() -> None:
         SCHEMAS / "v1_release_manifest.schema.json",
         SCHEMAS / "target_contract.schema.json",
         SCHEMAS / "silver_contract.schema.json",
+        SCHEMAS / "v2_architecture_contract.schema.json",
+        SCHEMAS / "optimization_governance.schema.json",
+        SCHEMAS / "governed_search_space.schema.json",
+        SCHEMAS / "objective_record.schema.json",
+        SCHEMAS / "trial_evidence.schema.json",
+        SCHEMAS / "promotion_decision.schema.json",
+        SCHEMAS / "gate_6a_closure_manifest.schema.json",
     ]
 
     required = [*required_yaml, *required_json]
@@ -176,3 +226,6 @@ def validate_repository_contracts() -> None:
     validate_silver_contract()
     validate_reporting_closure_manifest()
     validate_v1_release_manifest()
+    validate_v2_architecture_contract()
+    validate_optimization_governance()
+    validate_gate_6a_closure_manifest()

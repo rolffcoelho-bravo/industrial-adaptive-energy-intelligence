@@ -21,8 +21,33 @@ V1 is the immutable confirmatory release of the governed forecasting system.
 - Approved technical brief: [`industrial_adaptive_energy_intelligence_technical_brief.pdf`](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/releases/download/v1.0.0/industrial_adaptive_energy_intelligence_technical_brief.pdf)
 - Release manifest: [`outputs/v1_release_manifest.json`](outputs/v1_release_manifest.json)
 - Reporting closure: [`outputs/reporting_closure_manifest.json`](outputs/reporting_closure_manifest.json)
+- Independent release verification: [`docs/GATE_5E_RELEASE_VERIFICATION.md`](docs/GATE_5E_RELEASE_VERIFICATION.md)
 
 The release preserves the frozen model, untouched confirmatory evidence, five approved figures, five reporting tables, governed LaTeX source, and visually approved five-page PDF. V1 artifacts cannot be silently replaced or recalculated.
+
+## V2 governance
+
+Gate 6A establishes the V2 architecture before any V2 model execution.
+
+```text
+Data Evidence
+    -> Predictive Models
+    -> Governed Model Optimization
+    -> Uncertainty
+    -> Robust Selection
+    -> Generative Interpretation
+    -> Human Decision
+```
+
+The architecture is provider-neutral. Search spaces, objectives, hard constraints, budgets, seeds, trial evidence, and promotion rules are machine-readable and approved before execution. GCP is the first planned cloud adapter, Google Workspace is restricted to collaboration and approval, and final promotion authority remains human.
+
+- Architecture contract: [`configs/v2_architecture_contract.yml`](configs/v2_architecture_contract.yml)
+- Optimization contract: [`configs/optimization_governance.yml`](configs/optimization_governance.yml)
+- Architecture documentation: [`docs/V2_ARCHITECTURE.md`](docs/V2_ARCHITECTURE.md)
+- Optimization governance: [`docs/OPTIMIZATION_GOVERNANCE.md`](docs/OPTIMIZATION_GOVERNANCE.md)
+- Gate 6A closure: [`docs/GATE_6A_ARCHITECTURE_CLOSURE.md`](docs/GATE_6A_ARCHITECTURE_CLOSURE.md)
+
+Gate 6A performed no model fitting, optimization trial, locked-test access, or confirmatory evaluation. Gate 6B is the next permitted development stage.
 
 ## Analytical system
 
@@ -34,6 +59,7 @@ The release preserves the frozen model, untouched confirmatory evidence, five ap
 | Model selection | Prespecified candidate ladder with chronological validation and training-only parameter selection |
 | Confirmatory evaluation | One frozen model, one untouched test period, and one terminal evaluation |
 | Reporting | Machine-readable tables, decision-grade figures, governed LaTeX, visual approval, and formal closure |
+| V2 optimization governance | Nested chronological evidence, multiobjective constraints, fixed budgets and seeds, Pareto selection, and human promotion authority |
 | Enterprise execution | Databricks notebooks, SQL transformations, workflow orchestration, and traceable experiments |
 | Portable execution | Python, DuckDB, Parquet, scikit-learn, Matplotlib, LaTeX, and GitHub Actions |
 
@@ -54,7 +80,7 @@ Dataset licensing is documented in [`data/DATA_LICENSE.md`](data/DATA_LICENSE.md
 
 No synthetic operating data or invented performance results are permitted.
 
-## Architecture
+## V1 architecture
 
 ```text
 UCI licensed data
@@ -107,11 +133,15 @@ The portable analytical path uses pandas, scikit-learn, DuckDB, PyArrow, and Mat
 
 ### Databricks
 
-Databricks provides the enterprise execution layer for governed transformations, modular notebooks, workflow orchestration, SQL evidence, and traceable machine-learning experimentation. The portable path preserves auditability and avoids dependence on a single platform.
+Databricks provides an enterprise execution path for governed transformations, modular notebooks, workflow orchestration, SQL evidence, and traceable machine-learning experimentation. The portable path preserves auditability and avoids dependence on a single platform.
+
+### Planned GCP adapter
+
+GCP is a planned V2 execution adapter. It is not an implemented dependency or a production claim. Any future adapter must preserve the same provider-neutral contracts, chronology, artifact identities, and locked-test exclusion.
 
 ## Evidence integrity
 
-The pipeline blocks reporting and release when required evidence is missing or invalid. Controls include:
+The pipeline blocks reporting, release, and V2 promotion when required evidence is missing or invalid. Controls include:
 
 - immutable data and terminal-result hashes;
 - explicit schemas and contracts;
@@ -126,7 +156,9 @@ The pipeline blocks reporting and release when required evidence is missing or i
 - human visual approval with rendered-page fingerprints;
 - a schema-validated V1 release manifest;
 - exact release-asset checksum verification;
-- rejection of placeholder, provisional, or unsupported results.
+- CI comparison of frozen V1 paths with tag `v1.0.0`;
+- governed V2 search-space, objective, trial, and promotion schemas;
+- rejection of provisional or unsupported results.
 
 ## Confirmatory result
 
@@ -170,7 +202,7 @@ The reporting layer converts completed model and confirmatory evidence into five
 | Locked-test temporal stability | Shows all four prespecified blocks, peak-state results, and exact test boundaries. |
 | Evidence governance and model boundaries | Shows gate lineage, immutable artifact identity, single-evaluation controls, and excluded claims. |
 
-Every figure must reconcile with final machine-readable evidence. Units, sample dates, sources, thresholds, and model status are mandatory. Placeholder curves, decorative dashboards, unsupported causal claims, optimization recommendations, and savings claims are prohibited.
+Every figure must reconcile with final machine-readable evidence. Units, sample dates, sources, thresholds, and model status are mandatory. Decorative dashboards, unsupported causal claims, optimization recommendations, and savings claims are prohibited.
 
 ## Current implementation
 
@@ -191,9 +223,17 @@ Completed, governed, and released in V1:
 - GitHub-native five-page LaTeX brief;
 - Gate 5D3 human visual approval;
 - Gate 5D4 formal reporting closure;
-- Gate 5E immutable V1 release manifest, tag, release notes, and permanent assets.
+- Gate 5E immutable V1 release and independent verification.
 
-V2 work may now begin under a separate architecture. It cannot mutate V1 evidence, model identity, confirmatory results, figures, tables, reporting source, or release artifacts.
+Completed in V2 governance:
+
+- Gate 6A provider-neutral architecture;
+- nested chronological optimization contract;
+- objective, constraint, budget, and seed governance;
+- V1 immutability enforcement in CI;
+- artifact schemas and human promotion authority.
+
+The next permitted stage is Gate 6B, advanced tabular challengers. It cannot mutate V1 evidence, model identity, confirmatory results, figures, tables, reporting source, or release artifacts.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 
@@ -212,12 +252,13 @@ python -m pip install --upgrade pip
 pip install -e ".[dev]"
 
 python scripts/download_data.py --verify
+python scripts/verify_v1_immutability.py
 python scripts/run_pipeline.py --check
 python scripts/audit_public_content.py
 pytest
 ```
 
-The technical brief and V1 release package are built and verified entirely in GitHub Actions. Local PDF tooling is not required.
+The technical brief, V1 release package, and V1 immutability checks are executed in GitHub Actions. Local PDF tooling is not required.
 
 ## License and attribution
 

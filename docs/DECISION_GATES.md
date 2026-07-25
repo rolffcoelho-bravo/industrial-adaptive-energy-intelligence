@@ -21,6 +21,18 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | 5D4 | Formal reporting closure | Closed | Canonical PDF identity, visual fingerprints, closure schema and manifest |
 | 5E | Frozen V1 release closure | Closed | Release manifest, `v1.0.0` tag, GitHub Release, canonical PDF asset, final checksum verification |
 
+## V2 governed development sequence
+
+| Gate | Technical decision | Status | Required evidence |
+|---:|---|---|---|
+| 6A | V2 architecture and optimization governance | Closed | Provider-neutral architecture, optimization contract, artifact schemas, V1 immutability checks, acceptance tests |
+| 6B | Advanced tabular challengers | Next | Approved search spaces, nested chronological evidence, complete trial records, Pareto and promotion evidence |
+| 6C | Neural forecasting | Planned | Multiple governed seeds, variance evidence, chronological evaluation, resource and portability evidence |
+| 6D | Time-series foundation models | Planned | Prespecified model access, context and adaptation rules, chronological evidence, cost and portability controls |
+| 6E | Probabilistic optimization and uncertainty | Planned | Separate calibration, coverage and width evidence, governed uncertainty promotion |
+| 6F | Ensembles and governed routing | Planned | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
+| 6G | Efficiency and portability | Planned | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
+
 ## Closed confirmatory boundary
 
 The V1 model and confirmatory evidence are immutable. The following actions are prohibited:
@@ -57,8 +69,25 @@ Gate 5E freezes:
 - the checksum file published with the release;
 - the rule that V1 assets cannot be overwritten or silently replaced.
 
+## Gate 6A architecture boundary
+
+Gate 6A freezes the V2 development rules before any V2 model execution:
+
+- the seven-layer architecture from data evidence to human decision;
+- provider-neutral execution, evidence, and decision interfaces;
+- GCP as a planned adapter rather than a domain dependency;
+- Google Workspace as a collaboration and approval layer rather than a training environment;
+- nested expanding-window validation and complete locked-test exclusion;
+- multiobjective definitions, hard constraints, search budgets, and random seeds;
+- out-of-fold-only ensemble evidence;
+- separate uncertainty calibration;
+- constrained Pareto selection and final human promotion authority;
+- schemas for search spaces, objectives, trials, and promotion decisions.
+
+Gate 6A performed no model fitting, optimization trial, locked-test access, or confirmatory evaluation.
+
 ## Next permitted decision
 
-V1 is closed and immutable.
+V1 remains closed and immutable. Gate 6A is closed as a design and governance stage.
 
-The next permitted gate is **Gate 6A: V2 architecture and optimization governance**. V2 work must be separately versioned and cannot mutate V1 evidence, conclusions, release assets, or governance records.
+The next permitted gate is **Gate 6B: advanced tabular challengers**. Gate 6B must operate only on training and validation evidence under the Gate 6A contracts.

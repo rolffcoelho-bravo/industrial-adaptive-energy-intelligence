@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/promotion_decision.schema.json",
+  "title": "Governed Promotion Decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "decision_id",
+    "gate",
+    "candidate_id",
+    "reference_ids",
+    "evidence_manifest_sha256",
+    "hard_constraints_all_pass",
+    "pareto_status",
+    "promotion_requirements",
+    "decision",
+    "decided_by",
+    "genai_role",
+    "rationale",
+    "evidence_commit",
+    "next_action"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "decision_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "gate": {"enum": ["6B", "6C", "6D", "6E", "6F", "6G"]},
+    "candidate_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9._-]+$"},
+    "reference_ids": {
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "contains": {"const": "v1_frozen_champion"},
+      "items": {"type": "string", "minLength": 1}
+    },
+    "evidence_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "hard_constraints_all_pass": {"type": "boolean"},
+    "pareto_status": {"enum": ["eligible", "dominated", "ineligible"]},
+    "promotion_requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/requirement"}
+    },
+    "decision": {"enum": ["promote", "reject", "defer"]},
+    "decided_by": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["authority", "role", "human_approval_recorded"],
+      "properties": {
+        "authority": {"const": "human"},
+        "role": {"type": "string", "minLength": 1},
+        "human_approval_recorded": {"const": true}
+      }
+    },
+    "genai_role": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["advisory_only", "vote_permitted", "authoritative_metric_calculation_permitted"],
+      "properties": {
+        "advisory_only": {"const": true},
+        "vote_permitted": {"const": false},
+        "authoritative_metric_calculation_permitted": {"const": false}
+      }
+    },
+    "rationale": {"type": "string", "minLength": 20},
+    "evidence_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "next_action": {"enum": ["freeze_candidate", "retain_incumbent", "collect_more_validation_evidence", "stop_candidate_family"]}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"decision": {"const": "promote"}}},
+      "then": {
+        "properties": {
+          "hard_constraints_all_pass": {"const": true},
+          "pareto_status": {"const": "eligible"},
+          "next_action": {"const": "freeze_candidate"}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "passed", "observed", "required_value"],
+      "properties": {
+        "id": {"type": "string", "minLength": 1},
+        "passed": {"type": "boolean"},
+        "observed": {"type": ["number", "integer", "boolean", "string"]},
+        "required_value": {"type": ["number", "integer", "boolean", "string"]}
+      }
+    }
+  }
+}

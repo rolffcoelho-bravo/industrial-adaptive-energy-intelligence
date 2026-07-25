@@ -1,0 +1,51 @@
+{
+  "gate": "6A",
+  "status": "closed",
+  "v1_baseline": {
+    "tag": "v1.0.0",
+    "commit": "9e8cfe567d2174639675cbc784f21fe968dafe92",
+    "mutable": false,
+    "release_manifest": "outputs/v1_release_manifest.json"
+  },
+  "contracts": {
+    "architecture": "configs/v2_architecture_contract.yml",
+    "optimization": "configs/optimization_governance.yml"
+  },
+  "schemas": [
+    "schemas/v2_architecture_contract.schema.json",
+    "schemas/optimization_governance.schema.json",
+    "schemas/governed_search_space.schema.json",
+    "schemas/objective_record.schema.json",
+    "schemas/trial_evidence.schema.json",
+    "schemas/promotion_decision.schema.json",
+    "schemas/gate_6a_closure_manifest.schema.json"
+  ],
+  "documentation": [
+    "docs/V2_ARCHITECTURE.md",
+    "docs/OPTIMIZATION_GOVERNANCE.md",
+    "docs/GATE_6A_ARCHITECTURE_CLOSURE.md"
+  ],
+  "controls": {
+    "model_fitting_performed": false,
+    "locked_test_accessed": false,
+    "confirmatory_evaluation_performed": false,
+    "v1_artifact_changed": false,
+    "optimization_impact_claim_made": false,
+    "production_claim_made": false,
+    "savings_claim_made": false,
+    "causal_claim_made": false,
+    "provider_neutral_core_required": true,
+    "human_promotion_authority_required": true
+  },
+  "acceptance": {
+    "machine_readable_contracts_complete": true,
+    "objective_and_constraint_rules_prespecified": true,
+    "budgets_and_seeds_prespecified": true,
+    "v1_immutability_tested": true,
+    "locked_test_reuse_blocked": true,
+    "artifact_schemas_complete": true,
+    "public_content_audit_required": true,
+    "ci_required": true
+  },
+  "next_gate": "6B"
+}

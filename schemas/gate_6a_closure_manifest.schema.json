@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6a_closure_manifest.schema.json",
+  "title": "Gate 6A Architecture Closure Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gate",
+    "status",
+    "v1_baseline",
+    "contracts",
+    "schemas",
+    "documentation",
+    "controls",
+    "acceptance",
+    "next_gate"
+  ],
+  "properties": {
+    "gate": {"const": "6A"},
+    "status": {"const": "closed"},
+    "v1_baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag", "commit", "mutable", "release_manifest"],
+      "properties": {
+        "tag": {"const": "v1.0.0"},
+        "commit": {"const": "9e8cfe567d2174639675cbc784f21fe968dafe92"},
+        "mutable": {"const": false},
+        "release_manifest": {"const": "outputs/v1_release_manifest.json"}
+      }
+    },
+    "contracts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["architecture", "optimization"],
+      "properties": {
+        "architecture": {"const": "configs/v2_architecture_contract.yml"},
+        "optimization": {"const": "configs/optimization_governance.yml"}
+      }
+    },
+    "schemas": {
+      "type": "array",
+      "minItems": 6,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^schemas/.+\\.json$"}
+    },
+    "documentation": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"type": "string", "pattern": "^docs/.+\\.md$"}
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_fitting_performed",
+        "locked_test_accessed",
+        "confirmatory_evaluation_performed",
+        "v1_artifact_changed",
+        "optimization_impact_claim_made",
+        "production_claim_made",
+        "savings_claim_made",
+        "causal_claim_made",
+        "provider_neutral_core_required",
+        "human_promotion_authority_required"
+      ],
+      "properties": {
+        "model_fitting_performed": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "v1_artifact_changed": {"const": false},
+        "optimization_impact_claim_made": {"const": false},
+        "production_claim_made": {"const": false},
+        "savings_claim_made": {"const": false},
+        "causal_claim_made": {"const": false},
+        "provider_neutral_core_required": {"const": true},
+        "human_promotion_authority_required": {"const": true}
+      }
+    },
+    "acceptance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "machine_readable_contracts_complete",
+        "objective_and_constraint_rules_prespecified",
+        "budgets_and_seeds_prespecified",
+        "v1_immutability_tested",
+        "locked_test_reuse_blocked",
+        "artifact_schemas_complete",
+        "public_content_audit_required",
+        "ci_required"
+      ],
+      "properties": {
+        "machine_readable_contracts_complete": {"const": true},
+        "objective_and_constraint_rules_prespecified": {"const": true},
+        "budgets_and_seeds_prespecified": {"const": true},
+        "v1_immutability_tested": {"const": true},
+        "locked_test_reuse_blocked": {"const": true},
+        "artifact_schemas_complete": {"const": true},
+        "public_content_audit_required": {"const": true},
+        "ci_required": {"const": true}
+      }
+    },
+    "next_gate": {"const": "6B"}
+  }
+}

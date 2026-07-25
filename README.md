@@ -27,7 +27,7 @@ The release preserves the frozen model, untouched confirmatory evidence, five ap
 
 ## V2 governance
 
-Gate 6A establishes the V2 architecture before any V2 model execution.
+Gate 6A established the V2 architecture before V2 model execution. Gate 6B then evaluated advanced tabular challengers under those frozen rules.
 
 ```text
 Data Evidence
@@ -46,8 +46,9 @@ The architecture is provider-neutral. Search spaces, objectives, hard constraint
 - Architecture documentation: [`docs/V2_ARCHITECTURE.md`](docs/V2_ARCHITECTURE.md)
 - Optimization governance: [`docs/OPTIMIZATION_GOVERNANCE.md`](docs/OPTIMIZATION_GOVERNANCE.md)
 - Gate 6A closure: [`docs/GATE_6A_ARCHITECTURE_CLOSURE.md`](docs/GATE_6A_ARCHITECTURE_CLOSURE.md)
+- Gate 6B closure: [`docs/GATE_6B_ADVANCED_TABULAR_CLOSURE.md`](docs/GATE_6B_ADVANCED_TABULAR_CLOSURE.md)
 
-Gate 6A performed no model fitting, optimization trial, locked-test access, or confirmatory evaluation. Gate 6B is the next permitted development stage.
+Gate 6B evaluated XGBoost histogram boosting, LightGBM L1 boosting, and CatBoost MAE boosting across 12 prespecified configurations. No challenger satisfied every frozen promotion requirement. The human decision rejected all three challengers and retained the immutable V1 histogram-gradient-boosting incumbent. Gate 6C neural forecasting is the next permitted stage.
 
 ## Analytical system
 
@@ -225,15 +226,20 @@ Completed, governed, and released in V1:
 - Gate 5D4 formal reporting closure;
 - Gate 5E immutable V1 release and independent verification.
 
-Completed in V2 governance:
+Completed in V2:
 
 - Gate 6A provider-neutral architecture;
 - nested chronological optimization contract;
 - objective, constraint, budget, and seed governance;
 - V1 immutability enforcement in CI;
-- artifact schemas and human promotion authority.
+- artifact schemas and human promotion authority;
+- Gate 6B advanced tabular execution across 12 prespecified configurations;
+- complete validation, resource, portability, and trial evidence;
+- human rejection of all advanced tabular challengers;
+- retention of the frozen V1 incumbent;
+- Gate 6B closure manifest and validation.
 
-The next permitted stage is Gate 6B, advanced tabular challengers. It cannot mutate V1 evidence, model identity, confirmatory results, figures, tables, reporting source, or release artifacts.
+The next permitted stage is Gate 6C neural forecasting. It must use multiple governed seeds, chronological training and validation evidence, across-seed variance reporting, resource and portability controls, and final human promotion authority.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 

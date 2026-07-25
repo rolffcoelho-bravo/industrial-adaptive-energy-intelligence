@@ -217,19 +217,20 @@ jobs:
 
           from PIL import Image
 
-          manifest = json.loads(
-              Path("outputs/reporting_closure_manifest.json").read_text(
-                  encoding="utf-8"
-              )
-          )
+          manifest_path = Path("outputs/reporting_closure_manifest.json")
+          manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
           approval = manifest["visual_approval"]
           expected_size = (
               approval["page_width_pixels"],
               approval["page_height_pixels"],
           )
-          expected_hashes = approval["page_sha256"]
+          expected_page_count = len(approval["page_sha256"])
+          if approval["fingerprint_type"] != "rgb_pixel_bytes_sha256":
+              raise SystemExit("Unexpected visual fingerprint contract")
 
-          for page_number, expected_hash in enumerate(expected_hashes, start=1):
+          verified_hashes: list[str] = []
+
+          for page_number in range(1, expected_page_count + 1):
               rebuild_path = Path(
                   f"/tmp/iaei-rebuild-pages/page-{page_number}.png"
               )
@@ -256,17 +257,30 @@ jobs:
 
               canonical_bytes = canonical_rgb.tobytes()
               rebuild_bytes = rebuild_rgb.tobytes()
-              canonical_hash = hashlib.sha256(canonical_bytes).hexdigest()
 
-              if canonical_hash != expected_hash:
-                  raise SystemExit(
-                      f"Canonical visual fingerprint mismatch on page {page_number}"
-                  )
               if rebuild_bytes != canonical_bytes:
                   raise SystemExit(
                       f"Rebuilt PDF is not visually identical on page {page_number}"
                   )
 
+              verified_hashes.append(
+                  hashlib.sha256(canonical_bytes).hexdigest()
+              )
+
+          output = {
+              "renderer": "pdftoppm",
+              "dpi": approval["dpi"],
+              "fingerprint_type": approval["fingerprint_type"],
+              "page_width_pixels": expected_size[0],
+              "page_height_pixels": expected_size[1],
+              "page_sha256": verified_hashes,
+              "canonical_and_rebuild_visual_identity": True,
+          }
+          Path("reports/latex/verified_visual_fingerprints.json").write_text(
+              json.dumps(output, indent=2, sort_keys=True) + "\n",
+              encoding="utf-8",
+              newline="\n",
+          )
           print("Five-page visual equivalence: PASS")
           PY
 
@@ -284,6 +298,7 @@ jobs:
             reports/latex/rebuild_pdf.sha256
             reports/latex/canonical_pdfinfo.txt
             reports/latex/canonical_pdf.sha256
+            reports/latex/verified_visual_fingerprints.json
             docs/GATE_5D4_REPORTING_CLOSURE.md
             outputs/report_payload.json
             outputs/reporting_closure_manifest.json

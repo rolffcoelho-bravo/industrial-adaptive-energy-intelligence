@@ -1,0 +1,80 @@
+{
+  "gate": "5D4",
+  "status": "closed",
+  "version": "v1",
+  "closed_at_utc": "2026-07-25T17:16:04Z",
+  "canonical_pdf": {
+    "path": "reports/industrial_adaptive_energy_intelligence_technical_brief.pdf",
+    "sha256": "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3",
+    "size_bytes": 1218669,
+    "page_count": 5,
+    "page_format": "A4",
+    "title": "Industrial Adaptive Energy Intelligence - Confirmatory Evidence Brief",
+    "author": "Industrial Adaptive Energy Intelligence"
+  },
+  "latex_source": {
+    "path": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex",
+    "sha256": "145687346d882af70fc1e6a1893554660ddbac0341d5bf4267506b9b295bc65b",
+    "source_commit": "82803aa28392c4af9762309cb8af989a847d77d2"
+  },
+  "visual_approval": {
+    "approval_path": "reports/latex/GATE_5D3_VISUAL_APPROVAL.md",
+    "approval_commit": "7b02b20957440b865d1d8224d7ce947982ed45ce",
+    "renderer": "pdftoppm",
+    "dpi": 200,
+    "page_width_pixels": 1654,
+    "page_height_pixels": 2339,
+    "page_sha256": [
+      "851e3924f751be8dddb9208e8ce2aedc095edf944011db1b0b08885cc4475a79",
+      "3b5fc38ec940dc8185c8153a47800f47dee84e5642a882cfc43ee945241159de",
+      "033040b13993a1257b618ad2eff4e03de36a1f32f18860c52fe95d58be7adb9f",
+      "33c59cfd33dd10573d4bc667c456aeab88b057e9a085a580965b78df52ee2f44",
+      "2a8524e12e5387f68d3bc7d46d135fbd71eaa2062167a317b3b284e2b033f79f"
+    ],
+    "accepted_layout_boundary": "Pages 1 through 4 retain generous lower-page whitespace without impairing evidence readability, hierarchy, or interpretation."
+  },
+  "workflow": {
+    "name": "Build technical brief",
+    "approved_run_id": 30165631829,
+    "approved_artifact_id": 8621498159,
+    "approved_artifact_digest": "41f0d7643e4ff782888d96e4ddab385576446be81a072e6fdfbe4df17fd057f9",
+    "post_approval_validation_run_id": 30166336012,
+    "post_approval_validation_artifact_id": 8621695349,
+    "post_approval_validation_artifact_digest": "f105a4e4680dd5c1660b934e7d6ecb9a5d90a74eb74e4cb87f3b32ab5ddc89a9",
+    "visual_equivalence_across_runs": true
+  },
+  "governed_inputs": {
+    "report_payload": {
+      "path": "outputs/report_payload.json",
+      "sha256": "3ac6d400acd18bcb4c26f58258fcb1e4868ab2a5b6e7927d2e03d140310445aa"
+    },
+    "figures": {
+      "outputs/charts/confirmatory_forecasting_verdict.png": "5bd81c6d72fa7f42de1a9fac341dd986d6d505293dcd39492d04bef9c0fdcb11",
+      "outputs/charts/governed_data_architecture.png": "e121f57a84fb70266b62bae545bde5f9cfabc3330371eb23d1136f4dbe18dc04",
+      "outputs/charts/model_ladder_chronological_validation.png": "b3836b2bf61d4a8dbaf9f16d2774ab8fd8509532ad619762a6761ddb415d453e",
+      "outputs/charts/locked_test_temporal_stability.png": "3770c9e100b607ca73af5b470d256d4beae088f95503afd44703d24663c92d46",
+      "outputs/charts/evidence_governance_model_boundaries.png": "65446260ef8167a5d24493569fc32501abf5d4b10f40f72c35d7fc1f5d9c1c04"
+    },
+    "tables": {
+      "outputs/tables/confirmatory_metrics.csv": "bd6816dcd518fc3a18eed95049adbf5a4d9b6d0f19252740bfc2a362a5ff3073",
+      "outputs/tables/data_quality_summary.csv": "43ae0a766d3afa3e49a1653bcccd9eaaa61492dff1241eb728e860b168b6566a",
+      "outputs/tables/model_ladder_summary.csv": "a61cbab367ad83a4199919c04d5fc9285f9abffba1da9ab762134d03866d3c58",
+      "outputs/tables/temporal_block_results.csv": "58ab345ca592b279fc8a41e65642d663a868b334cee28a6fa8cfd0a517446d27",
+      "outputs/tables/evidence_lineage.csv": "ae3c7229370e556ed7e8bb22deb3d195d4e07506e4018edc9269f0c62db34507"
+    }
+  },
+  "closure_controls": {
+    "model_reestimated": false,
+    "locked_test_reused": false,
+    "retired_evaluator_invoked": false,
+    "locked_predictions_parsed": false,
+    "metrics_recalculated": false,
+    "approved_figures_changed": false,
+    "report_payload_changed": false,
+    "personal_author_metadata_present": false,
+    "human_visual_approval_recorded": true,
+    "canonical_pdf_committed": true,
+    "v1_reporting_mutable": false
+  },
+  "next_gate": "5E"
+}

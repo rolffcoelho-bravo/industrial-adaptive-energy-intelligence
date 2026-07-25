@@ -1,0 +1,109 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6b_closure_manifest.schema.json",
+  "title": "Gate 6B Closure Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "gate",
+    "status",
+    "v1_boundary",
+    "execution",
+    "human_decision",
+    "candidate_outcomes",
+    "evidence_boundary",
+    "claim_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "gate": {"const": "6B"},
+    "status": {"const": "closed"},
+    "v1_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tag", "immutable", "locked_test_accessed", "locked_predictions_parsed", "confirmatory_evaluation_performed"],
+      "properties": {
+        "tag": {"const": "v1.0.0"},
+        "immutable": {"const": true},
+        "locked_test_accessed": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false}
+      }
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["execution_commit", "evidence_commit", "unique_configuration_count", "outer_fold_count", "inner_fold_count", "validation_origin_count_per_candidate", "execution_manifest_sha256", "leaderboard_sha256"],
+      "properties": {
+        "execution_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "evidence_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "unique_configuration_count": {"const": 12},
+        "outer_fold_count": {"const": 4},
+        "inner_fold_count": {"const": 3},
+        "validation_origin_count_per_candidate": {"const": 7004},
+        "execution_manifest_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "leaderboard_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "human_decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["decision_commit", "decision_artifact", "decision_artifact_sha256", "decision", "retained_model", "authority", "approval_recorded"],
+      "properties": {
+        "decision_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "decision_artifact": {"const": "outputs/v2/gate_6b/promotion_decision.json"},
+        "decision_artifact_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "decision": {"const": "reject_all_challengers"},
+        "retained_model": {"const": "v1_frozen_champion"},
+        "authority": {"const": "human"},
+        "approval_recorded": {"const": true}
+      }
+    },
+    "candidate_outcomes": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["algorithm_id", "mean_mae", "mean_validation_mae_relative_improvement", "peak_state_mae_relative_degradation", "positive_outer_folds", "hard_constraints_all_pass", "promotion_eligible", "decision"],
+        "properties": {
+          "algorithm_id": {"enum": ["lightgbm_l1", "xgboost_hist", "catboost_mae"]},
+          "mean_mae": {"type": "number"},
+          "mean_validation_mae_relative_improvement": {"type": "number"},
+          "peak_state_mae_relative_degradation": {"type": "number"},
+          "positive_outer_folds": {"type": "integer", "minimum": 0, "maximum": 4},
+          "hard_constraints_all_pass": {"const": true},
+          "promotion_eligible": {"const": false},
+          "decision": {"const": "rejected"}
+        }
+      }
+    },
+    "evidence_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["admissible_partitions", "maximum_prediction_origin", "maximum_target_dependency", "locked_test_start"],
+      "properties": {
+        "admissible_partitions": {"const": ["training", "validation"]},
+        "maximum_prediction_origin": {"type": "integer", "maximum": 28027},
+        "maximum_target_dependency": {"type": "integer", "maximum": 28031},
+        "locked_test_start": {"const": 28032}
+      }
+    },
+    "claim_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["production_claim_permitted", "savings_claim_permitted", "drift_claim_permitted", "causal_claim_permitted", "confirmatory_claim_permitted"],
+      "properties": {
+        "production_claim_permitted": {"const": false},
+        "savings_claim_permitted": {"const": false},
+        "drift_claim_permitted": {"const": false},
+        "causal_claim_permitted": {"const": false},
+        "confirmatory_claim_permitted": {"const": false}
+      }
+    },
+    "next_gate": {"const": "6C"}
+  }
+}

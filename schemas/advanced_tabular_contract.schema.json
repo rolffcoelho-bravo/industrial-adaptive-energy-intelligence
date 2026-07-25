@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/advanced_tabular_contract.schema.json",
+  "title": "Gate 6B Advanced Tabular Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "gate",
+    "status",
+    "execution_name",
+    "v1_boundary",
+    "data_boundary",
+    "search",
+    "candidate_families",
+    "objectives",
+    "promotion",
+    "outputs",
+    "claim_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "gate": {"const": "6B"},
+    "status": {"enum": ["approved_for_execution", "closed"]},
+    "execution_name": {"const": "governed_advanced_tabular_challengers"},
+    "v1_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "immutable_tag",
+        "immutable_commit",
+        "locked_test_access_permitted",
+        "locked_prediction_parsing_permitted",
+        "confirmatory_evaluation_permitted"
+      ],
+      "properties": {
+        "immutable_tag": {"const": "v1.0.0"},
+        "immutable_commit": {"const": "9e8cfe567d2174639675cbc784f21fe968dafe92"},
+        "locked_test_access_permitted": {"const": false},
+        "locked_prediction_parsing_permitted": {"const": false},
+        "confirmatory_evaluation_permitted": {"const": false}
+      }
+    },
+    "data_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "silver_path",
+        "outer_folds_path",
+        "incumbent_results_path",
+        "admissible_partitions",
+        "outer_fold_count",
+        "inner_fold_count",
+        "purge_intervals",
+        "maximum_prediction_origin_exclusive",
+        "maximum_target_dependency_exclusive"
+      ],
+      "properties": {
+        "silver_path": {"const": "data/processed/steel_energy_silver.parquet"},
+        "outer_folds_path": {"const": "outputs/modeling/chronological_folds.json"},
+        "incumbent_results_path": {"const": "outputs/modeling/hist_gradient_boosting_validation_results.csv"},
+        "admissible_partitions": {"const": ["training", "validation"]},
+        "outer_fold_count": {"const": 4},
+        "inner_fold_count": {"const": 3},
+        "purge_intervals": {"const": 4},
+        "maximum_prediction_origin_exclusive": {"const": 28028},
+        "maximum_target_dependency_exclusive": {"const": 28032}
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "scoring",
+        "unique_configuration_count",
+        "max_parallel_trials",
+        "max_retries_per_trial",
+        "max_wall_clock_minutes",
+        "deterministic_seed",
+        "internal_early_stopping_permitted",
+        "refit_selected_configuration_on_outer_training"
+      ],
+      "properties": {
+        "strategy": {"const": "prespecified_nested_chronological_search"},
+        "scoring": {"const": "mean_absolute_error"},
+        "unique_configuration_count": {"const": 12},
+        "max_parallel_trials": {"type": "integer", "minimum": 1, "maximum": 4},
+        "max_retries_per_trial": {"type": "integer", "minimum": 0, "maximum": 1},
+        "max_wall_clock_minutes": {"type": "integer", "minimum": 1, "maximum": 360},
+        "deterministic_seed": {"const": 20260725},
+        "internal_early_stopping_permitted": {"const": false},
+        "refit_selected_configuration_on_outer_training": {"const": true}
+      }
+    },
+    "candidate_families": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["algorithm_id", "library", "search_space_path", "configuration_count", "objective"],
+        "properties": {
+          "algorithm_id": {"enum": ["xgboost_hist", "lightgbm_l1", "catboost_mae"]},
+          "library": {"enum": ["xgboost", "lightgbm", "catboost"]},
+          "search_space_path": {"type": "string", "minLength": 1},
+          "configuration_count": {"const": 4},
+          "objective": {"enum": ["reg:absoluteerror", "l1", "MAE"]}
+        }
+      }
+    },
+    "objectives": {"type": "object"},
+    "promotion": {"type": "object"},
+    "outputs": {"type": "object"},
+    "claim_controls": {"type": "object"},
+    "next_gate": {"const": "6C"}
+  }
+}

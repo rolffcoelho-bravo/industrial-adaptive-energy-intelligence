@@ -1,0 +1,202 @@
+contract_version: "1.0.0"
+gate: "6A"
+status: closed
+optimization_name: governed_multiobjective_model_optimization
+
+evidence_boundary:
+  admissible_partitions:
+    - training
+    - validation
+  locked_test_partition_permitted: false
+  random_split_permitted: false
+  full_sample_preprocessing_permitted: false
+  fold_strategy: nested_expanding_window
+  outer_fold_count: 4
+  inner_fold_count: 3
+  purge_intervals: 4
+  embargo_intervals: 0
+  calibration_tail_fraction: 0.15
+  minimum_calibration_origins: 672
+  ensemble_evidence_source: outer_fold_out_of_fold_predictions_only
+
+reference_models:
+  - id: persistence
+    role: operational_reference
+  - id: v1_frozen_champion
+    role: incumbent_reference
+    release_tag: v1.0.0
+    selected_model: hist_gradient_boosting
+
+objective_set:
+  version: v2_objectives_1.0.0
+  objectives:
+    - id: aggregate_mae
+      direction: minimize
+      unit: kWh
+      stage: point_forecast
+      role: primary
+    - id: peak_state_mae
+      direction: minimize
+      unit: kWh
+      stage: point_forecast
+      role: robustness
+    - id: temporal_fold_dispersion
+      direction: minimize
+      unit: relative_mae_standard_deviation
+      stage: point_forecast
+      role: temporal_stability
+    - id: calibration_absolute_error
+      direction: minimize
+      unit: proportion
+      stage: uncertainty
+      role: calibration
+    - id: mean_interval_width
+      direction: minimize
+      unit: kWh
+      stage: uncertainty
+      role: sharpness
+    - id: model_size_bytes
+      direction: minimize
+      unit: bytes
+      stage: efficiency
+      role: complexity
+    - id: p95_inference_latency_ms_per_1000_rows
+      direction: minimize
+      unit: milliseconds
+      stage: efficiency
+      role: latency
+    - id: portability_failure_count
+      direction: minimize
+      unit: count
+      stage: portability
+      role: portability
+
+hard_constraints:
+  - id: chronology_violation_count
+    operator: equal
+    threshold: 0
+  - id: leakage_violation_count
+    operator: equal
+    threshold: 0
+  - id: locked_test_access_count
+    operator: equal
+    threshold: 0
+  - id: missing_required_artifact_count
+    operator: equal
+    threshold: 0
+  - id: nonfinite_objective_count
+    operator: equal
+    threshold: 0
+  - id: portability_failure_count
+    operator: equal
+    threshold: 0
+  - id: ungoverned_parameter_count
+    operator: equal
+    threshold: 0
+
+search_budgets:
+  advanced_tabular:
+    max_unique_trials: 96
+    max_parallel_trials: 4
+    max_retries_per_trial: 1
+    max_wall_clock_minutes: 360
+    seeds_per_configuration: 1
+  neural_forecasting:
+    max_unique_configurations: 48
+    max_parallel_trials: 4
+    max_retries_per_trial: 1
+    max_wall_clock_minutes: 720
+    seeds_per_configuration: 5
+  foundation_models:
+    max_unique_configurations: 24
+    max_parallel_trials: 2
+    max_retries_per_trial: 1
+    max_wall_clock_minutes: 720
+    seeds_per_configuration: 3
+  ensemble_weights:
+    max_unique_trials: 500
+    max_parallel_trials: 1
+    max_retries_per_trial: 0
+    max_wall_clock_minutes: 120
+    seeds_per_configuration: 1
+
+randomness:
+  deterministic_seed: 20260725
+  stochastic_model_seeds:
+    - 20260721
+    - 20260722
+    - 20260723
+    - 20260724
+    - 20260725
+  minimum_stochastic_seed_count: 5
+  seed_substitution_permitted: false
+  report_across_seed_mean: true
+  report_across_seed_standard_deviation: true
+  report_across_seed_minimum: true
+  report_across_seed_maximum: true
+
+promotion:
+  selection_method: constrained_pareto_then_human_approval
+  required_reference: v1_frozen_champion
+  requirements:
+    hard_constraints_all_pass: true
+    minimum_mean_validation_mae_relative_improvement: 0.01
+    minimum_positive_outer_folds: 3
+    maximum_single_fold_mae_relative_degradation: 0.02
+    maximum_peak_state_mae_relative_degradation: 0.01
+    complete_seed_evidence_required: true
+    complete_portability_evidence_required: true
+    complete_resource_evidence_required: true
+    pareto_eligible_required: true
+  final_authority: human
+  genai_vote_permitted: false
+  automatic_promotion_permitted: false
+  rationale_required: true
+  rejected_candidate_record_required: true
+
+ensemble:
+  admissible_predictions: outer_fold_out_of_fold_predictions_only
+  locked_test_predictions_permitted: false
+  nonnegative_weights: true
+  weights_sum_to_one: true
+  maximum_single_model_weight: 0.75
+  objective_set_reused: true
+  human_approval_required: true
+
+uncertainty:
+  calibration_separate_from_point_fit: true
+  calibration_partition: trailing_training_calibration_tail
+  target_coverage_levels:
+    - 0.80
+    - 0.90
+    - 0.95
+  maximum_absolute_coverage_error: 0.03
+  interval_width_is_objective: true
+  validation_only_selection: true
+  locked_test_calibration_permitted: false
+
+artifact_contracts:
+  search_space_schema: schemas/governed_search_space.schema.json
+  objective_record_schema: schemas/objective_record.schema.json
+  trial_evidence_schema: schemas/trial_evidence.schema.json
+  promotion_decision_schema: schemas/promotion_decision.schema.json
+  content_addressed_identity_required: true
+  code_commit_required: true
+  environment_record_required: true
+  complete_failure_record_required: true
+
+claim_controls:
+  optimization_impact_claim_requires_executable_evidence: true
+  production_claim_requires_executable_evidence: true
+  savings_claim_requires_executable_evidence: true
+  drift_claim_requires_prespecified_protocol: true
+  causal_claim_requires_identification_design: true
+  provisional_results_must_be_labelled: true
+
+change_control:
+  change_before_execution_only: true
+  human_approval_required: true
+  new_contract_version_required: true
+  historical_contracts_retained: true
+  active_trial_mutation_permitted: false
+  next_gate: "6B"

@@ -1,0 +1,76 @@
+{
+  "data": {
+    "architecture_statement": "Raw evidence, governed manifests, target and leakage controls, Silver transformations, chronological validation, locked-test artifacts, reporting tables, and approved figures remain separated by explicit contracts and governed identities.",
+    "dataset_id": "uci-851",
+    "dq_any_count": 0,
+    "interval_minutes": 15,
+    "narrative": "The governed UCI-851 source contains 35,040 licensed 15-minute observations. Source order, effective timestamps, analytical transformations, quality controls, and evidence identities remain explicit.",
+    "raw_row_count": 35040,
+    "sample_end": "2019-01-01T00:00:00",
+    "sample_start": "2018-01-01T00:15:00",
+    "silver_column_count": 57
+  },
+  "executive": {
+    "all_temporal_blocks_positive": true,
+    "candidate_mae": 3.943511719476711,
+    "decision_statement": "The frozen histogram gradient boosting model reduced one-step-ahead energy-demand MAE by 27.6% relative to persistence on the untouched confirmatory period, retained a 22.6% advantage during peak-demand states, and outperformed the reference in every prespecified temporal block.",
+    "narrative": "The frozen histogram gradient boosting model was evaluated once on the untouched confirmatory period. It reduced one-step-ahead MAE relative to persistence in aggregate, during the frozen peak state, and in every prespecified temporal block.",
+    "peak_relative_mae_improvement": 0.2255849824792512,
+    "persistence_mae": 5.444476013706454,
+    "prediction_row_count": 7004,
+    "relative_mae_improvement": 0.27568572080234516,
+    "selected_model": "hist_gradient_boosting"
+  },
+  "governance": {
+    "evaluator_retired": true,
+    "execution_commit": "9d47bd598b08e9cf7a6b371448bc493d76c8b5e9",
+    "model_boundary_statement": "The evidence supports one-step-ahead forecasting on the governed UCI sample under frozen feature, target, chronology, and evaluation contracts. It does not establish live deployment performance, causal effects, structural drift findings, operational recommendations, or quantified economic outcomes.",
+    "narrative": "Confirmatory evidence is closed and append-only. The single-use authorization was consumed, no reestimation occurred, and the retired evaluator is not imported or invoked by the reporting layer.",
+    "predictions_sha256": "ec5d1bad7ea3af6b7f2b4c7605be8e3a1efdf067cf452c91e22e8ac37a959b4c",
+    "reestimation_performed": false,
+    "results_sha256": "7b312fe66dd8443b94646055fbfa619aa1bcb6210891cd968cc09dd6bd381a9b",
+    "second_evaluation_allowed": false,
+    "single_evaluation_consumed": true
+  },
+  "locked_test": {
+    "all_temporal_blocks_positive": true,
+    "evaluation_count": 1,
+    "evaluation_origin_count": 7004,
+    "maximum_block_relative_mae_improvement": 0.31399244462887516,
+    "minimum_block_relative_mae_improvement": 0.22000530609156443,
+    "narrative": "The single authorized confirmatory execution covered 7,004 origins. Peak-state evidence contained 761 rows above the frozen 80.96 kWh threshold, and relative MAE improvement remained positive across four equal prespecified temporal blocks.",
+    "peak_state_row_count": 761,
+    "peak_threshold_kwh": 80.96,
+    "temporal_block_count": 4
+  },
+  "metadata": {
+    "all_results_final": true,
+    "dataset_citation": "V E, S., Shin, C., & Cho, Y. (2021). Steel Industry Energy Consumption [Dataset]. UCI Machine Learning Repository. https://doi.org/10.24432/C52G8C.",
+    "dataset_hash": "9b1cee6f9cb9cd9df2b95814ca90a9a2ff15b7f5f1fba0fae3c643e82072eacc",
+    "evidence_gate": "4F",
+    "git_commit": "6dd856c0f430bdd85e995fd5d4b176b86e3144cf",
+    "locked_test_execution_commit": "9d47bd598b08e9cf7a6b371448bc493d76c8b5e9",
+    "model_version": "hist_gradient_boosting_gate_4D_contract_2.0.0",
+    "predictions_sha256": "ec5d1bad7ea3af6b7f2b4c7605be8e3a1efdf067cf452c91e22e8ac37a959b4c",
+    "promotion_decision": "promote_challenger",
+    "results_sha256": "7b312fe66dd8443b94646055fbfa619aa1bcb6210891cd968cc09dd6bd381a9b",
+    "run_timestamp_utc": "2026-07-17T15:27:29.852652+00:00"
+  },
+  "validation": {
+    "candidate_ladder": "persistence -> ridge -> elastic_net -> hist_gradient_boosting",
+    "internal_early_stopping": false,
+    "locked_test_used_for_selection": false,
+    "narrative": "Model selection used four expanding-window chronological folds and 7,004 validation origins. Persistence remained the formal reference, while the selected model was promoted using validation evidence without locked-test involvement.",
+    "selected_model": "hist_gradient_boosting",
+    "selection_basis": "validation_only",
+    "validation_fold_count": 4,
+    "validation_origin_count": 7004
+  },
+  "visuals": {
+    "page_1": "outputs/charts/confirmatory_forecasting_verdict.png",
+    "page_2": "outputs/charts/governed_data_architecture.png",
+    "page_3": "outputs/charts/model_ladder_chronological_validation.png",
+    "page_4": "outputs/charts/locked_test_temporal_stability.png",
+    "page_5": "outputs/charts/evidence_governance_model_boundaries.png"
+  }
+}

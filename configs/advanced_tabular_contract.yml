@@ -1,6 +1,6 @@
 contract_version: "1.0.0"
 gate: "6B"
-status: approved_for_execution
+status: closed
 execution_name: governed_advanced_tabular_challengers
 
 v1_boundary:

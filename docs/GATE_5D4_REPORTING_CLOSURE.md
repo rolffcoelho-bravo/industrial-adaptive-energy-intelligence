@@ -6,15 +6,21 @@ Gate 5D4 freezes the V1 reporting layer after successful GitHub-native compilati
 
 ## Canonical report
 
-- PDF: [`reports/industrial_adaptive_energy_intelligence_technical_brief.pdf`](../reports/industrial_adaptive_energy_intelligence_technical_brief.pdf)
 - LaTeX source: [`reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex`](../reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex)
 - Visual approval: [`reports/latex/GATE_5D3_VISUAL_APPROVAL.md`](../reports/latex/GATE_5D3_VISUAL_APPROVAL.md)
 - Machine-readable closure: [`outputs/reporting_closure_manifest.json`](../outputs/reporting_closure_manifest.json)
+- GitHub-native build: [workflow run 30165631829](https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/actions/runs/30165631829)
 
-The committed PDF is the canonical, visually approved V1 report artifact. Its SHA-256 is:
+The visually approved canonical PDF has SHA-256:
 
 ```text
 35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3
+```
+
+The PDF remains frozen in the approved GitHub Actions artifact until Gate 5E publishes it as the permanent GitHub Release asset named:
+
+```text
+industrial_adaptive_energy_intelligence_technical_brief.pdf
 ```
 
 ## Closure evidence
@@ -28,7 +34,7 @@ The closure is supported by:
 - no clipping, overlap, broken glyphs, or figure-readability failure;
 - governed payload and figure identities preserved;
 - successful CI and GitHub-native report workflows;
-- a canonical PDF committed directly in the repository.
+- an exact canonical PDF hash and five rendered-page fingerprints.
 
 ## Rebuild interpretation
 
@@ -39,13 +45,13 @@ The closure manifest freezes both:
 1. the exact canonical PDF hash; and
 2. the five approved rendered-page fingerprints.
 
-GitHub Actions must verify visual equivalence to those fingerprints before accepting a rebuilt report.
+GitHub Actions must verify visual equivalence to those fingerprints before accepting a rebuilt report. Gate 5E must publish the exact approved canonical PDF rather than silently substituting a later timestamped rebuild.
 
 ## Frozen reporting boundary
 
 After Gate 5D4, the following V1 reporting artifacts are immutable:
 
-- the canonical PDF;
+- the canonical PDF identity;
 - the LaTeX source;
 - the report payload;
 - the five approved figures;

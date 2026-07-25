@@ -41,7 +41,7 @@ All three candidates passed the hard chronology, leakage, artifact, finite-evide
 
 ## Human authority
 
-The Head of Research approved:
+The authorized human decision-maker approved:
 
 1. rejection of LightGBM L1, XGBoost histogram boosting, and CatBoost MAE for promotion;
 2. retention of the frozen V1 incumbent;

@@ -1,0 +1,193 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/v1_release_manifest.schema.json",
+  "title": "Gate 5E V1 Release Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gate",
+    "status",
+    "release_version",
+    "tag",
+    "release_name",
+    "release_base_commit",
+    "release_url",
+    "published_by_workflow",
+    "canonical_assets",
+    "governed_evidence",
+    "release_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "gate": {"const": "5E"},
+    "status": {"const": "closed"},
+    "release_version": {"const": "1.0.0"},
+    "tag": {"const": "v1.0.0"},
+    "release_name": {"const": "Industrial Adaptive Energy Intelligence v1.0.0"},
+    "release_base_commit": {
+      "const": "91039533930b66743909b2b9674d79bbb15ec841"
+    },
+    "release_url": {
+      "const": "https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence/releases/tag/v1.0.0"
+    },
+    "published_by_workflow": {
+      "const": ".github/workflows/publish-v1-release.yml"
+    },
+    "canonical_assets": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "technical_brief",
+        "release_manifest",
+        "reporting_closure_manifest",
+        "latex_source",
+        "release_notes",
+        "checksums"
+      ],
+      "properties": {
+        "technical_brief": {"$ref": "#/$defs/pdfAsset"},
+        "release_manifest": {"$ref": "#/$defs/pathAsset"},
+        "reporting_closure_manifest": {"$ref": "#/$defs/pathAsset"},
+        "latex_source": {"$ref": "#/$defs/pathAsset"},
+        "release_notes": {"$ref": "#/$defs/pathAsset"},
+        "checksums": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "generated_by_workflow"],
+          "properties": {
+            "name": {"const": "v1_release_checksums.sha256"},
+            "generated_by_workflow": {"const": true}
+          }
+        }
+      }
+    },
+    "governed_evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reporting_closure",
+        "report_payload",
+        "latex_source",
+        "figures",
+        "tables",
+        "locked_test",
+        "historical_contracts"
+      ],
+      "properties": {
+        "reporting_closure": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "git_blob_sha", "gate", "status"],
+          "properties": {
+            "path": {"const": "outputs/reporting_closure_manifest.json"},
+            "git_blob_sha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "gate": {"const": "5D4"},
+            "status": {"const": "closed"}
+          }
+        },
+        "report_payload": {"$ref": "#/$defs/pathHash"},
+        "latex_source": {"$ref": "#/$defs/pathHash"},
+        "figures": {"$ref": "#/$defs/hashMap"},
+        "tables": {"$ref": "#/$defs/hashMap"},
+        "locked_test": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "closure_path",
+            "execution_commit",
+            "prediction_sha256",
+            "results_sha256",
+            "evaluation_count",
+            "authorization_consumed",
+            "second_evaluation_permitted"
+          ],
+          "properties": {
+            "closure_path": {"const": "outputs/modeling/locked_test_closure_manifest.json"},
+            "execution_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+            "prediction_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "results_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+            "evaluation_count": {"const": 1},
+            "authorization_consumed": {"const": true},
+            "second_evaluation_permitted": {"const": false}
+          }
+        },
+        "historical_contracts": {"$ref": "#/$defs/hashMap"}
+      }
+    },
+    "release_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "main_only",
+        "draft",
+        "prerelease",
+        "immutable_tag",
+        "asset_overwrite_permitted",
+        "model_reestimated",
+        "locked_test_reused",
+        "retired_evaluator_invoked",
+        "locked_predictions_parsed",
+        "metrics_recalculated",
+        "approved_figures_changed",
+        "report_payload_changed",
+        "reporting_source_changed_after_approval",
+        "canonical_pdf_replaced",
+        "v1_mutable"
+      ],
+      "properties": {
+        "main_only": {"const": true},
+        "draft": {"const": false},
+        "prerelease": {"const": false},
+        "immutable_tag": {"const": true},
+        "asset_overwrite_permitted": {"const": false},
+        "model_reestimated": {"const": false},
+        "locked_test_reused": {"const": false},
+        "retired_evaluator_invoked": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "metrics_recalculated": {"const": false},
+        "approved_figures_changed": {"const": false},
+        "report_payload_changed": {"const": false},
+        "reporting_source_changed_after_approval": {"const": false},
+        "canonical_pdf_replaced": {"const": false},
+        "v1_mutable": {"const": false}
+      }
+    },
+    "next_gate": {"const": "6A"}
+  },
+  "$defs": {
+    "pathHash": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "hashMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    },
+    "pathAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "path"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "path": {"type": "string", "minLength": 1}
+      }
+    },
+    "pdfAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "sha256", "size_bytes", "source_artifact_id"],
+      "properties": {
+        "name": {"const": "industrial_adaptive_energy_intelligence_technical_brief.pdf"},
+        "sha256": {"const": "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3"},
+        "size_bytes": {"const": 1218669},
+        "source_artifact_id": {"const": 8621498159}
+      }
+    }
+  }
+}

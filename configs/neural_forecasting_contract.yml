@@ -1,0 +1,190 @@
+contract_version: "1.0.0"
+gate: "6C"
+status: approved_for_execution
+execution_name: governed_neural_forecasting_challengers
+
+predecessor_boundary:
+  gate_6b_status: closed
+  closure_manifest_path: outputs/v2/gate_6b/gate_6b_closure_manifest.json
+  retained_reference: v1_frozen_champion
+
+v1_boundary:
+  immutable_tag: v1.0.0
+  immutable_commit: 9e8cfe567d2174639675cbc784f21fe968dafe92
+  locked_test_access_permitted: false
+  locked_prediction_parsing_permitted: false
+  confirmatory_evaluation_permitted: false
+
+data_boundary:
+  silver_path: data/processed/steel_energy_silver.parquet
+  outer_folds_path: outputs/modeling/chronological_folds.json
+  incumbent_results_path: outputs/modeling/hist_gradient_boosting_validation_results.csv
+  model_contract_path: configs/model_contract.yml
+  target_contract_path: configs/target_contract.yml
+  admissible_partitions:
+    - training
+    - validation
+  outer_fold_count: 4
+  inner_fold_count: 3
+  purge_intervals: 4
+  maximum_prediction_origin_exclusive: 28028
+  maximum_target_dependency_exclusive: 28032
+
+sequence:
+  length_intervals: 16
+  interval_minutes: 15
+  lookback_minutes: 240
+  channels:
+    - usage_kwh
+    - lagging_reactive_power_kvarh
+    - leading_reactive_power_kvarh
+    - co2_tco2
+    - lagging_power_factor
+    - leading_power_factor
+  include_prediction_origin: true
+  future_values_permitted: false
+  sequence_scaling: outer_training_channel_standardization
+  minimum_history_policy: exclude_origins_without_complete_history
+
+static_features:
+  source: frozen_v1_feature_policy
+  preprocessing_fit_scope: applicable_training_partition_only
+  dense_output_required: true
+  target_columns_permitted: false
+
+training:
+  framework: pytorch
+  device: cpu
+  dtype: float32
+  optimizer: adamw
+  loss: l1
+  batch_size: 1024
+  maximum_epochs: 6
+  internal_early_stopping_permitted: false
+  gradient_clip_norm: 1.0
+  weight_decay: 0.0001
+  torch_threads: 1
+  deterministic_algorithms_required: true
+  selection_seed: 20260725
+  stochastic_seeds:
+    - 20260721
+    - 20260722
+    - 20260723
+    - 20260724
+    - 20260725
+
+search:
+  strategy: prespecified_nested_chronological_search
+  scoring: mean_absolute_error
+  unique_configuration_count: 6
+  max_parallel_trials: 1
+  max_retries_per_trial: 1
+  max_wall_clock_minutes: 720
+  configurations_per_family: 2
+  selection_seed_count: 1
+  outer_evaluation_seed_count: 5
+  refit_selected_configuration_on_outer_training: true
+
+candidate_families:
+  - algorithm_id: residual_mlp
+    architecture: residual_multilayer_perceptron
+    search_space_path: configs/search_spaces/gate_6c_residual_mlp.json
+    configuration_count: 2
+    uses_sequence: false
+    configurations:
+      - configuration_id: mlp_01
+        hidden_width: 64
+        second_width: 32
+        dropout: 0.10
+        learning_rate: 0.001
+      - configuration_id: mlp_02
+        hidden_width: 128
+        second_width: 64
+        dropout: 0.20
+        learning_rate: 0.0005
+
+  - algorithm_id: causal_tcn
+    architecture: causal_temporal_convolutional_network
+    search_space_path: configs/search_spaces/gate_6c_causal_tcn.json
+    configuration_count: 2
+    uses_sequence: true
+    configurations:
+      - configuration_id: tcn_01
+        channel_width: 8
+        kernel_size: 3
+        dilation_levels: 2
+        dropout: 0.10
+        learning_rate: 0.001
+      - configuration_id: tcn_02
+        channel_width: 16
+        kernel_size: 3
+        dilation_levels: 2
+        dropout: 0.20
+        learning_rate: 0.0005
+
+  - algorithm_id: gru_sequence
+    architecture: gated_recurrent_unit
+    search_space_path: configs/search_spaces/gate_6c_gru_sequence.json
+    configuration_count: 2
+    uses_sequence: true
+    configurations:
+      - configuration_id: gru_01
+        hidden_size: 16
+        num_layers: 1
+        dropout: 0.0
+        learning_rate: 0.001
+      - configuration_id: gru_02
+        hidden_size: 32
+        num_layers: 1
+        dropout: 0.0
+        learning_rate: 0.0005
+
+objectives:
+  primary: aggregate_mae
+  robustness: peak_state_mae
+  stability:
+    - temporal_fold_dispersion
+    - across_seed_mae_standard_deviation
+  efficiency:
+    - model_size_bytes
+    - p95_inference_latency_ms_per_1000_rows
+    - peak_memory_mb
+    - wall_clock_seconds
+  portability: portability_failure_count
+
+promotion:
+  reference_id: v1_frozen_champion
+  minimum_mean_validation_mae_relative_improvement: 0.01
+  minimum_positive_outer_folds: 3
+  maximum_single_fold_mae_relative_degradation: 0.02
+  maximum_peak_state_mae_relative_degradation: 0.01
+  complete_seed_evidence_required: true
+  required_seed_count: 5
+  hard_constraints_all_pass_required: true
+  pareto_eligible_required: true
+  automatic_promotion_permitted: false
+  final_authority: human
+
+outputs:
+  directory: outputs/v2/gate_6c
+  inner_search_results: inner_search_results.csv
+  outer_seed_results: outer_seed_results.csv
+  seed_summary: seed_summary.csv
+  out_of_fold_predictions: out_of_fold_predictions.parquet
+  candidate_leaderboard: candidate_leaderboard.csv
+  trial_evidence: trial_evidence.json
+  execution_manifest: gate_6c_execution_manifest.json
+  promotion_recommendation: promotion_recommendation.json
+  promotion_decision: promotion_decision.json
+  closure_manifest: gate_6c_closure_manifest.json
+
+claim_controls:
+  production_claim_permitted: false
+  savings_claim_permitted: false
+  drift_claim_permitted: false
+  causal_claim_permitted: false
+  optimization_impact_claim_permitted: false
+  confirmatory_claim_permitted: false
+  provisional_validation_language_required: true
+
+next_gate: "6D"

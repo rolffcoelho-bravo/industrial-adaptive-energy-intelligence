@@ -1,9 +1,9 @@
 {
   "contract_version": "1.0.0",
   "gate": "6B",
-  "search_space_id": "gate_6b_lightgbm_l1_1.0.0",
+  "search_space_id": "gate_6b_catboost_mae_1.0.0",
   "candidate_family": "advanced_tabular",
-  "algorithm_id": "lightgbm_l1",
+  "algorithm_id": "catboost_mae",
   "data_boundary": {
     "admissible_partitions": ["training", "validation"],
     "locked_test_access_permitted": false,
@@ -13,14 +13,11 @@
     "purge_intervals": 4
   },
   "parameter_space": [
-    {"name": "n_estimators", "type": "integer", "required": true, "minimum": 200, "maximum": 400, "step": 50},
+    {"name": "iterations", "type": "integer", "required": true, "minimum": 200, "maximum": 400, "step": 50},
     {"name": "learning_rate", "type": "number", "required": true, "minimum": 0.02, "maximum": 0.05, "step": 0.01, "log_scale": false},
-    {"name": "num_leaves", "type": "integer", "required": true, "minimum": 31, "maximum": 63, "step": 32},
-    {"name": "min_child_samples", "type": "integer", "required": true, "minimum": 20, "maximum": 80, "step": 20},
-    {"name": "subsample", "type": "number", "required": true, "minimum": 0.9, "maximum": 1.0, "step": 0.1, "log_scale": false},
-    {"name": "colsample_bytree", "type": "number", "required": true, "minimum": 0.8, "maximum": 1.0, "step": 0.1, "log_scale": false},
-    {"name": "reg_lambda", "type": "number", "required": true, "minimum": 1.0, "maximum": 10.0, "step": 1.0, "log_scale": true},
-    {"name": "reg_alpha", "type": "number", "required": true, "minimum": 0.0, "maximum": 0.1, "step": 0.1, "log_scale": false}
+    {"name": "depth", "type": "integer", "required": true, "minimum": 6, "maximum": 8, "step": 1},
+    {"name": "l2_leaf_reg", "type": "number", "required": true, "minimum": 3.0, "maximum": 10.0, "step": 1.0, "log_scale": true},
+    {"name": "random_strength", "type": "number", "required": true, "minimum": 0.0, "maximum": 0.5, "step": 0.5, "log_scale": false}
   ],
   "budget": {
     "max_unique_trials": 4,

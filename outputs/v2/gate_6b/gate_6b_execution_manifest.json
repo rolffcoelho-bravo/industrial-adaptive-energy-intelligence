@@ -1,0 +1,57 @@
+{
+  "artifacts": {
+    "candidate_leaderboard": {
+      "path": "outputs/v2/gate_6b/candidate_leaderboard.csv",
+      "sha256": "94366cff63e3ec9027c476abaeae3df015c90b98b8f3deae85773d5a8fff5fa3"
+    },
+    "inner_search_results": {
+      "path": "outputs/v2/gate_6b/inner_search_results.csv",
+      "sha256": "1201845d103049fd376ef3811e5945b94ea93acf3f23035d109055cc39b93096"
+    },
+    "out_of_fold_predictions": {
+      "path": "outputs/v2/gate_6b/out_of_fold_predictions.parquet",
+      "sha256": "c4b6bdabd3911aa6b42b00a80217e8af1fbaecba4d50d7c69b5a59645747a374"
+    },
+    "outer_fold_results": {
+      "path": "outputs/v2/gate_6b/outer_fold_results.csv",
+      "sha256": "b78f00c7940854b31715a0f92d5e34df4a7b859b5eca0333bca1b9c2e7d32d4c"
+    },
+    "promotion_recommendation": {
+      "path": "outputs/v2/gate_6b/promotion_recommendation.json",
+      "sha256": "aa988c343c830f1d86db64cb20369ffc726e582d2f589f4ae0b644113ec6f144"
+    },
+    "trial_evidence": {
+      "path": "outputs/v2/gate_6b/trial_evidence.json",
+      "sha256": "483f50c4d5632558ea62888abb4a27bf2571f3c9d7f5e527b8ff860053da88d8"
+    }
+  },
+  "candidate_family_count": 3,
+  "confirmatory_evaluation_performed": false,
+  "contract_version": "1.0.0",
+  "dependency_lock": {
+    "path": "outputs/v2/gate_6b/environment_lock.txt",
+    "sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a"
+  },
+  "execution_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+  "gate": "6B",
+  "inner_fold_count": 3,
+  "locked_predictions_parsed": false,
+  "locked_test_accessed": false,
+  "maximum_prediction_origin": 28027,
+  "maximum_target_dependency": 28028,
+  "next_action": "human_promotion_decision",
+  "outer_fold_count": 4,
+  "recommendation": {
+    "candidate_id": null,
+    "gate": "6B",
+    "human_decision_required": true,
+    "rationale": "No advanced tabular challenger satisfied every frozen Gate 6A promotion requirement on the governed outer validation folds.",
+    "recommendation": "retain_v1_incumbent",
+    "status": "validation_complete"
+  },
+  "status": "validation_complete_pending_human_decision",
+  "unique_configuration_count": 12,
+  "v1_immutable": true,
+  "v1_tag": "v1.0.0",
+  "validation_origin_count_per_candidate": 7004
+}

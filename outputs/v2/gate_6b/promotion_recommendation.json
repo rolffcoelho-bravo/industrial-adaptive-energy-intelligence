@@ -1,0 +1,8 @@
+{
+  "candidate_id": null,
+  "gate": "6B",
+  "human_decision_required": true,
+  "rationale": "No advanced tabular challenger satisfied every frozen Gate 6A promotion requirement on the governed outer validation folds.",
+  "recommendation": "retain_v1_incumbent",
+  "status": "validation_complete"
+}

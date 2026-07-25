@@ -181,6 +181,56 @@ def validate_gate_6a_closure_manifest() -> dict[str, Any]:
     return manifest
 
 
+def validate_advanced_tabular_contract() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "advanced_tabular_contract.yml")
+    schema = load_json(SCHEMAS / "advanced_tabular_contract.schema.json")
+    _validate_payload(
+        contract,
+        schema,
+        label="Gate 6B advanced tabular contract",
+    )
+
+    search_schema = load_json(SCHEMAS / "governed_search_space.schema.json")
+    observed_algorithms: set[str] = set()
+    configuration_count = 0
+    for family in contract["candidate_families"]:
+        path = ROOT / str(family["search_space_path"])
+        search_space = load_json(path)
+        _validate_payload(
+            search_space,
+            search_schema,
+            label=f"Gate 6B search space {path.name}",
+        )
+        algorithm_id = str(family["algorithm_id"])
+        if search_space["algorithm_id"] != algorithm_id:
+            raise ContractError(
+                f"Gate 6B search-space algorithm mismatch for {algorithm_id}"
+            )
+        if algorithm_id in observed_algorithms:
+            raise ContractError(
+                f"Duplicate Gate 6B candidate algorithm: {algorithm_id}"
+            )
+        observed_algorithms.add(algorithm_id)
+        configuration_count += len(family["configurations"])
+
+    search = contract["search"]
+    if configuration_count != int(search["unique_configuration_count"]):
+        raise ContractError("Gate 6B configuration count is inconsistent")
+
+    governance = validate_optimization_governance()
+    budget = governance["search_budgets"]["advanced_tabular"]
+    if configuration_count > int(budget["max_unique_trials"]):
+        raise ContractError("Gate 6B configuration count exceeds Gate 6A")
+    if int(search["max_parallel_trials"]) > int(budget["max_parallel_trials"]):
+        raise ContractError("Gate 6B parallelism exceeds Gate 6A")
+    if int(search["max_wall_clock_minutes"]) > int(
+        budget["max_wall_clock_minutes"]
+    ):
+        raise ContractError("Gate 6B wall-clock budget exceeds Gate 6A")
+
+    return contract
+
+
 def validate_repository_contracts() -> None:
     required_yaml = [
         CONFIGS / "project.yml",
@@ -193,6 +243,7 @@ def validate_repository_contracts() -> None:
         CONFIGS / "visualization_contract.yml",
         CONFIGS / "v2_architecture_contract.yml",
         CONFIGS / "optimization_governance.yml",
+        CONFIGS / "advanced_tabular_contract.yml",
     ]
 
     required_json = [
@@ -208,6 +259,7 @@ def validate_repository_contracts() -> None:
         SCHEMAS / "trial_evidence.schema.json",
         SCHEMAS / "promotion_decision.schema.json",
         SCHEMAS / "gate_6a_closure_manifest.schema.json",
+        SCHEMAS / "advanced_tabular_contract.schema.json",
     ]
 
     required = [*required_yaml, *required_json]
@@ -229,3 +281,4 @@ def validate_repository_contracts() -> None:
     validate_v2_architecture_contract()
     validate_optimization_governance()
     validate_gate_6a_closure_manifest()
+    validate_advanced_tabular_contract()

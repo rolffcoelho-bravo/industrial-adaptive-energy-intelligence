@@ -13,14 +13,14 @@
     "purge_intervals": 4
   },
   "parameter_space": [
-    {"name": "n_estimators", "type": "categorical", "required": true, "values": [200, 300, 250, 400]},
-    {"name": "learning_rate", "type": "categorical", "required": true, "values": [0.05, 0.03, 0.05, 0.02]},
-    {"name": "max_depth", "type": "categorical", "required": true, "values": [4, 5, 6, 4]},
-    {"name": "min_child_weight", "type": "categorical", "required": true, "values": [5, 5, 10, 10]},
-    {"name": "subsample", "type": "categorical", "required": true, "values": [0.9, 0.9, 1.0, 1.0]},
-    {"name": "colsample_bytree", "type": "categorical", "required": true, "values": [0.9, 1.0, 0.8, 1.0]},
-    {"name": "reg_lambda", "type": "categorical", "required": true, "values": [1.0, 2.0, 5.0, 10.0]},
-    {"name": "reg_alpha", "type": "categorical", "required": true, "values": [0.0, 0.0, 0.1, 0.1]}
+    {"name": "n_estimators", "type": "integer", "required": true, "minimum": 200, "maximum": 400, "step": 50},
+    {"name": "learning_rate", "type": "number", "required": true, "minimum": 0.02, "maximum": 0.05, "step": 0.01, "log_scale": false},
+    {"name": "max_depth", "type": "integer", "required": true, "minimum": 4, "maximum": 6, "step": 1},
+    {"name": "min_child_weight", "type": "number", "required": true, "minimum": 5.0, "maximum": 10.0, "step": 5.0, "log_scale": false},
+    {"name": "subsample", "type": "number", "required": true, "minimum": 0.9, "maximum": 1.0, "step": 0.1, "log_scale": false},
+    {"name": "colsample_bytree", "type": "number", "required": true, "minimum": 0.8, "maximum": 1.0, "step": 0.1, "log_scale": false},
+    {"name": "reg_lambda", "type": "number", "required": true, "minimum": 1.0, "maximum": 10.0, "step": 1.0, "log_scale": true},
+    {"name": "reg_alpha", "type": "number", "required": true, "minimum": 0.0, "maximum": 0.1, "step": 0.1, "log_scale": false}
   ],
   "budget": {
     "max_unique_trials": 4,
@@ -33,7 +33,7 @@
   "hard_constraints": ["chronology_violation_count", "leakage_violation_count", "locked_test_access_count", "missing_required_artifact_count", "nonfinite_objective_count", "portability_failure_count", "ungoverned_parameter_count"],
   "provenance": {
     "optimization_contract_version": "1.0.0",
-    "code_commit": "f814d022d46a61ede616d6b15da749b7c9f42142",
+    "code_commit": "720b1799420f9e03b1d4123a8267ffa901f29268",
     "created_by_role": "human",
     "human_approved": true,
     "approved_before_execution": true

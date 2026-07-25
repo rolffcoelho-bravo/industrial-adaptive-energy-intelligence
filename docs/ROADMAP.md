@@ -128,26 +128,46 @@ Gate 6A performed no model fitting, optimization trial, uncertainty calibration,
 
 ### Gate 6B: advanced tabular challengers
 
+**Status:** Closed.
+
+Completed evidence:
+
+- prespecified XGBoost histogram, LightGBM L1, and CatBoost MAE candidate families;
+- exactly 12 governed configurations;
+- four expanding-window outer folds, three chronological inner folds, and a four-interval purge;
+- 7,004 validation origins per candidate;
+- complete inner-search, outer-fold, peak-state, resource, portability, trial, and out-of-fold evidence;
+- immutable comparison with the frozen V1 champion;
+- all hard constraints passed;
+- no challenger satisfied every frozen promotion requirement;
+- human rejection of all three challengers;
+- retention of the V1 histogram-gradient-boosting incumbent;
+- Gate 6B closure schema, decision record, manifest, tests, and GitHub-native validation.
+
+Gate 6B used training and validation evidence only. Maximum prediction origin was 28,027, maximum target dependency was 28,028, locked-test access was false, and no confirmatory evaluation occurred.
+
+### Gate 6C: neural forecasting
+
 **Status:** Next.
 
 Required evidence:
 
-- candidate-family decision and dependency boundary;
-- approved machine-readable search spaces;
-- nested chronological training and validation execution;
-- complete trial, failure, resource, and portability records;
-- comparison with persistence and the frozen V1 champion on admissible validation evidence;
-- constrained Pareto set;
-- human promotion, rejection, or deferral record;
-- no V1 artifact mutation and no locked-test access.
+- prespecified neural candidate families and bounded search spaces;
+- multiple governed seeds for every stochastic configuration;
+- expanding-window chronological training and validation;
+- across-seed mean, standard deviation, minimum, and maximum evidence;
+- complete resource, portability, failure, and artifact lineage;
+- comparison with the frozen V1 champion and admissible V2 challengers;
+- hard-constraint and Pareto evidence;
+- final human promotion, rejection, or deferral record;
+- no V1 mutation and no locked-test access.
 
-### Gates 6C-6G
+### Gates 6D-6G
 
 **Status:** Planned.
 
 Sequence:
 
-- Gate 6C: neural forecasting with multiple governed seeds and variance evidence;
 - Gate 6D: time-series foundation models with access, adaptation, cost, and portability controls;
 - Gate 6E: probabilistic optimization and uncertainty calibration;
 - Gate 6F: ensembles and governed routing using out-of-fold evidence only;

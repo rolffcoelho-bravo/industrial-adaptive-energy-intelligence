@@ -1,0 +1,1732 @@
+{
+  "trials": [
+    {
+      "algorithm_id": "xgboost_hist",
+      "artifact_sha256": "a5e22e36f1db9ead5aee6e4e454c55de1d6949b7fceaaaaa99478954411a1bba",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        1
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 1,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.636588529187022
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 18.097892212245775
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 997676.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 10.172041299998114
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "0c8ffc1fbd40ac7a8c84342a2e24b11e6fdb6a08340067e1d2178c8a9f555eb9",
+          "status": "complete",
+          "trial_id": "xgboost_hist.outer_1"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 0.8,
+        "configuration_id": "xgb_03",
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "min_child_weight": 10.0,
+        "n_estimators": 250,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 1.0
+      },
+      "resource_usage": {
+        "model_size_bytes": 997676,
+        "p95_inference_latency_ms_per_1000_rows": 10.172041299998114,
+        "peak_memory_mb": 378.25390625,
+        "wall_clock_seconds": 1.737274006000007
+      },
+      "search_space_id": "gate_6b_xgboost_hist_1.0.0",
+      "search_space_sha256": "bf7fc51f42ed3ecce4ca5a717b175f903e4a98f674d2d8579a38aa5dd72ec5cf",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "xgboost_hist.outer_1"
+    },
+    {
+      "algorithm_id": "xgboost_hist",
+      "artifact_sha256": "c7f3456ed161061bc0dd91c8ddaa44ced418985439ed500a96a0ea940381c0f8",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        2
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 2,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.204224091235193
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 18.36036213429769
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 998832.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 10.615108300005716
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "b30dd10b9f6835f9987adddf1afeffceca44e136dde44452e8dd84103237e6a7",
+          "status": "complete",
+          "trial_id": "xgboost_hist.outer_2"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 0.8,
+        "configuration_id": "xgb_03",
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "min_child_weight": 10.0,
+        "n_estimators": 250,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 1.0
+      },
+      "resource_usage": {
+        "model_size_bytes": 998832,
+        "p95_inference_latency_ms_per_1000_rows": 10.615108300005716,
+        "peak_memory_mb": 386.69921875,
+        "wall_clock_seconds": 1.8908754139999928
+      },
+      "search_space_id": "gate_6b_xgboost_hist_1.0.0",
+      "search_space_sha256": "bf7fc51f42ed3ecce4ca5a717b175f903e4a98f674d2d8579a38aa5dd72ec5cf",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "xgboost_hist.outer_2"
+    },
+    {
+      "algorithm_id": "xgboost_hist",
+      "artifact_sha256": "7e910f902a4d31bee8c2796bf4c42aa387200cea1d893f9281a836be69c8016d",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        3
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 3,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 2.298639225532231
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 20.95812531738281
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1012982.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 10.359117499999115
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "9e0e61f68043140cc545ed61d5a192dd30f07777e09cd2e743bfe05ce1698d81",
+          "status": "complete",
+          "trial_id": "xgboost_hist.outer_3"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 0.8,
+        "configuration_id": "xgb_03",
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "min_child_weight": 10.0,
+        "n_estimators": 250,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 1.0
+      },
+      "resource_usage": {
+        "model_size_bytes": 1012982,
+        "p95_inference_latency_ms_per_1000_rows": 10.359117499999115,
+        "peak_memory_mb": 392.13671875,
+        "wall_clock_seconds": 2.0375391580000155
+      },
+      "search_space_id": "gate_6b_xgboost_hist_1.0.0",
+      "search_space_sha256": "bf7fc51f42ed3ecce4ca5a717b175f903e4a98f674d2d8579a38aa5dd72ec5cf",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "xgboost_hist.outer_3"
+    },
+    {
+      "algorithm_id": "xgboost_hist",
+      "artifact_sha256": "114e2010443851d0c2a40f0864135066962b254cb9161af4cce7e1bcf562a15a",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        4
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 4,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.789437783332228
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 17.537056570316548
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1026051.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 10.311689200020169
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "51a9509fb083b9690353151441573738024cb79ea1d4a4587b45d550f12d4d59",
+          "status": "complete",
+          "trial_id": "xgboost_hist.outer_4"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 0.8,
+        "configuration_id": "xgb_03",
+        "learning_rate": 0.05,
+        "max_depth": 6,
+        "min_child_weight": 10.0,
+        "n_estimators": 250,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 1.0
+      },
+      "resource_usage": {
+        "model_size_bytes": 1026051,
+        "p95_inference_latency_ms_per_1000_rows": 10.311689200020169,
+        "peak_memory_mb": 397.1015625,
+        "wall_clock_seconds": 2.1120387030000245
+      },
+      "search_space_id": "gate_6b_xgboost_hist_1.0.0",
+      "search_space_sha256": "bf7fc51f42ed3ecce4ca5a717b175f903e4a98f674d2d8579a38aa5dd72ec5cf",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "xgboost_hist.outer_4"
+    },
+    {
+      "algorithm_id": "lightgbm_l1",
+      "artifact_sha256": "b79da4f53cfe25cb2a2ac4038ebc6c41d9743fb43fcc6b0ce48d9330efe135af",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        1
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 1,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.680236522479546
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 17.77610536921754
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1433687.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 23.296570999997357
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "a4d65a29d6f624a44028cf85b28fee1dbf3c38a3be22fd7c42038607a9987123",
+          "status": "complete",
+          "trial_id": "lightgbm_l1.outer_1"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 1.0,
+        "configuration_id": "lgbm_03",
+        "learning_rate": 0.05,
+        "min_child_samples": 40,
+        "n_estimators": 250,
+        "num_leaves": 63,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 0.9
+      },
+      "resource_usage": {
+        "model_size_bytes": 1433687,
+        "p95_inference_latency_ms_per_1000_rows": 23.296570999997357,
+        "peak_memory_mb": 397.1015625,
+        "wall_clock_seconds": 2.0455004819999942
+      },
+      "search_space_id": "gate_6b_lightgbm_l1_1.0.0",
+      "search_space_sha256": "897bd774dcd36c0950908861f57690f643bcd8b592ff7325a6473e5fe4eee760",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "lightgbm_l1.outer_1"
+    },
+    {
+      "algorithm_id": "lightgbm_l1",
+      "artifact_sha256": "594f9ee2512991f49acf4690d588d25a1757508af2759592770e91a491a6e443",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        2
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 2,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.1924310268427085
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 18.173753798176527
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1443374.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 24.548998300002722
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "0a352851226b85ed96bba5af678fa863bce92b1a1b3bdccedec45fa09fa31600",
+          "status": "complete",
+          "trial_id": "lightgbm_l1.outer_2"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 1.0,
+        "configuration_id": "lgbm_03",
+        "learning_rate": 0.05,
+        "min_child_samples": 40,
+        "n_estimators": 250,
+        "num_leaves": 63,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 0.9
+      },
+      "resource_usage": {
+        "model_size_bytes": 1443374,
+        "p95_inference_latency_ms_per_1000_rows": 24.548998300002722,
+        "peak_memory_mb": 398.0234375,
+        "wall_clock_seconds": 2.1691975820000096
+      },
+      "search_space_id": "gate_6b_lightgbm_l1_1.0.0",
+      "search_space_sha256": "897bd774dcd36c0950908861f57690f643bcd8b592ff7325a6473e5fe4eee760",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "lightgbm_l1.outer_2"
+    },
+    {
+      "algorithm_id": "lightgbm_l1",
+      "artifact_sha256": "e08dda563202cce8452febf842738e7c45a06785fd375432d15ad7978ad2787f",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        3
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 3,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 2.253431795547714
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 21.432133319675017
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1444104.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 23.050728300012224
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "a9355e2d910c424a76b71190e2aa5a38044fe307b6e0cbf3f402b90f1f5bc92a",
+          "status": "complete",
+          "trial_id": "lightgbm_l1.outer_3"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 1.0,
+        "configuration_id": "lgbm_03",
+        "learning_rate": 0.05,
+        "min_child_samples": 40,
+        "n_estimators": 250,
+        "num_leaves": 63,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 0.9
+      },
+      "resource_usage": {
+        "model_size_bytes": 1444104,
+        "p95_inference_latency_ms_per_1000_rows": 23.050728300012224,
+        "peak_memory_mb": 401.7421875,
+        "wall_clock_seconds": 2.2333057360000055
+      },
+      "search_space_id": "gate_6b_lightgbm_l1_1.0.0",
+      "search_space_sha256": "897bd774dcd36c0950908861f57690f643bcd8b592ff7325a6473e5fe4eee760",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "lightgbm_l1.outer_3"
+    },
+    {
+      "algorithm_id": "lightgbm_l1",
+      "artifact_sha256": "2134360aa8b4531d7333b5f5907bae9305476fd89b935ab6bf0b4a9470d417e0",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        4
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 4,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.748267797975354
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 17.21767385009605
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1448604.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 24.514655400002994
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "6e36fc5c25128a36a17ee8c1a1b26758539ae32c55719177c207037269e487eb",
+          "status": "complete",
+          "trial_id": "lightgbm_l1.outer_4"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "colsample_bytree": 1.0,
+        "configuration_id": "lgbm_03",
+        "learning_rate": 0.05,
+        "min_child_samples": 40,
+        "n_estimators": 250,
+        "num_leaves": 63,
+        "reg_alpha": 0.1,
+        "reg_lambda": 5.0,
+        "subsample": 0.9
+      },
+      "resource_usage": {
+        "model_size_bytes": 1448604,
+        "p95_inference_latency_ms_per_1000_rows": 24.514655400002994,
+        "peak_memory_mb": 407.2109375,
+        "wall_clock_seconds": 2.313464207999999
+      },
+      "search_space_id": "gate_6b_lightgbm_l1_1.0.0",
+      "search_space_sha256": "897bd774dcd36c0950908861f57690f643bcd8b592ff7325a6473e5fe4eee760",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "lightgbm_l1.outer_4"
+    },
+    {
+      "algorithm_id": "catboost_mae",
+      "artifact_sha256": "91f3f96a637334f864df77f69048d999d079b845e18936218e3aa7c8efa3e9a5",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        1
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 1,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.960677965632071
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 19.628421646010512
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 656993.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 7.8996011999890925
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "5f363d5fa4a2eab3102d4a74d2e6b75263c17e1e7a4f9ed26cc05bcf1a55e643",
+          "status": "complete",
+          "trial_id": "catboost_mae.outer_1"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "configuration_id": "cat_02",
+        "depth": 7,
+        "iterations": 300,
+        "l2_leaf_reg": 5.0,
+        "learning_rate": 0.03,
+        "random_strength": 0.0
+      },
+      "resource_usage": {
+        "model_size_bytes": 656993,
+        "p95_inference_latency_ms_per_1000_rows": 7.8996011999890925,
+        "peak_memory_mb": 477.16015625,
+        "wall_clock_seconds": 3.09735880300002
+      },
+      "search_space_id": "gate_6b_catboost_mae_1.0.0",
+      "search_space_sha256": "e549d65e5a9df9d8d2862bd96c1d852663cd5e0f357bada277ef938679c52a6b",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "catboost_mae.outer_1"
+    },
+    {
+      "algorithm_id": "catboost_mae",
+      "artifact_sha256": "ff829c6e0ebb2f04d38e8ca970e6130538cf8287e0ddd9a99086bd503fc1d16b",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        2
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 2,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 4.335987227075383
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 18.4527317899692
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1065392.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 8.692512899995108
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "24f29ffd844d0316187e9a1eb6ab8bddd768eb84f272519cee666d22bc9fbfb9",
+          "status": "complete",
+          "trial_id": "catboost_mae.outer_2"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "configuration_id": "cat_03",
+        "depth": 8,
+        "iterations": 250,
+        "l2_leaf_reg": 10.0,
+        "learning_rate": 0.05,
+        "random_strength": 0.5
+      },
+      "resource_usage": {
+        "model_size_bytes": 1065392,
+        "p95_inference_latency_ms_per_1000_rows": 8.692512899995108,
+        "peak_memory_mb": 501.109375,
+        "wall_clock_seconds": 4.020511950000014
+      },
+      "search_space_id": "gate_6b_catboost_mae_1.0.0",
+      "search_space_sha256": "e549d65e5a9df9d8d2862bd96c1d852663cd5e0f357bada277ef938679c52a6b",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "catboost_mae.outer_2"
+    },
+    {
+      "algorithm_id": "catboost_mae",
+      "artifact_sha256": "aaa5f74d0ce90ab1f14fd9ac207e34281a8d16788e9a854c3d557155fb80fa65",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        3
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 3,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 2.35356286749833
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 22.292530796378358
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1065376.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 8.035113700026386
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "6fd51d056e7990c91671b7fd12d9f03ed5d95f8b84719e5e4be04d0c7579c1d1",
+          "status": "complete",
+          "trial_id": "catboost_mae.outer_3"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "configuration_id": "cat_03",
+        "depth": 8,
+        "iterations": 250,
+        "l2_leaf_reg": 10.0,
+        "learning_rate": 0.05,
+        "random_strength": 0.5
+      },
+      "resource_usage": {
+        "model_size_bytes": 1065376,
+        "p95_inference_latency_ms_per_1000_rows": 8.035113700026386,
+        "peak_memory_mb": 511.5625,
+        "wall_clock_seconds": 4.076327949000017
+      },
+      "search_space_id": "gate_6b_catboost_mae_1.0.0",
+      "search_space_sha256": "e549d65e5a9df9d8d2862bd96c1d852663cd5e0f357bada277ef938679c52a6b",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "catboost_mae.outer_3"
+    },
+    {
+      "algorithm_id": "catboost_mae",
+      "artifact_sha256": "52341082e536843e3f921367b07d27f31425f30b9ef8e59df3815c95475f305d",
+      "candidate_family": "advanced_tabular",
+      "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+      "contract_version": "1.0.0",
+      "environment": {
+        "dependency_lock_sha256": "3e67ff872cba874fc3d4389159e200c15c2ed5000d8e6ce332434266c7ea843a",
+        "execution_adapter": "portable",
+        "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+        "python_version": "3.12.13"
+      },
+      "fold_ids": [
+        4
+      ],
+      "hard_constraint_results": [
+        {
+          "id": "chronology_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "leakage_violation_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "locked_test_access_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "missing_required_artifact_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "nonfinite_objective_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "portability_failure_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        },
+        {
+          "id": "ungoverned_parameter_count",
+          "observed_value": 0.0,
+          "operator": "equal",
+          "passed": true,
+          "threshold": 0.0
+        }
+      ],
+      "objective_records": [
+        {
+          "computed_by": {
+            "code_commit": "dafcfe3c1f7fc66dc1bfef824f967f6b507e88fb",
+            "deterministic": true,
+            "implementation": "iaei.v2.advanced_tabular"
+          },
+          "contract_version": "1.0.0",
+          "fold_id": 4,
+          "metrics": [
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "aggregate_mae",
+              "unit": "kWh",
+              "value": 5.110717844950904
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "peak_state_mae",
+              "unit": "kWh",
+              "value": 19.20484387722584
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "model_size_bytes",
+              "unit": "bytes",
+              "value": 1065320.0
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "p95_inference_latency_ms_per_1000_rows",
+              "unit": "milliseconds",
+              "value": 8.609437700005174
+            },
+            {
+              "direction": "minimize",
+              "finite": true,
+              "id": "portability_failure_count",
+              "unit": "count",
+              "value": 0.0
+            }
+          ],
+          "objective_set_version": "v2_objectives_1.0.0",
+          "partition": "validation",
+          "seed": 20260725,
+          "source_artifact_sha256": "54cb6f42df99a0688c733dfc15ebd924aaf8c1061d2651877324cc2cba6b3849",
+          "status": "complete",
+          "trial_id": "catboost_mae.outer_4"
+        }
+      ],
+      "outcome": "success",
+      "parameter_values": {
+        "configuration_id": "cat_03",
+        "depth": 8,
+        "iterations": 250,
+        "l2_leaf_reg": 10.0,
+        "learning_rate": 0.05,
+        "random_strength": 0.5
+      },
+      "resource_usage": {
+        "model_size_bytes": 1065320,
+        "p95_inference_latency_ms_per_1000_rows": 8.609437700005174,
+        "peak_memory_mb": 511.56640625,
+        "wall_clock_seconds": 4.335131603999969
+      },
+      "search_space_id": "gate_6b_catboost_mae_1.0.0",
+      "search_space_sha256": "e549d65e5a9df9d8d2862bd96c1d852663cd5e0f357bada277ef938679c52a6b",
+      "seeds": [
+        20260725
+      ],
+      "trial_id": "catboost_mae.outer_4"
+    }
+  ]
+}

@@ -49,6 +49,8 @@
         "silver_path",
         "outer_folds_path",
         "incumbent_results_path",
+        "model_contract_path",
+        "target_contract_path",
         "admissible_partitions",
         "outer_fold_count",
         "inner_fold_count",
@@ -60,6 +62,8 @@
         "silver_path": {"const": "data/processed/steel_energy_silver.parquet"},
         "outer_folds_path": {"const": "outputs/modeling/chronological_folds.json"},
         "incumbent_results_path": {"const": "outputs/modeling/hist_gradient_boosting_validation_results.csv"},
+        "model_contract_path": {"const": "configs/model_contract.yml"},
+        "target_contract_path": {"const": "configs/target_contract.yml"},
         "admissible_partitions": {"const": ["training", "validation"]},
         "outer_fold_count": {"const": 4},
         "inner_fold_count": {"const": 3},
@@ -101,13 +105,33 @@
       "items": {
         "type": "object",
         "additionalProperties": false,
-        "required": ["algorithm_id", "library", "search_space_path", "configuration_count", "objective"],
+        "required": [
+          "algorithm_id",
+          "library",
+          "search_space_path",
+          "configuration_count",
+          "objective",
+          "configurations"
+        ],
         "properties": {
           "algorithm_id": {"enum": ["xgboost_hist", "lightgbm_l1", "catboost_mae"]},
           "library": {"enum": ["xgboost", "lightgbm", "catboost"]},
           "search_space_path": {"type": "string", "minLength": 1},
           "configuration_count": {"const": 4},
-          "objective": {"enum": ["reg:absoluteerror", "l1", "MAE"]}
+          "objective": {"enum": ["reg:absoluteerror", "l1", "MAE"]},
+          "configurations": {
+            "type": "array",
+            "minItems": 4,
+            "maxItems": 4,
+            "items": {
+              "type": "object",
+              "required": ["configuration_id"],
+              "properties": {
+                "configuration_id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9_]+$"}
+              },
+              "additionalProperties": {"type": ["string", "number", "integer", "boolean"]}
+            }
+          }
         }
       }
     },

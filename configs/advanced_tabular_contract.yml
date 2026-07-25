@@ -1,6 +1,6 @@
 contract_version: "1.0.0"
 gate: "6B"
-status: approved_for_execution
+status: closed
 execution_name: governed_advanced_tabular_challengers
 
 v1_boundary:
@@ -14,6 +14,8 @@ data_boundary:
   silver_path: data/processed/steel_energy_silver.parquet
   outer_folds_path: outputs/modeling/chronological_folds.json
   incumbent_results_path: outputs/modeling/hist_gradient_boosting_validation_results.csv
+  model_contract_path: configs/model_contract.yml
+  target_contract_path: configs/target_contract.yml
   admissible_partitions:
     - training
     - validation
@@ -40,16 +42,117 @@ candidate_families:
     search_space_path: configs/search_spaces/gate_6b_xgboost_hist.json
     configuration_count: 4
     objective: reg:absoluteerror
+    configurations:
+      - configuration_id: xgb_01
+        n_estimators: 200
+        learning_rate: 0.05
+        max_depth: 4
+        min_child_weight: 5.0
+        subsample: 0.9
+        colsample_bytree: 0.9
+        reg_lambda: 1.0
+        reg_alpha: 0.0
+      - configuration_id: xgb_02
+        n_estimators: 300
+        learning_rate: 0.03
+        max_depth: 5
+        min_child_weight: 5.0
+        subsample: 0.9
+        colsample_bytree: 1.0
+        reg_lambda: 2.0
+        reg_alpha: 0.0
+      - configuration_id: xgb_03
+        n_estimators: 250
+        learning_rate: 0.05
+        max_depth: 6
+        min_child_weight: 10.0
+        subsample: 1.0
+        colsample_bytree: 0.8
+        reg_lambda: 5.0
+        reg_alpha: 0.1
+      - configuration_id: xgb_04
+        n_estimators: 400
+        learning_rate: 0.02
+        max_depth: 4
+        min_child_weight: 10.0
+        subsample: 1.0
+        colsample_bytree: 1.0
+        reg_lambda: 10.0
+        reg_alpha: 0.1
+
   - algorithm_id: lightgbm_l1
     library: lightgbm
     search_space_path: configs/search_spaces/gate_6b_lightgbm_l1.json
     configuration_count: 4
     objective: l1
+    configurations:
+      - configuration_id: lgbm_01
+        n_estimators: 200
+        learning_rate: 0.05
+        num_leaves: 31
+        min_child_samples: 20
+        subsample: 0.9
+        colsample_bytree: 0.9
+        reg_lambda: 1.0
+        reg_alpha: 0.0
+      - configuration_id: lgbm_02
+        n_estimators: 300
+        learning_rate: 0.03
+        num_leaves: 31
+        min_child_samples: 40
+        subsample: 1.0
+        colsample_bytree: 0.8
+        reg_lambda: 2.0
+        reg_alpha: 0.0
+      - configuration_id: lgbm_03
+        n_estimators: 250
+        learning_rate: 0.05
+        num_leaves: 63
+        min_child_samples: 40
+        subsample: 0.9
+        colsample_bytree: 1.0
+        reg_lambda: 5.0
+        reg_alpha: 0.1
+      - configuration_id: lgbm_04
+        n_estimators: 400
+        learning_rate: 0.02
+        num_leaves: 31
+        min_child_samples: 80
+        subsample: 1.0
+        colsample_bytree: 1.0
+        reg_lambda: 10.0
+        reg_alpha: 0.1
+
   - algorithm_id: catboost_mae
     library: catboost
     search_space_path: configs/search_spaces/gate_6b_catboost_mae.json
     configuration_count: 4
     objective: MAE
+    configurations:
+      - configuration_id: cat_01
+        iterations: 200
+        learning_rate: 0.05
+        depth: 6
+        l2_leaf_reg: 3.0
+        random_strength: 0.0
+      - configuration_id: cat_02
+        iterations: 300
+        learning_rate: 0.03
+        depth: 7
+        l2_leaf_reg: 5.0
+        random_strength: 0.0
+      - configuration_id: cat_03
+        iterations: 250
+        learning_rate: 0.05
+        depth: 8
+        l2_leaf_reg: 10.0
+        random_strength: 0.5
+      - configuration_id: cat_04
+        iterations: 400
+        learning_rate: 0.02
+        depth: 6
+        l2_leaf_reg: 10.0
+        random_strength: 0.5
 
 objectives:
   primary: aggregate_mae
@@ -78,6 +181,8 @@ outputs:
   out_of_fold_predictions: out_of_fold_predictions.parquet
   candidate_leaderboard: candidate_leaderboard.csv
   trial_evidence: trial_evidence.json
+  execution_manifest: gate_6b_execution_manifest.json
+  promotion_recommendation: promotion_recommendation.json
   promotion_decision: promotion_decision.json
   closure_manifest: gate_6b_closure_manifest.json
 

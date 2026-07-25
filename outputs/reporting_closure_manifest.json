@@ -24,14 +24,15 @@
     "approval_commit": "7b02b20957440b865d1d8224d7ce947982ed45ce",
     "renderer": "pdftoppm",
     "dpi": 200,
+    "fingerprint_type": "rgb_pixel_bytes_sha256",
     "page_width_pixels": 1654,
     "page_height_pixels": 2339,
     "page_sha256": [
-      "851e3924f751be8dddb9208e8ce2aedc095edf944011db1b0b08885cc4475a79",
-      "3b5fc38ec940dc8185c8153a47800f47dee84e5642a882cfc43ee945241159de",
-      "033040b13993a1257b618ad2eff4e03de36a1f32f18860c52fe95d58be7adb9f",
-      "33c59cfd33dd10573d4bc667c456aeab88b057e9a085a580965b78df52ee2f44",
-      "2a8524e12e5387f68d3bc7d46d135fbd71eaa2062167a317b3b284e2b033f79f"
+      "b40e0b163023a41ffa9ef8598bcc7d0674521e0e833467a2c94542bcff459dd1",
+      "b5022e26f4ecfaf2f5c5636d01e391a2736cf3293040923eb9326d67e2ea8cfc",
+      "25c911780c59f77fa93bfba2a89cffc1aaf3f8e98faf95f85d1cc7b273c87cd2",
+      "c614c14b4a69bbe339a6357948fe861fc7263cc689925182a740e3c5652f6052",
+      "06d2274266ee6655fc8a8e3d11382b8cc0342cdb26590c552ca1938528bf6da2"
     ],
     "accepted_layout_boundary": "Pages 1 through 4 retain generous lower-page whitespace without impairing evidence readability, hierarchy, or interpretation."
   },

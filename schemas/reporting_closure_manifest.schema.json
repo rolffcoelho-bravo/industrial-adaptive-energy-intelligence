@@ -1,0 +1,160 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/reporting_closure_manifest.schema.json",
+  "title": "Gate 5D4 Reporting Closure Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gate",
+    "status",
+    "version",
+    "closed_at_utc",
+    "canonical_pdf",
+    "latex_source",
+    "visual_approval",
+    "workflow",
+    "governed_inputs",
+    "closure_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "gate": {"const": "5D4"},
+    "status": {"const": "closed"},
+    "version": {"const": "v1"},
+    "closed_at_utc": {"type": "string", "format": "date-time"},
+    "canonical_pdf": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "size_bytes", "page_count", "page_format", "title", "author"],
+      "properties": {
+        "path": {"const": "reports/industrial_adaptive_energy_intelligence_technical_brief.pdf"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "size_bytes": {"type": "integer", "minimum": 100000},
+        "page_count": {"const": 5},
+        "page_format": {"const": "A4"},
+        "title": {"type": "string", "minLength": 1},
+        "author": {"const": "Industrial Adaptive Energy Intelligence"}
+      }
+    },
+    "latex_source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256", "source_commit"],
+      "properties": {
+        "path": {"const": "reports/latex/industrial_adaptive_energy_intelligence_technical_brief.tex"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "source_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "visual_approval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "approval_path",
+        "approval_commit",
+        "renderer",
+        "dpi",
+        "page_width_pixels",
+        "page_height_pixels",
+        "page_sha256",
+        "accepted_layout_boundary"
+      ],
+      "properties": {
+        "approval_path": {"const": "reports/latex/GATE_5D3_VISUAL_APPROVAL.md"},
+        "approval_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "renderer": {"const": "pdftoppm"},
+        "dpi": {"const": 200},
+        "page_width_pixels": {"const": 1654},
+        "page_height_pixels": {"const": 2339},
+        "page_sha256": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "items": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+        },
+        "accepted_layout_boundary": {"type": "string", "minLength": 1}
+      }
+    },
+    "workflow": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "approved_run_id",
+        "approved_artifact_id",
+        "approved_artifact_digest",
+        "post_approval_validation_run_id",
+        "post_approval_validation_artifact_id",
+        "post_approval_validation_artifact_digest",
+        "visual_equivalence_across_runs"
+      ],
+      "properties": {
+        "name": {"const": "Build technical brief"},
+        "approved_run_id": {"type": "integer", "minimum": 1},
+        "approved_artifact_id": {"type": "integer", "minimum": 1},
+        "approved_artifact_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "post_approval_validation_run_id": {"type": "integer", "minimum": 1},
+        "post_approval_validation_artifact_id": {"type": "integer", "minimum": 1},
+        "post_approval_validation_artifact_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "visual_equivalence_across_runs": {"const": true}
+      }
+    },
+    "governed_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["report_payload", "figures", "tables"],
+      "properties": {
+        "report_payload": {"$ref": "#/$defs/pathHash"},
+        "figures": {"$ref": "#/$defs/hashMap"},
+        "tables": {"$ref": "#/$defs/hashMap"}
+      }
+    },
+    "closure_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_reestimated",
+        "locked_test_reused",
+        "retired_evaluator_invoked",
+        "locked_predictions_parsed",
+        "metrics_recalculated",
+        "approved_figures_changed",
+        "report_payload_changed",
+        "personal_author_metadata_present",
+        "human_visual_approval_recorded",
+        "canonical_pdf_committed",
+        "v1_reporting_mutable"
+      ],
+      "properties": {
+        "model_reestimated": {"const": false},
+        "locked_test_reused": {"const": false},
+        "retired_evaluator_invoked": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "metrics_recalculated": {"const": false},
+        "approved_figures_changed": {"const": false},
+        "report_payload_changed": {"const": false},
+        "personal_author_metadata_present": {"const": false},
+        "human_visual_approval_recorded": {"const": true},
+        "canonical_pdf_committed": {"const": true},
+        "v1_reporting_mutable": {"const": false}
+      }
+    },
+    "next_gate": {"const": "5E"}
+  },
+  "$defs": {
+    "pathHash": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "sha256"],
+      "properties": {
+        "path": {"type": "string", "minLength": 1},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "hashMap": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+    }
+  }
+}

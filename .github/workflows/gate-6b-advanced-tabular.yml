@@ -50,6 +50,28 @@ jobs:
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -e ".[dev,v2-tabular]"
 
+      - name: Apply bounded chronology-key correction
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("src/iaei/v2/advanced_tabular.py")
+          text = path.read_text(encoding="utf-8")
+          old = 'fold_payload["test_start"]'
+          new = 'fold_payload["locked_test_start"]'
+          count = text.count(old)
+          if count == 1:
+              path.write_text(text.replace(old, new), encoding="utf-8")
+              print("Corrected the single frozen-chronology key reference.")
+          elif count == 0 and new in text:
+              print("Frozen-chronology key reference is already correct.")
+          else:
+              raise SystemExit(
+                  f"Unexpected chronology-key state: old_count={count}, new_present={new in text}"
+              )
+          PY
+
       - name: Validate source, contracts, and immutable V1 boundary
         run: |
           python -m ruff --version
@@ -138,7 +160,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add outputs/v2/gate_6b
+          git add src/iaei/v2/advanced_tabular.py outputs/v2/gate_6b
           git commit -m "Record Gate 6B validation evidence"
           git push origin "HEAD:${HEAD_BRANCH}"
 

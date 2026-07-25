@@ -1,0 +1,255 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/v2_architecture_contract.schema.json",
+  "title": "Gate 6A V2 Architecture Contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "gate",
+    "status",
+    "architecture_name",
+    "v1_baseline",
+    "layers",
+    "interfaces",
+    "adapters",
+    "decision_rights",
+    "gate_boundary"
+  ],
+  "properties": {
+    "contract_version": {"const": "2.0.0"},
+    "gate": {"const": "6A"},
+    "status": {"const": "closed"},
+    "architecture_name": {"const": "governed_v2_energy_intelligence"},
+    "v1_baseline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "tag",
+        "commit",
+        "release_manifest",
+        "mutable",
+        "locked_test_access_permitted",
+        "frozen_paths",
+        "prohibited_operations"
+      ],
+      "properties": {
+        "tag": {"const": "v1.0.0"},
+        "commit": {"const": "9e8cfe567d2174639675cbc784f21fe968dafe92"},
+        "release_manifest": {"const": "outputs/v1_release_manifest.json"},
+        "mutable": {"const": false},
+        "locked_test_access_permitted": {"const": false},
+        "frozen_paths": {
+          "type": "array",
+          "minItems": 30,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "prohibited_operations": {
+          "type": "array",
+          "minItems": 7,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "minItems": 7,
+      "maxItems": 7,
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 1}, "id": {"const": "data_evidence"}}}]},
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 2}, "id": {"const": "predictive_models"}}}]},
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 3}, "id": {"const": "governed_model_optimization"}}}]},
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 4}, "id": {"const": "uncertainty"}}}]},
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 5}, "id": {"const": "robust_selection"}}}]},
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 6}, "id": {"const": "generative_interpretation"}}}]},
+        {"allOf": [{"$ref": "#/$defs/layer"}, {"properties": {"order": {"const": 7}, "id": {"const": "human_decision"}}}]}
+      ],
+      "items": false
+    },
+    "interfaces": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trial_executor",
+        "objective_evaluator",
+        "promotion_authority",
+        "artifact_store"
+      ],
+      "properties": {
+        "trial_executor": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "provider_neutral",
+            "request_schema",
+            "response_schema",
+            "admissible_partitions",
+            "prohibited_partitions"
+          ],
+          "properties": {
+            "provider_neutral": {"const": true},
+            "request_schema": {"const": "schemas/governed_search_space.schema.json"},
+            "response_schema": {"const": "schemas/trial_evidence.schema.json"},
+            "admissible_partitions": {"const": ["training", "validation"]},
+            "prohibited_partitions": {"const": ["locked_test"]}
+          }
+        },
+        "objective_evaluator": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider_neutral", "request_schema", "response_schema", "deterministic_measurement_required"],
+          "properties": {
+            "provider_neutral": {"const": true},
+            "request_schema": {"const": "schemas/objective_record.schema.json"},
+            "response_schema": {"const": "schemas/objective_record.schema.json"},
+            "deterministic_measurement_required": {"const": true}
+          }
+        },
+        "promotion_authority": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider_neutral", "request_schema", "final_authority", "genai_vote_permitted"],
+          "properties": {
+            "provider_neutral": {"const": true},
+            "request_schema": {"const": "schemas/promotion_decision.schema.json"},
+            "final_authority": {"const": "human"},
+            "genai_vote_permitted": {"const": false}
+          }
+        },
+        "artifact_store": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["provider_neutral", "required_capabilities"],
+          "properties": {
+            "provider_neutral": {"const": true},
+            "required_capabilities": {
+              "type": "array",
+              "minItems": 4,
+              "uniqueItems": true,
+              "items": {"type": "string", "minLength": 1}
+            }
+          }
+        }
+      }
+    },
+    "adapters": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gcp", "google_workspace", "databricks"],
+      "properties": {
+        "gcp": {"$ref": "#/$defs/executionAdapter"},
+        "google_workspace": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "role", "training_environment", "allowed", "prohibited"],
+          "properties": {
+            "status": {"const": "planned_not_implemented"},
+            "role": {"const": "collaboration_approval_and_decision_distribution"},
+            "training_environment": {"const": false},
+            "allowed": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "prohibited": {"$ref": "#/$defs/nonEmptyStringArray"}
+          }
+        },
+        "databricks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["status", "role", "core_dependency_permitted", "must_preserve"],
+          "properties": {
+            "status": {"const": "existing_execution_path"},
+            "role": {"const": "enterprise_execution_adapter"},
+            "core_dependency_permitted": {"const": false},
+            "must_preserve": {"$ref": "#/$defs/nonEmptyStringArray"}
+          }
+        }
+      }
+    },
+    "decision_rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["genai", "deterministic_system", "human"],
+      "properties": {
+        "genai": {"$ref": "#/$defs/rights"},
+        "deterministic_system": {"$ref": "#/$defs/rights"},
+        "human": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["allowed", "required_records"],
+          "properties": {
+            "allowed": {"$ref": "#/$defs/nonEmptyStringArray"},
+            "required_records": {"$ref": "#/$defs/nonEmptyStringArray"}
+          }
+        }
+      }
+    },
+    "gate_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "design_only",
+        "model_fitting_performed",
+        "confirmatory_evaluation_performed",
+        "locked_test_accessed",
+        "optimization_impact_claim_permitted",
+        "production_claim_permitted",
+        "savings_claim_permitted",
+        "causal_claim_permitted",
+        "next_gate"
+      ],
+      "properties": {
+        "design_only": {"const": true},
+        "model_fitting_performed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "optimization_impact_claim_permitted": {"const": false},
+        "production_claim_permitted": {"const": false},
+        "savings_claim_permitted": {"const": false},
+        "causal_claim_permitted": {"const": false},
+        "next_gate": {"const": "6B"}
+      }
+    }
+  },
+  "$defs": {
+    "nonEmptyStringArray": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "layer": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["order", "id", "owner", "inputs", "outputs", "responsibilities"],
+      "properties": {
+        "order": {"type": "integer", "minimum": 1, "maximum": 7},
+        "id": {"type": "string", "minLength": 1},
+        "owner": {"enum": ["deterministic_system", "human_with_deterministic_evidence", "genai_advisory", "human"]},
+        "inputs": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "outputs": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "responsibilities": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "executionAdapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "role", "core_dependency_permitted", "must_preserve", "prohibited"],
+      "properties": {
+        "status": {"const": "planned_not_implemented"},
+        "role": {"const": "execution_adapter"},
+        "core_dependency_permitted": {"const": false},
+        "must_preserve": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "prohibited": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["allowed", "prohibited"],
+      "properties": {
+        "allowed": {"$ref": "#/$defs/nonEmptyStringArray"},
+        "prohibited": {"$ref": "#/$defs/nonEmptyStringArray"}
+      }
+    }
+  }
+}

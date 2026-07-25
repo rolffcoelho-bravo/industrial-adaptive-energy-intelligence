@@ -5,14 +5,25 @@ on:
     paths:
       - ".github/workflows/verify-v1-release.yml"
       - "docs/GATE_5E_RELEASE_VERIFICATION.md"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/verify-v1-release.yml"
+      - "docs/GATE_5E_RELEASE_VERIFICATION.md"
   workflow_dispatch:
 
 permissions:
-  contents: read
+  actions: read
+  contents: write
+
+concurrency:
+  group: verify-v1-release
+  cancel-in-progress: false
 
 jobs:
   verify:
-    name: Verify published V1 tag and assets
+    name: Finalize and verify published V1 assets
     runs-on: ubuntu-latest
 
     steps:
@@ -32,6 +43,93 @@ jobs:
           git fetch --tags --force
           test "$(git rev-list -n 1 "$TAG")" = "$EXPECTED_COMMIT"
 
+          release_json="$(gh release view "$TAG" --json tagName,isDraft,isPrerelease,url,assets)"
+          python - "$release_json" <<'PY'
+          from __future__ import annotations
+
+          import json
+          import sys
+
+          release = json.loads(sys.argv[1])
+          supporting_assets = {
+              "v1_release_manifest.json",
+              "reporting_closure_manifest.json",
+              "industrial_adaptive_energy_intelligence_technical_brief.tex",
+              "V1.0.0.md",
+              "v1_release_checksums.sha256",
+          }
+          canonical_pdf = (
+              "industrial_adaptive_energy_intelligence_technical_brief.pdf"
+          )
+          observed_assets = {asset["name"] for asset in release["assets"]}
+          permitted_assets = supporting_assets | {canonical_pdf}
+
+          assert release["tagName"] == "v1.0.0"
+          assert release["isDraft"] is False
+          assert release["isPrerelease"] is False
+          assert supporting_assets <= observed_assets, (
+              observed_assets,
+              supporting_assets,
+          )
+          assert observed_assets <= permitted_assets, (
+              observed_assets,
+              permitted_assets,
+          )
+
+          print(release["url"])
+          print("Observed release assets:")
+          for asset in sorted(observed_assets):
+              print(asset)
+          PY
+
+      - name: Retrieve exact approved canonical PDF
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf /tmp/v1-canonical
+          mkdir -p /tmp/v1-canonical
+          gh api \
+            -H "Accept: application/vnd.github+json" \
+            "/repos/${{ github.repository }}/actions/artifacts/8621498159/zip" \
+            > /tmp/approved-report.zip
+          unzip -p \
+            /tmp/approved-report.zip \
+            reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf \
+            > /tmp/v1-canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf
+          echo "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3  /tmp/v1-canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf" \
+            | sha256sum --check --strict
+          test "$(stat -c%s /tmp/v1-canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf)" -eq 1218669
+
+      - name: Finalize canonical PDF asset on main
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v1.0.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          PDF="industrial_adaptive_energy_intelligence_technical_brief.pdf"
+          observed="$(gh release view "$TAG" --json assets --jq '.assets[].name')"
+
+          if printf '%s\n' "$observed" | grep -Fxq "$PDF"; then
+            echo "Canonical PDF asset already exists. No mutation performed."
+          else
+            gh release upload \
+              "$TAG" \
+              "/tmp/v1-canonical/$PDF"
+            echo "Exact approved canonical PDF asset uploaded."
+          fi
+
+      - name: Verify exact published asset set
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: v1.0.0
+        shell: bash
+        run: |
+          set -euo pipefail
           release_json="$(gh release view "$TAG" --json tagName,isDraft,isPrerelease,url,assets)"
           python - "$release_json" <<'PY'
           from __future__ import annotations
@@ -60,7 +158,8 @@ jobs:
           print(release["url"])
           PY
 
-      - name: Download and verify every release asset
+      - name: Download and verify every published asset
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: v1.0.0
@@ -79,6 +178,7 @@ jobs:
           )
 
       - name: Validate published release manifests
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         shell: bash
         run: |
           set -euo pipefail

@@ -175,7 +175,6 @@ jobs:
             echo "Release $TAG already exists. Verifying without mutation."
           else
             gh release create "$TAG" \
-              /tmp/v1-release/industrial_adaptive_energy_intelligence_technical_brief.pdf \
               /tmp/v1-release/v1_release_manifest.json \
               /tmp/v1-release/reporting_closure_manifest.json \
               /tmp/v1-release/industrial_adaptive_energy_intelligence_technical_brief.tex \
@@ -189,6 +188,29 @@ jobs:
 
           git fetch --tags --force
           test "$(git rev-list -n 1 "$TAG")" = "$GITHUB_SHA"
+
+          expected_assets=(
+            industrial_adaptive_energy_intelligence_technical_brief.pdf
+            v1_release_manifest.json
+            reporting_closure_manifest.json
+            industrial_adaptive_energy_intelligence_technical_brief.tex
+            V1.0.0.md
+            v1_release_checksums.sha256
+          )
+
+          for attempt in $(seq 1 60); do
+            observed="$(gh release view "$TAG" --json assets --jq '.assets[].name' | sort)"
+            expected="$(printf '%s\n' "${expected_assets[@]}" | sort)"
+            if [ "$observed" = "$expected" ]; then
+              break
+            fi
+            if [ "$attempt" -eq 60 ]; then
+              echo "Timed out waiting for the canonical PDF release asset."
+              printf 'Observed assets:\n%s\n' "$observed"
+              exit 1
+            fi
+            sleep 10
+          done
 
           release_json="$(gh release view "$TAG" --json tagName,isDraft,isPrerelease,url,assets)"
           python - "$release_json" <<'PY'

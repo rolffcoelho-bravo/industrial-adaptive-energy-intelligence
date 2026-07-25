@@ -20,11 +20,21 @@ def test_gate_5d4_reporting_closure_is_valid_and_frozen() -> None:
     assert manifest["next_gate"] == "5E"
 
     canonical = manifest["canonical_pdf"]
-    canonical_path = ROOT / canonical["path"]
 
-    assert canonical_path.exists()
-    assert canonical_path.stat().st_size == canonical["size_bytes"]
-    assert _sha256(canonical_path) == canonical["sha256"]
+    assert canonical["artifact_path"] == (
+        "reports/latex/"
+        "industrial_adaptive_energy_intelligence_technical_brief.pdf"
+    )
+    assert canonical["release_asset_name"] == (
+        "industrial_adaptive_energy_intelligence_technical_brief.pdf"
+    )
+    assert canonical["publication_state"] == (
+        "approved_pending_gate_5e_release"
+    )
+    assert canonical["sha256"] == (
+        "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3"
+    )
+    assert canonical["size_bytes"] == 1_218_669
     assert canonical["page_count"] == 5
     assert canonical["page_format"] == "A4"
     assert canonical["author"] == "Industrial Adaptive Energy Intelligence"
@@ -70,6 +80,8 @@ def test_gate_5d4_reporting_closure_is_valid_and_frozen() -> None:
         "report_payload_changed": False,
         "personal_author_metadata_present": False,
         "human_visual_approval_recorded": True,
-        "canonical_pdf_committed": True,
+        "canonical_pdf_frozen": True,
+        "canonical_pdf_committed": False,
+        "release_asset_pending": True,
         "v1_reporting_mutable": False,
     }

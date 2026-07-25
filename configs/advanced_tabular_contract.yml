@@ -1,0 +1,92 @@
+contract_version: "1.0.0"
+gate: "6B"
+status: approved_for_execution
+execution_name: governed_advanced_tabular_challengers
+
+v1_boundary:
+  immutable_tag: v1.0.0
+  immutable_commit: 9e8cfe567d2174639675cbc784f21fe968dafe92
+  locked_test_access_permitted: false
+  locked_prediction_parsing_permitted: false
+  confirmatory_evaluation_permitted: false
+
+data_boundary:
+  silver_path: data/processed/steel_energy_silver.parquet
+  outer_folds_path: outputs/modeling/chronological_folds.json
+  incumbent_results_path: outputs/modeling/hist_gradient_boosting_validation_results.csv
+  admissible_partitions:
+    - training
+    - validation
+  outer_fold_count: 4
+  inner_fold_count: 3
+  purge_intervals: 4
+  maximum_prediction_origin_exclusive: 28028
+  maximum_target_dependency_exclusive: 28032
+
+search:
+  strategy: prespecified_nested_chronological_search
+  scoring: mean_absolute_error
+  unique_configuration_count: 12
+  max_parallel_trials: 3
+  max_retries_per_trial: 1
+  max_wall_clock_minutes: 360
+  deterministic_seed: 20260725
+  internal_early_stopping_permitted: false
+  refit_selected_configuration_on_outer_training: true
+
+candidate_families:
+  - algorithm_id: xgboost_hist
+    library: xgboost
+    search_space_path: configs/search_spaces/gate_6b_xgboost_hist.json
+    configuration_count: 4
+    objective: reg:absoluteerror
+  - algorithm_id: lightgbm_l1
+    library: lightgbm
+    search_space_path: configs/search_spaces/gate_6b_lightgbm_l1.json
+    configuration_count: 4
+    objective: l1
+  - algorithm_id: catboost_mae
+    library: catboost
+    search_space_path: configs/search_spaces/gate_6b_catboost_mae.json
+    configuration_count: 4
+    objective: MAE
+
+objectives:
+  primary: aggregate_mae
+  robustness: peak_state_mae
+  stability: temporal_fold_dispersion
+  efficiency:
+    - model_size_bytes
+    - p95_inference_latency_ms_per_1000_rows
+  portability: portability_failure_count
+
+promotion:
+  reference_id: v1_frozen_champion
+  minimum_mean_validation_mae_relative_improvement: 0.01
+  minimum_positive_outer_folds: 3
+  maximum_single_fold_mae_relative_degradation: 0.02
+  maximum_peak_state_mae_relative_degradation: 0.01
+  hard_constraints_all_pass_required: true
+  pareto_eligible_required: true
+  automatic_promotion_permitted: false
+  final_authority: human
+
+outputs:
+  directory: outputs/v2/gate_6b
+  inner_search_results: inner_search_results.csv
+  outer_fold_results: outer_fold_results.csv
+  out_of_fold_predictions: out_of_fold_predictions.parquet
+  candidate_leaderboard: candidate_leaderboard.csv
+  trial_evidence: trial_evidence.json
+  promotion_decision: promotion_decision.json
+  closure_manifest: gate_6b_closure_manifest.json
+
+claim_controls:
+  production_claim_permitted: false
+  savings_claim_permitted: false
+  drift_claim_permitted: false
+  causal_claim_permitted: false
+  confirmatory_claim_permitted: false
+  provisional_validation_language_required: true
+
+next_gate: "6C"

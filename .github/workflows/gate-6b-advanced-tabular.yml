@@ -67,15 +67,32 @@ jobs:
         id: execute
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           MANIFEST="outputs/v2/gate_6b/gate_6b_execution_manifest.json"
+          DIAGNOSTIC="${RUNNER_TEMP}/gate_6b_execution.log"
           if [ -f "$MANIFEST" ]; then
             echo "executed=false" >> "$GITHUB_OUTPUT"
             echo "Committed Gate 6B evidence already exists. Execution skipped."
           else
-            python scripts/run_gate_6b_advanced_tabular.py
+            set +e
+            python scripts/run_gate_6b_advanced_tabular.py > "$DIAGNOSTIC" 2>&1
+            status=$?
+            set -e
+            cat "$DIAGNOSTIC"
+            if [ "$status" -ne 0 ]; then
+              exit "$status"
+            fi
             echo "executed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      - name: Upload bounded execution diagnostic
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-6b-execution-diagnostic
+          path: ${{ runner.temp }}/gate_6b_execution.log
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Validate Gate 6B evidence
         run: python scripts/validate_gate_6b_evidence.py

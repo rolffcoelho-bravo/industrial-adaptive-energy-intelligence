@@ -13,14 +13,14 @@
     "purge_intervals": 4
   },
   "parameter_space": [
-    {"name": "n_estimators", "type": "categorical", "required": true, "values": [200, 300, 250, 400]},
-    {"name": "learning_rate", "type": "categorical", "required": true, "values": [0.05, 0.03, 0.05, 0.02]},
-    {"name": "num_leaves", "type": "categorical", "required": true, "values": [31, 31, 63, 31]},
-    {"name": "min_child_samples", "type": "categorical", "required": true, "values": [20, 40, 40, 80]},
-    {"name": "subsample", "type": "categorical", "required": true, "values": [0.9, 1.0, 0.9, 1.0]},
-    {"name": "colsample_bytree", "type": "categorical", "required": true, "values": [0.9, 0.8, 1.0, 1.0]},
-    {"name": "reg_lambda", "type": "categorical", "required": true, "values": [1.0, 2.0, 5.0, 10.0]},
-    {"name": "reg_alpha", "type": "categorical", "required": true, "values": [0.0, 0.0, 0.1, 0.1]}
+    {"name": "n_estimators", "type": "integer", "required": true, "minimum": 200, "maximum": 400, "step": 50},
+    {"name": "learning_rate", "type": "number", "required": true, "minimum": 0.02, "maximum": 0.05, "step": 0.01, "log_scale": false},
+    {"name": "num_leaves", "type": "integer", "required": true, "minimum": 31, "maximum": 63, "step": 32},
+    {"name": "min_child_samples", "type": "integer", "required": true, "minimum": 20, "maximum": 80, "step": 20},
+    {"name": "subsample", "type": "number", "required": true, "minimum": 0.9, "maximum": 1.0, "step": 0.1, "log_scale": false},
+    {"name": "colsample_bytree", "type": "number", "required": true, "minimum": 0.8, "maximum": 1.0, "step": 0.1, "log_scale": false},
+    {"name": "reg_lambda", "type": "number", "required": true, "minimum": 1.0, "maximum": 10.0, "step": 1.0, "log_scale": true},
+    {"name": "reg_alpha", "type": "number", "required": true, "minimum": 0.0, "maximum": 0.1, "step": 0.1, "log_scale": false}
   ],
   "budget": {
     "max_unique_trials": 4,

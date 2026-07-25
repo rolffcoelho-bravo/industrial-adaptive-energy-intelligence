@@ -7,7 +7,7 @@ from typing import Any
 import yaml
 from jsonschema import Draft202012Validator
 
-from iaei.paths import CONFIGS, SCHEMAS
+from iaei.paths import CONFIGS, ROOT, SCHEMAS
 
 
 class ContractError(RuntimeError):
@@ -110,6 +110,23 @@ def validate_report_payload(payload_path: Path) -> dict[str, Any]:
     return payload
 
 
+def validate_reporting_closure_manifest() -> dict[str, Any]:
+    manifest = load_json(
+        ROOT / "outputs" / "reporting_closure_manifest.json"
+    )
+    schema = load_json(
+        SCHEMAS / "reporting_closure_manifest.schema.json"
+    )
+
+    _validate_payload(
+        manifest,
+        schema,
+        label="Gate 5D4 reporting closure manifest",
+    )
+
+    return manifest
+
+
 def validate_repository_contracts() -> None:
     required_yaml = [
         CONFIGS / "project.yml",
@@ -124,6 +141,7 @@ def validate_repository_contracts() -> None:
 
     required_json = [
         SCHEMAS / "report_payload.schema.json",
+        SCHEMAS / "reporting_closure_manifest.schema.json",
         SCHEMAS / "target_contract.schema.json",
         SCHEMAS / "silver_contract.schema.json",
     ]
@@ -142,3 +160,4 @@ def validate_repository_contracts() -> None:
 
     validate_target_contract()
     validate_silver_contract()
+    validate_reporting_closure_manifest()

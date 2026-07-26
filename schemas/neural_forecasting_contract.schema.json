@@ -1,0 +1,512 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/neural_forecasting_contract.schema.json",
+  "title": "Gate 6C neural forecasting contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "gate",
+    "status",
+    "execution_name",
+    "v1_boundary",
+    "data_boundary",
+    "search",
+    "candidate_families",
+    "objectives",
+    "promotion",
+    "resource_constraints",
+    "outputs",
+    "claim_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "contract_version": {
+      "const": "1.1.0"
+    },
+    "gate": {
+      "const": "6C"
+    },
+    "status": {
+      "const": "approved_for_implementation"
+    },
+    "execution_name": {
+      "const": "governed_neural_forecasting_challengers"
+    },
+    "v1_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "immutable_tag",
+        "locked_test_access_permitted",
+        "locked_prediction_parsing_permitted",
+        "confirmatory_evaluation_permitted"
+      ],
+      "properties": {
+        "immutable_tag": {
+          "const": "v1.0.0"
+        },
+        "locked_test_access_permitted": {
+          "const": false
+        },
+        "locked_prediction_parsing_permitted": {
+          "const": false
+        },
+        "confirmatory_evaluation_permitted": {
+          "const": false
+        }
+      }
+    },
+    "data_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "silver_path",
+        "outer_folds_path",
+        "incumbent_results_path",
+        "model_contract_path",
+        "target_contract_path",
+        "admissible_partitions",
+        "outer_fold_count",
+        "purge_intervals",
+        "maximum_prediction_origin_exclusive",
+        "maximum_target_dependency_exclusive"
+      ],
+      "properties": {
+        "silver_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outer_folds_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "incumbent_results_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "model_contract_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "target_contract_path": {
+          "type": "string",
+          "minLength": 1
+        },
+        "admissible_partitions": {
+          "const": [
+            "training",
+            "validation"
+          ]
+        },
+        "outer_fold_count": {
+          "const": 4
+        },
+        "purge_intervals": {
+          "const": 4
+        },
+        "maximum_prediction_origin_exclusive": {
+          "const": 28028
+        },
+        "maximum_target_dependency_exclusive": {
+          "const": 28032
+        }
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "strategy",
+        "scoring",
+        "configurations_per_family",
+        "unique_configuration_count",
+        "seeds",
+        "seed_count",
+        "max_parallel_trials",
+        "max_wall_clock_minutes",
+        "internal_early_stopping_permitted",
+        "refit_on_outer_training"
+      ],
+      "properties": {
+        "strategy": {
+          "const": "prespecified_repeated_seed_chronological_validation"
+        },
+        "scoring": {
+          "const": "mean_absolute_error"
+        },
+        "configurations_per_family": {
+          "const": 1
+        },
+        "unique_configuration_count": {
+          "const": 3
+        },
+        "seeds": {
+          "const": [
+            20260721,
+            20260722,
+            20260723,
+            20260724,
+            20260725
+          ]
+        },
+        "seed_count": {
+          "const": 5
+        },
+        "max_parallel_trials": {
+          "const": 1
+        },
+        "max_wall_clock_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 360
+        },
+        "internal_early_stopping_permitted": {
+          "const": false
+        },
+        "refit_on_outer_training": {
+          "const": true
+        }
+      }
+    },
+    "candidate_families": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {
+          "$ref": "#/$defs/nhits"
+        },
+        {
+          "$ref": "#/$defs/tide"
+        },
+        {
+          "$ref": "#/$defs/patchtst"
+        }
+      ],
+      "items": false
+    },
+    "objectives": {
+      "type": "object"
+    },
+    "promotion": {
+      "type": "object",
+      "required": [
+        "reference_id",
+        "minimum_mean_validation_mae_relative_improvement",
+        "minimum_positive_outer_folds",
+        "maximum_single_fold_mae_relative_degradation",
+        "maximum_peak_state_mae_relative_degradation",
+        "maximum_across_seed_mae_standard_deviation",
+        "hard_constraints_all_pass_required",
+        "pareto_eligible_required",
+        "automatic_promotion_permitted",
+        "final_authority"
+      ],
+      "properties": {
+        "reference_id": {
+          "const": "v1_frozen_champion"
+        },
+        "minimum_mean_validation_mae_relative_improvement": {
+          "const": 0.01
+        },
+        "minimum_positive_outer_folds": {
+          "const": 3
+        },
+        "maximum_single_fold_mae_relative_degradation": {
+          "const": 0.02
+        },
+        "maximum_peak_state_mae_relative_degradation": {
+          "const": 0.01
+        },
+        "maximum_across_seed_mae_standard_deviation": {
+          "const": 0.15
+        },
+        "hard_constraints_all_pass_required": {
+          "const": true
+        },
+        "pareto_eligible_required": {
+          "const": true
+        },
+        "automatic_promotion_permitted": {
+          "const": false
+        },
+        "final_authority": {
+          "const": "human"
+        }
+      }
+    },
+    "resource_constraints": {
+      "type": "object",
+      "required": [
+        "canonical_device",
+        "maximum_peak_memory_mb",
+        "maximum_candidate_wall_clock_minutes",
+        "maximum_total_wall_clock_minutes",
+        "gpu_required"
+      ],
+      "properties": {
+        "canonical_device": {
+          "const": "cpu"
+        },
+        "maximum_peak_memory_mb": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 6144
+        },
+        "maximum_candidate_wall_clock_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 120
+        },
+        "maximum_total_wall_clock_minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 360
+        },
+        "gpu_required": {
+          "const": false
+        }
+      }
+    },
+    "outputs": {
+      "type": "object"
+    },
+    "claim_controls": {
+      "type": "object",
+      "required": [
+        "production_claim_permitted",
+        "savings_claim_permitted",
+        "drift_claim_permitted",
+        "causal_claim_permitted",
+        "optimization_impact_claim_permitted",
+        "confirmatory_claim_permitted",
+        "provisional_validation_language_required"
+      ],
+      "properties": {
+        "production_claim_permitted": {
+          "const": false
+        },
+        "savings_claim_permitted": {
+          "const": false
+        },
+        "drift_claim_permitted": {
+          "const": false
+        },
+        "causal_claim_permitted": {
+          "const": false
+        },
+        "optimization_impact_claim_permitted": {
+          "const": false
+        },
+        "confirmatory_claim_permitted": {
+          "const": false
+        },
+        "provisional_validation_language_required": {
+          "const": true
+        }
+      }
+    },
+    "next_gate": {
+      "const": "6D"
+    }
+  },
+  "$defs": {
+    "baseCandidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "algorithm_id",
+        "hypothesis",
+        "context_length",
+        "horizon",
+        "configuration"
+      ],
+      "properties": {
+        "algorithm_id": {
+          "type": "string"
+        },
+        "hypothesis": {
+          "type": "string",
+          "minLength": 1
+        },
+        "context_length": {
+          "const": 96
+        },
+        "horizon": {
+          "const": 1
+        },
+        "configuration": {
+          "type": "object"
+        }
+      }
+    },
+    "nhits": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/baseCandidate"
+        },
+        {
+          "properties": {
+            "algorithm_id": {
+              "const": "nhits_compact"
+            },
+            "hypothesis": {
+              "const": "hierarchical_multi_rate_temporal_decomposition"
+            },
+            "configuration": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "hidden_size",
+                "stack_count",
+                "block_count_per_stack",
+                "max_epochs",
+                "batch_size",
+                "learning_rate",
+                "weight_decay"
+              ],
+              "properties": {
+                "hidden_size": {
+                  "const": 64
+                },
+                "stack_count": {
+                  "const": 2
+                },
+                "block_count_per_stack": {
+                  "const": 1
+                },
+                "max_epochs": {
+                  "const": 40
+                },
+                "batch_size": {
+                  "const": 256
+                },
+                "learning_rate": {
+                  "const": 0.001
+                },
+                "weight_decay": {
+                  "const": 0.0001
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "tide": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/baseCandidate"
+        },
+        {
+          "properties": {
+            "algorithm_id": {
+              "const": "tide_compact"
+            },
+            "hypothesis": {
+              "const": "nonlinear_encoder_decoder_with_covariates"
+            },
+            "configuration": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "hidden_size",
+                "encoder_layers",
+                "decoder_layers",
+                "max_epochs",
+                "batch_size",
+                "learning_rate",
+                "weight_decay"
+              ],
+              "properties": {
+                "hidden_size": {
+                  "const": 64
+                },
+                "encoder_layers": {
+                  "const": 2
+                },
+                "decoder_layers": {
+                  "const": 2
+                },
+                "max_epochs": {
+                  "const": 40
+                },
+                "batch_size": {
+                  "const": 256
+                },
+                "learning_rate": {
+                  "const": 0.001
+                },
+                "weight_decay": {
+                  "const": 0.0001
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "patchtst": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/baseCandidate"
+        },
+        {
+          "properties": {
+            "algorithm_id": {
+              "const": "patchtst_compact"
+            },
+            "hypothesis": {
+              "const": "patch_based_temporal_representation"
+            },
+            "configuration": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "patch_length",
+                "stride",
+                "hidden_size",
+                "attention_heads",
+                "encoder_layers",
+                "max_epochs",
+                "batch_size",
+                "learning_rate",
+                "weight_decay"
+              ],
+              "properties": {
+                "patch_length": {
+                  "const": 16
+                },
+                "stride": {
+                  "const": 8
+                },
+                "hidden_size": {
+                  "const": 64
+                },
+                "attention_heads": {
+                  "const": 4
+                },
+                "encoder_layers": {
+                  "const": 2
+                },
+                "max_epochs": {
+                  "const": 40
+                },
+                "batch_size": {
+                  "const": 256
+                },
+                "learning_rate": {
+                  "const": 0.001
+                },
+                "weight_decay": {
+                  "const": 0.0001
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

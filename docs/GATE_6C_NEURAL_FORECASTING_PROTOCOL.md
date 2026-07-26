@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved for governed implementation. Model execution remains blocked until the machine-readable contract, schemas, tests, and GitHub-native workflow are merged and green.
+Gate 6C1 is closed. Gate 6C2 governed validation execution requires explicit approval before any neural model fitting begins.
 
 ## Objective
 
@@ -24,15 +24,17 @@ Temporal Fusion Transformer is deferred because the current one-step target and 
 
 - freeze candidate families, context length, feature availability, seeds, budgets, objectives, hard constraints, and outputs;
 - define schemas for the neural contract, seed evidence, candidate evidence, promotion decision, and closure manifest;
-- add source-level tests that prohibit locked-test and locked-prediction access;
-- add a GitHub-native CPU execution workflow;
+- add implementation-only interfaces for candidate blueprints, causal windows, deterministic CPU controls, resource limits, and fail-closed execution guards;
+- add source-level tests that prohibit locked-test access, locked-prediction access, fitting, prediction generation, and validation metric production;
+- add an executable conformance test across the protocol, contract, schemas, source, workflow, and closure manifest;
+- add a GitHub-native implementation-validation workflow with read-only repository permissions;
 - perform no neural fitting.
 
 ### Gate 6C2: governed validation execution
 
-- execute only after Gate 6C1 is merged and green;
+- execute only after Gate 6C1 is merged, green, formally closed, and Gate 6C2 receives explicit approval;
 - use the four frozen expanding-window outer folds and a four-interval purge;
-- use three fixed seeds per configuration;
+- use five fixed seeds per configuration;
 - calculate outer-fold and across-seed evidence;
 - record failures, runtime, peak memory, model size, and inference latency;
 - generate out-of-fold predictions only for training and validation origins;
@@ -60,9 +62,11 @@ Temporal Fusion Transformer is deferred because the current one-step target and 
 Every neural configuration must use the same fixed seeds:
 
 ```text
+20260721
+20260722
+20260723
+20260724
 20260725
-20260726
-20260727
 ```
 
 A candidate cannot be promoted from a single favorable seed. Evidence must include mean, standard deviation, minimum, and maximum performance across seeds for every outer fold and in aggregate.

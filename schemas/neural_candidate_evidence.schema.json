@@ -1,0 +1,124 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/neural_candidate_evidence.schema.json",
+  "title": "Gate 6C neural candidate evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "candidate_id",
+    "seed_count",
+    "outer_fold_count",
+    "validation_origin_count_per_seed",
+    "aggregate",
+    "stability",
+    "constraints",
+    "promotion_eligible"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "gate": {
+      "const": "6C"
+    },
+    "candidate_id": {
+      "enum": [
+        "nhits_compact",
+        "tide_compact",
+        "patchtst_compact"
+      ]
+    },
+    "seed_count": {
+      "const": 5
+    },
+    "outer_fold_count": {
+      "const": 4
+    },
+    "validation_origin_count_per_seed": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "aggregate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mean_mae",
+        "mean_peak_mae",
+        "relative_mae_improvement_vs_v1",
+        "positive_outer_folds"
+      ],
+      "properties": {
+        "mean_mae": {
+          "type": "number"
+        },
+        "mean_peak_mae": {
+          "type": "number"
+        },
+        "relative_mae_improvement_vs_v1": {
+          "type": "number"
+        },
+        "positive_outer_folds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        }
+      }
+    },
+    "stability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "across_seed_mae_standard_deviation",
+        "across_seed_peak_mae_standard_deviation",
+        "outer_fold_mae_dispersion"
+      ],
+      "properties": {
+        "across_seed_mae_standard_deviation": {
+          "type": "number",
+          "minimum": 0
+        },
+        "across_seed_peak_mae_standard_deviation": {
+          "type": "number",
+          "minimum": 0
+        },
+        "outer_fold_mae_dispersion": {
+          "type": "number",
+          "minimum": 0
+        }
+      }
+    },
+    "constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chronology_passed",
+        "locked_test_excluded",
+        "v1_immutable",
+        "resource_limits_passed",
+        "cpu_portability_passed"
+      ],
+      "properties": {
+        "chronology_passed": {
+          "type": "boolean"
+        },
+        "locked_test_excluded": {
+          "const": true
+        },
+        "v1_immutable": {
+          "const": true
+        },
+        "resource_limits_passed": {
+          "type": "boolean"
+        },
+        "cpu_portability_passed": {
+          "type": "boolean"
+        }
+      }
+    },
+    "promotion_eligible": {
+      "type": "boolean"
+    }
+  }
+}

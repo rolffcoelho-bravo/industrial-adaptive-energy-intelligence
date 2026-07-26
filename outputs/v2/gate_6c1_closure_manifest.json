@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6C",
+  "subgate": "6C1",
+  "status": "closed",
+  "implementation_only": true,
+  "candidate_ids": [
+    "nhits_compact",
+    "tide_compact",
+    "patchtst_compact"
+  ],
+  "seeds": [
+    20260721,
+    20260722,
+    20260723,
+    20260724,
+    20260725
+  ],
+  "configuration_count": 3,
+  "controls": {
+    "model_fitting_performed": false,
+    "validation_predictions_generated": false,
+    "validation_metrics_calculated": false,
+    "locked_test_accessed": false,
+    "locked_predictions_parsed": false,
+    "confirmatory_evaluation_performed": false,
+    "v1_immutable": true,
+    "gate_6b_closure_verified": true,
+    "public_content_audit_passed": true,
+    "automatic_promotion_permitted": false
+  },
+  "validated_paths": [
+    "configs/neural_forecasting_contract.yml",
+    "schemas/neural_forecasting_contract.schema.json",
+    "schemas/neural_seed_evidence.schema.json",
+    "schemas/neural_candidate_evidence.schema.json",
+    "schemas/neural_promotion_decision.schema.json",
+    "schemas/gate_6c1_closure_manifest.schema.json",
+    "src/iaei/modeling/neural_governance.py",
+    "src/iaei/contracts.py",
+    "scripts/validate_gate_6c1.py",
+    "tests/test_neural_forecasting_governance.py",
+    ".github/workflows/gate-6c1-neural-contract.yml",
+    "docs/GATE_6C1_SCOPE_LOCK.md",
+    "docs/GATE_6C_SUPERSEDED_EXECUTION_QUARANTINE.md",
+    "docs/GATE_6C1_SEED_GOVERNANCE_RECONCILIATION.md",
+    "docs/GATE_6C1_IMPLEMENTATION_STATUS.md",
+    "docs/GATE_6C1_NEURAL_IMPLEMENTATION_CLOSURE.md"
+  ],
+  "next_gate": "6C2",
+  "blocked_gates": [
+    "6C3",
+    "6D"
+  ]
+}

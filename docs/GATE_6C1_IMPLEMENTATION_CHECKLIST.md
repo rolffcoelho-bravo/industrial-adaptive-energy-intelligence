@@ -2,7 +2,7 @@
 
 ## Status
 
-Active. Gate 6C1 is implementation-only. Neural fitting and validation execution are prohibited until this checklist is complete, merged, and green.
+Closed. Gate 6C1 remained implementation-only and performed no neural fitting or validation execution.
 
 ## Approved candidate families
 
@@ -16,7 +16,7 @@ No substitution is permitted without formal change control and explicit human ap
 
 - exactly one configuration per family;
 - exactly three configurations in total;
-- fixed seeds: `20260725`, `20260726`, `20260727`;
+- fixed seeds: `20260721`, `20260722`, `20260723`, `20260724`, `20260725`;
 - four frozen expanding-window outer folds;
 - four-interval purge;
 - CPU-only canonical GitHub execution;
@@ -24,9 +24,9 @@ No substitution is permitted without formal change control and explicit human ap
 - maximum target dependency exclusive: `28032`;
 - training and validation evidence only.
 
-## Required Gate 6C1 deliverables
+## Completed Gate 6C1 deliverables
 
-1. neural-forecasting contract aligned with the approved protocol;
+1. neural-forecasting contract aligned with the approved protocol and Gate 6A;
 2. JSON schema for the neural contract;
 3. schemas for seed evidence, candidate evidence, promotion decision, and closure manifest;
 4. repository contract registration and validation;
@@ -37,8 +37,8 @@ No substitution is permitted without formal change control and explicit human ap
 9. GitHub-native workflow scaffolding that validates implementation only;
 10. public-content audit and V1 immutability verification;
 11. Gate 6B closure verification;
-12. green CI and dedicated Gate 6C1 workflow;
-13. detailed Gate 6C1 closure summary, technical assessment, recommendations, perceived-value opportunities, and exact Gate 6C2 approval request.
+12. green repository CI and dedicated Gate 6C1 workflow;
+13. detailed Gate 6C1 closure summary, technical assessment, recommendations, research-value opportunities, and exact Gate 6C2 approval request.
 
 ## Prohibited in Gate 6C1
 
@@ -55,4 +55,4 @@ No substitution is permitted without formal change control and explicit human ap
 
 ## Sequence protection
 
-Gate 6C2 remains blocked until Gate 6C1 is merged and formally closed. Gate 6C3 remains blocked until Gate 6C2 evidence is complete. Gate 6D remains blocked until Gate 6C3 closes Gate 6C.
+Gate 6C2 requires explicit approval before execution. Gate 6C3 remains blocked until Gate 6C2 evidence is complete. Gate 6D remains blocked until Gate 6C3 closes Gate 6C.

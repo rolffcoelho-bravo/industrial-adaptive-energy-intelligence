@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "gate": "6C",
   "subgate": "6C1",
-  "status": "implementation_complete_pending_ci",
+  "status": "closed",
   "implementation_only": true,
   "candidate_ids": [
     "nhits_compact",

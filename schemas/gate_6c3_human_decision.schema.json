@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6c3_human_decision.schema.json",
+  "title": "Gate 6C3 human neural promotion decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "human_authority",
+    "automatic_promotion_permitted",
+    "locked_test_accessed",
+    "confirmatory_evaluation_performed",
+    "retained_model",
+    "decisions",
+    "next_gate"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6C"},
+    "subgate": {"const": "6C3"},
+    "status": {"const": "closed"},
+    "human_authority": {"const": true},
+    "automatic_promotion_permitted": {"const": false},
+    "locked_test_accessed": {"const": false},
+    "confirmatory_evaluation_performed": {"const": false},
+    "retained_model": {"const": "v1_frozen_champion"},
+    "decisions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "decision", "promotion_eligible", "rationale", "next_action"],
+        "properties": {
+          "candidate_id": {"enum": ["nhits_compact", "tide_compact", "patchtst_compact"]},
+          "decision": {"const": "reject"},
+          "promotion_eligible": {"const": false},
+          "rationale": {"type": "string", "minLength": 40},
+          "next_action": {"const": "retain_incumbent"}
+        }
+      }
+    },
+    "next_gate": {"const": "6D"}
+  }
+}

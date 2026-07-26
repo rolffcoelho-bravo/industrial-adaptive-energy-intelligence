@@ -39,3 +39,10 @@ The implementation architecture is materially stronger than a documentation-only
 ## Recommendation
 
 Restore the five Gate 6A seeds before completing Gate 6C1. This provides stronger stability evidence, avoids a protocol exception, and preserves direct parent-contract consistency.
+
+## Required decision
+
+Approve one of the following before Gate 6C1 can close:
+
+1. restore the five Gate 6A seeds `20260721` through `20260725`, which is recommended; or
+2. retain the three Gate 6C seeds through a versioned pre-execution change-control record.

@@ -22,12 +22,23 @@
     "schema_version": {"const": "1.0.0"},
     "gate": {"const": "6C"},
     "subgate": {"const": "6C1"},
-    "status": {"enum": ["implementation_complete_pending_ci", "closed"]},
+    "status": {
+      "enum": [
+        "blocked_pending_seed_governance_decision",
+        "implementation_complete_pending_ci",
+        "closed"
+      ]
+    },
     "implementation_only": {"const": true},
     "candidate_ids": {
       "const": ["nhits_compact", "tide_compact", "patchtst_compact"]
     },
-    "seeds": {"const": [20260725, 20260726, 20260727]},
+    "seeds": {
+      "type": "array",
+      "minItems": 3,
+      "uniqueItems": true,
+      "items": {"type": "integer"}
+    },
     "configuration_count": {"const": 3},
     "controls": {
       "type": "object",
@@ -63,9 +74,33 @@
       "uniqueItems": true,
       "items": {"type": "string", "minLength": 1}
     },
-    "next_gate": {"const": "6C2"},
+    "next_gate": {"type": "string", "minLength": 1},
     "blocked_gates": {
-      "const": ["6C3", "6D"]
+      "type": "array",
+      "minItems": 2,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 2}
     }
-  }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {"const": "blocked_pending_seed_governance_decision"}
+        }
+      },
+      "then": {
+        "properties": {
+          "next_gate": {"const": "6C1_seed_governance_decision"},
+          "blocked_gates": {"const": ["6C2", "6C3", "6D"]}
+        }
+      },
+      "else": {
+        "properties": {
+          "next_gate": {"const": "6C2"},
+          "blocked_gates": {"const": ["6C3", "6D"]}
+        }
+      }
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-contract_version: "1.0.0"
+contract_version: "1.1.0"
 gate: "6C"
 status: approved_for_implementation
 execution_name: governed_neural_forecasting_challengers
@@ -29,10 +29,12 @@ search:
   configurations_per_family: 1
   unique_configuration_count: 3
   seeds:
+    - 20260721
+    - 20260722
+    - 20260723
+    - 20260724
     - 20260725
-    - 20260726
-    - 20260727
-  seed_count: 3
+  seed_count: 5
   max_parallel_trials: 1
   max_wall_clock_minutes: 360
   internal_early_stopping_permitted: false

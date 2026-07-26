@@ -10,7 +10,7 @@ Active. Gate 6C1 is implementation-only. Neural fitting and validation execution
 - compact TiDE;
 - compact PatchTST.
 
-No substitution is permitted without formal change control and Head of Research approval.
+No substitution is permitted without formal change control and explicit human approval.
 
 ## Frozen execution design
 

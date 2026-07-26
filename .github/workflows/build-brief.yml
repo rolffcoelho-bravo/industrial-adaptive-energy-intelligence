@@ -28,13 +28,9 @@ on:
       - "outputs/modeling/locked_test_closure_manifest.json"
       - "schemas/reporting_closure_manifest.schema.json"
   workflow_dispatch:
-  release:
-    types:
-      - published
 
 permissions:
-  actions: read
-  contents: write
+  contents: read
 
 jobs:
   build:
@@ -158,7 +154,7 @@ jobs:
       - name: Install PDF inspection tools
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y --no-install-recommends poppler-utils unzip
+          sudo apt-get install -y --no-install-recommends poppler-utils
 
       - name: Validate rebuilt PDF
         shell: bash
@@ -173,21 +169,17 @@ jobs:
           test "$(stat -c%s "$PDF")" -gt 100000
           sha256sum "$PDF" | tee reports/latex/rebuild_pdf.sha256
 
-      - name: Retrieve the approved canonical PDF
+      - name: Retrieve immutable V1 release PDF
         env:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
           set -euo pipefail
-          gh api \
-            -H "Accept: application/vnd.github+json" \
-            "/repos/${{ github.repository }}/actions/artifacts/8621498159/zip" \
-            > /tmp/approved-report.zip
           mkdir -p reports/latex/canonical
-          unzip -p \
-            /tmp/approved-report.zip \
-            reports/latex/industrial_adaptive_energy_intelligence_technical_brief.pdf \
-            > reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf
+          gh release download v1.0.0 \
+            --repo "${{ github.repository }}" \
+            --pattern "industrial_adaptive_energy_intelligence_technical_brief.pdf" \
+            --dir reports/latex/canonical
           CANONICAL="reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf"
           echo "35e331e0349e0afca4aa8695a3f4aeafeffa18f83cdd9420876662bc6c782ba3  $CANONICAL" \
             | sha256sum --check --strict
@@ -307,19 +299,3 @@ jobs:
             schemas/reporting_closure_manifest.schema.json
           if-no-files-found: error
           retention-days: 90
-
-      - name: Attach the approved PDF to a published GitHub release
-        if: github.event_name == 'release'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p /tmp/iaei-release
-          cp \
-            reports/latex/canonical/industrial_adaptive_energy_intelligence_technical_brief.pdf \
-            /tmp/iaei-release/industrial_adaptive_energy_intelligence_technical_brief.pdf
-          gh release upload \
-            "${{ github.event.release.tag_name }}" \
-            /tmp/iaei-release/industrial_adaptive_energy_intelligence_technical_brief.pdf \
-            --clobber

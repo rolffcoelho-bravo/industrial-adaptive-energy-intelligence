@@ -49,7 +49,20 @@ jobs:
         run: python scripts/run_pipeline.py --silver
 
       - name: Run tests
-        run: python -W error::DeprecationWarning -m pytest -q
+        id: tests
+        shell: bash
+        run: |
+          set -o pipefail
+          python -W error::DeprecationWarning -m pytest -q 2>&1 | tee "${RUNNER_TEMP}/pytest.log"
+
+      - name: Upload test diagnostic on failure
+        if: failure() && steps.tests.outcome == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ci-pytest-diagnostic
+          path: ${{ runner.temp }}/pytest.log
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Validate repository foundation
         run: python scripts/run_pipeline.py --check

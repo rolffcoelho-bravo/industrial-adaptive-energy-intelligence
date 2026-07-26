@@ -2,7 +2,7 @@
 
 ## Status
 
-Closed. Gate 6C1 completed the neural forecasting implementation boundary without fitting a model or generating validation evidence.
+Closed and merged through PR #14 at commit `15c1a3db80ea8c017dba23455df09a3077ea82d2`. Gate 6C1 completed the neural forecasting implementation boundary without fitting a model or generating validation evidence.
 
 ## Implemented package
 
@@ -39,4 +39,4 @@ The parent-child contract reconciliation demonstrates that the project can detec
 
 ## Next gate
 
-Gate 6C2 is the next permitted subgate after final branch validation and merge. Gate 6C3 and Gate 6D remain blocked.
+Gate 6C2 is the next permitted subgate and requires explicit execution approval. Gate 6C3 and Gate 6D remain blocked.

@@ -85,11 +85,12 @@ jobs:
 
           - Candidate families: compact N-HiTS, compact TiDE, compact PatchTST
           - Configurations: 3 total, one per family
-          - Model fitting: not permitted
-          - Validation predictions: not generated
+          - Governed seeds: 5 per configuration
+          - Model fitting in Gate 6C1: not performed
+          - Validation predictions in Gate 6C1: not generated
           - Locked-test access: not permitted
           - Confirmatory evaluation: not permitted
           - Automatic promotion: not permitted
-          - Current state: blocked pending seed-governance decision
-          - Gate 6C2: blocked
+          - Current state: closed
+          - Next permitted subgate: Gate 6C2 after explicit approval
           EOF

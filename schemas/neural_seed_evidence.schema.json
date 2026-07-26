@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/neural_seed_evidence.schema.json",
+  "title": "Gate 6C neural seed evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "candidate_id",
+    "seed",
+    "fold_id",
+    "partition",
+    "prediction_origin_max",
+    "target_dependency_max",
+    "metrics",
+    "resources",
+    "portability",
+    "status"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6C"},
+    "candidate_id": {
+      "enum": ["nhits_compact", "tide_compact", "patchtst_compact"]
+    },
+    "seed": {"enum": [20260725, 20260726, 20260727]},
+    "fold_id": {"type": "integer", "minimum": 1, "maximum": 4},
+    "partition": {"const": "validation"},
+    "prediction_origin_max": {"type": "integer", "maximum": 28027},
+    "target_dependency_max": {"type": "integer", "maximum": 28031},
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mae", "peak_mae"],
+      "properties": {
+        "mae": {"type": "number"},
+        "peak_mae": {"type": "number"}
+      }
+    },
+    "resources": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wall_clock_seconds", "peak_memory_mb", "model_size_bytes", "p95_inference_latency_ms_per_1000_rows"],
+      "properties": {
+        "wall_clock_seconds": {"type": "number", "minimum": 0},
+        "peak_memory_mb": {"type": "number", "minimum": 0, "maximum": 6144},
+        "model_size_bytes": {"type": "integer", "minimum": 0},
+        "p95_inference_latency_ms_per_1000_rows": {"type": "number", "minimum": 0}
+      }
+    },
+    "portability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["device", "gpu_required", "cpu_portability_passed"],
+      "properties": {
+        "device": {"const": "cpu"},
+        "gpu_required": {"const": false},
+        "cpu_portability_passed": {"type": "boolean"}
+      }
+    },
+    "status": {"enum": ["success", "failed"]}
+  }
+}

@@ -231,6 +231,42 @@ def validate_advanced_tabular_contract() -> dict[str, Any]:
     return contract
 
 
+def validate_neural_forecasting_contract() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "neural_forecasting_contract.yml")
+    schema = load_json(SCHEMAS / "neural_forecasting_contract.schema.json")
+    _validate_payload(
+        contract,
+        schema,
+        label="Gate 6C neural forecasting contract",
+    )
+
+    architecture = validate_v2_architecture_contract()
+    optimization = validate_optimization_governance()
+    if architecture["v1_baseline"]["locked_test_access_permitted"] is not False:
+        raise ContractError("Gate 6C cannot weaken the V1 locked-test boundary")
+    if optimization["evidence_boundary"][
+        "locked_test_partition_permitted"
+    ] is not False:
+        raise ContractError("Gate 6C cannot admit the locked-test partition")
+    if contract["promotion"]["automatic_promotion_permitted"] is not False:
+        raise ContractError("Gate 6C cannot permit automatic promotion")
+
+    return contract
+
+
+def validate_gate_6c1_closure_manifest() -> dict[str, Any]:
+    manifest = load_json(
+        ROOT / "outputs" / "v2" / "gate_6c1_closure_manifest.json"
+    )
+    schema = load_json(SCHEMAS / "gate_6c1_closure_manifest.schema.json")
+    _validate_payload(
+        manifest,
+        schema,
+        label="Gate 6C1 closure manifest",
+    )
+    return manifest
+
+
 def validate_repository_contracts() -> None:
     required_yaml = [
         CONFIGS / "project.yml",
@@ -244,6 +280,7 @@ def validate_repository_contracts() -> None:
         CONFIGS / "v2_architecture_contract.yml",
         CONFIGS / "optimization_governance.yml",
         CONFIGS / "advanced_tabular_contract.yml",
+        CONFIGS / "neural_forecasting_contract.yml",
     ]
 
     required_json = [
@@ -260,6 +297,11 @@ def validate_repository_contracts() -> None:
         SCHEMAS / "promotion_decision.schema.json",
         SCHEMAS / "gate_6a_closure_manifest.schema.json",
         SCHEMAS / "advanced_tabular_contract.schema.json",
+        SCHEMAS / "neural_forecasting_contract.schema.json",
+        SCHEMAS / "neural_seed_evidence.schema.json",
+        SCHEMAS / "neural_candidate_evidence.schema.json",
+        SCHEMAS / "neural_promotion_decision.schema.json",
+        SCHEMAS / "gate_6c1_closure_manifest.schema.json",
     ]
 
     required = [*required_yaml, *required_json]
@@ -282,3 +324,5 @@ def validate_repository_contracts() -> None:
     validate_optimization_governance()
     validate_gate_6a_closure_manifest()
     validate_advanced_tabular_contract()
+    validate_neural_forecasting_contract()
+    validate_gate_6c1_closure_manifest()

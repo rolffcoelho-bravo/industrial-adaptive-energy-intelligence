@@ -57,38 +57,21 @@ def _validate_payload(
 def validate_target_contract() -> dict[str, Any]:
     contract = load_yaml(CONFIGS / "target_contract.yml")
     schema = load_json(SCHEMAS / "target_contract.schema.json")
-
-    _validate_payload(
-        contract,
-        schema,
-        label="Target and leakage contract",
-    )
-
+    _validate_payload(contract, schema, label="Target and leakage contract")
     return contract
 
 
 def validate_silver_contract() -> dict[str, Any]:
     contract = load_yaml(CONFIGS / "silver_contract.yml")
     schema = load_json(SCHEMAS / "silver_contract.schema.json")
-
-    _validate_payload(
-        contract,
-        schema,
-        label="Silver analytical-layer contract",
-    )
-
+    _validate_payload(contract, schema, label="Silver analytical-layer contract")
     return contract
 
 
 def validate_report_payload(payload_path: Path) -> dict[str, Any]:
     payload = load_json(payload_path)
     schema = load_json(SCHEMAS / "report_payload.schema.json")
-
-    _validate_payload(
-        payload,
-        schema,
-        label="Report payload",
-    )
+    _validate_payload(payload, schema, label="Report payload")
 
     serialized = json.dumps(payload).lower()
     forbidden = (
@@ -100,69 +83,51 @@ def validate_report_payload(payload_path: Path) -> dict[str, Any]:
         "synthetic",
     )
     hits = [term for term in forbidden if term in serialized]
-
     if hits:
         raise ContractError(
             "Report payload contains forbidden placeholder terms: "
             f"{hits}"
         )
-
     return payload
 
 
 def validate_reporting_closure_manifest() -> dict[str, Any]:
-    manifest = load_json(
-        ROOT / "outputs" / "reporting_closure_manifest.json"
-    )
-    schema = load_json(
-        SCHEMAS / "reporting_closure_manifest.schema.json"
-    )
-
+    manifest = load_json(ROOT / "outputs" / "reporting_closure_manifest.json")
+    schema = load_json(SCHEMAS / "reporting_closure_manifest.schema.json")
     _validate_payload(
         manifest,
         schema,
         label="Gate 5D4 reporting closure manifest",
     )
-
     return manifest
 
 
 def validate_v1_release_manifest() -> dict[str, Any]:
     manifest = load_json(ROOT / "outputs" / "v1_release_manifest.json")
     schema = load_json(SCHEMAS / "v1_release_manifest.schema.json")
-
-    _validate_payload(
-        manifest,
-        schema,
-        label="Gate 5E V1 release manifest",
-    )
-
+    _validate_payload(manifest, schema, label="Gate 5E V1 release manifest")
     return manifest
 
 
 def validate_v2_architecture_contract() -> dict[str, Any]:
     contract = load_yaml(CONFIGS / "v2_architecture_contract.yml")
     schema = load_json(SCHEMAS / "v2_architecture_contract.schema.json")
-
     _validate_payload(
         contract,
         schema,
         label="Gate 6A V2 architecture contract",
     )
-
     return contract
 
 
 def validate_optimization_governance() -> dict[str, Any]:
     contract = load_yaml(CONFIGS / "optimization_governance.yml")
     schema = load_json(SCHEMAS / "optimization_governance.schema.json")
-
     _validate_payload(
         contract,
         schema,
         label="Gate 6A optimization governance contract",
     )
-
     return contract
 
 
@@ -171,13 +136,11 @@ def validate_gate_6a_closure_manifest() -> dict[str, Any]:
         ROOT / "outputs" / "v2" / "gate_6a_architecture_manifest.json"
     )
     schema = load_json(SCHEMAS / "gate_6a_closure_manifest.schema.json")
-
     _validate_payload(
         manifest,
         schema,
         label="Gate 6A architecture closure manifest",
     )
-
     return manifest
 
 
@@ -227,7 +190,6 @@ def validate_advanced_tabular_contract() -> dict[str, Any]:
         budget["max_wall_clock_minutes"]
     ):
         raise ContractError("Gate 6B wall-clock budget exceeds Gate 6A")
-
     return contract
 
 
@@ -251,6 +213,37 @@ def validate_neural_forecasting_contract() -> dict[str, Any]:
     if contract["promotion"]["automatic_promotion_permitted"] is not False:
         raise ContractError("Gate 6C cannot permit automatic promotion")
 
+    search = contract["search"]
+    neural_budget = optimization["search_budgets"]["neural_forecasting"]
+    parent_seeds = optimization["randomness"]["stochastic_model_seeds"]
+    parent_minimum = int(optimization["randomness"]["minimum_stochastic_seed_count"])
+    parent_seed_budget = int(neural_budget["seeds_per_configuration"])
+    observed_seeds = search["seeds"]
+
+    if observed_seeds != parent_seeds:
+        raise ContractError(
+            "Gate 6C seed identities conflict with frozen Gate 6A governance"
+        )
+    if int(search["seed_count"]) < parent_minimum:
+        raise ContractError(
+            "Gate 6C seed count is below the frozen Gate 6A minimum"
+        )
+    if int(search["seed_count"]) != parent_seed_budget:
+        raise ContractError(
+            "Gate 6C seed count conflicts with the Gate 6A neural budget"
+        )
+    if int(search["unique_configuration_count"]) > int(
+        neural_budget["max_unique_configurations"]
+    ):
+        raise ContractError("Gate 6C configuration count exceeds Gate 6A")
+    if int(search["max_parallel_trials"]) > int(
+        neural_budget["max_parallel_trials"]
+    ):
+        raise ContractError("Gate 6C parallelism exceeds Gate 6A")
+    if int(search["max_wall_clock_minutes"]) > int(
+        neural_budget["max_wall_clock_minutes"]
+    ):
+        raise ContractError("Gate 6C wall-clock budget exceeds Gate 6A")
     return contract
 
 
@@ -259,11 +252,7 @@ def validate_gate_6c1_closure_manifest() -> dict[str, Any]:
         ROOT / "outputs" / "v2" / "gate_6c1_closure_manifest.json"
     )
     schema = load_json(SCHEMAS / "gate_6c1_closure_manifest.schema.json")
-    _validate_payload(
-        manifest,
-        schema,
-        label="Gate 6C1 closure manifest",
-    )
+    _validate_payload(manifest, schema, label="Gate 6C1 closure manifest")
     return manifest
 
 
@@ -282,7 +271,6 @@ def validate_repository_contracts() -> None:
         CONFIGS / "advanced_tabular_contract.yml",
         CONFIGS / "neural_forecasting_contract.yml",
     ]
-
     required_json = [
         SCHEMAS / "report_payload.schema.json",
         SCHEMAS / "reporting_closure_manifest.schema.json",
@@ -303,16 +291,13 @@ def validate_repository_contracts() -> None:
         SCHEMAS / "neural_promotion_decision.schema.json",
         SCHEMAS / "gate_6c1_closure_manifest.schema.json",
     ]
-
     required = [*required_yaml, *required_json]
     missing = [str(path) for path in required if not path.exists()]
-
     if missing:
         raise ContractError(f"Missing required contracts: {missing}")
 
     for path in required_yaml:
         load_yaml(path)
-
     for path in required_json:
         load_json(path)
 

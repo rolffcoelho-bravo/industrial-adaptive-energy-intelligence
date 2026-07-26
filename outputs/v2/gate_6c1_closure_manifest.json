@@ -41,7 +41,8 @@
     ".github/workflows/gate-6c1-neural-contract.yml",
     "docs/GATE_6C1_SCOPE_LOCK.md",
     "docs/GATE_6C_SUPERSEDED_EXECUTION_QUARANTINE.md",
-    "docs/GATE_6C1_SEED_GOVERNANCE_RECONCILIATION.md"
+    "docs/GATE_6C1_SEED_GOVERNANCE_RECONCILIATION.md",
+    "docs/GATE_6C1_IMPLEMENTATION_STATUS.md"
   ],
   "next_gate": "6C1_seed_governance_decision",
   "blocked_gates": [

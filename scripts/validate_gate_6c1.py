@@ -9,6 +9,7 @@ from iaei.contracts import (
     ContractError,
     validate_gate_6c1_closure_manifest,
     validate_neural_forecasting_contract,
+    validate_neural_seed_governance_alignment,
     validate_repository_contracts,
 )
 from iaei.modeling.neural_governance import (
@@ -112,13 +113,15 @@ def _validate_gate_6b_closure() -> None:
 
 def main() -> None:
     closure = validate_gate_6c1_closure_manifest()
+    contract = validate_neural_forecasting_contract()
+    validate_repository_contracts()
     assert_no_gate_6c_execution_artifacts()
     _validate_source_boundary()
     _validate_cross_artifact_conformance()
     _validate_gate_6b_closure()
 
     try:
-        validate_neural_forecasting_contract()
+        validate_neural_seed_governance_alignment(contract)
     except ContractError as error:
         if closure["status"] != "blocked_pending_seed_governance_decision":
             raise SystemExit(str(error)) from error
@@ -131,7 +134,6 @@ def main() -> None:
         )
         return
 
-    validate_repository_contracts()
     if closure["status"] == "blocked_pending_seed_governance_decision":
         raise SystemExit("Gate 6C1 remains blocked after seed contracts aligned")
 

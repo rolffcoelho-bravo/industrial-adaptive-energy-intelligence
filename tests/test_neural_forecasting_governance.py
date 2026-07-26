@@ -11,6 +11,7 @@ from iaei.contracts import (
     ContractError,
     validate_gate_6c1_closure_manifest,
     validate_neural_forecasting_contract,
+    validate_neural_seed_governance_alignment,
 )
 from iaei.modeling.neural_governance import (
     APPROVED_ALGORITHMS,
@@ -36,9 +37,11 @@ def _errors(schema_name: str, payload: dict[str, Any]) -> list[Any]:
     return list(Draft202012Validator(schema).iter_errors(payload))
 
 
-def test_gate_6c1_seed_conflict_fails_closed() -> None:
+def test_gate_6c1_proposal_validates_but_seed_alignment_fails_closed() -> None:
+    contract = validate_neural_forecasting_contract()
+    assert contract["status"] == "approved_for_implementation"
     with pytest.raises(ContractError, match="seed identities conflict"):
-        validate_neural_forecasting_contract()
+        validate_neural_seed_governance_alignment(contract)
 
 
 def test_gate_6c1_closure_records_methodological_block() -> None:
@@ -189,9 +192,17 @@ def test_proposed_deterministic_cpu_controls_are_bounded() -> None:
         deterministic_cpu_environment(7)
 
 
-def test_proposed_plan_and_window_are_blocked_by_parent_contract() -> None:
-    with pytest.raises(ContractError, match="seed identities conflict"):
-        build_gate_6c1_plan()
+def test_proposed_plan_and_causal_window_are_implementation_only() -> None:
+    plan = build_gate_6c1_plan()
+    assert plan.fitting_permitted is False
+    assert tuple(candidate.algorithm_id for candidate in plan.candidates) == (
+        APPROVED_ALGORITHMS
+    )
 
-    with pytest.raises(ContractError, match="seed identities conflict"):
-        causal_window(prediction_origin=28027, context_length=96, horizon=1)
+    window = causal_window(prediction_origin=28027, context_length=96, horizon=1)
+    assert window.context_start == 27932
+    assert window.context_end_exclusive == 28028
+    assert window.target_index == 28028
+
+    with pytest.raises(ContractError):
+        causal_window(prediction_origin=28028, context_length=96)

@@ -78,14 +78,14 @@ Gate 6C1 produced implementation-validation evidence only.
 | Validation predictions in Gate 6C1 | false |
 | Validation metrics in Gate 6C1 | false |
 
-The implementation head passed:
+The complete closure package passed:
 
-- Gate 6C1 dedicated workflow run `30206324747`;
-- repository CI run `30206324731`;
-- frozen V1 release validation run `30206324723`;
-- closed Gate 6B evidence validation run `30206324773`.
+- Gate 6C1 dedicated workflow run `30206450870`;
+- repository CI run `30206450887`;
+- frozen V1 release validation run `30206450872`;
+- closed Gate 6B evidence validation run `30206450873`.
 
-The closure record and this report must pass the same validation layer before merge.
+All four checks completed successfully after the closure manifest and detailed report were added.
 
 ## 4. Governance verification
 

@@ -27,8 +27,8 @@ The project advances through explicit evidence contracts. Each stage must pass i
 |---:|---|---|---|
 | 6A | V2 architecture and optimization governance | Closed | Provider-neutral architecture, optimization contract, artifact schemas, V1 immutability checks, acceptance tests |
 | 6B | Advanced tabular challengers | Closed | Approved search spaces, nested chronological evidence, complete trial records, Pareto evidence, human rejection record, retained V1 incumbent |
-| 6C | Neural forecasting | Next | Multiple governed seeds, variance evidence, chronological evaluation, resource and portability evidence |
-| 6D | Time-series foundation models | Planned | Prespecified model access, context and adaptation rules, chronological evidence, cost and portability controls |
+| 6C | Neural forecasting | Closed | Five governed seeds, chronological evidence, stability, resource, portability, human rejection record, retained V1 incumbent |
+| 6D | Time-series foundation models | Next | Prespecified model access, context and adaptation rules, chronological evidence, cost and portability controls |
 | 6E | Probabilistic optimization and uncertainty | Planned | Separate calibration, coverage and width evidence, governed uncertainty promotion |
 | 6F | Ensembles and governed routing | Planned | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
 | 6G | Efficiency and portability | Planned | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
@@ -100,8 +100,23 @@ Gate 6B freezes:
 
 The maximum Gate 6B prediction origin is 28,027. The maximum target dependency is 28,028. The locked test begins at 28,032 and was not accessed.
 
+## Gate 6C closure boundary
+
+Gate 6C freezes:
+
+- compact N-HiTS, compact TiDE, and compact PatchTST as the evaluated neural families;
+- one prespecified configuration per family;
+- five frozen seeds, four outer folds, and the four-interval purge;
+- 60 candidate-seed-fold evaluations and 105,060 out-of-fold prediction rows;
+- aggregate, peak-state, seed-stability, temporal-stability, resource, portability, failure, and lineage evidence;
+- the human decision rejecting all three neural challengers;
+- retention of the frozen V1 histogram-gradient-boosting incumbent;
+- the rule that Gate 6C evidence remains validation-only and cannot be represented as confirmatory evidence.
+
+The maximum Gate 6C prediction origin is 28,027. The maximum target dependency is 28,028. The locked test begins at 28,032 and was not accessed.
+
 ## Next permitted decision
 
-V1 remains closed and immutable. Gates 6A and 6B are closed.
+V1 remains closed and immutable. Gates 6A, 6B, and 6C are closed.
 
-The next permitted gate is **Gate 6C: neural forecasting**. Gate 6C must use training and validation evidence only, apply multiple governed seeds, report across-seed variance, and preserve final human promotion authority.
+The next permitted gate is **Gate 6D: time-series foundation models**. Gate 6D must freeze model identities, versions, licenses, weight provenance, access modes, adaptation permissions, context rules, cost, latency, memory, portability, and chronological validation controls before any execution.

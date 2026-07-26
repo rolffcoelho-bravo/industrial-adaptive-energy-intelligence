@@ -1,0 +1,37 @@
+{
+  "contract_version": "1.0.0",
+  "gate": "6C",
+  "search_space_id": "gate_6c_gru_sequence_1.0.0",
+  "candidate_family": "neural_forecasting",
+  "algorithm_id": "gru_sequence",
+  "data_boundary": {
+    "admissible_partitions": ["training", "validation"],
+    "locked_test_access_permitted": false,
+    "fold_strategy": "nested_expanding_window",
+    "outer_fold_count": 4,
+    "inner_fold_count": 3,
+    "purge_intervals": 4
+  },
+  "parameter_space": [
+    {"name": "hidden_size", "type": "integer", "required": true, "minimum": 16, "maximum": 32, "step": 16},
+    {"name": "num_layers", "type": "integer", "required": true, "minimum": 1, "maximum": 1, "step": 1},
+    {"name": "dropout", "type": "number", "required": true, "minimum": 0.0, "maximum": 0.0, "step": 0.1, "log_scale": false},
+    {"name": "learning_rate", "type": "number", "required": true, "minimum": 0.0005, "maximum": 0.001, "step": 0.0005, "log_scale": false}
+  ],
+  "budget": {
+    "max_unique_trials": 2,
+    "max_parallel_trials": 1,
+    "max_retries_per_trial": 1,
+    "max_wall_clock_minutes": 720
+  },
+  "seeds": [20260721, 20260722, 20260723, 20260724, 20260725],
+  "objectives": ["aggregate_mae", "peak_state_mae", "temporal_fold_dispersion", "across_seed_mae_standard_deviation", "model_size_bytes", "p95_inference_latency_ms_per_1000_rows", "portability_failure_count"],
+  "hard_constraints": ["chronology_violation_count", "leakage_violation_count", "locked_test_access_count", "missing_required_artifact_count", "nonfinite_objective_count", "portability_failure_count", "ungoverned_parameter_count"],
+  "provenance": {
+    "optimization_contract_version": "1.0.0",
+    "code_commit": "3cf4cf85b744f4fe3cbdbff17a99ae794a99db59",
+    "created_by_role": "human",
+    "human_approved": true,
+    "approved_before_execution": true
+  }
+}

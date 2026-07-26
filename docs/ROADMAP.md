@@ -148,27 +148,47 @@ Gate 6B used training and validation evidence only. Maximum prediction origin wa
 
 ### Gate 6C: neural forecasting
 
+**Status:** Closed.
+
+Completed evidence:
+
+- compact N-HiTS, compact TiDE, and compact PatchTST candidate families;
+- one frozen configuration per family;
+- five governed seeds per configuration;
+- four expanding-window outer folds and a four-interval purge;
+- 60 candidate-seed-fold evaluations;
+- 7,004 validation origins per candidate and seed;
+- 105,060 out-of-fold prediction rows;
+- complete aggregate, peak-state, seed-stability, temporal-stability, resource, portability, failure, and lineage evidence;
+- no neural challenger improved the V1 incumbent on aggregate MAE;
+- no neural challenger improved any outer fold;
+- human rejection of all three neural challengers;
+- retention of the frozen V1 histogram-gradient-boosting incumbent;
+- Gate 6C3 decision schema, closure schema, manifest, tests, and GitHub-native validation.
+
+Gate 6C used training and validation evidence only. Maximum prediction origin was 28,027, maximum target dependency was 28,028, locked-test access was false, and no confirmatory evaluation occurred.
+
+### Gate 6D: time-series foundation models
+
 **Status:** Next.
 
 Required evidence:
 
-- prespecified neural candidate families and bounded search spaces;
-- multiple governed seeds for every stochastic configuration;
-- expanding-window chronological training and validation;
-- across-seed mean, standard deviation, minimum, and maximum evidence;
-- complete resource, portability, failure, and artifact lineage;
-- comparison with the frozen V1 champion and admissible V2 challengers;
-- hard-constraint and Pareto evidence;
-- final human promotion, rejection, or deferral record;
-- no V1 mutation and no locked-test access.
+- prespecified foundation-model identities and versions;
+- model-weight, license, and external-provenance manifests;
+- zero-shot and permitted adaptation modes fixed before execution;
+- chronological training-and-validation-only evidence;
+- access, context, memory, latency, cost, and portability controls;
+- comparison with the frozen V1 incumbent and admissible V2 challengers;
+- no assumption of foundation-model superiority;
+- final human promotion, rejection, or deferral record.
 
-### Gates 6D-6G
+### Gates 6E-6G
 
 **Status:** Planned.
 
 Sequence:
 
-- Gate 6D: time-series foundation models with access, adaptation, cost, and portability controls;
 - Gate 6E: probabilistic optimization and uncertainty calibration;
 - Gate 6F: ensembles and governed routing using out-of-fold evidence only;
 - Gate 6G: efficiency, portability, and adapter parity.

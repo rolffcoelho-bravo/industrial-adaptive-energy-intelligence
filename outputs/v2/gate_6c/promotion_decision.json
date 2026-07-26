@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6C",
+  "subgate": "6C3",
+  "status": "closed",
+  "human_authority": true,
+  "automatic_promotion_permitted": false,
+  "locked_test_accessed": false,
+  "confirmatory_evaluation_performed": false,
+  "retained_model": "v1_frozen_champion",
+  "decisions": [
+    {
+      "candidate_id": "tide_compact",
+      "decision": "reject",
+      "promotion_eligible": false,
+      "rationale": "TiDE was the strongest neural challenger but produced 9.84 percent worse aggregate MAE, 13.55 percent worse peak-state MAE, no positive outer folds, and an excessive single-fold degradation relative to the frozen V1 reference.",
+      "next_action": "retain_incumbent"
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "decision": "reject",
+      "promotion_eligible": false,
+      "rationale": "PatchTST produced 17.72 percent worse aggregate MAE, 17.00 percent worse peak-state MAE, no positive outer folds, and an excessive single-fold degradation relative to the frozen V1 reference.",
+      "next_action": "retain_incumbent"
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "decision": "reject",
+      "promotion_eligible": false,
+      "rationale": "N-HiTS produced 26.38 percent worse aggregate MAE, 26.52 percent worse peak-state MAE, no positive outer folds, and the largest single-fold degradation among the governed neural challengers.",
+      "next_action": "retain_incumbent"
+    }
+  ],
+  "next_gate": "6D"
+}

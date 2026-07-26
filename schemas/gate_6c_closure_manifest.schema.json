@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6c_closure_manifest.schema.json",
+  "title": "Gate 6C neural forecasting closure manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "retained_model",
+    "candidate_decisions",
+    "validation_summary",
+    "controls",
+    "source_hashes",
+    "decision_record_path",
+    "next_gate",
+    "blocked_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6C"},
+    "subgate": {"const": "6C3"},
+    "status": {"const": "closed"},
+    "retained_model": {"const": "v1_frozen_champion"},
+    "candidate_decisions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["candidate_id", "decision", "promotion_eligible"],
+        "properties": {
+          "candidate_id": {"enum": ["nhits_compact", "tide_compact", "patchtst_compact"]},
+          "decision": {"const": "reject"},
+          "promotion_eligible": {"const": false}
+        }
+      }
+    },
+    "validation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_count", "seed_count", "outer_fold_count", "seed_fold_evaluation_count", "prediction_row_count", "validation_origins_per_candidate_seed", "eligible_candidate_count"],
+      "properties": {
+        "candidate_count": {"const": 3},
+        "seed_count": {"const": 5},
+        "outer_fold_count": {"const": 4},
+        "seed_fold_evaluation_count": {"const": 60},
+        "prediction_row_count": {"const": 105060},
+        "validation_origins_per_candidate_seed": {"const": 7004},
+        "eligible_candidate_count": {"const": 0}
+      }
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["human_decision_recorded", "automatic_promotion_permitted", "locked_test_accessed", "locked_predictions_parsed", "confirmatory_evaluation_performed", "v1_immutable", "quarantined_evidence_used"],
+      "properties": {
+        "human_decision_recorded": {"const": true},
+        "automatic_promotion_permitted": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "v1_immutable": {"const": true},
+        "quarantined_evidence_used": {"const": false}
+      }
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_leaderboard", "promotion_recommendation", "seed_results", "outer_fold_results", "out_of_fold_predictions", "trial_evidence"],
+      "properties": {
+        "candidate_leaderboard": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "promotion_recommendation": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "seed_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "outer_fold_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "out_of_fold_predictions": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "trial_evidence": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "decision_record_path": {"const": "outputs/v2/gate_6c/promotion_decision.json"},
+    "next_gate": {"const": "6D"},
+    "blocked_gates": {
+      "type": "array",
+      "maxItems": 0
+    }
+  }
+}

@@ -36,81 +36,37 @@ def _errors(schema_name: str, payload: dict[str, Any]) -> list[Any]:
     return list(Draft202012Validator(schema).iter_errors(payload))
 
 
-def test_gate_6c1_contract_and_plan_are_frozen() -> None:
-    contract = validate_neural_forecasting_contract()
-    plan = build_gate_6c1_plan()
+def test_gate_6c1_seed_conflict_fails_closed() -> None:
+    with pytest.raises(ContractError, match="seed identities conflict"):
+        validate_neural_forecasting_contract()
 
-    assert contract["status"] == "approved_for_implementation"
-    assert tuple(candidate.algorithm_id for candidate in plan.candidates) == (
-        APPROVED_ALGORITHMS
+
+def test_gate_6c1_closure_records_methodological_block() -> None:
+    closure = validate_gate_6c1_closure_manifest()
+    assert closure["status"] == "blocked_pending_seed_governance_decision"
+    assert closure["implementation_only"] is True
+    assert closure["candidate_ids"] == list(APPROVED_ALGORITHMS)
+    assert closure["seeds"] == list(APPROVED_SEEDS)
+    assert closure["controls"]["model_fitting_performed"] is False
+    assert closure["controls"]["validation_predictions_generated"] is False
+    assert closure["controls"]["validation_metrics_calculated"] is False
+    assert closure["controls"]["locked_test_accessed"] is False
+    assert closure["controls"]["confirmatory_evaluation_performed"] is False
+    assert closure["controls"]["v1_immutable"] is True
+    assert closure["next_gate"] == "6C1_seed_governance_decision"
+    assert closure["blocked_gates"] == ["6C2", "6C3", "6D"]
+
+
+def test_gate_6c1_contract_schema_preserves_three_seed_proposal() -> None:
+    schema = _load_json(SCHEMAS / "neural_forecasting_contract.schema.json")
+    Draft202012Validator.check_schema(schema)
+
+    contract_text = (ROOT / "configs" / "neural_forecasting_contract.yml").read_text(
+        encoding="utf-8"
     )
-    assert plan.seeds == APPROVED_SEEDS
-    assert plan.outer_fold_count == 4
-    assert plan.purge_intervals == 4
-    assert plan.maximum_prediction_origin_exclusive == 28028
-    assert plan.maximum_target_dependency_exclusive == 28032
-    assert plan.canonical_device == "cpu"
-    assert plan.fitting_permitted is False
-
-
-def test_gate_6c1_contract_preserves_human_decision_and_v1_boundary() -> None:
-    contract = validate_neural_forecasting_contract()
-
-    assert contract["promotion"]["automatic_promotion_permitted"] is False
-    assert contract["promotion"]["final_authority"] == "human"
-    assert contract["v1_boundary"]["locked_test_access_permitted"] is False
-    assert contract["v1_boundary"]["locked_prediction_parsing_permitted"] is False
-    assert contract["v1_boundary"]["confirmatory_evaluation_permitted"] is False
-    assert contract["data_boundary"]["admissible_partitions"] == [
-        "training",
-        "validation",
-    ]
-
-
-def test_deterministic_cpu_environment_is_seed_bounded() -> None:
-    for seed in APPROVED_SEEDS:
-        environment = deterministic_cpu_environment(seed)
-        assert environment["PYTHONHASHSEED"] == str(seed)
-        assert environment["IAEI_GATE_6C_SEED"] == str(seed)
-        assert environment["IAEI_CANONICAL_DEVICE"] == "cpu"
-        assert environment["OMP_NUM_THREADS"] == "1"
-        assert environment["MKL_NUM_THREADS"] == "1"
-        assert environment["OPENBLAS_NUM_THREADS"] == "1"
-        assert environment["NUMEXPR_NUM_THREADS"] == "1"
-
-    with pytest.raises(ContractError):
-        deterministic_cpu_environment(7)
-
-
-def test_causal_window_respects_context_and_locked_boundary() -> None:
-    window = causal_window(
-        prediction_origin=28027,
-        context_length=96,
-        horizon=1,
-    )
-    assert window.context_start == 27932
-    assert window.context_end_exclusive == 28028
-    assert window.prediction_origin == 28027
-    assert window.target_index == 28028
-
-    with pytest.raises(ContractError):
-        causal_window(prediction_origin=28028, context_length=96)
-    with pytest.raises(ContractError):
-        causal_window(prediction_origin=40, context_length=96)
-    with pytest.raises(ContractError):
-        causal_window(prediction_origin=100, context_length=96, horizon=2)
-
-
-def test_gate_6c1_fails_closed_on_model_execution_actions() -> None:
-    for action in ("fit", "train", "predict", "evaluate", "score", "optimize", "search"):
-        with pytest.raises(Gate6C1ExecutionProhibited):
-            prohibit_gate_6c1_execution(action)
-
-    prohibit_gate_6c1_execution("validate_contract")
-
-
-def test_gate_6c1_has_no_execution_artifacts() -> None:
-    assert_no_gate_6c_execution_artifacts(ROOT)
+    assert "20260725" in contract_text
+    assert "20260726" in contract_text
+    assert "20260727" in contract_text
 
 
 def test_gate_6c1_schemas_are_valid_json_schemas() -> None:
@@ -209,17 +165,33 @@ def test_future_candidate_and_decision_schemas_preserve_governance() -> None:
     assert _errors("neural_promotion_decision.schema.json", invalid)
 
 
-def test_gate_6c1_closure_manifest_is_design_only() -> None:
-    closure = validate_gate_6c1_closure_manifest()
-    assert closure["status"] in {"implementation_complete_pending_ci", "closed"}
-    assert closure["implementation_only"] is True
-    assert closure["candidate_ids"] == list(APPROVED_ALGORITHMS)
-    assert closure["seeds"] == list(APPROVED_SEEDS)
-    assert closure["controls"]["model_fitting_performed"] is False
-    assert closure["controls"]["validation_predictions_generated"] is False
-    assert closure["controls"]["validation_metrics_calculated"] is False
-    assert closure["controls"]["locked_test_accessed"] is False
-    assert closure["controls"]["confirmatory_evaluation_performed"] is False
-    assert closure["controls"]["v1_immutable"] is True
-    assert closure["next_gate"] == "6C2"
-    assert closure["blocked_gates"] == ["6C3", "6D"]
+def test_execution_actions_remain_prohibited_before_decision() -> None:
+    for action in ("fit", "train", "predict", "evaluate", "score", "optimize", "search"):
+        with pytest.raises(Gate6C1ExecutionProhibited):
+            prohibit_gate_6c1_execution(action)
+
+    prohibit_gate_6c1_execution("validate_contract")
+    assert_no_gate_6c_execution_artifacts(ROOT)
+
+
+def test_proposed_deterministic_cpu_controls_are_bounded() -> None:
+    for seed in APPROVED_SEEDS:
+        environment = deterministic_cpu_environment(seed)
+        assert environment["PYTHONHASHSEED"] == str(seed)
+        assert environment["IAEI_GATE_6C_SEED"] == str(seed)
+        assert environment["IAEI_CANONICAL_DEVICE"] == "cpu"
+        assert environment["OMP_NUM_THREADS"] == "1"
+        assert environment["MKL_NUM_THREADS"] == "1"
+        assert environment["OPENBLAS_NUM_THREADS"] == "1"
+        assert environment["NUMEXPR_NUM_THREADS"] == "1"
+
+    with pytest.raises(ContractError):
+        deterministic_cpu_environment(7)
+
+
+def test_proposed_plan_and_window_are_blocked_by_parent_contract() -> None:
+    with pytest.raises(ContractError, match="seed identities conflict"):
+        build_gate_6c1_plan()
+
+    with pytest.raises(ContractError, match="seed identities conflict"):
+        causal_window(prediction_origin=28027, context_length=96, horizon=1)

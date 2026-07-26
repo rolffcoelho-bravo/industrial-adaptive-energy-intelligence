@@ -1,0 +1,42 @@
+{
+  "automatic_promotion_permitted": false,
+  "candidates": [
+    {
+      "candidate_id": "tide_compact",
+      "failed_requirements": [
+        "aggregate_mae_improvement",
+        "peak_state_mae",
+        "positive_outer_folds",
+        "single_fold_degradation"
+      ],
+      "promotion_eligible": false
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "failed_requirements": [
+        "aggregate_mae_improvement",
+        "peak_state_mae",
+        "positive_outer_folds",
+        "single_fold_degradation"
+      ],
+      "promotion_eligible": false
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "failed_requirements": [
+        "aggregate_mae_improvement",
+        "peak_state_mae",
+        "positive_outer_folds",
+        "single_fold_degradation"
+      ],
+      "promotion_eligible": false
+    }
+  ],
+  "eligible_candidates": [],
+  "gate": "6C",
+  "human_decision_required": true,
+  "recommended_next_gate": "6C3",
+  "schema_version": "1.0.0",
+  "status": "validation_complete_pending_human_decision",
+  "subgate": "6C2"
+}

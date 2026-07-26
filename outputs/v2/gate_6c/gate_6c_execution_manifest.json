@@ -1,0 +1,60 @@
+{
+  "automatic_promotion_permitted": false,
+  "blocked_gates": [
+    "6D"
+  ],
+  "candidate_ids": [
+    "nhits_compact",
+    "tide_compact",
+    "patchtst_compact"
+  ],
+  "confirmatory_evaluation_performed": false,
+  "contract_version": "1.1.0",
+  "environment": {
+    "canonical_device": "cpu",
+    "environment_lock_path": "outputs/v2/gate_6c/environment_lock.txt",
+    "environment_lock_sha256": "59ab7f6c95dc3dd22c7157f6723a3ec55222a105dadd18b5ee3008db8a958b60",
+    "numpy": "2.5.1",
+    "pandas": "2.3.3",
+    "platform": "Linux-6.17.0-1020-azure-x86_64-with-glibc2.39",
+    "python": "3.12.13",
+    "torch": "2.7.1+cu126"
+  },
+  "execution_commit": "b6788869a9d9fb6ba730e1c09c965cd829a15732",
+  "gate": "6C",
+  "human_decision_required": true,
+  "input_hashes": {
+    "incumbent_results": "d837c0394ee578a678abc6638561bcca67f8c9009ad39b11958ccc0c6e4b8841",
+    "neural_contract": "9a5e86a78348d788f7736c6fe9359f8e3fbd026a86db2361879b0d3f88d0e50f",
+    "outer_folds": "0fa23939394ca944d43a6133f738a89573d453ee4312b44a015f0761727e1f0e",
+    "silver": "64c37386f3b1ff253d1218cceba3d58965d983cb439695c9a66788d18333eeee"
+  },
+  "locked_predictions_parsed": false,
+  "locked_test_accessed": false,
+  "maximum_prediction_origin": 28027,
+  "maximum_target_dependency": 28028,
+  "next_gate": "6C3",
+  "output_hashes": {
+    "candidate_leaderboard": "c2bd6f93364ddeae0a0dd5e3cf203715bd271a1b59e58b24df32b8f0b1307e75",
+    "failure_records": "d194915b0ac55201338d6529b5c24bb00b14cc0faf99485d0d569caa5e8d29d8",
+    "out_of_fold_predictions": "1a2865a64291f7ebe8940a3294be3f5601aeded7ab0532aa256f24ec71228b39",
+    "outer_fold_results": "5439c15649e61c7d75574c3efeea57bc3a5b3859a63ea4a480610158258a6e9b",
+    "promotion_recommendation": "08eb7db0514ea215f296b8aa3723079901a39996ad04bab5d4f85bf6aa8a4fc4",
+    "seed_results": "7555833abf791e5f37e8d8adc94fd4a5622f7322d1fbcf6f215f7863c42244c2",
+    "trial_evidence": "7228b725cb3cd29c9f91c9833b6b7cc974d244bc1ab644091867be988062eefe"
+  },
+  "prediction_row_count": 105060,
+  "schema_version": "1.0.0",
+  "seed_fold_evaluation_count": 60,
+  "seeds": [
+    20260721,
+    20260722,
+    20260723,
+    20260724,
+    20260725
+  ],
+  "status": "validation_complete_pending_human_decision",
+  "subgate": "6C2",
+  "v1_immutable": true,
+  "validation_origins_per_candidate_seed": 7004
+}

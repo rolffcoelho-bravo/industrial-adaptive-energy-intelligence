@@ -85,12 +85,11 @@ jobs:
 
           - Candidate families: compact N-HiTS, compact TiDE, compact PatchTST
           - Configurations: 3 total, one per family
-          - Seeds: 20260725, 20260726, 20260727
-          - Canonical device: CPU
           - Model fitting: not permitted
           - Validation predictions: not generated
           - Locked-test access: not permitted
           - Confirmatory evaluation: not permitted
           - Automatic promotion: not permitted
-          - Next subgate after formal closure: Gate 6C2
+          - Current state: blocked pending seed-governance decision
+          - Gate 6C2: blocked
           EOF

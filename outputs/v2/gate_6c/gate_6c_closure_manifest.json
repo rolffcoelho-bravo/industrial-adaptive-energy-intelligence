@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6C",
+  "subgate": "6C3",
+  "status": "closed",
+  "retained_model": "v1_frozen_champion",
+  "candidate_decisions": [
+    {
+      "candidate_id": "tide_compact",
+      "decision": "reject",
+      "promotion_eligible": false
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "decision": "reject",
+      "promotion_eligible": false
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "decision": "reject",
+      "promotion_eligible": false
+    }
+  ],
+  "validation_summary": {
+    "candidate_count": 3,
+    "seed_count": 5,
+    "outer_fold_count": 4,
+    "seed_fold_evaluation_count": 60,
+    "prediction_row_count": 105060,
+    "validation_origins_per_candidate_seed": 7004,
+    "eligible_candidate_count": 0
+  },
+  "controls": {
+    "human_decision_recorded": true,
+    "automatic_promotion_permitted": false,
+    "locked_test_accessed": false,
+    "locked_predictions_parsed": false,
+    "confirmatory_evaluation_performed": false,
+    "v1_immutable": true,
+    "quarantined_evidence_used": false
+  },
+  "source_hashes": {
+    "candidate_leaderboard": "c2bd6f93364ddeae0a0dd5e3cf203715bd271a1b59e58b24df32b8f0b1307e75",
+    "promotion_recommendation": "08eb7db0514ea215f296b8aa3723079901a39996ad04bab5d4f85bf6aa8a4fc4",
+    "seed_results": "7555833abf791e5f37e8d8adc94fd4a5622f7322d1fbcf6f215f7863c42244c2",
+    "outer_fold_results": "5439c15649e61c7d75574c3efeea57bc3a5b3859a63ea4a480610158258a6e9b",
+    "out_of_fold_predictions": "1a2865a64291f7ebe8940a3294be3f5601aeded7ab0532aa256f24ec71228b39",
+    "trial_evidence": "7228b725cb3cd29c9f91c9833b6b7cc974d244bc1ab644091867be988062eefe"
+  },
+  "decision_record_path": "outputs/v2/gate_6c/promotion_decision.json",
+  "next_gate": "6D",
+  "blocked_gates": []
+}

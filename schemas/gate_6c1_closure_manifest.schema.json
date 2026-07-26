@@ -22,7 +22,7 @@
     "schema_version": {"const": "1.0.0"},
     "gate": {"const": "6C"},
     "subgate": {"const": "6C1"},
-    "status": {"const": "closed"},
+    "status": {"enum": ["implementation_complete_pending_ci", "closed"]},
     "implementation_only": {"const": true},
     "candidate_ids": {
       "const": ["nhits_compact", "tide_compact", "patchtst_compact"]

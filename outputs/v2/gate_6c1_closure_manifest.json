@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "gate": "6C",
   "subgate": "6C1",
-  "status": "implementation_complete_pending_ci",
+  "status": "blocked_pending_seed_governance_decision",
   "implementation_only": true,
   "candidate_ids": [
     "nhits_compact",
@@ -40,10 +40,12 @@
     "tests/test_neural_forecasting_governance.py",
     ".github/workflows/gate-6c1-neural-contract.yml",
     "docs/GATE_6C1_SCOPE_LOCK.md",
-    "docs/GATE_6C_SUPERSEDED_EXECUTION_QUARANTINE.md"
+    "docs/GATE_6C_SUPERSEDED_EXECUTION_QUARANTINE.md",
+    "docs/GATE_6C1_SEED_GOVERNANCE_RECONCILIATION.md"
   ],
-  "next_gate": "6C2",
+  "next_gate": "6C1_seed_governance_decision",
   "blocked_gates": [
+    "6C2",
     "6C3",
     "6D"
   ]

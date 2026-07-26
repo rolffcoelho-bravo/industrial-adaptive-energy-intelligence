@@ -7,9 +7,11 @@ on:
       - "pyproject.toml"
       - "configs/neural_forecasting_contract.yml"
       - "schemas/neural_*.schema.json"
+      - "schemas/gate_6c*.schema.json"
       - "src/iaei/v2/neural_*.py"
       - "scripts/run_gate_6c2_neural.py"
       - "scripts/validate_gate_6c2_evidence.py"
+      - "scripts/validate_gate_6c3_closure.py"
       - "scripts/validate_gate_6c1.py"
       - "tests/test_gate_6c2_neural_execution.py"
       - "outputs/v2/gate_6c/**"
@@ -118,10 +120,14 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
-      - name: Validate complete Gate 6C2 evidence
+      - name: Validate complete Gate 6C evidence state
         run: |
           python scripts/validate_gate_6c1.py
-          python scripts/validate_gate_6c2_evidence.py
+          if [ -f "outputs/v2/gate_6c/gate_6c_closure_manifest.json" ]; then
+            python scripts/validate_gate_6c3_closure.py
+          else
+            python scripts/validate_gate_6c2_evidence.py
+          fi
           python scripts/verify_v1_immutability.py
           python scripts/audit_public_content.py
 
@@ -141,8 +147,15 @@ jobs:
           manifest = json.loads(
               (root / "gate_6c_execution_manifest.json").read_text(encoding="utf-8")
           )
+          closure_path = root / "gate_6c_closure_manifest.json"
+          next_gate = manifest["next_gate"]
+          authority = "required"
+          if closure_path.exists():
+              closure = json.loads(closure_path.read_text(encoding="utf-8"))
+              next_gate = closure["next_gate"]
+              authority = "recorded"
 
-          print("## Gate 6C2 governed neural validation")
+          print("## Gate 6C governed neural evidence")
           print()
           print("| Candidate | Mean MAE | Mean peak MAE | MAE improvement | Peak change | Seed MAE SD | Positive folds | Pareto | Eligible |")
           print("|---|---:|---:|---:|---:|---:|---:|---|---|")
@@ -161,9 +174,10 @@ jobs:
           print(f"Seed-fold evaluations: `{manifest['seed_fold_evaluation_count']}`")
           print(f"Prediction rows: `{manifest['prediction_row_count']}`")
           print(f"Eligible candidates: `{recommendation['eligible_candidates']}`")
-          print(f"Next gate: `{manifest['next_gate']}`")
+          print(f"Human decision: `{authority}`")
+          print(f"Next gate: `{next_gate}`")
           print()
-          print("Validation evidence only. Human promotion authority remains required.")
+          print("Validation evidence only. V1 confirmatory evidence remains immutable.")
           PY
 
       - name: Commit first Gate 6C2 evidence to the pull-request branch
@@ -179,10 +193,10 @@ jobs:
           git commit -m "Record Gate 6C2 governed neural validation evidence"
           git push origin "HEAD:${HEAD_BRANCH}"
 
-      - name: Upload complete Gate 6C2 evidence package
+      - name: Upload complete Gate 6C evidence package
         uses: actions/upload-artifact@v4
         with:
-          name: gate-6c2-governed-neural-validation
+          name: gate-6c-governed-neural-evidence
           path: outputs/v2/gate_6c
           if-no-files-found: error
           retention-days: 90

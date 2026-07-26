@@ -10,13 +10,13 @@ Active. Gate 6C1 is implementation-only. Neural fitting and validation execution
 - compact TiDE;
 - compact PatchTST.
 
-No substitution is permitted without formal change control and Head of Research approval.
+No substitution is permitted without formal change control and explicit human approval.
 
 ## Frozen execution design
 
 - exactly one configuration per family;
 - exactly three configurations in total;
-- fixed seeds: `20260725`, `20260726`, `20260727`;
+- proposed seeds pending governance reconciliation: `20260725`, `20260726`, `20260727`;
 - four frozen expanding-window outer folds;
 - four-interval purge;
 - CPU-only canonical GitHub execution;
@@ -38,7 +38,7 @@ No substitution is permitted without formal change control and Head of Research 
 10. public-content audit and V1 immutability verification;
 11. Gate 6B closure verification;
 12. green CI and dedicated Gate 6C1 workflow;
-13. detailed Gate 6C1 closure summary, technical assessment, recommendations, perceived-value opportunities, and exact Gate 6C2 approval request.
+13. detailed Gate 6C1 closure summary, technical assessment, recommendations, originality opportunities, and exact Gate 6C2 approval request.
 
 ## Prohibited in Gate 6C1
 
@@ -55,4 +55,4 @@ No substitution is permitted without formal change control and Head of Research 
 
 ## Sequence protection
 
-Gate 6C2 remains blocked until Gate 6C1 is merged and formally closed. Gate 6C3 remains blocked until Gate 6C2 evidence is complete. Gate 6D remains blocked until Gate 6C3 closes Gate 6C.
+Gate 6C1 remains blocked pending seed-governance reconciliation. Gate 6C2 remains blocked until Gate 6C1 is merged and formally closed. Gate 6C3 remains blocked until Gate 6C2 evidence is complete. Gate 6D remains blocked until Gate 6C3 closes Gate 6C.

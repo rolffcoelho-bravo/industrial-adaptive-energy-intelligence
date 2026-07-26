@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved for governed implementation. Model execution remains blocked until the machine-readable contract, schemas, tests, implementation interfaces, and GitHub-native validation workflow are merged and green.
+Gate 6C1 is closed. Gate 6C2 governed validation execution requires explicit approval before any neural model fitting begins.
 
 ## Objective
 
@@ -32,7 +32,7 @@ Temporal Fusion Transformer is deferred because the current one-step target and 
 
 ### Gate 6C2: governed validation execution
 
-- execute only after Gate 6C1 is merged, green, and formally closed;
+- execute only after Gate 6C1 is merged, green, formally closed, and Gate 6C2 receives explicit approval;
 - use the four frozen expanding-window outer folds and a four-interval purge;
 - use five fixed seeds per configuration;
 - calculate outer-fold and across-seed evidence;

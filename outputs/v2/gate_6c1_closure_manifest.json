@@ -2,7 +2,7 @@
   "schema_version": "1.0.0",
   "gate": "6C",
   "subgate": "6C1",
-  "status": "blocked_pending_seed_governance_decision",
+  "status": "implementation_complete_pending_ci",
   "implementation_only": true,
   "candidate_ids": [
     "nhits_compact",
@@ -10,9 +10,11 @@
     "patchtst_compact"
   ],
   "seeds": [
-    20260725,
-    20260726,
-    20260727
+    20260721,
+    20260722,
+    20260723,
+    20260724,
+    20260725
   ],
   "configuration_count": 3,
   "controls": {
@@ -44,9 +46,8 @@
     "docs/GATE_6C1_SEED_GOVERNANCE_RECONCILIATION.md",
     "docs/GATE_6C1_IMPLEMENTATION_STATUS.md"
   ],
-  "next_gate": "6C1_seed_governance_decision",
+  "next_gate": "6C2",
   "blocked_gates": [
-    "6C2",
     "6C3",
     "6D"
   ]

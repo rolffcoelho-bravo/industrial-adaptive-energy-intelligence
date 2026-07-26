@@ -6,15 +6,15 @@ import sys
 from pathlib import Path
 
 from iaei.contracts import (
-    ContractError,
     validate_gate_6c1_closure_manifest,
     validate_neural_forecasting_contract,
-    validate_neural_seed_governance_alignment,
     validate_repository_contracts,
 )
 from iaei.modeling.neural_governance import (
     APPROVED_ALGORITHMS,
+    APPROVED_SEEDS,
     assert_no_gate_6c_execution_artifacts,
+    build_gate_6c1_plan,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -58,6 +58,7 @@ def _validate_source_boundary() -> None:
 
 
 def _validate_cross_artifact_conformance() -> None:
+    contract = validate_neural_forecasting_contract()
     protocol = PROTOCOL_PATH.read_text(encoding="utf-8")
     scope = SCOPE_PATH.read_text(encoding="utf-8")
     workflow = WORKFLOW_PATH.read_text(encoding="utf-8")
@@ -74,14 +75,12 @@ def _validate_cross_artifact_conformance() -> None:
         if display_name not in protocol or display_name not in scope:
             raise SystemExit(f"Missing cross-artifact candidate: {display_name}")
 
-    for seed in (20260725, 20260726, 20260727):
+    for seed in APPROVED_SEEDS:
         seed_text = str(seed)
         if seed_text not in protocol or seed_text not in scope:
-            raise SystemExit(f"Missing proposed Gate 6C seed: {seed}")
-
-    for seed in (20260721, 20260722, 20260723, 20260724, 20260725):
-        if str(seed) not in reconciliation:
-            raise SystemExit(f"Missing frozen Gate 6A seed in reconciliation: {seed}")
+            raise SystemExit(f"Missing cross-artifact seed: {seed}")
+        if seed_text not in reconciliation:
+            raise SystemExit(f"Missing reconciled Gate 6A seed: {seed}")
 
     if "scripts/validate_gate_6c1.py" not in workflow:
         raise SystemExit("Gate 6C1 workflow does not invoke its validator")
@@ -94,6 +93,11 @@ def _validate_cross_artifact_conformance() -> None:
     hits = [fragment for fragment in prohibited_workflow_fragments if fragment in workflow]
     if hits:
         raise SystemExit(f"Gate 6C1 workflow contains execution fragments: {hits}")
+
+    if contract["search"]["unique_configuration_count"] != 3:
+        raise SystemExit("Gate 6C configuration count changed")
+    if contract["search"]["seed_count"] != 5:
+        raise SystemExit("Gate 6C seed count changed")
 
 
 def _validate_gate_6b_closure() -> None:
@@ -112,34 +116,27 @@ def _validate_gate_6b_closure() -> None:
 
 
 def main() -> None:
-    closure = validate_gate_6c1_closure_manifest()
-    contract = validate_neural_forecasting_contract()
     validate_repository_contracts()
+    plan = build_gate_6c1_plan()
+    closure = validate_gate_6c1_closure_manifest()
     assert_no_gate_6c_execution_artifacts()
     _validate_source_boundary()
     _validate_cross_artifact_conformance()
     _validate_gate_6b_closure()
 
-    try:
-        validate_neural_seed_governance_alignment(contract)
-    except ContractError as error:
-        if closure["status"] != "blocked_pending_seed_governance_decision":
-            raise SystemExit(str(error)) from error
-        if "seed identities conflict" not in str(error):
-            raise SystemExit(str(error)) from error
-        print(
-            "Gate 6C1 governance block: EXPECTED | "
-            "reason=seed_contract_conflict | fitting=false | "
-            "locked_test=false | next_action=human_seed_decision"
-        )
-        return
-
-    if closure["status"] == "blocked_pending_seed_governance_decision":
-        raise SystemExit("Gate 6C1 remains blocked after seed contracts aligned")
+    if closure["status"] not in {"implementation_complete_pending_ci", "closed"}:
+        raise SystemExit("Unexpected Gate 6C1 closure status")
+    if closure["candidate_ids"] != list(APPROVED_ALGORITHMS):
+        raise SystemExit("Gate 6C1 closure candidate set changed")
+    if closure["seeds"] != list(APPROVED_SEEDS):
+        raise SystemExit("Gate 6C1 closure seed set changed")
+    if plan.fitting_permitted:
+        raise SystemExit("Gate 6C1 unexpectedly permits fitting")
 
     print(
-        "Gate 6C1 validation: PASS | candidates=3 | fitting=false | "
-        "locked_test=false | next_gate=6C2"
+        "Gate 6C1 validation: PASS | candidates=3 | seeds=5 | "
+        "fitting=false | locked_test=false | "
+        f"status={closure['status']} | next_gate=6C2"
     )
 
 

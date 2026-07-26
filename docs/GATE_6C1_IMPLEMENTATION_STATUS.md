@@ -2,24 +2,21 @@
 
 ## Current state
 
-Gate 6C1 implementation work is active in PR #14. The implementation-only package now contains:
+The Gate 6C1 implementation-only package is complete pending final GitHub validation and formal closure.
 
-- a machine-readable neural forecasting contract;
-- a strict contract schema;
-- seed-level, candidate-level, promotion-decision, and closure schemas;
-- implementation-only candidate blueprints for compact N-HiTS, compact TiDE, and compact PatchTST;
-- deterministic CPU and seed-control interfaces;
-- causal-window boundary validation;
+It contains:
+
+- a versioned machine-readable neural forecasting contract;
+- strict contract and evidence schemas;
+- compact N-HiTS, compact TiDE, and compact PatchTST blueprints;
+- five frozen Gate 6A seeds per candidate configuration;
+- deterministic CPU controls and causal-window boundaries;
 - fail-closed guards against fitting, prediction, evaluation, and optimization actions;
-- a repository-level contract registry;
-- a GitHub-native read-only validation workflow;
+- repository contract registration;
 - source, schema, boundary, and future-evidence tests;
-- a formal quarantine record for the superseded PR #12 execution;
-- a seed-governance reconciliation record.
-
-## Unresolved decision
-
-The Gate 6C three-seed proposal conflicts with the frozen Gate 6A five-seed rule. The implementation is therefore not eligible for closure or execution until the seed rule is resolved through explicit human authority.
+- a read-only GitHub-native validation workflow;
+- quarantine controls for the superseded PR #12 execution;
+- an approved seed-governance reconciliation record.
 
 ## Preserved boundaries
 
@@ -34,15 +31,8 @@ The Gate 6C three-seed proposal conflicts with the frozen Gate 6A five-seed rule
 
 ## Assessment
 
-The implementation architecture is materially stronger than a documentation-only gate because the protocol is now represented as executable contracts, schemas, fail-closed source guards, and GitHub-native validation. The unresolved seed conflict is the only known methodological blocker.
+The implementation is stronger than a documentation-only gate because the neural protocol is represented as executable contracts, schemas, source guards, chronology controls, and GitHub-native validation. Restoring five seeds increases the credibility of stability evidence while preserving the original Gate 6A governance.
 
-## Recommendation
+## Next action
 
-Restore the five Gate 6A seeds before completing Gate 6C1. This provides stronger stability evidence, avoids a protocol exception, and preserves direct parent-contract consistency.
-
-## Required decision
-
-Approve one of the following before Gate 6C1 can close:
-
-1. restore the five Gate 6A seeds `20260721` through `20260725`, which is recommended; or
-2. retain the three Gate 6C seeds through a versioned pre-execution change-control record.
+Run the complete Gate 6C1 validation package. After all required checks are green, record formal closure and request approval for Gate 6C2 governed validation execution.

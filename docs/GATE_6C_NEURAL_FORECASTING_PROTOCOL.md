@@ -34,7 +34,7 @@ Temporal Fusion Transformer is deferred because the current one-step target and 
 
 - execute only after Gate 6C1 is merged, green, and formally closed;
 - use the four frozen expanding-window outer folds and a four-interval purge;
-- use three fixed seeds per configuration;
+- use five fixed seeds per configuration;
 - calculate outer-fold and across-seed evidence;
 - record failures, runtime, peak memory, model size, and inference latency;
 - generate out-of-fold predictions only for training and validation origins;
@@ -62,9 +62,11 @@ Temporal Fusion Transformer is deferred because the current one-step target and 
 Every neural configuration must use the same fixed seeds:
 
 ```text
+20260721
+20260722
+20260723
+20260724
 20260725
-20260726
-20260727
 ```
 
 A candidate cannot be promoted from a single favorable seed. Evidence must include mean, standard deviation, minimum, and maximum performance across seeds for every outer fold and in aggregate.

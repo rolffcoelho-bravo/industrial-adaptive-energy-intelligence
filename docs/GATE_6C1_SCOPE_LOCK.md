@@ -16,9 +16,11 @@ Exactly one configuration per family and exactly three configurations in total a
 
 The Gate 6C proposal specifies:
 
-- `20260725`;
-- `20260726`;
-- `20260727`.
+- `20260721`;
+- `20260722`;
+- `20260723`;
+- `20260724`;
+- `20260725`.
 
 The frozen Gate 6A contract specifies five different governed seeds and prohibits substitution without versioned change control. Gate 6C1 therefore remains blocked pending an explicit seed-governance decision. The authoritative conflict record is `docs/GATE_6C1_SEED_GOVERNANCE_RECONCILIATION.md`.
 

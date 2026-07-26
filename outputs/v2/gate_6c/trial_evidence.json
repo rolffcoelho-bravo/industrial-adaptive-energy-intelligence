@@ -1,0 +1,1651 @@
+{
+  "candidate_records": [
+    {
+      "aggregate": {
+        "mean_mae": 4.393078141494046,
+        "mean_peak_mae": 20.898733018143528,
+        "positive_outer_folds": 0,
+        "relative_mae_improvement_vs_v1": -0.0983647495264038
+      },
+      "candidate_id": "tide_compact",
+      "constraints": {
+        "chronology_passed": true,
+        "cpu_portability_passed": true,
+        "locked_test_excluded": true,
+        "resource_limits_passed": true,
+        "v1_immutable": true
+      },
+      "gate": "6C",
+      "outer_fold_count": 4,
+      "promotion_eligible": false,
+      "schema_version": "1.0.0",
+      "seed_count": 5,
+      "stability": {
+        "across_seed_mae_standard_deviation": 0.023005427027922482,
+        "across_seed_peak_mae_standard_deviation": 0.752634234082254,
+        "outer_fold_mae_dispersion": 1.1227690027507555
+      },
+      "validation_origin_count_per_seed": 7004
+    },
+    {
+      "aggregate": {
+        "mean_mae": 4.708367398815929,
+        "mean_peak_mae": 21.53471821032347,
+        "positive_outer_folds": 0,
+        "relative_mae_improvement_vs_v1": -0.17719389733412783
+      },
+      "candidate_id": "patchtst_compact",
+      "constraints": {
+        "chronology_passed": true,
+        "cpu_portability_passed": true,
+        "locked_test_excluded": true,
+        "resource_limits_passed": true,
+        "v1_immutable": true
+      },
+      "gate": "6C",
+      "outer_fold_count": 4,
+      "promotion_eligible": false,
+      "schema_version": "1.0.0",
+      "seed_count": 5,
+      "stability": {
+        "across_seed_mae_standard_deviation": 0.12441986129421662,
+        "across_seed_peak_mae_standard_deviation": 0.5709823150224583,
+        "outer_fold_mae_dispersion": 1.0923180336561258
+      },
+      "validation_origin_count_per_seed": 7004
+    },
+    {
+      "aggregate": {
+        "mean_mae": 5.054859103143454,
+        "mean_peak_mae": 23.286026650182116,
+        "positive_outer_folds": 0,
+        "relative_mae_improvement_vs_v1": -0.26382433316499365
+      },
+      "candidate_id": "nhits_compact",
+      "constraints": {
+        "chronology_passed": true,
+        "cpu_portability_passed": true,
+        "locked_test_excluded": true,
+        "resource_limits_passed": true,
+        "v1_immutable": true
+      },
+      "gate": "6C",
+      "outer_fold_count": 4,
+      "promotion_eligible": false,
+      "schema_version": "1.0.0",
+      "seed_count": 5,
+      "stability": {
+        "across_seed_mae_standard_deviation": 0.09394178430003859,
+        "across_seed_peak_mae_standard_deviation": 1.002459581234927,
+        "outer_fold_mae_dispersion": 1.1005014211520647
+      },
+      "validation_origin_count_per_seed": 7004
+    }
+  ],
+  "failure_records": [],
+  "gate": "6C",
+  "schema_version": "1.0.0",
+  "seed_records": [
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.924514809700504,
+        "peak_mae": 24.582384077984354
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 30.29914019999751,
+        "peak_memory_mb": 1261.5703125,
+        "wall_clock_seconds": 57.005410813
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.784574433331623,
+        "peak_mae": 23.82046639732693
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.583416000008356,
+        "peak_memory_mb": 1261.5703125,
+        "wall_clock_seconds": 55.65163009199998
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.686514590539502,
+        "peak_mae": 22.6061704502935
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.165238099994895,
+        "peak_memory_mb": 1268.94921875,
+        "wall_clock_seconds": 55.000330738
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.7744944383674595,
+        "peak_mae": 20.386001347251558
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.375592900021275,
+        "peak_memory_mb": 1268.94921875,
+        "wall_clock_seconds": 55.72956702299996
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.989245278659649,
+        "peak_mae": 23.954496434253198
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.339997900001435,
+        "peak_memory_mb": 1268.94921875,
+        "wall_clock_seconds": 55.82948248600002
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.000281434726333,
+        "peak_mae": 20.031174148891285
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.3361938999653376,
+        "peak_memory_mb": 1607.59375,
+        "wall_clock_seconds": 26.287820537000016
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.297380676029887,
+        "peak_mae": 21.095102883214537
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.342643999982101,
+        "peak_memory_mb": 1607.59375,
+        "wall_clock_seconds": 26.27331165800001
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.1254439726589345,
+        "peak_mae": 20.00186321631722
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.38307690001534,
+        "peak_memory_mb": 1607.59375,
+        "wall_clock_seconds": 26.572768542000006
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.351199764467389,
+        "peak_mae": 19.717469511446744
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.617219499957173,
+        "peak_memory_mb": 1607.59375,
+        "wall_clock_seconds": 26.52876987999997
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.012451631751897,
+        "peak_mae": 19.164537224976915
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.289650500047173,
+        "peak_memory_mb": 1607.59375,
+        "wall_clock_seconds": 26.49697224099998
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.205469080403762,
+        "peak_mae": 21.05593023258707
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.418721799911054,
+        "peak_memory_mb": 1607.71875,
+        "wall_clock_seconds": 147.83413389100008
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.2699280762032465,
+        "peak_mae": 22.133383832185167
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 60.28145210002549,
+        "peak_memory_mb": 1607.71875,
+        "wall_clock_seconds": 149.3406476140001
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.6318355686006925,
+        "peak_mae": 25.450170389258346
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.395096400045986,
+        "peak_memory_mb": 1607.71875,
+        "wall_clock_seconds": 156.82833177099997
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.494384695561799,
+        "peak_mae": 23.857853474824324
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 55.88078590010355,
+        "peak_memory_mb": 1607.71875,
+        "wall_clock_seconds": 162.60865320200003
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 1,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.385796113616054,
+        "peak_mae": 22.621145585930865
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 22774,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.24052059988571,
+        "peak_memory_mb": 1607.71875,
+        "wall_clock_seconds": 160.72799290900002
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 22775
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.270794880320725,
+        "peak_mae": 20.55957929992676
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 24.04186650005613,
+        "peak_memory_mb": 1681.3515625,
+        "wall_clock_seconds": 58.28249714100002
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.257743765930664,
+        "peak_mae": 20.970874396006266
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.50090080001337,
+        "peak_memory_mb": 1681.3515625,
+        "wall_clock_seconds": 58.376804112999935
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.275251986984523,
+        "peak_mae": 17.867331310272213
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.952708499996334,
+        "peak_memory_mb": 1681.3515625,
+        "wall_clock_seconds": 58.60928049699987
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.6233043537542935,
+        "peak_mae": 18.70903400421143
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.320317599950613,
+        "peak_memory_mb": 1681.3515625,
+        "wall_clock_seconds": 58.43804865099992
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.3638265641984235,
+        "peak_mae": 21.99636846669515
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.420089499859387,
+        "peak_memory_mb": 1681.3515625,
+        "wall_clock_seconds": 58.35273971099991
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.3097983298527724,
+        "peak_mae": 19.063409308115638
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.261157100083437,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 28.0710758109999
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.641348009572446,
+        "peak_mae": 18.78456999715169
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.474823899974581,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 27.9756682000002
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.447258563169679,
+        "peak_mae": 19.147280787150066
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.291235700017751,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 28.175359553000135
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.522242204501655,
+        "peak_mae": 20.069961565653486
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.242340400057401,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 28.095511062000014
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.488263055636908,
+        "peak_mae": 19.475561977386473
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.259498800044639,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 28.02018592399986
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.052022063899626,
+        "peak_mae": 21.372414591471355
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.96980980010176,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 172.544870189
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.827621592462301,
+        "peak_mae": 18.246995544433595
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.30136690001564,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 173.29525811299982
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.833975457083083,
+        "peak_mae": 20.33531666564941
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.33140760010065,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 172.57034269900032
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 4.987504013797884,
+        "peak_mae": 20.49398093922933
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.44212199990761,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 172.6185875279998
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 2,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.2099478427619,
+        "peak_mae": 21.987929390589393
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 24525,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.880128399689056,
+        "peak_memory_mb": 1739.8828125,
+        "wall_clock_seconds": 172.17802421700026
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 24526
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.940565536603595,
+        "peak_mae": 32.36753579101563
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.323744400153373,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 63.083708345000105
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 3.1933102725261553,
+        "peak_mae": 32.667633355712894
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.48434179979813,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 63.70325435699988
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 3.1671501051610296,
+        "peak_mae": 25.583427001953122
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.527573099994697,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 63.63706240500005
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 3.0786173816465228,
+        "peak_mae": 31.296217889404296
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.211967900073432,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 63.5772651960001
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 3.518204963440081,
+        "peak_mae": 25.237514013671877
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 29.511891699849002,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 63.8470633449997
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.5037050787480744,
+        "peak_mae": 29.63215453491211
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.250877200158357,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 30.052961457000038
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.51235080980424,
+        "peak_mae": 25.450858148193362
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.196304500075712,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 30.14861149799981
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.6038094212408405,
+        "peak_mae": 21.890423388671874
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.26137930009827,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 29.68186489799973
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.4873595074447206,
+        "peak_mae": 23.981504779052734
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.415126900014002,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 30.200765799000237
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.5784560761378197,
+        "peak_mae": 23.589841802978516
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.225653600062287,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 29.90061377400025
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.9960792165262773,
+        "peak_mae": 22.778137438964844
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.27938480022203,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 185.49402346299985
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.8055531979859865,
+        "peak_mae": 26.256565966796874
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.65710580017185,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 185.14915825599974
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.5775815782269227,
+        "peak_mae": 24.615820306396486
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.731458700163785,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 185.48106654799994
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 2.616846113439154,
+        "peak_mae": 23.69271804199219
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.32034369989378,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 186.76513533900015
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 3,
+      "gate": "6C",
+      "metrics": {
+        "mae": 3.283524106481564,
+        "peak_mae": 20.69092937011719
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 26276,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.750734499813916,
+        "peak_memory_mb": 1774.98828125,
+        "wall_clock_seconds": 186.1798830319999
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 26277
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.852933370894122,
+        "peak_mae": 19.37645820364768
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 38.00679090018093,
+        "peak_memory_mb": 1812.5703125,
+        "wall_clock_seconds": 67.1797548960003
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.7688112416858335,
+        "peak_mae": 20.286850310478417
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.89133109991235,
+        "peak_memory_mb": 1812.5703125,
+        "wall_clock_seconds": 67.16665753799953
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.7941014469697905,
+        "peak_mae": 20.476584492678143
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.400185900663928,
+        "peak_memory_mb": 1812.5703125,
+        "wall_clock_seconds": 67.2948062710002
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.765176059716365,
+        "peak_mae": 21.799140547020002
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.50762830064923,
+        "peak_memory_mb": 1812.5703125,
+        "wall_clock_seconds": 67.20161416599967
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "nhits_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 6.0680465824382095,
+        "peak_mae": 21.176465213838863
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 2583763,
+        "p95_inference_latency_ms_per_1000_rows": 23.879746399961732,
+        "peak_memory_mb": 1812.5703125,
+        "wall_clock_seconds": 66.95349715300017
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.610393848931157,
+        "peak_mae": 19.89643562359046
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.245191600031831,
+        "peak_memory_mb": 1857.67578125,
+        "wall_clock_seconds": 32.495951959000195
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.2472644937058845,
+        "peak_mae": 19.69913617929701
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.264990099974966,
+        "peak_memory_mb": 1857.67578125,
+        "wall_clock_seconds": 32.31318431599993
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.439060149222765,
+        "peak_mae": 19.580090940275245
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.275806400411966,
+        "peak_memory_mb": 1857.67578125,
+        "wall_clock_seconds": 32.4421612569995
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.2356975458255155,
+        "peak_mae": 19.315168587700438
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.293470100194099,
+        "peak_memory_mb": 1857.67578125,
+        "wall_clock_seconds": 32.38134186800016
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "tide_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.447798256451984,
+        "peak_mae": 18.388115757894777
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 1165366,
+        "p95_inference_latency_ms_per_1000_rows": 7.246706599835306,
+        "peak_memory_mb": 1857.67578125,
+        "wall_clock_seconds": 32.10262805900038
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.545242734677039,
+        "peak_mae": 17.905037183392775
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.08549709970612,
+        "peak_memory_mb": 1857.70703125,
+        "wall_clock_seconds": 202.24822046499958
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260721,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.5418155133363385,
+        "peak_mae": 20.754275741998665
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 57.1718070001225,
+        "peak_memory_mb": 1857.70703125,
+        "wall_clock_seconds": 201.5239870840005
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260722,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.271626712988609,
+        "peak_mae": 18.276857742815388
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.0659335003038,
+        "peak_memory_mb": 1857.70703125,
+        "wall_clock_seconds": 201.9991291919996
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260723,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.773070733676564,
+        "peak_mae": 19.78682704461872
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.62626899993484,
+        "peak_memory_mb": 1857.70703125,
+        "wall_clock_seconds": 202.32521033400008
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260724,
+      "status": "success",
+      "target_dependency_max": 28028
+    },
+    {
+      "candidate_id": "patchtst_compact",
+      "fold_id": 4,
+      "gate": "6C",
+      "metrics": {
+        "mae": 5.857523564589766,
+        "peak_mae": 18.38207472321737
+      },
+      "partition": "validation",
+      "portability": {
+        "cpu_portability_passed": true,
+        "device": "cpu",
+        "gpu_required": false
+      },
+      "prediction_origin_max": 28027,
+      "resources": {
+        "model_size_bytes": 455170,
+        "p95_inference_latency_ms_per_1000_rows": 56.4093531994331,
+        "peak_memory_mb": 1857.70703125,
+        "wall_clock_seconds": 202.25448875199982
+      },
+      "schema_version": "1.0.0",
+      "seed": 20260725,
+      "status": "success",
+      "target_dependency_max": 28028
+    }
+  ],
+  "subgate": "6C2"
+}

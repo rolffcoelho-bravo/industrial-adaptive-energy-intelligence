@@ -6,6 +6,7 @@ import sys
 from pathlib import Path
 
 from iaei.contracts import (
+    load_json,
     validate_gate_6c1_closure_manifest,
     validate_neural_forecasting_contract,
     validate_repository_contracts,
@@ -115,11 +116,40 @@ def _validate_gate_6b_closure() -> None:
         )
 
 
+def _validate_execution_transition(closure_status: str) -> None:
+    output_directory = ROOT / "outputs" / "v2" / "gate_6c"
+    manifest_path = output_directory / "gate_6c_execution_manifest.json"
+    if closure_status != "closed":
+        assert_no_gate_6c_execution_artifacts()
+        return
+    if not output_directory.exists():
+        return
+    if not manifest_path.exists():
+        raise SystemExit("Gate 6C execution artifacts lack a governed execution manifest")
+    manifest = load_json(manifest_path)
+    if manifest.get("subgate") != "6C2":
+        raise SystemExit("Unexpected Gate 6C execution subgate")
+    if manifest.get("status") != "validation_complete_pending_human_decision":
+        raise SystemExit("Gate 6C execution is not awaiting the governed human decision")
+    prohibited_true = (
+        "locked_test_accessed",
+        "locked_predictions_parsed",
+        "confirmatory_evaluation_performed",
+        "automatic_promotion_permitted",
+    )
+    if any(bool(manifest.get(field)) for field in prohibited_true):
+        raise SystemExit("Gate 6C execution manifest weakens a frozen boundary")
+    if manifest.get("v1_immutable") is not True:
+        raise SystemExit("Gate 6C execution manifest does not preserve V1")
+    if manifest.get("next_gate") != "6C3":
+        raise SystemExit("Gate 6C execution skips the human decision gate")
+
+
 def main() -> None:
     validate_repository_contracts()
     plan = build_gate_6c1_plan()
     closure = validate_gate_6c1_closure_manifest()
-    assert_no_gate_6c_execution_artifacts()
+    _validate_execution_transition(str(closure["status"]))
     _validate_source_boundary()
     _validate_cross_artifact_conformance()
     _validate_gate_6b_closure()

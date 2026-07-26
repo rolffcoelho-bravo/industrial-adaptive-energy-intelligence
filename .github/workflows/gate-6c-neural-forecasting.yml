@@ -51,6 +51,66 @@ jobs:
           python -m pip install torch==2.11.0 --index-url https://download.pytorch.org/whl/cpu
           python -m pip install -e ".[dev,v2-neural]"
 
+      - name: Apply bounded portability-scale correction
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("src/iaei/v2/neural_forecasting.py")
+          text = path.read_text(encoding="utf-8")
+          replacements = [
+              (
+                  ") -> tuple[Any, np.ndarray, float, float]:",
+                  ") -> tuple[Any, np.ndarray, float, float, float]:",
+              ),
+              (
+                  "    return model, prediction, wall_clock, target_scale",
+                  "    return model, prediction, wall_clock, target_mean, target_scale",
+              ),
+              (
+                  "    reference_prediction: np.ndarray,\n    batch_size: int,\n) -> int:",
+                  "    reference_prediction: np.ndarray,\n    target_mean: float,\n    target_scale: float,\n    batch_size: int,\n) -> int:",
+              ),
+              (
+                  "        observed = _predict(restored, static[:count], sequence[:count], batch_size=batch_size)",
+                  "        observed = (\n            _predict(\n                restored,\n                static[:count],\n                sequence[:count],\n                batch_size=batch_size,\n            )\n            * target_scale\n            + target_mean\n        )",
+              ),
+              (
+                  "            _, prediction, wall_clock, _ = _fit_model(",
+                  "            _, prediction, wall_clock, _, _ = _fit_model(",
+              ),
+              (
+                  "        model, prediction, wall_clock, target_scale = _fit_model(",
+                  "        model, prediction, wall_clock, target_mean, target_scale = _fit_model(",
+              ),
+              (
+                  "            reference_prediction=prediction,\n            batch_size=int(contract[\"training\"][\"batch_size\"]),",
+                  "            reference_prediction=prediction,\n            target_mean=target_mean,\n            target_scale=target_scale,\n            batch_size=int(contract[\"training\"][\"batch_size\"]),",
+              ),
+          ]
+
+          changed = False
+          for old, new in replacements:
+              old_count = text.count(old)
+              if old_count == 1:
+                  text = text.replace(old, new)
+                  changed = True
+              elif old_count == 0 and new in text:
+                  continue
+              else:
+                  raise SystemExit(
+                      f"Unexpected portability-correction state for fragment: {old[:80]!r}; "
+                      f"old_count={old_count}, new_present={new in text}"
+                  )
+
+          if changed:
+              path.write_text(text, encoding="utf-8")
+              print("Applied the bounded target-scale portability correction.")
+          else:
+              print("Target-scale portability correction is already present.")
+          PY
+
       - name: Validate source, contracts, predecessors, and immutable V1 boundary
         id: validate_source
         shell: bash
@@ -87,17 +147,37 @@ jobs:
           python scripts/download_data.py --verify
           python scripts/run_pipeline.py --silver
 
-      - name: Execute Gate 6C when evidence is absent
+      - name: Execute Gate 6C when evidence is absent or portability evidence is defective
         id: execute
         shell: bash
         run: |
           set -uo pipefail
           MANIFEST="outputs/v2/gate_6c/gate_6c_execution_manifest.json"
+          LEADERBOARD="outputs/v2/gate_6c/candidate_leaderboard.csv"
           DIAGNOSTIC="${RUNNER_TEMP}/gate_6c_execution.log"
-          if [ -f "$MANIFEST" ]; then
-            echo "executed=false" >> "$GITHUB_OUTPUT"
-            echo "Committed Gate 6C evidence already exists. Execution skipped."
+          reexecute=false
+
+          if [ ! -f "$MANIFEST" ]; then
+            reexecute=true
+            echo "No committed Gate 6C evidence exists. Execution required."
+          elif [ ! -f "$LEADERBOARD" ]; then
+            reexecute=true
+            echo "Gate 6C leaderboard is missing. Execution required."
+          elif python - <<'PY'
+          import pandas as pd
+          frame = pd.read_csv("outputs/v2/gate_6c/candidate_leaderboard.csv")
+          failures = int(frame["portability_failure_count"].sum())
+          raise SystemExit(0 if failures > 0 else 1)
+          PY
+          then
+            reexecute=true
+            echo "Existing evidence contains the known target-scale portability defect. Reexecution required."
           else
+            echo "executed=false" >> "$GITHUB_OUTPUT"
+            echo "Committed Gate 6C evidence is complete. Execution skipped."
+          fi
+
+          if [ "$reexecute" = true ]; then
             set +e
             python scripts/run_gate_6c_neural_forecasting.py > "$DIAGNOSTIC" 2>&1
             status=$?
@@ -154,7 +234,7 @@ jobs:
           print("This is validation evidence only. Human promotion approval remains required.")
           PY
 
-      - name: Commit first execution evidence to the pull-request branch
+      - name: Commit first or corrected execution evidence to the pull-request branch
         if: steps.execute.outputs.executed == 'true' && github.event_name == 'pull_request'
         shell: bash
         env:
@@ -163,8 +243,8 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add outputs/v2/gate_6c
-          git commit -m "Record Gate 6C neural validation evidence"
+          git add src/iaei/v2/neural_forecasting.py outputs/v2/gate_6c
+          git commit -m "Record corrected Gate 6C neural validation evidence"
           git push origin "HEAD:${HEAD_BRANCH}"
 
       - name: Upload complete Gate 6C evidence package

@@ -1,4 +1,4 @@
--e git+https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence@2d53711b6d20410b758e38fb759aa781affa541f#egg=industrial_adaptive_energy_intelligence
+-e git+https://github.com/rolffcoelho-bravo/industrial-adaptive-energy-intelligence@89b5fd6f3855536fc78e45b57366a9748e13f54b#egg=industrial_adaptive_energy_intelligence
 Jinja2==3.1.6
 MarkupSafe==3.0.3
 PyYAML==6.0.3

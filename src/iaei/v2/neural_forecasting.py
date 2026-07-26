@@ -414,7 +414,7 @@ def _fit_model(
     sequence_evaluation: np.ndarray,
     seed: int,
     training: dict[str, Any],
-) -> tuple[Any, np.ndarray, float, float]:
+) -> tuple[Any, np.ndarray, float, float, float]:
     torch = _set_determinism(seed, int(training["torch_threads"]))
     model = _build_model(
         algorithm_id,
@@ -466,7 +466,7 @@ def _fit_model(
         batch_size=batch_size,
     )
     prediction = normalized_prediction * target_scale + target_mean
-    return model, prediction, wall_clock, target_scale
+    return model, prediction, wall_clock, target_mean, target_scale
 
 
 def _serialize_model(model: Any) -> bytes:
@@ -484,6 +484,8 @@ def _portability_failure_count(
     static: np.ndarray,
     sequence: np.ndarray,
     reference_prediction: np.ndarray,
+    target_mean: float,
+    target_scale: float,
     batch_size: int,
 ) -> int:
     torch, _, _ = _require_torch()
@@ -497,7 +499,16 @@ def _portability_failure_count(
         state = torch.load(io.BytesIO(model_bytes), map_location="cpu", weights_only=True)
         restored.load_state_dict(state)
         count = min(256, len(static))
-        observed = _predict(restored, static[:count], sequence[:count], batch_size=batch_size)
+        observed = (
+            _predict(
+                restored,
+                static[:count],
+                sequence[:count],
+                batch_size=batch_size,
+            )
+            * target_scale
+            + target_mean
+        )
         expected = np.asarray(reference_prediction[:count], dtype=float)
         return 0 if np.allclose(observed, expected, rtol=1e-6, atol=1e-6) else 1
     except Exception:
@@ -664,7 +675,7 @@ def _selection_rows(
 
         for configuration in family["configurations"]:
             configuration_id, parameters = _configuration_parameters(configuration)
-            _, prediction, wall_clock, _ = _fit_model(
+            _, prediction, wall_clock, _, _ = _fit_model(
                 str(family["algorithm_id"]),
                 parameters,
                 static_train=static_train,
@@ -773,7 +784,7 @@ def _outer_seed_rows(
     result_rows: list[dict[str, Any]] = []
     prediction_frames: list[pd.DataFrame] = []
     for seed in [int(value) for value in contract["training"]["stochastic_seeds"]]:
-        model, prediction, wall_clock, target_scale = _fit_model(
+        model, prediction, wall_clock, target_mean, target_scale = _fit_model(
             str(family["algorithm_id"]),
             selected_parameters,
             static_train=static_train,
@@ -796,6 +807,8 @@ def _outer_seed_rows(
             static=static_validation,
             sequence=sequence_validation,
             reference_prediction=prediction,
+            target_mean=target_mean,
+            target_scale=target_scale,
             batch_size=int(contract["training"]["batch_size"]),
         )
         latency = _latency_ms_per_1000_rows(

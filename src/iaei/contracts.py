@@ -231,6 +231,80 @@ def validate_advanced_tabular_contract() -> dict[str, Any]:
     return contract
 
 
+def validate_neural_forecasting_contract() -> dict[str, Any]:
+    contract = load_yaml(CONFIGS / "neural_forecasting_contract.yml")
+    schema = load_json(SCHEMAS / "neural_forecasting_contract.schema.json")
+    _validate_payload(
+        contract,
+        schema,
+        label="Gate 6C neural forecasting contract",
+    )
+
+    predecessor = load_json(
+        ROOT / str(contract["predecessor_boundary"]["closure_manifest_path"])
+    )
+    if predecessor["gate"] != "6B" or predecessor["status"] != "closed":
+        raise ContractError("Gate 6C requires the closed Gate 6B boundary")
+    if predecessor["human_decision"]["retained_model"] != "v1_frozen_champion":
+        raise ContractError("Gate 6C reference differs from Gate 6B")
+
+    search_schema = load_json(SCHEMAS / "governed_search_space.schema.json")
+    observed_algorithms: set[str] = set()
+    configuration_count = 0
+    for family in contract["candidate_families"]:
+        path = ROOT / str(family["search_space_path"])
+        search_space = load_json(path)
+        _validate_payload(
+            search_space,
+            search_schema,
+            label=f"Gate 6C search space {path.name}",
+        )
+        algorithm_id = str(family["algorithm_id"])
+        if search_space["algorithm_id"] != algorithm_id:
+            raise ContractError(
+                f"Gate 6C search-space algorithm mismatch for {algorithm_id}"
+            )
+        if search_space["candidate_family"] != "neural_forecasting":
+            raise ContractError(
+                f"Gate 6C search-space family mismatch for {algorithm_id}"
+            )
+        if algorithm_id in observed_algorithms:
+            raise ContractError(
+                f"Duplicate Gate 6C candidate algorithm: {algorithm_id}"
+            )
+        observed_algorithms.add(algorithm_id)
+        configuration_count += len(family["configurations"])
+
+    search = contract["search"]
+    if configuration_count != int(search["unique_configuration_count"]):
+        raise ContractError("Gate 6C configuration count is inconsistent")
+
+    governance = validate_optimization_governance()
+    budget = governance["search_budgets"]["neural_forecasting"]
+    if configuration_count > int(budget["max_unique_configurations"]):
+        raise ContractError("Gate 6C configuration count exceeds Gate 6A")
+    if int(search["max_parallel_trials"]) > int(budget["max_parallel_trials"]):
+        raise ContractError("Gate 6C parallelism exceeds Gate 6A")
+    if int(search["max_wall_clock_minutes"]) > int(
+        budget["max_wall_clock_minutes"]
+    ):
+        raise ContractError("Gate 6C wall-clock budget exceeds Gate 6A")
+
+    governed_seeds = [
+        int(value)
+        for value in governance["randomness"]["stochastic_model_seeds"]
+    ]
+    contract_seeds = [
+        int(value) for value in contract["training"]["stochastic_seeds"]
+    ]
+    if contract_seeds != governed_seeds:
+        raise ContractError("Gate 6C stochastic seeds differ from Gate 6A")
+    if len(contract_seeds) != int(budget["seeds_per_configuration"]):
+        raise ContractError("Gate 6C seed count differs from Gate 6A")
+
+    return contract
+
+
 def validate_repository_contracts() -> None:
     required_yaml = [
         CONFIGS / "project.yml",
@@ -244,6 +318,7 @@ def validate_repository_contracts() -> None:
         CONFIGS / "v2_architecture_contract.yml",
         CONFIGS / "optimization_governance.yml",
         CONFIGS / "advanced_tabular_contract.yml",
+        CONFIGS / "neural_forecasting_contract.yml",
     ]
 
     required_json = [
@@ -260,6 +335,7 @@ def validate_repository_contracts() -> None:
         SCHEMAS / "promotion_decision.schema.json",
         SCHEMAS / "gate_6a_closure_manifest.schema.json",
         SCHEMAS / "advanced_tabular_contract.schema.json",
+        SCHEMAS / "neural_forecasting_contract.schema.json",
     ]
 
     required = [*required_yaml, *required_json]
@@ -282,3 +358,4 @@ def validate_repository_contracts() -> None:
     validate_optimization_governance()
     validate_gate_6a_closure_manifest()
     validate_advanced_tabular_contract()
+    validate_neural_forecasting_contract()

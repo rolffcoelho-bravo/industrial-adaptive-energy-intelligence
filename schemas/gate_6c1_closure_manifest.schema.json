@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6c1_closure_manifest.schema.json",
+  "title": "Gate 6C1 closure manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "implementation_only",
+    "candidate_ids",
+    "seeds",
+    "configuration_count",
+    "controls",
+    "validated_paths",
+    "next_gate",
+    "blocked_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6C"},
+    "subgate": {"const": "6C1"},
+    "status": {"const": "closed"},
+    "implementation_only": {"const": true},
+    "candidate_ids": {
+      "const": ["nhits_compact", "tide_compact", "patchtst_compact"]
+    },
+    "seeds": {"const": [20260725, 20260726, 20260727]},
+    "configuration_count": {"const": 3},
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_fitting_performed",
+        "validation_predictions_generated",
+        "validation_metrics_calculated",
+        "locked_test_accessed",
+        "locked_predictions_parsed",
+        "confirmatory_evaluation_performed",
+        "v1_immutable",
+        "gate_6b_closure_verified",
+        "public_content_audit_passed",
+        "automatic_promotion_permitted"
+      ],
+      "properties": {
+        "model_fitting_performed": {"const": false},
+        "validation_predictions_generated": {"const": false},
+        "validation_metrics_calculated": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "v1_immutable": {"const": true},
+        "gate_6b_closure_verified": {"const": true},
+        "public_content_audit_passed": {"const": true},
+        "automatic_promotion_permitted": {"const": false}
+      }
+    },
+    "validated_paths": {
+      "type": "array",
+      "minItems": 10,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "next_gate": {"const": "6C2"},
+    "blocked_gates": {
+      "const": ["6C3", "6D"]
+    }
+  }
+}

@@ -31,9 +31,13 @@ Gate 6C1 cannot close and Gate 6C2 cannot begin until one of the following is ex
 
 No neural model has been fitted under PR #14. No validation predictions or metrics have been produced. The locked test remains excluded and V1 remains immutable.
 
+## Technical assessment
+
+The five-seed parent design is methodologically stronger. It provides more reliable across-seed variance estimates, preserves direct consistency with Gate 6A, and avoids introducing a special governance exception immediately before neural execution. The three-seed proposal reduces compute but weakens the stability evidence and requires an explicit versioned exception.
+
 ## Technical recommendation
 
-Restore the five frozen Gate 6A seeds. This preserves parent-contract consistency, strengthens across-seed stability evidence, avoids a governance exception, and increases the credibility of any neural-model comparison. The additional compute cost is bounded by the existing Gate 6A neural budget.
+Restore the five frozen Gate 6A seeds. The additional compute cost remains inside the existing Gate 6A neural budget, which already permits five seeds per configuration and up to 720 wall-clock minutes.
 
 ## Sequence protection
 

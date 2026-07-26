@@ -1,0 +1,1 @@
+{"candidate_id":null,"gate":"6C","human_decision_required":true,"rationale":"No neural forecasting challenger satisfied every frozen Gate 6A promotion requirement on the governed outer validation folds and seeds.","recommendation":"retain_v1_incumbent","status":"validation_complete"}

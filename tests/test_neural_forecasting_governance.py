@@ -22,7 +22,7 @@ from iaei.modeling.neural_governance import (
     deterministic_cpu_environment,
     prohibit_gate_6c1_execution,
 )
-from iaei.paths import ROOT, SCHEMAS
+from iaei.paths import SCHEMAS
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -109,8 +109,15 @@ def test_gate_6c1_fails_closed_on_model_execution_actions() -> None:
     prohibit_gate_6c1_execution("validate_contract")
 
 
-def test_gate_6c1_has_no_execution_artifacts() -> None:
-    assert_no_gate_6c_execution_artifacts(ROOT)
+def test_gate_6c1_execution_artifact_guard(tmp_path: Path) -> None:
+    assert_no_gate_6c_execution_artifacts(tmp_path)
+
+    output_directory = tmp_path / "outputs" / "v2" / "gate_6c"
+    output_directory.mkdir(parents=True)
+    (output_directory / "unexpected.json").write_text("{}\n", encoding="utf-8")
+
+    with pytest.raises(Gate6C1ExecutionProhibited):
+        assert_no_gate_6c_execution_artifacts(tmp_path)
 
 
 def test_gate_6c1_schemas_are_valid_json_schemas() -> None:

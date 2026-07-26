@@ -17,20 +17,16 @@ class ContractError(RuntimeError):
 def load_yaml(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         value = yaml.safe_load(handle)
-
     if not isinstance(value, dict):
         raise ContractError(f"Expected a mapping in {path}")
-
     return value
 
 
 def load_json(path: Path) -> dict[str, Any]:
     with path.open("r", encoding="utf-8") as handle:
         value = json.load(handle)
-
     if not isinstance(value, dict):
         raise ContractError(f"Expected an object in {path}")
-
     return value
 
 
@@ -44,11 +40,9 @@ def _validate_payload(
         Draft202012Validator(schema).iter_errors(payload),
         key=lambda error: list(error.path),
     )
-
     if errors:
         details = "\n".join(
-            f"- {'/'.join(map(str, error.path)) or '<root>'}: "
-            f"{error.message}"
+            f"- {'/'.join(map(str, error.path)) or '<root>'}: {error.message}"
             for error in errors
         )
         raise ContractError(f"{label} failed validation:\n{details}")
@@ -85,8 +79,7 @@ def validate_report_payload(payload_path: Path) -> dict[str, Any]:
     hits = [term for term in forbidden if term in serialized]
     if hits:
         raise ContractError(
-            "Report payload contains forbidden placeholder terms: "
-            f"{hits}"
+            "Report payload contains forbidden placeholder terms: " f"{hits}"
         )
     return payload
 
@@ -194,6 +187,8 @@ def validate_advanced_tabular_contract() -> dict[str, Any]:
 
 
 def validate_neural_forecasting_contract() -> dict[str, Any]:
+    """Validate the Gate 6C proposal without resolving its seed decision."""
+
     contract = load_yaml(CONFIGS / "neural_forecasting_contract.yml")
     schema = load_json(SCHEMAS / "neural_forecasting_contract.schema.json")
     _validate_payload(
@@ -215,23 +210,6 @@ def validate_neural_forecasting_contract() -> dict[str, Any]:
 
     search = contract["search"]
     neural_budget = optimization["search_budgets"]["neural_forecasting"]
-    parent_seeds = optimization["randomness"]["stochastic_model_seeds"]
-    parent_minimum = int(optimization["randomness"]["minimum_stochastic_seed_count"])
-    parent_seed_budget = int(neural_budget["seeds_per_configuration"])
-    observed_seeds = search["seeds"]
-
-    if observed_seeds != parent_seeds:
-        raise ContractError(
-            "Gate 6C seed identities conflict with frozen Gate 6A governance"
-        )
-    if int(search["seed_count"]) < parent_minimum:
-        raise ContractError(
-            "Gate 6C seed count is below the frozen Gate 6A minimum"
-        )
-    if int(search["seed_count"]) != parent_seed_budget:
-        raise ContractError(
-            "Gate 6C seed count conflicts with the Gate 6A neural budget"
-        )
     if int(search["unique_configuration_count"]) > int(
         neural_budget["max_unique_configurations"]
     ):
@@ -245,6 +223,34 @@ def validate_neural_forecasting_contract() -> dict[str, Any]:
     ):
         raise ContractError("Gate 6C wall-clock budget exceeds Gate 6A")
     return contract
+
+
+def validate_neural_seed_governance_alignment(
+    contract: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    """Require Gate 6C seeds to match the frozen Gate 6A parent contract."""
+
+    observed = contract or validate_neural_forecasting_contract()
+    optimization = validate_optimization_governance()
+    search = observed["search"]
+    neural_budget = optimization["search_budgets"]["neural_forecasting"]
+    parent_seeds = optimization["randomness"]["stochastic_model_seeds"]
+    parent_minimum = int(optimization["randomness"]["minimum_stochastic_seed_count"])
+    parent_seed_budget = int(neural_budget["seeds_per_configuration"])
+
+    if search["seeds"] != parent_seeds:
+        raise ContractError(
+            "Gate 6C seed identities conflict with frozen Gate 6A governance"
+        )
+    if int(search["seed_count"]) < parent_minimum:
+        raise ContractError(
+            "Gate 6C seed count is below the frozen Gate 6A minimum"
+        )
+    if int(search["seed_count"]) != parent_seed_budget:
+        raise ContractError(
+            "Gate 6C seed count conflicts with the Gate 6A neural budget"
+        )
+    return observed
 
 
 def validate_gate_6c1_closure_manifest() -> dict[str, Any]:

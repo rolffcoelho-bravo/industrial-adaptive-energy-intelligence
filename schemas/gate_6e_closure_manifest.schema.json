@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6e_closure_manifest.schema.json",
+  "title": "Gate 6E uncertainty closure manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "decision_outcome",
+    "retained_model",
+    "promoted_configuration",
+    "rejected_configurations",
+    "validation_summary",
+    "controls",
+    "source_hashes",
+    "decision_record_path",
+    "execution_manifest_path",
+    "next_gate",
+    "blocked_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6E"},
+    "subgate": {"const": "6E3"},
+    "status": {"const": "closed"},
+    "decision_outcome": {"const": "no_action"},
+    "retained_model": {"const": "v1_frozen_champion"},
+    "promoted_configuration": {"type": "null"},
+    "rejected_configurations": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "expanding_all",
+          "rolling_672",
+          "rolling_2688",
+          "aci_672_0p005",
+          "aci_672_0p01",
+          "aci_672_0p02",
+          "aci_2688_0p005",
+          "aci_2688_0p01",
+          "aci_2688_0p02"
+        ]
+      }
+    },
+    "validation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "configuration_count",
+        "outer_fold_count",
+        "validation_origins_per_configuration",
+        "interval_prediction_row_count",
+        "calibration_residual_row_count",
+        "eligible_configuration_count",
+        "pareto_eligible_configuration_count",
+        "strongest_configuration",
+        "strongest_configuration_wis",
+        "strongest_configuration_peak_wis",
+        "strongest_configuration_peak_90_coverage"
+      ],
+      "properties": {
+        "configuration_count": {"const": 9},
+        "outer_fold_count": {"const": 4},
+        "validation_origins_per_configuration": {"const": 7004},
+        "interval_prediction_row_count": {"const": 63036},
+        "calibration_residual_row_count": {"const": 70935},
+        "eligible_configuration_count": {"const": 0},
+        "pareto_eligible_configuration_count": {"const": 0},
+        "strongest_configuration": {"const": "aci_672_0p02"},
+        "strongest_configuration_wis": {"type": "number", "minimum": 0},
+        "strongest_configuration_peak_wis": {"type": "number", "minimum": 0},
+        "strongest_configuration_peak_90_coverage": {"type": "number", "minimum": 0, "maximum": 1}
+      }
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "human_decision_recorded",
+        "automatic_promotion_permitted",
+        "uncertainty_layer_promoted",
+        "point_model_mutated",
+        "point_model_search_performed",
+        "locked_test_accessed",
+        "locked_predictions_parsed",
+        "confirmatory_evaluation_performed",
+        "v1_immutable",
+        "rescue_lane_opened",
+        "probabilistic_authority_claimed",
+        "gate_6f_unblocked"
+      ],
+      "properties": {
+        "human_decision_recorded": {"const": true},
+        "automatic_promotion_permitted": {"const": false},
+        "uncertainty_layer_promoted": {"const": false},
+        "point_model_mutated": {"const": false},
+        "point_model_search_performed": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "v1_immutable": {"const": true},
+        "rescue_lane_opened": {"const": false},
+        "probabilistic_authority_claimed": {"const": false},
+        "gate_6f_unblocked": {"const": true}
+      }
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "calibration_lineage",
+        "calibration_residuals",
+        "configuration_results",
+        "coverage_results",
+        "environment_lock",
+        "failure_records",
+        "interval_predictions",
+        "outer_fold_results",
+        "promotion_recommendation",
+        "resource_evidence"
+      ],
+      "properties": {
+        "calibration_lineage": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "calibration_residuals": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "configuration_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "coverage_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "environment_lock": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "failure_records": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "interval_predictions": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "outer_fold_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "promotion_recommendation": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "resource_evidence": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "decision_record_path": {"const": "outputs/v2/gate_6e/promotion_decision.json"},
+    "execution_manifest_path": {"const": "outputs/v2/gate_6e/gate_6e_execution_manifest.json"},
+    "next_gate": {"const": "6F"},
+    "blocked_gates": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {"const": "6G"}
+    }
+  }
+}

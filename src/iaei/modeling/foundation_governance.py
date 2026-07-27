@@ -4,7 +4,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from iaei.contracts import ContractError, validate_foundation_model_contract
+from iaei.contracts import ContractError
+from iaei.foundation_contracts import validate_foundation_model_contract
 from iaei.paths import ROOT
 
 APPROVED_FOUNDATION_MODELS = (
@@ -164,7 +165,11 @@ def causal_foundation_window(
 
 def commercial_promotion_eligible(candidate_id: str) -> bool:
     plan = build_gate_6d1_plan()
-    matches = [candidate for candidate in plan.candidates if candidate.candidate_id == candidate_id]
+    matches = [
+        candidate
+        for candidate in plan.candidates
+        if candidate.candidate_id == candidate_id
+    ]
     if len(matches) != 1:
         raise ContractError(f"Unknown Gate 6D candidate: {candidate_id}")
     candidate = matches[0]

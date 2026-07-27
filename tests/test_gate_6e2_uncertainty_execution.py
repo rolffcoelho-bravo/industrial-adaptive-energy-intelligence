@@ -68,7 +68,9 @@ def test_weighted_interval_score_uses_standard_denominator() -> None:
         {0.80: (lower, upper)},
     )
     interval_component = interval_score(actual, lower, upper, 0.20)
-    expected = (0.5 * np.abs(actual - point) + 0.10 * interval_component) / 1.5
+    expected = (
+        0.5 * np.abs(actual - point) + 0.10 * interval_component
+    ) / 1.5
     np.testing.assert_allclose(observed, expected)
 
 
@@ -98,7 +100,7 @@ def test_prequential_expanding_update_and_support_floor() -> None:
     )
 
 
-def test_adaptive_configuration_is_exactly_replayable() -> None:
+def test_adaptive_configuration_is_replayable_and_nested() -> None:
     configuration = UncertaintyConfiguration(
         configuration_id="aci_672_0p01",
         method_id="adaptive_absolute_conformal",
@@ -123,6 +125,12 @@ def test_adaptive_configuration_is_exactly_replayable() -> None:
         lower_support_bound=0.0,
     )
     pd.testing.assert_frame_equal(first, second, check_exact=True)
+    assert first["alpha_state_80"].ge(first["alpha_state_90"]).all()
+    assert first["alpha_state_90"].ge(first["alpha_state_95"]).all()
+    assert first["lower_95"].le(first["lower_90"]).all()
+    assert first["lower_90"].le(first["lower_80"]).all()
+    assert first["upper_95"].ge(first["upper_90"]).all()
+    assert first["upper_90"].ge(first["upper_80"]).all()
 
 
 def test_summary_records_nested_intervals_and_weighted_scores() -> None:

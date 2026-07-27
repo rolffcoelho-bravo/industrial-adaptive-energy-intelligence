@@ -1,0 +1,143 @@
+{
+  "automatic_promotion_permitted": false,
+  "candidates": [
+    {
+      "configuration_id": "aci_672_0p02",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": -0.03376093398368088,
+      "method_id": "adaptive_absolute_conformal",
+      "positive_outer_folds": 4,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.11911663172775469,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.07201283788645216
+    },
+    {
+      "configuration_id": "aci_2688_0p02",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": -0.038048100880405736,
+      "method_id": "adaptive_absolute_conformal",
+      "positive_outer_folds": 4,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.09777172367736939,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.06847442184251666
+    },
+    {
+      "configuration_id": "aci_672_0p01",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": -0.030361181432296,
+      "method_id": "adaptive_absolute_conformal",
+      "positive_outer_folds": 4,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.10600488560441333,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.05507015710231689
+    },
+    {
+      "configuration_id": "aci_2688_0p01",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": -0.03137907203949684,
+      "method_id": "adaptive_absolute_conformal",
+      "positive_outer_folds": 4,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.08706829967183703,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.05371472060271339
+    },
+    {
+      "configuration_id": "aci_672_0p005",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": -0.019810545568291517,
+      "method_id": "adaptive_absolute_conformal",
+      "positive_outer_folds": 4,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.10726996343664379,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.04639738997252616
+    },
+    {
+      "configuration_id": "aci_2688_0p005",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": -0.015187729278293066,
+      "method_id": "adaptive_absolute_conformal",
+      "positive_outer_folds": 4,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.08158029970845838,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.04203370476137475
+    },
+    {
+      "configuration_id": "rolling_672",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "minimum_aggregate_peak_90_coverage",
+        "single_fold_weighted_interval_score_degradation"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": 0.027866709287131565,
+      "method_id": "rolling_absolute_conformal",
+      "positive_outer_folds": 3,
+      "relative_peak_weighted_interval_score_change_vs_reference": -0.05769995310667047,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.014720384669454556
+    },
+    {
+      "configuration_id": "expanding_all",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "maximum_rolling_672_90_absolute_coverage_error",
+        "minimum_aggregate_peak_90_coverage"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": 0.0,
+      "method_id": "expanding_absolute_conformal",
+      "positive_outer_folds": 0,
+      "relative_peak_weighted_interval_score_change_vs_reference": 0.0,
+      "relative_weighted_interval_score_improvement_vs_reference": 0.0
+    },
+    {
+      "configuration_id": "rolling_2688",
+      "eligible_for_human_selection": false,
+      "failed_requirements": [
+        "maximum_outer_fold_90_absolute_coverage_error",
+        "maximum_rolling_672_90_absolute_coverage_error",
+        "minimum_aggregate_peak_90_coverage",
+        "peak_weighted_interval_score_degradation",
+        "positive_outer_folds",
+        "single_fold_weighted_interval_score_degradation",
+        "weighted_interval_score_improvement"
+      ],
+      "hard_constraints_passed": false,
+      "maximum_single_fold_weighted_interval_score_relative_degradation": 0.026797756257602456,
+      "method_id": "rolling_absolute_conformal",
+      "positive_outer_folds": 1,
+      "relative_peak_weighted_interval_score_change_vs_reference": 0.01766419931707425,
+      "relative_weighted_interval_score_improvement_vs_reference": -0.008529298701645639
+    }
+  ],
+  "eligible_configurations": [],
+  "gate": "6E",
+  "human_decision_required": true,
+  "next_gate_authorized": false,
+  "outcome": "no_action",
+  "pareto_eligible_configurations": [],
+  "recommended_configuration": null,
+  "recommended_next_gate": "6E3",
+  "reference_configuration": "expanding_all",
+  "schema_version": "1.0.0",
+  "selection_method": "constrained_pareto_then_deterministic_tie_break_then_human_approval",
+  "status": "validation_complete_pending_human_decision",
+  "subgate": "6E2"
+}

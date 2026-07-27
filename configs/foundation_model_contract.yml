@@ -1,0 +1,183 @@
+contract_version: 1.0.0
+gate: 6D
+subgate: 6D1
+status: approved_for_implementation
+execution_name: governed_time_series_foundation_model_benchmark
+predecessor:
+  gate: 6C
+  status: closed
+  closure_manifest_path: outputs/v2/gate_6c/gate_6c_closure_manifest.json
+  retained_model: v1_frozen_champion
+v1_boundary:
+  immutable_tag: v1.0.0
+  locked_test_access_permitted: false
+  locked_prediction_parsing_permitted: false
+  confirmatory_evaluation_permitted: false
+  retired_evaluator_reactivation_permitted: false
+data_boundary:
+  silver_path: data/processed/steel_energy_silver.parquet
+  outer_folds_path: outputs/modeling/chronological_folds.json
+  incumbent_results_path: outputs/modeling/hist_gradient_boosting_validation_results.csv
+  target_contract_path: configs/target_contract.yml
+  source_column: usage_kwh
+  target_name: usage_kwh_t_plus_1
+  cadence_minutes: 15
+  admissible_partitions:
+  - training
+  - validation
+  outer_fold_count: 4
+  purge_intervals: 4
+  validation_origin_count: 7004
+  maximum_prediction_origin_exclusive: 28028
+  maximum_target_dependency_exclusive: 28032
+benchmark_protocol:
+  mode: zero_shot_univariate
+  context_length_intervals: 672
+  context_duration_days: 7
+  horizon_intervals: 1
+  point_forecast_rule: median_quantile_0_5
+  required_quantiles:
+  - 0.1
+  - 0.5
+  - 0.9
+  probabilistic_outputs_authoritative_in_gate_6d: false
+  model_specific_context_tuning_permitted: false
+  covariate_inference_permitted: false
+  multivariate_inference_permitted: false
+  fine_tuning_permitted: false
+  lora_or_peft_permitted: false
+  calibration_permitted: false
+  hyperparameter_search_permitted: false
+  random_sampling_permitted: false
+  ensemble_permitted: false
+  fallback_model_substitution_permitted: false
+  missing_value_imputation_permitted: false
+  failed_origin_must_be_recorded: true
+candidate_models:
+- candidate_id: chronos_2_zero_shot
+  provider: Amazon
+  model_id: amazon/chronos-2
+  model_revision: 95a9710
+  weight_sha256: ddcda3c7508bf2528087723e98a20707cc04b7f370ae275a9fd88078ddba4f42
+  expected_weight_size_mb: 478.0
+  parameter_count_millions: 120
+  architecture_hypothesis: encoder_foundation_model_with_direct_quantile_forecasting
+  maximum_supported_context_intervals: 8192
+  source_repository: amazon-science/chronos-forecasting
+  source_revision: 7dc4435706a4454feb79df44ca9f33631f3027bf
+  source_license: Apache-2.0
+  weights_license: Apache-2.0
+  access_mode: public_hugging_face_weights
+  hosted_api_required: false
+  benchmark_admissible: true
+  commercial_use_eligible: true
+  promotion_eligible: true
+- candidate_id: timesfm_2_5_zero_shot
+  provider: Google Research
+  model_id: google/timesfm-2.5-200m-pytorch
+  model_revision: 1d952420fba87f3c6dee4f240de0f1a0fbc790e3
+  weight_sha256: 2f776efe6245e42b24bc4153ffdf61810140210e4bd3b01fb21f7aa779ab6ce8
+  expected_weight_size_mb: 925.0
+  parameter_count_millions: 200
+  architecture_hypothesis: decoder_only_long_context_continuous_quantile_forecasting
+  maximum_supported_context_intervals: 16384
+  source_repository: google-research/timesfm
+  source_revision: 3dae50b20d7a724981e8ea36cda75578f80dd2dc
+  source_license: Apache-2.0
+  weights_license: Apache-2.0
+  access_mode: public_hugging_face_weights
+  hosted_api_required: false
+  benchmark_admissible: true
+  commercial_use_eligible: true
+  promotion_eligible: true
+- candidate_id: moirai_2_research_zero_shot
+  provider: Salesforce AI Research
+  model_id: Salesforce/moirai-2.0-R-small
+  model_revision: c1b8789901bf60568fc4b2726f7d3aa256ac4ac8
+  weight_sha256: fb5652a3db8ea572606221b7cb1e77bb8962b168e4d4cc752cf31ceb04074669
+  expected_weight_size_mb: 45.6
+  parameter_count_millions: 11
+  architecture_hypothesis: compact_decoder_only_recursive_multi_quantile_forecasting
+  maximum_supported_context_intervals: 8192
+  source_repository: SalesforceAIResearch/uni2ts
+  source_revision: cfd46d4510ed8896f263116f32928eede05b0a75
+  source_license: Apache-2.0
+  weights_license: CC-BY-NC-4.0
+  access_mode: public_hugging_face_weights
+  hosted_api_required: false
+  benchmark_admissible: true
+  commercial_use_eligible: false
+  promotion_eligible: false
+objectives:
+  primary: aggregate_mae
+  robustness: peak_state_mae
+  temporal_stability:
+  - positive_outer_folds
+  - maximum_single_fold_mae_relative_degradation
+  efficiency:
+  - model_weight_size_bytes
+  - peak_memory_mb
+  - p50_inference_latency_ms_per_1000_rows
+  - p95_inference_latency_ms_per_1000_rows
+  - wall_clock_seconds
+  portability:
+  - cpu_execution_passed
+  - deterministic_replay_passed
+  provenance:
+  - source_revision_verified
+  - model_revision_verified
+  - weight_sha256_verified
+  - license_verified
+promotion:
+  reference_id: v1_frozen_champion
+  minimum_mean_validation_mae_relative_improvement: 0.01
+  minimum_positive_outer_folds: 3
+  maximum_single_fold_mae_relative_degradation: 0.02
+  maximum_peak_state_mae_relative_degradation: 0.01
+  hard_constraints_all_pass_required: true
+  commercial_use_eligibility_required: true
+  automatic_promotion_permitted: false
+  final_authority: human
+resource_constraints:
+  canonical_device: cpu
+  gpu_required: false
+  maximum_peak_memory_mb: 6144
+  maximum_download_size_mb_per_candidate: 1200
+  maximum_candidate_wall_clock_minutes: 120
+  maximum_total_wall_clock_minutes: 360
+  maximum_batch_size: 32
+  hosted_api_permitted: false
+  paid_api_permitted: false
+  external_api_cost_usd: 0.0
+  runner_cost_measurement_required: true
+network_and_artifact_controls:
+  gate_6d1_network_access_permitted: false
+  gate_6d1_model_download_permitted: false
+  gate_6d1_inference_permitted: false
+  gate_6d2_pinned_weight_download_only: true
+  cache_reuse_requires_hash_verification: true
+  unpinned_revision_permitted: false
+  remote_code_trust_permitted: false
+  arbitrary_model_code_permitted: false
+outputs:
+  directory: outputs/v2/gate_6d
+  model_provenance_manifest: model_provenance_manifest.json
+  candidate_results: candidate_results.csv
+  outer_fold_results: outer_fold_results.csv
+  out_of_fold_predictions: out_of_fold_predictions.parquet
+  resource_evidence: resource_evidence.csv
+  failure_records: failure_records.json
+  execution_manifest: gate_6d_execution_manifest.json
+  promotion_recommendation: promotion_recommendation.json
+  promotion_decision: promotion_decision.json
+  closure_manifest: gate_6d_closure_manifest.json
+claim_controls:
+  production_claim_permitted: false
+  savings_claim_permitted: false
+  drift_claim_permitted: false
+  causal_claim_permitted: false
+  optimization_impact_claim_permitted: false
+  confirmatory_claim_permitted: false
+  foundation_model_superiority_claim_permitted: false
+  provisional_validation_language_required: true
+next_gate: 6D2

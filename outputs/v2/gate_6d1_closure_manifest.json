@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6D",
+  "subgate": "6D1",
+  "status": "closed",
+  "implementation_only": true,
+  "candidate_ids": [
+    "chronos_2_zero_shot",
+    "timesfm_2_5_zero_shot",
+    "moirai_2_research_zero_shot"
+  ],
+  "research_only_candidate_ids": [
+    "moirai_2_research_zero_shot"
+  ],
+  "controls": {
+    "model_weights_downloaded": false,
+    "model_inference_performed": false,
+    "validation_predictions_generated": false,
+    "validation_metrics_calculated": false,
+    "fine_tuning_performed": false,
+    "locked_test_accessed": false,
+    "locked_predictions_parsed": false,
+    "confirmatory_evaluation_performed": false,
+    "automatic_promotion_permitted": false,
+    "v1_immutable": true,
+    "gate_6c_closed": true
+  },
+  "contract_path": "configs/foundation_model_contract.yml",
+  "contract_schema_path": "schemas/foundation_model_contract.schema.json",
+  "next_gate": "6D2",
+  "next_gate_authorized": false,
+  "blocked_gates": [
+    "6D2",
+    "6D3",
+    "6E"
+  ]
+}

@@ -28,7 +28,7 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | 6A | V2 architecture and optimization governance | Closed | Provider-neutral architecture, optimization contract, artifact schemas, V1 immutability checks, acceptance tests |
 | 6B | Advanced tabular challengers | Closed | Approved search spaces, nested chronological evidence, complete trial records, Pareto evidence, human rejection record, retained V1 incumbent |
 | 6C | Neural forecasting | Closed | Five governed seeds, chronological evidence, stability, resource, portability, human rejection record, retained V1 incumbent |
-| 6D | Time-series foundation models | Next | Prespecified model access, context and adaptation rules, chronological evidence, cost and portability controls |
+| 6D | Time-series foundation models | In progress | Gate 6D1 identity, license, context, adaptation, resource, and provenance lock; Gate 6D2 governed validation; Gate 6D3 human decision |
 | 6E | Probabilistic optimization and uncertainty | Planned | Separate calibration, coverage and width evidence, governed uncertainty promotion |
 | 6F | Ensembles and governed routing | Planned | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
 | 6G | Efficiency and portability | Planned | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
@@ -115,8 +115,27 @@ Gate 6C freezes:
 
 The maximum Gate 6C prediction origin is 28,027. The maximum target dependency is 28,028. The locked test begins at 28,032 and was not accessed.
 
+## Gate 6D1 closure boundary
+
+Gate 6D1 freezes:
+
+- Chronos-2, TimesFM 2.5, and Moirai 2.0 as the complete Gate 6D candidate set;
+- exact public model revisions, source revisions, weight SHA-256 identities, access modes, and licenses;
+- zero-shot univariate forecasting only;
+- a common context of 672 intervals and a one-interval forecast horizon;
+- the 0.50 quantile or model-equivalent median as the authoritative point forecast;
+- the same four outer folds, four-interval purge, and 7,004 validation origins;
+- no fine-tuning, adapters, calibration, search, model-specific context tuning, covariate lane, multivariate lane, ensemble, or fallback substitution;
+- CPU, 6,144 MB memory, 1,200 MB download, 120-minute candidate, 360-minute total, batch-size, and cost boundaries;
+- Chronos-2 and TimesFM 2.5 as commercially promotion eligible under Apache-2.0 weights;
+- Moirai 2.0 as research-only under CC-BY-NC-4.0 weights and prohibited from promotion;
+- no model download, library loading, inference, prediction generation, metric calculation, or execution evidence in Gate 6D1;
+- final human promotion authority and a separate authorization requirement for Gate 6D2.
+
+Gate 6D1 remains training-and-validation only in design. Locked-test access, locked-prediction parsing, confirmatory evaluation, automatic promotion, and V1 mutation are prohibited.
+
 ## Next permitted decision
 
-V1 remains closed and immutable. Gates 6A, 6B, and 6C are closed.
+V1 remains closed and immutable. Gates 6A, 6B, 6C, and Gate 6D1 are closed.
 
-The next permitted gate is **Gate 6D: time-series foundation models**. Gate 6D must freeze model identities, versions, licenses, weight provenance, access modes, adaptation permissions, context rules, cost, latency, memory, portability, and chronological validation controls before any execution.
+The next permitted decision is **explicit authorization for Gate 6D2 governed foundation-model validation execution**. Without that authorization, no model weight may be downloaded, loaded, or used to generate forecasts. Gate 6D3 and Gate 6E remain blocked.

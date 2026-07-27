@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6E",
+  "subgate": "6E3",
+  "status": "closed",
+  "decision_outcome": "no_action",
+  "retained_model": "v1_frozen_champion",
+  "promoted_configuration": null,
+  "rejected_configurations": [
+    "expanding_all",
+    "rolling_672",
+    "rolling_2688",
+    "aci_672_0p005",
+    "aci_672_0p01",
+    "aci_672_0p02",
+    "aci_2688_0p005",
+    "aci_2688_0p01",
+    "aci_2688_0p02"
+  ],
+  "validation_summary": {
+    "configuration_count": 9,
+    "outer_fold_count": 4,
+    "validation_origins_per_configuration": 7004,
+    "interval_prediction_row_count": 63036,
+    "calibration_residual_row_count": 70935,
+    "eligible_configuration_count": 0,
+    "pareto_eligible_configuration_count": 0,
+    "strongest_configuration": "aci_672_0p02",
+    "strongest_configuration_wis": 2.2834847109806047,
+    "strongest_configuration_peak_wis": 9.55071623587265,
+    "strongest_configuration_peak_90_coverage": 0.6058823529411764
+  },
+  "controls": {
+    "human_decision_recorded": true,
+    "automatic_promotion_permitted": false,
+    "uncertainty_layer_promoted": false,
+    "point_model_mutated": false,
+    "point_model_search_performed": false,
+    "locked_test_accessed": false,
+    "locked_predictions_parsed": false,
+    "confirmatory_evaluation_performed": false,
+    "v1_immutable": true,
+    "rescue_lane_opened": false,
+    "probabilistic_authority_claimed": false,
+    "gate_6f_unblocked": true
+  },
+  "source_hashes": {
+    "calibration_lineage": "676e51a01355de83bf1ab48c13cc78b3317b9b3730fbd2bbee128998206a9788",
+    "calibration_residuals": "d3eaada10d46943f5d43e4bb7241f7e7cf1f9a478949a81288ae7eefabbb5671",
+    "configuration_results": "8e7983a62b19a7db3b28ee4dde737c84da904901323c107ad9554434ed82363b",
+    "coverage_results": "f16f446f7ad0e7ee75e2f67484a7c2f079c6ebaf348f4a7eba7105ce8be0cf20",
+    "environment_lock": "3ca17e004e834bbdbf179bb65f900f7262f8e17e36d7dac7e4a727a7952ecd07",
+    "failure_records": "43015d661be209054315b787c7e4c060b673de74381442b51ba56583927f5b09",
+    "interval_predictions": "fdd3f7155265ac42228984a8647be1c5a62f3b6d1a57cb308294752410f4598d",
+    "outer_fold_results": "b53bcd5f99f56462ebebff397b49b4337b68317f8ccf7d27c24366e2d4cd0106",
+    "promotion_recommendation": "6af4c7aed41adffc5aa725d666de3df572b3646aa4863c391583aada553364e0",
+    "resource_evidence": "98656912f840acff766bc1ec6eea91b8464fb31a31784f0bda34aa1b2159df96"
+  },
+  "decision_record_path": "outputs/v2/gate_6e3/promotion_decision.json",
+  "execution_manifest_path": "outputs/v2/gate_6e/gate_6e_execution_manifest.json",
+  "next_gate": "6F",
+  "blocked_gates": [
+    "6G"
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shockbridgepulse.com/schemas/uncertainty_calibration_lineage.schema.json",
+  "title": "Gate 6E2 calibration lineage",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "point_model_id",
+    "residual_score",
+    "inner_oof_residuals_required",
+    "in_sample_residuals_used",
+    "random_split_used",
+    "sequential_update_rule",
+    "folds",
+    "silver_lineage",
+    "point_prediction_sha256",
+    "calibration_residuals_sha256"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6E"},
+    "subgate": {"const": "6E2"},
+    "status": {"const": "calibration_residuals_complete"},
+    "point_model_id": {"const": "v1_frozen_champion"},
+    "residual_score": {"const": "absolute_error"},
+    "inner_oof_residuals_required": {"const": true},
+    "in_sample_residuals_used": {"const": false},
+    "random_split_used": {"const": false},
+    "sequential_update_rule": {
+      "const": "revealed_targets_strictly_before_current_target"
+    },
+    "folds": {
+      "type": "array",
+      "minItems": 4,
+      "maxItems": 4,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "fold_id",
+          "outer_training_start",
+          "outer_training_stop_exclusive",
+          "outer_validation_start",
+          "outer_validation_stop_exclusive",
+          "selected_parameters",
+          "inner_split_count",
+          "inner_splits",
+          "eligible_inner_oof_residual_count",
+          "calibration_tail_fraction",
+          "initial_calibration_origin_count",
+          "initial_calibration_origin_start",
+          "initial_calibration_origin_stop_exclusive",
+          "initial_calibration_score_sha256",
+          "outer_training_target_iqr"
+        ],
+        "properties": {
+          "fold_id": {"type": "integer", "minimum": 1, "maximum": 4},
+          "outer_training_start": {"const": 0},
+          "outer_training_stop_exclusive": {"type": "integer", "minimum": 1, "maximum": 28028},
+          "outer_validation_start": {"type": "integer", "minimum": 1, "maximum": 28027},
+          "outer_validation_stop_exclusive": {"type": "integer", "minimum": 2, "maximum": 28028},
+          "selected_parameters": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["learning_rate", "max_iter", "max_leaf_nodes", "l2_regularization"],
+            "properties": {
+              "learning_rate": {"type": "number", "exclusiveMinimum": 0},
+              "max_iter": {"type": "integer", "minimum": 1},
+              "max_leaf_nodes": {"type": "integer", "minimum": 2},
+              "l2_regularization": {"type": "number", "minimum": 0}
+            }
+          },
+          "inner_split_count": {"const": 3},
+          "inner_splits": {
+            "type": "array",
+            "minItems": 3,
+            "maxItems": 3,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "inner_split_id",
+                "training_origin_start",
+                "training_origin_stop_exclusive",
+                "maximum_training_target_dependency",
+                "validation_origin_start",
+                "validation_origin_stop_exclusive",
+                "training_origin_count",
+                "validation_origin_count",
+                "fit_wall_clock_seconds"
+              ],
+              "properties": {
+                "inner_split_id": {"type": "integer", "minimum": 1, "maximum": 3},
+                "training_origin_start": {"type": "integer", "minimum": 0},
+                "training_origin_stop_exclusive": {"type": "integer", "minimum": 1},
+                "maximum_training_target_dependency": {"type": "integer", "minimum": 1},
+                "validation_origin_start": {"type": "integer", "minimum": 1},
+                "validation_origin_stop_exclusive": {"type": "integer", "minimum": 2},
+                "training_origin_count": {"type": "integer", "minimum": 1},
+                "validation_origin_count": {"type": "integer", "minimum": 1},
+                "fit_wall_clock_seconds": {"type": "number", "minimum": 0}
+              }
+            }
+          },
+          "eligible_inner_oof_residual_count": {"type": "integer", "minimum": 672},
+          "calibration_tail_fraction": {"const": 0.15},
+          "initial_calibration_origin_count": {"type": "integer", "minimum": 672},
+          "initial_calibration_origin_start": {"type": "integer", "minimum": 0},
+          "initial_calibration_origin_stop_exclusive": {"type": "integer", "minimum": 1},
+          "initial_calibration_score_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+          "outer_training_target_iqr": {"type": "number", "exclusiveMinimum": 0}
+        }
+      }
+    },
+    "silver_lineage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["contract_path", "canonical_path", "sha256", "byte_identical_alias"],
+      "properties": {
+        "contract_path": {"const": "data/processed/silver/energy_silver.parquet"},
+        "canonical_path": {"const": "data/processed/steel_energy_silver.parquet"},
+        "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "byte_identical_alias": {"const": true}
+      }
+    },
+    "point_prediction_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "calibration_residuals_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+  }
+}

@@ -10,7 +10,8 @@ from jsonschema import Draft202012Validator
 
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "outputs" / "v2" / "gate_6e"
+EVIDENCE_OUTPUT = ROOT / "outputs" / "v2" / "gate_6e"
+CLOSURE_OUTPUT = ROOT / "outputs" / "v2" / "gate_6e3"
 SCHEMAS = ROOT / "schemas"
 
 
@@ -44,12 +45,12 @@ def _validate(payload: dict[str, Any], schema_name: str, label: str) -> None:
 
 
 def main() -> None:
-    decision_path = OUTPUT / "promotion_decision.json"
-    closure_path = OUTPUT / "gate_6e_closure_manifest.json"
-    execution_path = OUTPUT / "gate_6e_execution_manifest.json"
-    recommendation_path = OUTPUT / "promotion_recommendation.json"
-    configuration_results_path = OUTPUT / "configuration_results.csv"
-    fold_results_path = OUTPUT / "outer_fold_results.csv"
+    decision_path = CLOSURE_OUTPUT / "promotion_decision.json"
+    closure_path = CLOSURE_OUTPUT / "gate_6e_closure_manifest.json"
+    execution_path = EVIDENCE_OUTPUT / "gate_6e_execution_manifest.json"
+    recommendation_path = EVIDENCE_OUTPUT / "promotion_recommendation.json"
+    configuration_results_path = EVIDENCE_OUTPUT / "configuration_results.csv"
+    fold_results_path = EVIDENCE_OUTPUT / "outer_fold_results.csv"
 
     decision = _load_json(decision_path)
     closure = _load_json(closure_path)
@@ -160,16 +161,16 @@ def main() -> None:
         raise Gate6E3ClosureError("V1 immutability changed")
 
     source_paths = {
-        "calibration_lineage": OUTPUT / "calibration_lineage.json",
-        "calibration_residuals": OUTPUT / "calibration_residuals.parquet",
+        "calibration_lineage": EVIDENCE_OUTPUT / "calibration_lineage.json",
+        "calibration_residuals": EVIDENCE_OUTPUT / "calibration_residuals.parquet",
         "configuration_results": configuration_results_path,
-        "coverage_results": OUTPUT / "coverage_results.csv",
-        "environment_lock": OUTPUT / "environment_lock.txt",
-        "failure_records": OUTPUT / "failure_records.json",
-        "interval_predictions": OUTPUT / "interval_predictions.parquet",
+        "coverage_results": EVIDENCE_OUTPUT / "coverage_results.csv",
+        "environment_lock": EVIDENCE_OUTPUT / "environment_lock.txt",
+        "failure_records": EVIDENCE_OUTPUT / "failure_records.json",
+        "interval_predictions": EVIDENCE_OUTPUT / "interval_predictions.parquet",
         "outer_fold_results": fold_results_path,
         "promotion_recommendation": recommendation_path,
-        "resource_evidence": OUTPUT / "resource_evidence.csv",
+        "resource_evidence": EVIDENCE_OUTPUT / "resource_evidence.csv",
     }
     if execution["output_hashes"] != closure["source_hashes"]:
         raise Gate6E3ClosureError("Closure source hashes differ from execution manifest")

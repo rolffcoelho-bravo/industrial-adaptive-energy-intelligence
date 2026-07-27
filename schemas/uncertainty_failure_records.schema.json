@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shockbridgepulse.com/schemas/uncertainty_failure_records.schema.json",
+  "title": "Gate 6E2 uncertainty failure records",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "gate", "subgate", "records"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6E"},
+    "subgate": {"const": "6E2"},
+    "records": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["stage", "configuration_id", "error_type", "message"],
+        "properties": {
+          "stage": {"type": "string", "minLength": 1},
+          "configuration_id": {"type": ["string", "null"]},
+          "error_type": {"type": "string", "minLength": 1},
+          "message": {"type": "string", "minLength": 1}
+        }
+      }
+    }
+  }
+}

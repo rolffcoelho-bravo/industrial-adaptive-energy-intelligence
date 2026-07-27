@@ -21,6 +21,8 @@ def rebuild_frozen_point_predictions(
     target_contract: dict[str, Any],
     point_manifest: dict[str, Any],
     committed_fold_results: pd.DataFrame,
+    *,
+    strict_metric_verification: bool = True,
 ) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Rebuild validation predictions without point-model search or mutation."""
 
@@ -94,12 +96,20 @@ def rebuild_frozen_point_predictions(
         peak_mae = float(np.mean(np.abs(actual[peak_state] - prediction[peak_state])))
         committed_mae = float(committed_row["mae"])
         committed_peak_mae = float(committed_row["peak_mae"])
-        if not np.isclose(
-            mae,
-            committed_mae,
-            rtol=1e-10,
-            atol=1e-12,
-        ):
+        mae_matches = bool(
+            np.isclose(mae, committed_mae, rtol=1e-10, atol=1e-12)
+        )
+        peak_mae_matches = bool(
+            np.isclose(
+                peak_mae,
+                committed_peak_mae,
+                rtol=1e-10,
+                atol=1e-12,
+            )
+        )
+        rows_match = len(prediction) == int(committed_row["validation_rows"])
+        peaks_match = int(peak_state.sum()) == int(committed_row["peak_rows"])
+        if strict_metric_verification and not mae_matches:
             raise Gate6E2ExecutionError(
                 f"Fold {fold_id} reconstructed MAE does not match committed evidence: "
                 f"observed={mae:.17g}, committed={committed_mae:.17g}, "
@@ -107,25 +117,20 @@ def rebuild_frozen_point_predictions(
                 f"sklearn={sklearn.__version__}, numpy={np.__version__}, "
                 f"pandas={pd.__version__}"
             )
-        if not np.isclose(
-            peak_mae,
-            committed_peak_mae,
-            rtol=1e-10,
-            atol=1e-12,
-        ):
+        if strict_metric_verification and not peak_mae_matches:
             raise Gate6E2ExecutionError(
                 f"Fold {fold_id} reconstructed peak MAE is inconsistent: "
                 f"observed={peak_mae:.17g}, committed={committed_peak_mae:.17g}, "
                 f"absolute_difference={abs(peak_mae - committed_peak_mae):.17g}, "
                 f"sklearn={sklearn.__version__}"
             )
-        if len(prediction) != int(committed_row["validation_rows"]):
+        if strict_metric_verification and not rows_match:
             raise Gate6E2ExecutionError(
                 f"Fold {fold_id} reconstruction row count is inconsistent: "
                 f"observed={len(prediction)}, "
                 f"committed={int(committed_row['validation_rows'])}"
             )
-        if int(peak_state.sum()) != int(committed_row["peak_rows"]):
+        if strict_metric_verification and not peaks_match:
             raise Gate6E2ExecutionError(
                 f"Fold {fold_id} reconstruction peak count is inconsistent: "
                 f"observed={int(peak_state.sum())}, "
@@ -160,12 +165,27 @@ def rebuild_frozen_point_predictions(
             {
                 "fold_id": fold_id,
                 "validation_rows": int(len(prediction)),
+                "committed_validation_rows": int(committed_row["validation_rows"]),
                 "peak_rows": int(peak_state.sum()),
+                "committed_peak_rows": int(committed_row["peak_rows"]),
                 "reconstructed_mae": mae,
                 "committed_mae": committed_mae,
+                "absolute_mae_difference": abs(mae - committed_mae),
                 "reconstructed_peak_mae": peak_mae,
                 "committed_peak_mae": committed_peak_mae,
-                "metrics_match": True,
+                "absolute_peak_mae_difference": abs(
+                    peak_mae - committed_peak_mae
+                ),
+                "mae_matches": mae_matches,
+                "peak_mae_matches": peak_mae_matches,
+                "rows_match": rows_match,
+                "peaks_match": peaks_match,
+                "metrics_match": (
+                    mae_matches
+                    and peak_mae_matches
+                    and rows_match
+                    and peaks_match
+                ),
             }
         )
 
@@ -183,13 +203,16 @@ def rebuild_frozen_point_predictions(
         raise Gate6E2ExecutionError(
             "Reconstructed point predictions cross the frozen boundary"
         )
+    all_metrics_match = all(
+        bool(record["metrics_match"]) for record in verification_rows
+    )
     verification = {
         "schema_version": "1.0.0",
         "point_model_id": "v1_frozen_champion",
         "reconstruction_performed": True,
         "point_model_search_performed": False,
         "selected_parameters_mutated": False,
-        "committed_fold_metrics_verified": True,
+        "committed_fold_metrics_verified": all_metrics_match,
         "runtime": {
             "scikit_learn": sklearn.__version__,
             "numpy": np.__version__,

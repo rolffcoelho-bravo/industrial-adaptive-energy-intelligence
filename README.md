@@ -27,7 +27,7 @@ The release preserves the frozen model, untouched confirmatory evidence, five ap
 
 ## V2 governance
 
-Gate 6A established the V2 architecture before V2 model execution. Gate 6B then evaluated advanced tabular challengers under those frozen rules.
+Gate 6A established the provider-neutral V2 architecture before model execution. Gates 6B and 6C then evaluated advanced tabular and compact neural challengers under those frozen rules. Gate 6D1 now freezes the time-series foundation-model benchmark before any model weight download or inference.
 
 ```text
 Data Evidence
@@ -43,12 +43,16 @@ The architecture is provider-neutral. Search spaces, objectives, hard constraint
 
 - Architecture contract: [`configs/v2_architecture_contract.yml`](configs/v2_architecture_contract.yml)
 - Optimization contract: [`configs/optimization_governance.yml`](configs/optimization_governance.yml)
+- Foundation-model contract: [`configs/foundation_model_contract.yml`](configs/foundation_model_contract.yml)
 - Architecture documentation: [`docs/V2_ARCHITECTURE.md`](docs/V2_ARCHITECTURE.md)
 - Optimization governance: [`docs/OPTIMIZATION_GOVERNANCE.md`](docs/OPTIMIZATION_GOVERNANCE.md)
 - Gate 6A closure: [`docs/GATE_6A_ARCHITECTURE_CLOSURE.md`](docs/GATE_6A_ARCHITECTURE_CLOSURE.md)
 - Gate 6B closure: [`docs/GATE_6B_ADVANCED_TABULAR_CLOSURE.md`](docs/GATE_6B_ADVANCED_TABULAR_CLOSURE.md)
+- Gate 6C closure: [`docs/GATE_6C3_NEURAL_FORECASTING_CLOSURE.md`](docs/GATE_6C3_NEURAL_FORECASTING_CLOSURE.md)
+- Gate 6D protocol: [`docs/GATE_6D_FOUNDATION_MODEL_PROTOCOL.md`](docs/GATE_6D_FOUNDATION_MODEL_PROTOCOL.md)
+- Gate 6D1 scope lock: [`docs/GATE_6D1_SCOPE_LOCK.md`](docs/GATE_6D1_SCOPE_LOCK.md)
 
-Gate 6B evaluated XGBoost histogram boosting, LightGBM L1 boosting, and CatBoost MAE boosting across 12 prespecified configurations. No challenger satisfied every frozen promotion requirement. The human decision rejected all three challengers and retained the immutable V1 histogram-gradient-boosting incumbent. Gate 6C neural forecasting is the next permitted stage.
+Gate 6B rejected XGBoost, LightGBM, and CatBoost challengers. Gate 6C rejected compact N-HiTS, TiDE, and PatchTST challengers. The frozen V1 histogram-gradient-boosting incumbent remains the reference champion. Gate 6D1 freezes Chronos-2, TimesFM 2.5, and research-only Moirai 2.0 as zero-shot foundation-model benchmarks. Gate 6D2 requires separate explicit authorization before any model weight may be downloaded or any validation forecast may be generated.
 
 ## Analytical system
 
@@ -159,6 +163,8 @@ The pipeline blocks reporting, release, and V2 promotion when required evidence 
 - exact release-asset checksum verification;
 - CI comparison of frozen V1 paths with tag `v1.0.0`;
 - governed V2 search-space, objective, trial, and promotion schemas;
+- exact foundation-model revision, weight-hash, access, and license controls;
+- commercial-promotion prohibition for non-commercial model weights;
 - rejection of provisional or unsupported results.
 
 ## Confirmatory result
@@ -234,12 +240,18 @@ Completed in V2:
 - V1 immutability enforcement in CI;
 - artifact schemas and human promotion authority;
 - Gate 6B advanced tabular execution across 12 prespecified configurations;
-- complete validation, resource, portability, and trial evidence;
+- complete Gate 6B validation, resource, portability, and trial evidence;
 - human rejection of all advanced tabular challengers;
+- Gate 6C repeated-seed evaluation of compact N-HiTS, TiDE, and PatchTST;
+- complete Gate 6C stability, resource, portability, failure, and out-of-fold evidence;
+- human rejection of all neural challengers;
 - retention of the frozen V1 incumbent;
-- Gate 6B closure manifest and validation.
+- Gate 6D1 foundation-model identity, revision, hash, license, context, resource, and access lock;
+- Chronos-2 and TimesFM 2.5 commercial-promotion eligibility controls;
+- Moirai 2.0 research-only and non-commercial promotion prohibition;
+- Gate 6D1 implementation-only schema, manifest, tests, documentation, and read-only validation workflow.
 
-The next permitted stage is Gate 6C neural forecasting. It must use multiple governed seeds, chronological training and validation evidence, across-seed variance reporting, resource and portability controls, and final human promotion authority.
+The next permitted decision is explicit authorization for Gate 6D2. Until that authorization is recorded, model download, model loading, inference, validation prediction generation, and metric calculation remain prohibited.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 

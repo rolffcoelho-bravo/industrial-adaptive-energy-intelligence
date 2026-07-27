@@ -96,8 +96,6 @@ def _recommendation(
             failed.append("cpu_execution")
         if not bool(row.deterministic_replay_passed):
             failed.append("deterministic_replay")
-        if not bool(row.quantile_order_passed):
-            failed.append("quantile_order")
         if not bool(row.commercial_use_eligible):
             failed.append("commercial_use_eligibility")
         if not bool(row.promotion_eligible_by_license):
@@ -203,6 +201,7 @@ def build_foundation_evidence(root: Path, staging_root: Path) -> dict[str, Any]:
         "relative_mae_improvement_vs_v1",
         "relative_peak_mae_change_vs_v1",
         "maximum_single_fold_mae_relative_degradation",
+        "quantile_crossing_rate",
     ]
     if not _finite(
         [float(value) for column in numeric_columns for value in candidate_results[column]]

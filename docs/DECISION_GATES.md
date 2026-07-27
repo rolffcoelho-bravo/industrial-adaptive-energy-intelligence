@@ -29,7 +29,9 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | 6B | Advanced tabular challengers | Closed | Approved search spaces, nested chronological evidence, complete trial records, Pareto evidence, human rejection record, retained V1 incumbent |
 | 6C | Neural forecasting | Closed | Five governed seeds, chronological evidence, stability, resource, portability, human rejection record, retained V1 incumbent |
 | 6D | Time-series foundation models | Closed | Gate 6D1 identity and license lock; Gate 6D2 complete validation evidence; Gate 6D3 human rejection record, retained V1 incumbent, closure manifest |
-| 6E | Probabilistic optimization and uncertainty | Unblocked, contract pending | Separate calibration, coverage, width, sharpness, optimization, hard-constraint, and governed uncertainty-promotion evidence |
+| 6E1 | Probabilistic uncertainty contract | Closed | Retained point-model identity, nine frozen conformal configurations, calibration chronology, metrics, hard constraints, budgets, closure manifest |
+| 6E2 | Governed uncertainty execution | Blocked pending authorization | Complete coverage, width, interval-score, peak-state, temporal, resource, portability, failure, prediction, and lineage evidence |
+| 6E3 | Human uncertainty decision and closure | Blocked | Human accept, reject, or defer record; retained point-model boundary; Gate 6E closure manifest |
 | 6F | Ensembles and governed routing | Planned and blocked | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
 | 6G | Efficiency and portability | Planned and blocked | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
 
@@ -174,23 +176,45 @@ Gate 6D3 freezes:
 
 The maximum Gate 6D prediction origin is 28,027. The maximum target dependency is 28,028. The locked test begins at 28,032 and was not accessed.
 
-## Gate 6E entry boundary
+## Gate 6E1 closure boundary
 
-Gate 6E is unblocked but not yet authorized for execution. Before any uncertainty calibration, probabilistic optimization, interval generation, or promotion decision, Gate 6E must freeze:
+Gate 6E1 freezes:
 
-- the uncertainty objective and admissible methods;
-- calibration chronology and partitions;
-- coverage, width, sharpness, peak-state, stability, complexity, latency, and portability metrics;
-- optimization objectives, hard constraints, and no-action rules;
-- search, calibration, and execution budgets;
-- artifact schemas and complete evidence requirements;
-- locked-test exclusion;
-- final human decision authority.
+- `v1_frozen_champion` as the immutable interval center and retained point model;
+- exact point-prediction parity at absolute tolerance `1e-12`;
+- expanding absolute-residual conformal as the reference;
+- rolling absolute-residual conformal with 672- and 2,688-interval windows;
+- adaptive conformal inference with both windows and update rates `0.005`, `0.01`, and `0.02`;
+- exactly nine deterministic configurations;
+- 80%, 90%, and 95% central intervals, with 90% primary;
+- inner out-of-fold residual construction, a trailing 15% calibration tail, and at least 672 calibration origins;
+- the finite-sample higher-quantile rule and revealed-target sequential update timing;
+- uniform zero-kWh support clipping, raw-bound retention, and exact interval nesting;
+- coverage, width, interval-score, peak-state, temporal-stability, resource, portability, failure, prediction, and lineage evidence requirements;
+- hard coverage, point-parity, chronology, leakage, replay, portability, and artifact constraints;
+- weighted interval score as the primary objective;
+- one-percent challenger improvement, three positive folds, bounded fold degradation, and bounded peak degradation;
+- feasible reference selection and a mandatory no-action outcome when no configuration is feasible;
+- final human authority, no GenAI vote, and no automatic promotion;
+- exclusion of quantile-model refits, bootstrap predictive ensembles, rejected foundation-model quantiles, and parametric Gaussian intervals;
+- no point fitting, residual construction, calibration, interval generation, metric calculation, optimization execution, locked-test access, or probabilistic-authority claim in Gate 6E1.
 
-Gate 6E cannot use the locked test for calibration, fitting, model selection, interval tuning, optimization, or promotion. It cannot reinterpret diagnostic quantiles from Gate 6D as calibrated uncertainty evidence.
+Gate 6E1 is implementation-only. It closes the uncertainty contract but does not authorize Gate 6E2 execution.
+
+## Gate 6E2 entry boundary
+
+Gate 6E2 remains blocked until separate explicit authorization. When authorized, it must:
+
+- execute all nine frozen configurations without substitution;
+- preserve the four outer folds, three inner folds, four-interval purge, and 7,004 validation origins;
+- center intervals on the committed V1 validation predictions;
+- use only chronology-safe inner out-of-fold residuals and revealed prior targets;
+- publish complete interval predictions, configuration results, coverage results, fold evidence, resource evidence, calibration lineage, failures, recommendation, and execution manifest;
+- preserve locked-test exclusion and validation-only claims;
+- leave the final accept, reject, or defer decision to Gate 6E3.
 
 ## Next permitted decision
 
-V1 remains closed and immutable. Gates 6A, 6B, 6C, and 6D are closed.
+V1 remains closed and immutable. Gates 6A, 6B, 6C, 6D, and Gate 6E1 are closed.
 
-The next permitted work is **Gate 6E probabilistic optimization and uncertainty contract design**. No Gate 6E model execution, calibration, optimization, or interval claim is permitted until that contract and a separate explicit authorization are recorded. Gates 6F and 6G remain blocked.
+The next permitted decision is **explicit authorization for Gate 6E2 governed uncertainty execution**. Without that authorization, no residual construction, calibration, interval generation, uncertainty metric calculation, resource evidence, or promotion recommendation is permitted. Gate 6E3, Gate 6F, and Gate 6G remain blocked.

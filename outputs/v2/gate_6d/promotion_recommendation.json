@@ -1,0 +1,51 @@
+{
+  "automatic_promotion_permitted": false,
+  "candidates": [
+    {
+      "benchmark_status": "success",
+      "candidate_id": "chronos_2_zero_shot",
+      "commercial_use_eligible": true,
+      "failed_requirements": [
+        "aggregate_mae_improvement",
+        "peak_state_mae",
+        "positive_outer_folds",
+        "single_fold_degradation",
+        "deterministic_replay"
+      ],
+      "promotion_eligible": false
+    },
+    {
+      "benchmark_status": "success",
+      "candidate_id": "moirai_2_research_zero_shot",
+      "commercial_use_eligible": false,
+      "failed_requirements": [
+        "aggregate_mae_improvement",
+        "peak_state_mae",
+        "positive_outer_folds",
+        "single_fold_degradation",
+        "commercial_use_eligibility",
+        "license_promotion_boundary"
+      ],
+      "promotion_eligible": false
+    },
+    {
+      "benchmark_status": "success",
+      "candidate_id": "timesfm_2_5_zero_shot",
+      "commercial_use_eligible": true,
+      "failed_requirements": [
+        "aggregate_mae_improvement",
+        "peak_state_mae",
+        "positive_outer_folds",
+        "single_fold_degradation"
+      ],
+      "promotion_eligible": false
+    }
+  ],
+  "eligible_candidates": [],
+  "gate": "6D",
+  "human_decision_required": true,
+  "recommended_next_gate": "6D3",
+  "schema_version": "1.0.0",
+  "status": "validation_complete_pending_human_decision",
+  "subgate": "6D2"
+}

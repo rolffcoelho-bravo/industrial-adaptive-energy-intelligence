@@ -1,0 +1,50 @@
+{
+  "automatic_promotion_permitted": false,
+  "calibration_performed": false,
+  "candidate_count": 3,
+  "candidate_ids": [
+    "chronos_2_zero_shot",
+    "timesfm_2_5_zero_shot",
+    "moirai_2_research_zero_shot"
+  ],
+  "common_context_length_intervals": 672,
+  "confirmatory_evaluation_performed": false,
+  "contract_version": "1.0.0",
+  "environment_hashes": {
+    "chronos_2_zero_shot.txt": "bef86b1910752a4f64f8a68850e40bf1f24a25bde5bd3b7a84535f7c7fd73959",
+    "moirai_2_research_zero_shot.txt": "d0553c8952263a973983a006ab7ddd8182314bb7c908b5651a324502165ed8c3",
+    "timesfm_2_5_zero_shot.txt": "d46f9f3e66e77e60d2fb4a459e68d5e2f6546f940273954a716df0efc942be1a"
+  },
+  "execution_commit": "5a5dce0d43f4f1de8c5cd8365263a1d007b105d1",
+  "external_api_cost_usd": 0.0,
+  "fine_tuning_performed": false,
+  "forecast_horizon_intervals": 1,
+  "gate": "6D",
+  "human_decision_required": true,
+  "hyperparameter_search_performed": false,
+  "locked_predictions_parsed": false,
+  "locked_test_accessed": false,
+  "maximum_prediction_origin": 28027,
+  "maximum_target_dependency": 28028,
+  "next_gate": "6D3",
+  "outer_fold_count": 4,
+  "output_hashes": {
+    "candidate_results": "bff658b8d896c90b4a69f497d40a591697eaa8e07c1aff9bb4e970ff389aa702",
+    "failure_records": "782f67225c9f9c156adb4003744f2cfe111947c92a8434edc7457b0d0d093afe",
+    "model_provenance_manifest": "b6e11cf062d40fc703b29251605e81598cbf06b0753f90f482f79d113e57cb0d",
+    "out_of_fold_predictions": "c7b15d823a95767b8c97f99fcd4567b27f249fa64aa4064099dbdeffddb8cc73",
+    "outer_fold_results": "f01b8c04ba7f72ecd3c9f16ad35edb4e15e96064ccb7f49ac63877a5d6f6429c",
+    "promotion_recommendation": "5198ba7be7be9b256ef8bf1be26542c54c567f25592c3f379c98596e69287847",
+    "resource_evidence": "faab2aae0735395e3fa259de587f5185819ea6426a06b3b072e7a753d43948fe"
+  },
+  "prediction_row_count": 21012,
+  "quantile_outputs_authoritative": false,
+  "schema_version": "1.0.0",
+  "status": "validation_complete_pending_human_decision",
+  "subgate": "6D2",
+  "successful_candidate_count": 3,
+  "total_wall_clock_seconds": 1027.9014912339999,
+  "v1_immutable": true,
+  "validation_origins_per_candidate": 7004,
+  "zero_shot_only": true
+}

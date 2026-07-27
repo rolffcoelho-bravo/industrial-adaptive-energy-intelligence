@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/foundation_provenance_manifest.schema.json",
+  "title": "Gate 6D2 foundation provenance manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "gate", "subgate", "candidate_count", "candidates"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6D"},
+    "subgate": {"const": "6D2"},
+    "candidate_count": {"const": 3},
+    "candidates": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/candidate"}
+    }
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "provider",
+        "model_id",
+        "requested_model_revision",
+        "resolved_model_revision",
+        "weight_sha256",
+        "weight_sha256_verified",
+        "source_repository",
+        "source_revision",
+        "source_revision_verified",
+        "source_license",
+        "weights_license",
+        "license_verified",
+        "remote_code_trust_used",
+        "hosted_api_used",
+        "paid_api_used",
+        "environment_sha256",
+        "python_version",
+        "execution_commit"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "minLength": 1},
+        "provider": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "requested_model_revision": {"type": "string", "minLength": 7},
+        "resolved_model_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "weight_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "weight_sha256_verified": {"const": true},
+        "source_repository": {"type": "string", "minLength": 1},
+        "source_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "source_revision_verified": {"const": true},
+        "source_license": {"type": "string", "minLength": 1},
+        "weights_license": {"type": "string", "minLength": 1},
+        "license_verified": {"const": true},
+        "remote_code_trust_used": {"const": false},
+        "hosted_api_used": {"const": false},
+        "paid_api_used": {"const": false},
+        "environment_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "python_version": {"type": "string", "minLength": 1},
+        "execution_commit": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    }
+  }
+}

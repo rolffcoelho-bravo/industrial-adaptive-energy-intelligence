@@ -7,6 +7,7 @@ from pathlib import Path
 
 from iaei.contracts import validate_repository_contracts
 from iaei.foundation_contracts import (
+    validate_foundation_execution_manifest,
     validate_foundation_model_contract,
     validate_gate_6d1_closure_manifest,
 )
@@ -124,11 +125,43 @@ def _validate_license_boundary() -> None:
             raise SystemExit("Research-only Gate 6D candidate became promotion eligible")
 
 
+def _validate_execution_transition() -> str:
+    output_directory = ROOT / "outputs" / "v2" / "gate_6d"
+    manifest_path = output_directory / "gate_6d_execution_manifest.json"
+    if not manifest_path.exists():
+        assert_no_gate_6d_execution_artifacts()
+        return "not_executed"
+
+    manifest = validate_foundation_execution_manifest()
+    if manifest.get("subgate") != "6D2":
+        raise SystemExit("Unexpected Gate 6D execution subgate")
+    if manifest.get("status") != "validation_complete_pending_human_decision":
+        raise SystemExit("Gate 6D2 evidence is not awaiting the human decision")
+    if manifest.get("candidate_ids") != list(APPROVED_FOUNDATION_MODELS):
+        raise SystemExit("Gate 6D2 candidate set changed")
+    prohibited_true = (
+        "locked_test_accessed",
+        "locked_predictions_parsed",
+        "confirmatory_evaluation_performed",
+        "fine_tuning_performed",
+        "calibration_performed",
+        "hyperparameter_search_performed",
+        "automatic_promotion_permitted",
+    )
+    if any(bool(manifest.get(field)) for field in prohibited_true):
+        raise SystemExit("Gate 6D2 execution weakens a frozen Gate 6D1 boundary")
+    if manifest.get("v1_immutable") is not True:
+        raise SystemExit("Gate 6D2 execution does not preserve V1")
+    if manifest.get("next_gate") != "6D3":
+        raise SystemExit("Gate 6D2 skips the mandatory human decision gate")
+    return "validation_complete_pending_human_decision"
+
+
 def main() -> None:
     validate_repository_contracts()
     plan = build_gate_6d1_plan()
     closure = validate_gate_6d1_closure_manifest()
-    assert_no_gate_6d_execution_artifacts()
+    execution_state = _validate_execution_transition()
     _validate_source_boundary()
     _validate_cross_artifact_conformance()
     _validate_license_boundary()
@@ -145,12 +178,12 @@ def main() -> None:
     if plan.fine_tuning_permitted or plan.locked_test_access_permitted:
         raise SystemExit("Gate 6D1 weakens a frozen analytical boundary")
     if closure["next_gate_authorized"] is not False:
-        raise SystemExit("Gate 6D2 requires a separate explicit authorization")
+        raise SystemExit("Gate 6D1 closure unexpectedly authorizes execution itself")
 
     print(
         "Gate 6D1 validation: PASS | candidates=3 | context=672 | horizon=1 | "
-        "zero_shot=true | download=false | inference=false | locked_test=false | "
-        "research_only=1 | next_gate=6D2_authorization_required"
+        "zero_shot=true | locked_test=false | research_only=1 | "
+        f"execution_state={execution_state} | next_gate=6D2_or_6D3"
     )
 
 

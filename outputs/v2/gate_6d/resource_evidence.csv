@@ -1,0 +1,4 @@
+batch_count,batch_size,candidate_id,canonical_device,download_seconds,estimated_runner_cost_usd,external_api_cost_usd,gpu_required,model_weight_size_bytes,p50_inference_latency_ms_per_1000_rows,p95_inference_latency_ms_per_1000_rows,peak_memory_mb,runner_cost_basis,wall_clock_seconds
+438,16,chronos_2_zero_shot,cpu,7.1515215789999615,0.0,0.0,False,477930472,44885.49537500042,45894.40064374806,1022.96875,public_repository_standard_runner,322.7756527849999
+438,16,moirai_2_research_zero_shot,cpu,1.55961025900001,0.0,0.0,False,45557824,5381.988187494358,5672.30083125807,924.32421875,public_repository_standard_runner,42.79547646099991
+438,16,timesfm_2_5_zero_shot,cpu,12.474083206000046,0.0,0.0,False,925181104,92359.27521875099,97077.76695312269,2181.29296875,public_repository_standard_runner,662.3303619879999

@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/foundation_candidate_evidence.schema.json",
+  "title": "Gate 6D2 foundation candidate evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "candidate_id",
+    "status",
+    "benchmark_admissible",
+    "commercial_use_eligible",
+    "promotion_eligible_by_license",
+    "validation_origin_count",
+    "outer_fold_count",
+    "mean_mae",
+    "mean_peak_mae",
+    "relative_mae_improvement_vs_v1",
+    "relative_peak_mae_change_vs_v1",
+    "positive_outer_folds",
+    "maximum_single_fold_mae_relative_degradation",
+    "chronology_passed",
+    "resource_limits_passed",
+    "cpu_execution_passed",
+    "deterministic_replay_passed",
+    "quantile_order_passed",
+    "quantile_crossing_rate"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6D"},
+    "subgate": {"const": "6D2"},
+    "candidate_id": {
+      "enum": [
+        "chronos_2_zero_shot",
+        "timesfm_2_5_zero_shot",
+        "moirai_2_research_zero_shot"
+      ]
+    },
+    "status": {"const": "success"},
+    "benchmark_admissible": {"const": true},
+    "commercial_use_eligible": {"type": "boolean"},
+    "promotion_eligible_by_license": {"type": "boolean"},
+    "validation_origin_count": {"const": 7004},
+    "outer_fold_count": {"const": 4},
+    "mean_mae": {"type": "number", "minimum": 0},
+    "mean_peak_mae": {"type": "number", "minimum": 0},
+    "relative_mae_improvement_vs_v1": {"type": "number"},
+    "relative_peak_mae_change_vs_v1": {"type": "number"},
+    "positive_outer_folds": {"type": "integer", "minimum": 0, "maximum": 4},
+    "maximum_single_fold_mae_relative_degradation": {"type": "number", "minimum": 0},
+    "chronology_passed": {"const": true},
+    "resource_limits_passed": {"const": true},
+    "cpu_execution_passed": {"const": true},
+    "deterministic_replay_passed": {"const": true},
+    "quantile_order_passed": {"type": "boolean"},
+    "quantile_crossing_rate": {"type": "number", "minimum": 0, "maximum": 1}
+  }
+}

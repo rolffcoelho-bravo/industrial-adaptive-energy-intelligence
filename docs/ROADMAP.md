@@ -170,7 +170,7 @@ Gate 6C used training and validation evidence only. Maximum prediction origin wa
 
 ### Gate 6D: time-series foundation models
 
-**Status:** In progress.
+**Status:** Validation complete pending Gate 6D3 human decision.
 
 Completed Gate 6D1 evidence:
 
@@ -183,14 +183,30 @@ Completed Gate 6D1 evidence:
 - CPU, memory, download-size, runtime, batch-size, cost, and portability limits frozen;
 - Chronos-2 and TimesFM 2.5 commercially promotion eligible under Apache-2.0 weights;
 - Moirai 2.0 retained as a research-only benchmark under CC-BY-NC-4.0 weights and prohibited from promotion;
-- implementation-only governance code, schemas, tests, closure manifest, documentation, and read-only CI;
-- no model weight download, inference, prediction generation, metric calculation, or locked-test access.
+- implementation-only governance code, schemas, tests, closure manifest, documentation, and read-only CI.
+
+Completed Gate 6D2 evidence:
+
+- exact public model revisions and weight SHA-256 identities verified before inference;
+- exact source revisions and three isolated execution environments recorded;
+- 21,012 out-of-fold prediction rows across three candidates;
+- complete aggregate, peak-state, temporal, resource, portability, diagnostic-quantile, failure, and lineage evidence;
+- Chronos-2 produced the strongest foundation-model result but remained 18.60% worse than V1 on aggregate MAE and 15.69% worse in peak states;
+- Moirai 2.0 was 29.62% worse on aggregate MAE and remained ineligible under its non-commercial weight license;
+- TimesFM 2.5 was 34.36% worse on aggregate MAE;
+- no candidate improved any of the four outer folds;
+- all three completed inside the CPU, memory, download-size, and runtime limits;
+- raw native quantile crossings preserved as diagnostic evidence without calibration or post-hoc sorting;
+- Chronos-2 failed the exact deterministic replay control;
+- no foundation-model candidate satisfied every frozen promotion requirement;
+- locked-test access, locked-prediction parsing, confirmatory evaluation, fine-tuning, calibration, and search remained false;
+- V1 remained immutable.
 
 Next required decision:
 
-- Gate 6D2 requires separate explicit authorization before any pinned model weight may be downloaded or any validation forecast may be generated;
-- Gate 6D2 must verify exact revisions and weight hashes, execute the frozen zero-shot lane, and publish complete performance, peak-state, failure, resource, cost, portability, prediction, and lineage evidence;
-- Gate 6D3 remains mandatory for the final human promotion, rejection, or deferral decision.
+- Gate 6D3 must record the human promotion, rejection, or deferral decision;
+- the evidence supports rejecting all three candidates and retaining the frozen V1 champion;
+- Gate 6E remains blocked until Gate 6D3 formally closes Gate 6D.
 
 ### Gates 6E-6G
 

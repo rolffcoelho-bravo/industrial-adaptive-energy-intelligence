@@ -1,0 +1,100 @@
+name: Validate Gate 6E3 uncertainty closure
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/gate-6e3-uncertainty-closure.yml"
+      - "schemas/gate_6e3_human_decision.schema.json"
+      - "schemas/gate_6e_closure_manifest.schema.json"
+      - "outputs/v2/gate_6e3/promotion_decision.json"
+      - "outputs/v2/gate_6e3/gate_6e_closure_manifest.json"
+      - "scripts/validate_gate_6e3_closure.py"
+      - "tests/test_gate_6e3_closure.py"
+      - "docs/GATE_6E3_UNCERTAINTY_CLOSURE.md"
+      - "docs/ROADMAP.md"
+      - "docs/DECISION_GATES.md"
+      - "README.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  closure:
+    name: Governed no-action uncertainty closure
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install validation environment
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -e ".[dev]"
+
+      - name: Validate Gate 6E closure and immutable boundaries
+        id: validate
+        shell: bash
+        run: |
+          set +e
+          DIAGNOSTIC="${RUNNER_TEMP}/gate_6e3_validation.log"
+          (
+            set -e
+            python -m ruff --version
+            python -m ruff check src scripts tests
+            python scripts/verify_v1_immutability.py
+            python scripts/validate_gate_6d3_closure.py
+            python scripts/validate_gate_6e1.py
+            python scripts/validate_gate_6e3_closure.py
+            python -m pytest \
+              tests/test_contracts.py \
+              tests/test_v2_governance.py \
+              tests/test_gate_6d3_closure.py \
+              tests/test_uncertainty_governance.py \
+              tests/test_gate_6e2_uncertainty_execution.py \
+              tests/test_gate_6e3_closure.py \
+              -q
+            python scripts/audit_public_content.py
+          ) > "$DIAGNOSTIC" 2>&1
+          status=$?
+          cat "$DIAGNOSTIC"
+          exit "$status"
+
+      - name: Upload bounded closure diagnostic
+        if: failure() && steps.validate.conclusion == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-6e3-closure-diagnostic
+          path: ${{ runner.temp }}/gate_6e3_validation.log
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publish Gate 6E closure summary
+        shell: bash
+        run: |
+          cat <<'EOF' >> "$GITHUB_STEP_SUMMARY"
+          ## Gate 6E3 uncertainty closure
+
+          - Human outcome: `no_action`
+          - Uncertainty configurations promoted: `0`
+          - Rejected configurations: `9`
+          - Retained point model: `v1_frozen_champion`
+          - Locked-test access: `false`
+          - Confirmatory evaluation: `false`
+          - Probabilistic authority claimed: `false`
+          - V1 immutable: `true`
+          - Gate 6E status: `closed`
+          - Next permitted gate: `6F`
+          - Gate 6G: `blocked`
+          EOF

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6e3_human_decision.schema.json",
+  "title": "Gate 6E3 uncertainty human decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "decision_date",
+    "human_authority",
+    "decision_outcome",
+    "automatic_promotion_permitted",
+    "promoted_configuration",
+    "rejected_configurations",
+    "retained_model",
+    "locked_test_accessed",
+    "locked_predictions_parsed",
+    "confirmatory_evaluation_performed",
+    "closed_gate",
+    "next_gate",
+    "next_gate_unblocked"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6E"},
+    "subgate": {"const": "6E3"},
+    "status": {"const": "closed"},
+    "decision_date": {"const": "2026-07-28"},
+    "human_authority": {"const": true},
+    "decision_outcome": {"const": "no_action"},
+    "automatic_promotion_permitted": {"const": false},
+    "promoted_configuration": {"type": "null"},
+    "rejected_configurations": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "expanding_all",
+          "rolling_672",
+          "rolling_2688",
+          "aci_672_0p005",
+          "aci_672_0p01",
+          "aci_672_0p02",
+          "aci_2688_0p005",
+          "aci_2688_0p01",
+          "aci_2688_0p02"
+        ]
+      }
+    },
+    "retained_model": {"const": "v1_frozen_champion"},
+    "locked_test_accessed": {"const": false},
+    "locked_predictions_parsed": {"const": false},
+    "confirmatory_evaluation_performed": {"const": false},
+    "closed_gate": {"const": "6E"},
+    "next_gate": {"const": "6F"},
+    "next_gate_unblocked": {"const": true}
+  }
+}

@@ -13,13 +13,13 @@ permissions:
 
 jobs:
   diagnose:
-    name: scikit-learn ${{ matrix.sklearn }}
-    runs-on: ubuntu-latest
+    name: windows scikit-learn ${{ matrix.sklearn }}
+    runs-on: windows-latest
     timeout-minutes: 45
     strategy:
       fail-fast: false
       matrix:
-        sklearn: ["1.6.1", "1.7.0", "1.7.1", "1.7.2", "1.8.0", "1.9.0"]
+        sklearn: ["1.6.1", "1.8.0", "1.9.0"]
     env:
       OMP_NUM_THREADS: "1"
       MKL_NUM_THREADS: "1"
@@ -39,31 +39,32 @@ jobs:
           python-version: "3.12"
 
       - name: Install runtime candidate
+        shell: pwsh
         run: |
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -e ".[dev]"
           python -m pip install --force-reinstall "scikit-learn==${{ matrix.sklearn }}"
 
       - name: Prepare governed data
+        shell: pwsh
         run: |
           python scripts/download_data.py --verify
           python scripts/run_pipeline.py --silver
 
       - name: Record bounded compatibility evidence
-        shell: bash
+        shell: pwsh
         run: |
-          set +e
-          DIAGNOSTIC="${RUNNER_TEMP}/sklearn-${{ matrix.sklearn }}.json"
-          python scripts/diagnose_gate_6e2_runtime.py > "$DIAGNOSTIC" 2>&1
-          status=$?
-          echo "diagnostic_exit_status=${status}" >> "$DIAGNOSTIC"
-          cat "$DIAGNOSTIC"
+          $diagnostic = Join-Path $env:RUNNER_TEMP "sklearn-${{ matrix.sklearn }}.json"
+          python scripts/diagnose_gate_6e2_runtime.py *> $diagnostic
+          $status = $LASTEXITCODE
+          Add-Content -Path $diagnostic -Value "diagnostic_exit_status=$status"
+          Get-Content $diagnostic
           exit 0
 
       - name: Upload runtime diagnostic
         uses: actions/upload-artifact@v4
         with:
-          name: gate-6e2-sklearn-${{ matrix.sklearn }}
+          name: gate-6e2-windows-sklearn-${{ matrix.sklearn }}
           path: ${{ runner.temp }}/sklearn-${{ matrix.sklearn }}.json
           if-no-files-found: error
           retention-days: 14

@@ -5,10 +5,10 @@ import subprocess
 import sys
 from pathlib import Path
 
-from iaei.contracts import (
+from iaei.contracts import validate_repository_contracts
+from iaei.foundation_contracts import (
     validate_foundation_model_contract,
     validate_gate_6d1_closure_manifest,
-    validate_repository_contracts,
 )
 from iaei.modeling.foundation_governance import (
     APPROVED_FOUNDATION_MODELS,

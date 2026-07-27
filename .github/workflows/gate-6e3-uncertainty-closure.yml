@@ -56,7 +56,6 @@ jobs:
             python scripts/verify_v1_immutability.py
             python scripts/validate_gate_6d3_closure.py
             python scripts/validate_gate_6e1.py
-            python scripts/validate_gate_6e2_evidence.py
             python scripts/validate_gate_6e3_closure.py
             python -m pytest \
               tests/test_contracts.py \

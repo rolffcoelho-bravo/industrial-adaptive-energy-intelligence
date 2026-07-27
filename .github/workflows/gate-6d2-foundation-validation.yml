@@ -64,7 +64,8 @@ jobs:
         run: |
           set +e
           DIAGNOSTIC="${RUNNER_TEMP}/gate_6d2_preflight.log"
-          {
+          (
+            set -e
             python -m ruff check src scripts tests
             python scripts/verify_v1_immutability.py
             python scripts/validate_gate_6c3_closure.py
@@ -78,7 +79,7 @@ jobs:
               tests/test_gate_6d2_foundation_execution.py \
               -q
             python scripts/audit_public_content.py
-          } > "$DIAGNOSTIC" 2>&1
+          ) > "$DIAGNOSTIC" 2>&1
           status=$?
           cat "$DIAGNOSTIC"
           exit "$status"

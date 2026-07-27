@@ -27,7 +27,7 @@ The release preserves the frozen model, untouched confirmatory evidence, five ap
 
 ## V2 governance
 
-Gate 6A established the provider-neutral V2 architecture before model execution. Gates 6B and 6C then evaluated advanced tabular and compact neural challengers under those frozen rules. Gate 6D1 now freezes the time-series foundation-model benchmark before any model weight download or inference.
+Gate 6A established the provider-neutral V2 architecture before model execution. Gates 6B and 6C evaluated advanced tabular and compact neural challengers. Gate 6D1 froze the time-series foundation-model benchmark, and Gate 6D2 has now completed the governed zero-shot validation.
 
 ```text
 Data Evidence
@@ -51,8 +51,10 @@ The architecture is provider-neutral. Search spaces, objectives, hard constraint
 - Gate 6C closure: [`docs/GATE_6C3_NEURAL_FORECASTING_CLOSURE.md`](docs/GATE_6C3_NEURAL_FORECASTING_CLOSURE.md)
 - Gate 6D protocol: [`docs/GATE_6D_FOUNDATION_MODEL_PROTOCOL.md`](docs/GATE_6D_FOUNDATION_MODEL_PROTOCOL.md)
 - Gate 6D1 scope lock: [`docs/GATE_6D1_SCOPE_LOCK.md`](docs/GATE_6D1_SCOPE_LOCK.md)
+- Gate 6D2 execution protocol: [`docs/GATE_6D2_EXECUTION_PROTOCOL.md`](docs/GATE_6D2_EXECUTION_PROTOCOL.md)
+- Gate 6D2 results: [`docs/GATE_6D2_EXECUTION_RESULTS.md`](docs/GATE_6D2_EXECUTION_RESULTS.md)
 
-Gate 6B rejected XGBoost, LightGBM, and CatBoost challengers. Gate 6C rejected compact N-HiTS, TiDE, and PatchTST challengers. The frozen V1 histogram-gradient-boosting incumbent remains the reference champion. Gate 6D1 freezes Chronos-2, TimesFM 2.5, and research-only Moirai 2.0 as zero-shot foundation-model benchmarks. Gate 6D2 requires separate explicit authorization before any model weight may be downloaded or any validation forecast may be generated.
+Gate 6B rejected XGBoost, LightGBM, and CatBoost challengers. Gate 6C rejected compact N-HiTS, TiDE, and PatchTST challengers. Gate 6D2 found that zero-shot Chronos-2, Moirai 2.0, and TimesFM 2.5 were respectively 18.60%, 29.62%, and 34.36% worse than the frozen V1 champion on aggregate validation MAE. No foundation model improved any outer fold. Gate 6D3 is the next required human decision.
 
 ## Analytical system
 
@@ -164,7 +166,9 @@ The pipeline blocks reporting, release, and V2 promotion when required evidence 
 - CI comparison of frozen V1 paths with tag `v1.0.0`;
 - governed V2 search-space, objective, trial, and promotion schemas;
 - exact foundation-model revision, weight-hash, access, and license controls;
+- isolated external-model environments with recorded identities;
 - commercial-promotion prohibition for non-commercial model weights;
+- raw diagnostic-defect preservation without post-hoc correction;
 - rejection of provisional or unsupported results.
 
 ## Confirmatory result
@@ -247,11 +251,15 @@ Completed in V2:
 - human rejection of all neural challengers;
 - retention of the frozen V1 incumbent;
 - Gate 6D1 foundation-model identity, revision, hash, license, context, resource, and access lock;
-- Chronos-2 and TimesFM 2.5 commercial-promotion eligibility controls;
-- Moirai 2.0 research-only and non-commercial promotion prohibition;
-- Gate 6D1 implementation-only schema, manifest, tests, documentation, and read-only validation workflow.
+- Gate 6D2 execution of Chronos-2, TimesFM 2.5, and research-only Moirai 2.0;
+- 21,012 foundation-model out-of-fold predictions;
+- complete foundation-model performance, peak-state, temporal, resource, portability, diagnostic-quantile, and lineage evidence;
+- exact model-weight and source-revision verification;
+- no foundation-model candidate satisfying every frozen promotion requirement;
+- preserved Moirai non-commercial promotion boundary;
+- preserved V1 and locked-test boundaries.
 
-The next permitted decision is explicit authorization for Gate 6D2. Until that authorization is recorded, model download, model loading, inference, validation prediction generation, and metric calculation remain prohibited.
+The next permitted decision is Gate 6D3. It must record the human rejection, promotion, or deferral decision and formally close Gate 6D before Gate 6E can begin.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 

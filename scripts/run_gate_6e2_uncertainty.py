@@ -3,7 +3,6 @@ from __future__ import annotations
 import json
 import platform
 import time
-from pathlib import Path
 from typing import Any
 
 import numpy as np
@@ -440,11 +439,16 @@ def main() -> None:
         "blocked_gates": ["6E3", "6F", "6G"],
     }
     _write_json(manifest_path, manifest)
-    artifact_size = _directory_size(output_directory)
-    if artifact_size > maximum_artifact_size:
-        raise Gate6E2ExecutionError("Gate 6E2 evidence exceeds the artifact budget")
-    manifest["artifact_size_bytes"] = artifact_size
-    _write_json(manifest_path, manifest)
+    for _ in range(3):
+        artifact_size = _directory_size(output_directory)
+        if artifact_size > maximum_artifact_size:
+            raise Gate6E2ExecutionError("Gate 6E2 evidence exceeds the artifact budget")
+        if manifest["artifact_size_bytes"] == artifact_size:
+            break
+        manifest["artifact_size_bytes"] = artifact_size
+        _write_json(manifest_path, manifest)
+    if manifest["artifact_size_bytes"] != _directory_size(output_directory):
+        raise Gate6E2ExecutionError("Gate 6E2 artifact-size record did not stabilize")
     results_path = ROOT / "docs" / "GATE_6E2_EXECUTION_RESULTS.md"
     results_path.write_text(
         _results_markdown(configuration_results, recommendation, manifest),

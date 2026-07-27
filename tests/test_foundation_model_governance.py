@@ -7,8 +7,8 @@ from typing import Any
 import pytest
 from jsonschema import Draft202012Validator
 
-from iaei.contracts import (
-    ContractError,
+from iaei.contracts import ContractError
+from iaei.foundation_contracts import (
     validate_foundation_model_contract,
     validate_gate_6d1_closure_manifest,
 )

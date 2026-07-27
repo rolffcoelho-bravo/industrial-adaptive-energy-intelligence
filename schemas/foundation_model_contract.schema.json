@@ -1,0 +1,305 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/foundation_model_contract.schema.json",
+  "title": "Gate 6D foundation-model benchmark contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "contract_version",
+    "gate",
+    "subgate",
+    "status",
+    "execution_name",
+    "predecessor",
+    "v1_boundary",
+    "data_boundary",
+    "benchmark_protocol",
+    "candidate_models",
+    "objectives",
+    "promotion",
+    "resource_constraints",
+    "network_and_artifact_controls",
+    "outputs",
+    "claim_controls",
+    "next_gate"
+  ],
+  "properties": {
+    "contract_version": {"const": "1.0.0"},
+    "gate": {"const": "6D"},
+    "subgate": {"const": "6D1"},
+    "status": {"const": "approved_for_implementation"},
+    "execution_name": {"const": "governed_time_series_foundation_model_benchmark"},
+    "predecessor": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate", "status", "closure_manifest_path", "retained_model"],
+      "properties": {
+        "gate": {"const": "6C"},
+        "status": {"const": "closed"},
+        "closure_manifest_path": {"const": "outputs/v2/gate_6c/gate_6c_closure_manifest.json"},
+        "retained_model": {"const": "v1_frozen_champion"}
+      }
+    },
+    "v1_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "immutable_tag",
+        "locked_test_access_permitted",
+        "locked_prediction_parsing_permitted",
+        "confirmatory_evaluation_permitted",
+        "retired_evaluator_reactivation_permitted"
+      ],
+      "properties": {
+        "immutable_tag": {"const": "v1.0.0"},
+        "locked_test_access_permitted": {"const": false},
+        "locked_prediction_parsing_permitted": {"const": false},
+        "confirmatory_evaluation_permitted": {"const": false},
+        "retired_evaluator_reactivation_permitted": {"const": false}
+      }
+    },
+    "data_boundary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "silver_path",
+        "outer_folds_path",
+        "incumbent_results_path",
+        "target_contract_path",
+        "source_column",
+        "target_name",
+        "cadence_minutes",
+        "admissible_partitions",
+        "outer_fold_count",
+        "purge_intervals",
+        "validation_origin_count",
+        "maximum_prediction_origin_exclusive",
+        "maximum_target_dependency_exclusive"
+      ],
+      "properties": {
+        "silver_path": {"type": "string", "minLength": 1},
+        "outer_folds_path": {"type": "string", "minLength": 1},
+        "incumbent_results_path": {"type": "string", "minLength": 1},
+        "target_contract_path": {"const": "configs/target_contract.yml"},
+        "source_column": {"const": "usage_kwh"},
+        "target_name": {"const": "usage_kwh_t_plus_1"},
+        "cadence_minutes": {"const": 15},
+        "admissible_partitions": {"const": ["training", "validation"]},
+        "outer_fold_count": {"const": 4},
+        "purge_intervals": {"const": 4},
+        "validation_origin_count": {"const": 7004},
+        "maximum_prediction_origin_exclusive": {"const": 28028},
+        "maximum_target_dependency_exclusive": {"const": 28032}
+      }
+    },
+    "benchmark_protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mode",
+        "context_length_intervals",
+        "context_duration_days",
+        "horizon_intervals",
+        "point_forecast_rule",
+        "required_quantiles",
+        "probabilistic_outputs_authoritative_in_gate_6d",
+        "model_specific_context_tuning_permitted",
+        "covariate_inference_permitted",
+        "multivariate_inference_permitted",
+        "fine_tuning_permitted",
+        "lora_or_peft_permitted",
+        "calibration_permitted",
+        "hyperparameter_search_permitted",
+        "random_sampling_permitted",
+        "ensemble_permitted",
+        "fallback_model_substitution_permitted",
+        "missing_value_imputation_permitted",
+        "failed_origin_must_be_recorded"
+      ],
+      "properties": {
+        "mode": {"const": "zero_shot_univariate"},
+        "context_length_intervals": {"const": 672},
+        "context_duration_days": {"const": 7},
+        "horizon_intervals": {"const": 1},
+        "point_forecast_rule": {"const": "median_quantile_0_5"},
+        "required_quantiles": {"const": [0.1, 0.5, 0.9]},
+        "probabilistic_outputs_authoritative_in_gate_6d": {"const": false},
+        "model_specific_context_tuning_permitted": {"const": false},
+        "covariate_inference_permitted": {"const": false},
+        "multivariate_inference_permitted": {"const": false},
+        "fine_tuning_permitted": {"const": false},
+        "lora_or_peft_permitted": {"const": false},
+        "calibration_permitted": {"const": false},
+        "hyperparameter_search_permitted": {"const": false},
+        "random_sampling_permitted": {"const": false},
+        "ensemble_permitted": {"const": false},
+        "fallback_model_substitution_permitted": {"const": false},
+        "missing_value_imputation_permitted": {"const": false},
+        "failed_origin_must_be_recorded": {"const": true}
+      }
+    },
+    "candidate_models": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "prefixItems": [
+        {"allOf": [{"$ref": "#/$defs/candidate"}, {"properties": {"candidate_id": {"const": "chronos_2_zero_shot"}, "model_id": {"const": "amazon/chronos-2"}, "weights_license": {"const": "Apache-2.0"}, "commercial_use_eligible": {"const": true}, "promotion_eligible": {"const": true}}}]},
+        {"allOf": [{"$ref": "#/$defs/candidate"}, {"properties": {"candidate_id": {"const": "timesfm_2_5_zero_shot"}, "model_id": {"const": "google/timesfm-2.5-200m-pytorch"}, "weights_license": {"const": "Apache-2.0"}, "commercial_use_eligible": {"const": true}, "promotion_eligible": {"const": true}}}]},
+        {"allOf": [{"$ref": "#/$defs/candidate"}, {"properties": {"candidate_id": {"const": "moirai_2_research_zero_shot"}, "model_id": {"const": "Salesforce/moirai-2.0-R-small"}, "weights_license": {"const": "CC-BY-NC-4.0"}, "commercial_use_eligible": {"const": false}, "promotion_eligible": {"const": false}}}]}
+      ],
+      "items": false
+    },
+    "objectives": {"type": "object"},
+    "promotion": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "reference_id",
+        "minimum_mean_validation_mae_relative_improvement",
+        "minimum_positive_outer_folds",
+        "maximum_single_fold_mae_relative_degradation",
+        "maximum_peak_state_mae_relative_degradation",
+        "hard_constraints_all_pass_required",
+        "commercial_use_eligibility_required",
+        "automatic_promotion_permitted",
+        "final_authority"
+      ],
+      "properties": {
+        "reference_id": {"const": "v1_frozen_champion"},
+        "minimum_mean_validation_mae_relative_improvement": {"const": 0.01},
+        "minimum_positive_outer_folds": {"const": 3},
+        "maximum_single_fold_mae_relative_degradation": {"const": 0.02},
+        "maximum_peak_state_mae_relative_degradation": {"const": 0.01},
+        "hard_constraints_all_pass_required": {"const": true},
+        "commercial_use_eligibility_required": {"const": true},
+        "automatic_promotion_permitted": {"const": false},
+        "final_authority": {"const": "human"}
+      }
+    },
+    "resource_constraints": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "canonical_device",
+        "gpu_required",
+        "maximum_peak_memory_mb",
+        "maximum_download_size_mb_per_candidate",
+        "maximum_candidate_wall_clock_minutes",
+        "maximum_total_wall_clock_minutes",
+        "maximum_batch_size",
+        "hosted_api_permitted",
+        "paid_api_permitted",
+        "external_api_cost_usd",
+        "runner_cost_measurement_required"
+      ],
+      "properties": {
+        "canonical_device": {"const": "cpu"},
+        "gpu_required": {"const": false},
+        "maximum_peak_memory_mb": {"type": "integer", "minimum": 1, "maximum": 6144},
+        "maximum_download_size_mb_per_candidate": {"type": "integer", "minimum": 1, "maximum": 1200},
+        "maximum_candidate_wall_clock_minutes": {"type": "integer", "minimum": 1, "maximum": 120},
+        "maximum_total_wall_clock_minutes": {"type": "integer", "minimum": 1, "maximum": 360},
+        "maximum_batch_size": {"type": "integer", "minimum": 1, "maximum": 32},
+        "hosted_api_permitted": {"const": false},
+        "paid_api_permitted": {"const": false},
+        "external_api_cost_usd": {"const": 0.0},
+        "runner_cost_measurement_required": {"const": true}
+      }
+    },
+    "network_and_artifact_controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "gate_6d1_network_access_permitted",
+        "gate_6d1_model_download_permitted",
+        "gate_6d1_inference_permitted",
+        "gate_6d2_pinned_weight_download_only",
+        "cache_reuse_requires_hash_verification",
+        "unpinned_revision_permitted",
+        "remote_code_trust_permitted",
+        "arbitrary_model_code_permitted"
+      ],
+      "properties": {
+        "gate_6d1_network_access_permitted": {"const": false},
+        "gate_6d1_model_download_permitted": {"const": false},
+        "gate_6d1_inference_permitted": {"const": false},
+        "gate_6d2_pinned_weight_download_only": {"const": true},
+        "cache_reuse_requires_hash_verification": {"const": true},
+        "unpinned_revision_permitted": {"const": false},
+        "remote_code_trust_permitted": {"const": false},
+        "arbitrary_model_code_permitted": {"const": false}
+      }
+    },
+    "outputs": {"type": "object"},
+    "claim_controls": {
+      "type": "object",
+      "required": [
+        "production_claim_permitted",
+        "savings_claim_permitted",
+        "drift_claim_permitted",
+        "causal_claim_permitted",
+        "optimization_impact_claim_permitted",
+        "confirmatory_claim_permitted",
+        "foundation_model_superiority_claim_permitted",
+        "provisional_validation_language_required"
+      ],
+      "properties": {
+        "production_claim_permitted": {"const": false},
+        "savings_claim_permitted": {"const": false},
+        "drift_claim_permitted": {"const": false},
+        "causal_claim_permitted": {"const": false},
+        "optimization_impact_claim_permitted": {"const": false},
+        "confirmatory_claim_permitted": {"const": false},
+        "foundation_model_superiority_claim_permitted": {"const": false},
+        "provisional_validation_language_required": {"const": true}
+      }
+    },
+    "next_gate": {"const": "6D2"}
+  },
+  "$defs": {
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_id",
+        "provider",
+        "model_id",
+        "model_revision",
+        "weight_sha256",
+        "expected_weight_size_mb",
+        "parameter_count_millions",
+        "architecture_hypothesis",
+        "maximum_supported_context_intervals",
+        "source_repository",
+        "source_revision",
+        "source_license",
+        "weights_license",
+        "access_mode",
+        "hosted_api_required",
+        "benchmark_admissible",
+        "commercial_use_eligible",
+        "promotion_eligible"
+      ],
+      "properties": {
+        "candidate_id": {"type": "string", "minLength": 1},
+        "provider": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "model_revision": {"type": "string", "pattern": "^[0-9a-f]{7,40}$"},
+        "weight_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "expected_weight_size_mb": {"type": "number", "exclusiveMinimum": 0},
+        "parameter_count_millions": {"type": "number", "exclusiveMinimum": 0},
+        "architecture_hypothesis": {"type": "string", "minLength": 1},
+        "maximum_supported_context_intervals": {"type": "integer", "minimum": 672},
+        "source_repository": {"type": "string", "pattern": "^[^/]+/[^/]+$"},
+        "source_revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+        "source_license": {"type": "string", "minLength": 1},
+        "weights_license": {"type": "string", "minLength": 1},
+        "access_mode": {"const": "public_hugging_face_weights"},
+        "hosted_api_required": {"const": false},
+        "benchmark_admissible": {"const": true},
+        "commercial_use_eligible": {"type": "boolean"},
+        "promotion_eligible": {"type": "boolean"}
+      }
+    }
+  }
+}

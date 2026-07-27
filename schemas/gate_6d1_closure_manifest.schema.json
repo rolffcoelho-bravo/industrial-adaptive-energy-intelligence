@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6d1_closure_manifest.schema.json",
+  "title": "Gate 6D1 closure manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "implementation_only",
+    "candidate_ids",
+    "research_only_candidate_ids",
+    "controls",
+    "contract_path",
+    "contract_schema_path",
+    "next_gate",
+    "next_gate_authorized",
+    "blocked_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6D"},
+    "subgate": {"const": "6D1"},
+    "status": {"const": "closed"},
+    "implementation_only": {"const": true},
+    "candidate_ids": {
+      "const": [
+        "chronos_2_zero_shot",
+        "timesfm_2_5_zero_shot",
+        "moirai_2_research_zero_shot"
+      ]
+    },
+    "research_only_candidate_ids": {"const": ["moirai_2_research_zero_shot"]},
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_weights_downloaded",
+        "model_inference_performed",
+        "validation_predictions_generated",
+        "validation_metrics_calculated",
+        "fine_tuning_performed",
+        "locked_test_accessed",
+        "locked_predictions_parsed",
+        "confirmatory_evaluation_performed",
+        "automatic_promotion_permitted",
+        "v1_immutable",
+        "gate_6c_closed"
+      ],
+      "properties": {
+        "model_weights_downloaded": {"const": false},
+        "model_inference_performed": {"const": false},
+        "validation_predictions_generated": {"const": false},
+        "validation_metrics_calculated": {"const": false},
+        "fine_tuning_performed": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "automatic_promotion_permitted": {"const": false},
+        "v1_immutable": {"const": true},
+        "gate_6c_closed": {"const": true}
+      }
+    },
+    "contract_path": {"const": "configs/foundation_model_contract.yml"},
+    "contract_schema_path": {"const": "schemas/foundation_model_contract.schema.json"},
+    "next_gate": {"const": "6D2"},
+    "next_gate_authorized": {"const": false},
+    "blocked_gates": {"const": ["6D2", "6D3", "6E"]}
+  }
+}

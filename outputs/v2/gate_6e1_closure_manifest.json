@@ -1,0 +1,62 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6E",
+  "subgate": "6E1",
+  "status": "closed",
+  "contract_path": "configs/uncertainty_contract.yml",
+  "retained_point_model": "v1_frozen_champion",
+  "candidate_method_ids": [
+    "expanding_absolute_conformal",
+    "rolling_absolute_conformal",
+    "adaptive_absolute_conformal"
+  ],
+  "configuration_count": 9,
+  "target_coverage_levels": [0.8, 0.9, 0.95],
+  "primary_coverage_level": 0.9,
+  "controls": {
+    "implementation_only": true,
+    "point_model_search_performed": false,
+    "point_model_fit_performed": false,
+    "calibration_performed": false,
+    "intervals_generated": false,
+    "uncertainty_metrics_calculated": false,
+    "optimization_executed": false,
+    "locked_test_accessed": false,
+    "locked_predictions_parsed": false,
+    "confirmatory_evaluation_performed": false,
+    "automatic_promotion_permitted": false,
+    "probabilistic_authority_claimed": false,
+    "v1_immutable": true,
+    "gate_6d_closed": true,
+    "human_decision_required": true
+  },
+  "parent_identities": {
+    "gate_6d_closure_path": "outputs/v2/gate_6d/gate_6d_closure_manifest.json",
+    "gate_6d_closure_git_blob_sha": "a516e6b01d7137d27b298e81ee0a1fb3505c7542",
+    "selected_model_manifest_path": "outputs/modeling/selected_model_manifest.json",
+    "selected_model_manifest_git_blob_sha": "2e1ddec9a2dec80924e8e03bbc8da65730b333a7",
+    "hist_gradient_boosting_candidate_manifest_path": "outputs/modeling/hist_gradient_boosting_candidate_manifest.json",
+    "hist_gradient_boosting_candidate_manifest_git_blob_sha": "7006f7598e46df7254c5663a861c4b5e33ce451c",
+    "model_contract_path": "configs/model_contract.yml",
+    "model_contract_git_blob_sha": "aa6d29db0447d10138a602b61bda31406a9fe451",
+    "optimization_governance_path": "configs/optimization_governance.yml",
+    "optimization_governance_git_blob_sha": "385320d968846f25b4059153d0c59123189fd26f",
+    "gate_6e_issue": 24,
+    "base_commit": "212524867ea50020e5788159ff366dce14731b73"
+  },
+  "required_gate_6e2_outputs": [
+    "outputs/v2/gate_6e",
+    "configuration_results.csv",
+    "coverage_results.csv",
+    "outer_fold_results.csv",
+    "interval_predictions.parquet",
+    "calibration_lineage.json",
+    "resource_evidence.csv",
+    "failure_records.json",
+    "promotion_recommendation.json",
+    "gate_6e_execution_manifest.json"
+  ],
+  "next_gate": "6E2",
+  "next_gate_authorized": false,
+  "blocked_gates": ["6E2", "6E3", "6F", "6G"]
+}

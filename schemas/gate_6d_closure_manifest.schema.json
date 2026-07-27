@@ -1,0 +1,163 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6d_closure_manifest.schema.json",
+  "title": "Gate 6D foundation-model closure manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "retained_model",
+    "candidate_decisions",
+    "validation_summary",
+    "controls",
+    "source_hashes",
+    "environment_hashes",
+    "decision_record_path",
+    "execution_manifest_path",
+    "next_gate",
+    "blocked_gates"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6D"},
+    "subgate": {"const": "6D3"},
+    "status": {"const": "closed"},
+    "retained_model": {"const": "v1_frozen_champion"},
+    "candidate_decisions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "decision",
+          "promotion_eligible",
+          "research_only_negative_benchmark"
+        ],
+        "properties": {
+          "candidate_id": {
+            "enum": [
+              "chronos_2_zero_shot",
+              "timesfm_2_5_zero_shot",
+              "moirai_2_research_zero_shot"
+            ]
+          },
+          "decision": {"const": "reject"},
+          "promotion_eligible": {"const": false},
+          "research_only_negative_benchmark": {"type": "boolean"}
+        }
+      }
+    },
+    "validation_summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_count",
+        "outer_fold_count",
+        "prediction_row_count",
+        "validation_origins_per_candidate",
+        "eligible_candidate_count",
+        "total_positive_outer_folds",
+        "strongest_candidate",
+        "strongest_candidate_mean_mae",
+        "total_wall_clock_seconds"
+      ],
+      "properties": {
+        "candidate_count": {"const": 3},
+        "outer_fold_count": {"const": 4},
+        "prediction_row_count": {"const": 21012},
+        "validation_origins_per_candidate": {"const": 7004},
+        "eligible_candidate_count": {"const": 0},
+        "total_positive_outer_folds": {"const": 0},
+        "strongest_candidate": {"const": "chronos_2_zero_shot"},
+        "strongest_candidate_mean_mae": {"type": "number", "minimum": 0},
+        "total_wall_clock_seconds": {"type": "number", "minimum": 0}
+      }
+    },
+    "controls": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "human_decision_recorded",
+        "automatic_promotion_permitted",
+        "locked_test_accessed",
+        "locked_predictions_parsed",
+        "confirmatory_evaluation_performed",
+        "fine_tuning_performed",
+        "calibration_performed",
+        "hyperparameter_search_performed",
+        "v1_immutable",
+        "rescue_lane_opened",
+        "probabilistic_authority_claimed",
+        "commercial_license_boundary_preserved",
+        "gate_6e_unblocked"
+      ],
+      "properties": {
+        "human_decision_recorded": {"const": true},
+        "automatic_promotion_permitted": {"const": false},
+        "locked_test_accessed": {"const": false},
+        "locked_predictions_parsed": {"const": false},
+        "confirmatory_evaluation_performed": {"const": false},
+        "fine_tuning_performed": {"const": false},
+        "calibration_performed": {"const": false},
+        "hyperparameter_search_performed": {"const": false},
+        "v1_immutable": {"const": true},
+        "rescue_lane_opened": {"const": false},
+        "probabilistic_authority_claimed": {"const": false},
+        "commercial_license_boundary_preserved": {"const": true},
+        "gate_6e_unblocked": {"const": true}
+      }
+    },
+    "source_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_results",
+        "outer_fold_results",
+        "out_of_fold_predictions",
+        "resource_evidence",
+        "model_provenance_manifest",
+        "failure_records",
+        "promotion_recommendation"
+      ],
+      "properties": {
+        "candidate_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "outer_fold_results": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "out_of_fold_predictions": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "resource_evidence": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "model_provenance_manifest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "failure_records": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "promotion_recommendation": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "environment_hashes": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "chronos_2_zero_shot.txt",
+        "timesfm_2_5_zero_shot.txt",
+        "moirai_2_research_zero_shot.txt"
+      ],
+      "properties": {
+        "chronos_2_zero_shot.txt": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "timesfm_2_5_zero_shot.txt": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "moirai_2_research_zero_shot.txt": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
+      }
+    },
+    "decision_record_path": {"const": "outputs/v2/gate_6d/promotion_decision.json"},
+    "execution_manifest_path": {"const": "outputs/v2/gate_6d/gate_6d_execution_manifest.json"},
+    "next_gate": {"const": "6E"},
+    "blocked_gates": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "uniqueItems": true,
+      "items": {"enum": ["6F", "6G"]}
+    }
+  }
+}

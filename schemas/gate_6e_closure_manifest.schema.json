@@ -138,7 +138,7 @@
         "resource_evidence": {"type": "string", "pattern": "^[0-9a-f]{64}$"}
       }
     },
-    "decision_record_path": {"const": "outputs/v2/gate_6e/promotion_decision.json"},
+    "decision_record_path": {"const": "outputs/v2/gate_6e3/promotion_decision.json"},
     "execution_manifest_path": {"const": "outputs/v2/gate_6e/gate_6e_execution_manifest.json"},
     "next_gate": {"const": "6F"},
     "blocked_gates": {

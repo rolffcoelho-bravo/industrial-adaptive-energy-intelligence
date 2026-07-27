@@ -28,10 +28,10 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | 6A | V2 architecture and optimization governance | Closed | Provider-neutral architecture, optimization contract, artifact schemas, V1 immutability checks, acceptance tests |
 | 6B | Advanced tabular challengers | Closed | Approved search spaces, nested chronological evidence, complete trial records, Pareto evidence, human rejection record, retained V1 incumbent |
 | 6C | Neural forecasting | Closed | Five governed seeds, chronological evidence, stability, resource, portability, human rejection record, retained V1 incumbent |
-| 6D | Time-series foundation models | Pending human decision | Gate 6D1 identity and license lock; Gate 6D2 complete validation evidence; Gate 6D3 human decision and closure |
-| 6E | Probabilistic optimization and uncertainty | Planned | Separate calibration, coverage and width evidence, governed uncertainty promotion |
-| 6F | Ensembles and governed routing | Planned | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
-| 6G | Efficiency and portability | Planned | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
+| 6D | Time-series foundation models | Closed | Gate 6D1 identity and license lock; Gate 6D2 complete validation evidence; Gate 6D3 human rejection record, retained V1 incumbent, closure manifest |
+| 6E | Probabilistic optimization and uncertainty | Unblocked, contract pending | Separate calibration, coverage, width, sharpness, optimization, hard-constraint, and governed uncertainty-promotion evidence |
+| 6F | Ensembles and governed routing | Planned and blocked | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
+| 6G | Efficiency and portability | Planned and blocked | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
 
 ## Closed confirmatory boundary
 
@@ -156,8 +156,41 @@ Gate 6D2 freezes the completed foundation-model validation evidence:
 
 Gate 6D2 provides validation evidence only. It cannot be represented as confirmatory, production, savings, causal, drift, or optimization-impact evidence.
 
+## Gate 6D3 closure boundary
+
+Gate 6D3 freezes:
+
+- the human decision rejecting Chronos-2 for promotion;
+- the human decision rejecting TimesFM 2.5 for promotion;
+- the human decision rejecting Moirai 2.0 for promotion and retaining it only as a research negative benchmark;
+- retention of the frozen V1 histogram-gradient-boosting reference champion;
+- exact candidate, fold, prediction, resource, provenance, failure, recommendation, and environment evidence hashes;
+- the recorded Chronos-2 deterministic replay failure;
+- the recorded native diagnostic quantile crossings without post-hoc repair;
+- the Moirai non-commercial license and promotion boundary;
+- the prohibition on context changes, multivariate or covariate rescue, fine-tuning, calibration, alternative revisions, additional model families, or reinterpretation inside Gate 6D;
+- the rule that Gate 6D evidence remains validation-only and cannot be represented as confirmatory or production evidence;
+- final closure of Gate 6D and unblocking of Gate 6E.
+
+The maximum Gate 6D prediction origin is 28,027. The maximum target dependency is 28,028. The locked test begins at 28,032 and was not accessed.
+
+## Gate 6E entry boundary
+
+Gate 6E is unblocked but not yet authorized for execution. Before any uncertainty calibration, probabilistic optimization, interval generation, or promotion decision, Gate 6E must freeze:
+
+- the uncertainty objective and admissible methods;
+- calibration chronology and partitions;
+- coverage, width, sharpness, peak-state, stability, complexity, latency, and portability metrics;
+- optimization objectives, hard constraints, and no-action rules;
+- search, calibration, and execution budgets;
+- artifact schemas and complete evidence requirements;
+- locked-test exclusion;
+- final human decision authority.
+
+Gate 6E cannot use the locked test for calibration, fitting, model selection, interval tuning, optimization, or promotion. It cannot reinterpret diagnostic quantiles from Gate 6D as calibrated uncertainty evidence.
+
 ## Next permitted decision
 
-V1 remains closed and immutable. Gates 6A, 6B, and 6C are closed. Gate 6D1 is closed and Gate 6D2 validation is complete.
+V1 remains closed and immutable. Gates 6A, 6B, 6C, and 6D are closed.
 
-The next permitted decision is **Gate 6D3: human foundation-model promotion decision and Gate 6D closure**. The evidence supports rejecting all three foundation-model candidates and retaining the frozen V1 champion. Gate 6E remains blocked until Gate 6D3 closes Gate 6D.
+The next permitted work is **Gate 6E probabilistic optimization and uncertainty contract design**. No Gate 6E model execution, calibration, optimization, or interval claim is permitted until that contract and a separate explicit authorization are recorded. Gates 6F and 6G remain blocked.

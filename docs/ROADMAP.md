@@ -170,7 +170,7 @@ Gate 6C used training and validation evidence only. Maximum prediction origin wa
 
 ### Gate 6D: time-series foundation models
 
-**Status:** Validation complete pending Gate 6D3 human decision.
+**Status:** Closed.
 
 Completed Gate 6D1 evidence:
 
@@ -202,19 +202,39 @@ Completed Gate 6D2 evidence:
 - locked-test access, locked-prediction parsing, confirmatory evaluation, fine-tuning, calibration, and search remained false;
 - V1 remained immutable.
 
+Completed Gate 6D3 evidence:
+
+- human rejection of Chronos-2 and TimesFM 2.5 for promotion;
+- human rejection of Moirai 2.0 for promotion and retention only as a research negative benchmark;
+- retention of the frozen V1 histogram-gradient-boosting reference champion;
+- exact binding of the decision to candidate, fold, prediction, resource, provenance, failure, recommendation, and environment hashes;
+- preservation of the Moirai non-commercial license boundary;
+- prohibition on model-specific rescue lanes or reinterpretation of the closed Gate 6D evidence;
+- Gate 6D3 human-decision schema, closure schema, decision record, closure manifest, validator, tests, documentation, and read-only GitHub-native workflow;
+- formal closure of Gate 6D;
+- Gate 6E unblocked.
+
+Gate 6D used training and validation evidence only. Maximum prediction origin was 28,027, maximum target dependency was 28,028, locked-test access was false, and no confirmatory evaluation occurred.
+
+### Gate 6E: probabilistic optimization and uncertainty calibration
+
+**Status:** Unblocked. Contract and execution not yet authorized.
+
 Next required decision:
 
-- Gate 6D3 must record the human promotion, rejection, or deferral decision;
-- the evidence supports rejecting all three candidates and retaining the frozen V1 champion;
-- Gate 6E remains blocked until Gate 6D3 formally closes Gate 6D.
+- freeze the uncertainty objective and admissible probabilistic methods;
+- freeze calibration chronology, partitions, budgets, and locked-test exclusion;
+- define coverage, width, sharpness, peak-state, stability, complexity, latency, and portability evidence;
+- define optimization objectives, hard constraints, and no-action rules;
+- preserve final human promotion authority;
+- prohibit Gate 6E execution until its own contract and explicit authorization are recorded.
 
-### Gates 6E-6G
+### Gates 6F-6G
 
-**Status:** Planned.
+**Status:** Planned and blocked by required predecessors.
 
 Sequence:
 
-- Gate 6E: probabilistic optimization and uncertainty calibration;
 - Gate 6F: ensembles and governed routing using out-of-fold evidence only;
 - Gate 6G: efficiency, portability, and adapter parity.
 

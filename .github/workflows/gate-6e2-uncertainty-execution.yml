@@ -28,7 +28,7 @@ concurrency:
 jobs:
   execute:
     name: Chronology-safe conformal uncertainty execution
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
     timeout-minutes: 150
     env:
       OMP_NUM_THREADS: "1"
@@ -52,10 +52,30 @@ jobs:
           cache: pip
           cache-dependency-path: pyproject.toml
 
-      - name: Install governed execution environment
+      - name: Install exact governed execution environment
+        shell: bash
         run: |
+          set -euo pipefail
           python -m pip install --upgrade pip setuptools wheel
           python -m pip install -e ".[dev]"
+          python -m pip install --force-reinstall \
+            "numpy==2.5.1" \
+            "pandas==2.3.3" \
+            "scikit-learn==1.9.0"
+          python - <<'PY'
+          import numpy
+          import pandas
+          import sklearn
+          assert numpy.__version__ == "2.5.1"
+          assert pandas.__version__ == "2.3.3"
+          assert sklearn.__version__ == "1.9.0"
+          print(
+              "Exact Gate 6E2 runtime: "
+              f"numpy={numpy.__version__} "
+              f"pandas={pandas.__version__} "
+              f"scikit-learn={sklearn.__version__}"
+          )
+          PY
 
       - name: Validate implementation and frozen predecessors
         id: preflight
@@ -69,7 +89,11 @@ jobs:
             python scripts/verify_v1_immutability.py
             python scripts/validate_gate_6d3_closure.py
             python scripts/validate_gate_6e1.py
-            python scripts/validate_gate_6e2_evidence.py --allow-absent
+            if [ ! -f outputs/v2/gate_6e/gate_6e_execution_manifest.json ]; then
+              python scripts/validate_gate_6e2_evidence.py --allow-absent
+            else
+              echo "Committed Gate 6E2 evidence detected; full validation deferred until point reconstruction."
+            fi
             python -m pytest \
               tests/test_contracts.py \
               tests/test_v2_governance.py \
@@ -93,11 +117,13 @@ jobs:
           retention-days: 14
 
       - name: Prepare governed analytical data
+        shell: bash
         run: |
+          set -euo pipefail
           python scripts/download_data.py --verify
           python scripts/run_pipeline.py --silver
 
-      - name: Materialize frozen validation point predictions
+      - name: Materialize exact frozen validation point predictions
         id: reconstruct
         shell: bash
         run: |
@@ -144,7 +170,9 @@ jobs:
           retention-days: 14
 
       - name: Validate complete Gate 6E2 evidence
+        shell: bash
         run: |
+          set -euo pipefail
           python scripts/validate_gate_6e2_evidence.py
           python scripts/verify_v1_immutability.py
           python scripts/audit_public_content.py

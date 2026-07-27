@@ -218,16 +218,34 @@ Gate 6D used training and validation evidence only. Maximum prediction origin wa
 
 ### Gate 6E: probabilistic optimization and uncertainty calibration
 
-**Status:** Unblocked. Contract and execution not yet authorized.
+**Status:** Gate 6E1 closed. Gate 6E2 requires separate authorization.
+
+Completed Gate 6E1 evidence:
+
+- `v1_frozen_champion` retained as the immutable point-model center;
+- expanding absolute-residual conformal frozen as the reference method;
+- rolling absolute-residual conformal frozen at 672- and 2,688-interval windows;
+- adaptive conformal inference frozen at both windows and update rates `0.005`, `0.01`, and `0.02`;
+- exactly nine deterministic uncertainty configurations;
+- 80%, 90%, and 95% central intervals, with 90% primary;
+- calibration separated from point fitting and restricted to chronology-safe inner out-of-fold residuals;
+- trailing calibration fraction of 15% and minimum calibration size of 672 origins;
+- finite-sample higher-quantile rule, revealed-target update timing, uniform zero-kWh support clipping, raw-bound evidence, and interval nesting;
+- complete coverage, width, interval-score, peak-state, stability, resource, portability, failure, and lineage requirements;
+- fail-closed coverage, point-parity, chronology, leakage, replay, portability, and artifact constraints;
+- weighted interval score as the primary constrained objective;
+- one-percent challenger improvement threshold, three positive folds, bounded fold and peak degradation, and a feasible-reference option;
+- mandatory no-action outcome when no configuration is feasible;
+- final human authority, no GenAI vote, and no automatic promotion;
+- exclusion of quantile-model refitting, bootstrap predictive ensembles, foundation-model native quantiles, and parametric Gaussian intervals;
+- implementation-only contract, schemas, closure manifest, governance module, validator, tests, documentation, and read-only workflow;
+- no point fitting, calibration, interval generation, uncertainty metric calculation, optimization execution, locked-test access, or probabilistic-authority claim.
 
 Next required decision:
 
-- freeze the uncertainty objective and admissible probabilistic methods;
-- freeze calibration chronology, partitions, budgets, and locked-test exclusion;
-- define coverage, width, sharpness, peak-state, stability, complexity, latency, and portability evidence;
-- define optimization objectives, hard constraints, and no-action rules;
-- preserve final human promotion authority;
-- prohibit Gate 6E execution until its own contract and explicit authorization are recorded.
+- Gate 6E2 requires separate explicit authorization before residual construction, calibration, interval generation, uncertainty metrics, resource evidence, or promotion recommendations;
+- Gate 6E2 must execute all nine configurations on the same four chronological outer folds and 7,004 validation origins;
+- Gate 6E3 remains mandatory for the human accept, reject, or defer decision and formal Gate 6E closure.
 
 ### Gates 6F-6G
 

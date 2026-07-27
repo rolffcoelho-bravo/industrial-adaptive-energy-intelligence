@@ -98,8 +98,25 @@ jobs:
           python scripts/run_pipeline.py --silver
 
       - name: Materialize frozen validation point predictions
+        id: reconstruct
+        shell: bash
         run: |
-          python scripts/reconstruct_gate_6e2_point_predictions.py
+          set +e
+          DIAGNOSTIC="${RUNNER_TEMP}/gate_6e2_reconstruction.log"
+          python scripts/reconstruct_gate_6e2_point_predictions.py \
+            > "$DIAGNOSTIC" 2>&1
+          status=$?
+          cat "$DIAGNOSTIC"
+          exit "$status"
+
+      - name: Upload bounded reconstruction diagnostic
+        if: failure() && steps.reconstruct.conclusion == 'failure'
+        uses: actions/upload-artifact@v4
+        with:
+          name: gate-6e2-reconstruction-diagnostic
+          path: ${{ runner.temp }}/gate_6e2_reconstruction.log
+          if-no-files-found: error
+          retention-days: 14
 
       - name: Execute Gate 6E2 when evidence is absent
         id: execute

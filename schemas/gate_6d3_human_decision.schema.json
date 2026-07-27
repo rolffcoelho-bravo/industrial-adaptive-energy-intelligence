@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.org/schemas/gate_6d3_human_decision.schema.json",
+  "title": "Gate 6D3 foundation-model human decision",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "decision_date",
+    "human_authority",
+    "automatic_promotion_permitted",
+    "locked_test_accessed",
+    "locked_predictions_parsed",
+    "confirmatory_evaluation_performed",
+    "retained_model",
+    "decisions",
+    "closed_gate",
+    "next_gate",
+    "next_gate_unblocked"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6D"},
+    "subgate": {"const": "6D3"},
+    "status": {"const": "closed"},
+    "decision_date": {"const": "2026-07-27"},
+    "human_authority": {"const": true},
+    "automatic_promotion_permitted": {"const": false},
+    "locked_test_accessed": {"const": false},
+    "locked_predictions_parsed": {"const": false},
+    "confirmatory_evaluation_performed": {"const": false},
+    "retained_model": {"const": "v1_frozen_champion"},
+    "decisions": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "candidate_id",
+          "decision",
+          "promotion_eligible",
+          "rationale",
+          "next_action"
+        ],
+        "properties": {
+          "candidate_id": {
+            "enum": [
+              "chronos_2_zero_shot",
+              "timesfm_2_5_zero_shot",
+              "moirai_2_research_zero_shot"
+            ]
+          },
+          "decision": {"const": "reject"},
+          "promotion_eligible": {"const": false},
+          "rationale": {"type": "string", "minLength": 40},
+          "next_action": {
+            "enum": [
+              "retain_incumbent",
+              "retain_research_negative_benchmark"
+            ]
+          }
+        }
+      }
+    },
+    "closed_gate": {"const": "6D"},
+    "next_gate": {"const": "6E"},
+    "next_gate_unblocked": {"const": true}
+  }
+}

@@ -10,7 +10,7 @@ from jsonschema import Draft202012Validator
 from iaei.paths import ROOT, SCHEMAS
 
 
-OUTPUT = ROOT / "outputs" / "v2" / "gate_6e"
+CLOSURE_OUTPUT = ROOT / "outputs" / "v2" / "gate_6e3"
 
 
 def _load_json(path: Path) -> dict:
@@ -24,15 +24,15 @@ def test_gate_6e3_schemas_and_records_are_valid() -> None:
     closure_schema = _load_json(SCHEMAS / "gate_6e_closure_manifest.schema.json")
     Draft202012Validator.check_schema(decision_schema)
     Draft202012Validator.check_schema(closure_schema)
-    decision = _load_json(OUTPUT / "promotion_decision.json")
-    closure = _load_json(OUTPUT / "gate_6e_closure_manifest.json")
+    decision = _load_json(CLOSURE_OUTPUT / "promotion_decision.json")
+    closure = _load_json(CLOSURE_OUTPUT / "gate_6e_closure_manifest.json")
     Draft202012Validator(decision_schema).validate(decision)
     Draft202012Validator(closure_schema).validate(closure)
 
 
 def test_gate_6e3_records_governed_no_action() -> None:
-    decision = _load_json(OUTPUT / "promotion_decision.json")
-    closure = _load_json(OUTPUT / "gate_6e_closure_manifest.json")
+    decision = _load_json(CLOSURE_OUTPUT / "promotion_decision.json")
+    closure = _load_json(CLOSURE_OUTPUT / "gate_6e_closure_manifest.json")
     assert decision["decision_outcome"] == "no_action"
     assert decision["promoted_configuration"] is None
     assert len(decision["rejected_configurations"]) == 9
@@ -43,8 +43,8 @@ def test_gate_6e3_records_governed_no_action() -> None:
 
 
 def test_gate_6e3_preserves_v1_and_locked_test_boundaries() -> None:
-    decision = _load_json(OUTPUT / "promotion_decision.json")
-    closure = _load_json(OUTPUT / "gate_6e_closure_manifest.json")
+    decision = _load_json(CLOSURE_OUTPUT / "promotion_decision.json")
+    closure = _load_json(CLOSURE_OUTPUT / "gate_6e_closure_manifest.json")
     assert decision["retained_model"] == "v1_frozen_champion"
     assert decision["locked_test_accessed"] is False
     assert decision["locked_predictions_parsed"] is False
@@ -58,8 +58,8 @@ def test_gate_6e3_preserves_v1_and_locked_test_boundaries() -> None:
 
 
 def test_gate_6e3_closes_gate_and_unblocks_only_gate_6f() -> None:
-    decision = _load_json(OUTPUT / "promotion_decision.json")
-    closure = _load_json(OUTPUT / "gate_6e_closure_manifest.json")
+    decision = _load_json(CLOSURE_OUTPUT / "promotion_decision.json")
+    closure = _load_json(CLOSURE_OUTPUT / "gate_6e_closure_manifest.json")
     assert decision["closed_gate"] == "6E"
     assert decision["next_gate"] == "6F"
     assert decision["next_gate_unblocked"] is True

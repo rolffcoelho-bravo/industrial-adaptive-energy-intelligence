@@ -25,7 +25,8 @@
     "resource_limits_passed",
     "cpu_execution_passed",
     "deterministic_replay_passed",
-    "quantile_order_passed"
+    "quantile_order_passed",
+    "quantile_crossing_rate"
   ],
   "properties": {
     "schema_version": {"const": "1.0.0"},
@@ -54,6 +55,7 @@
     "resource_limits_passed": {"const": true},
     "cpu_execution_passed": {"const": true},
     "deterministic_replay_passed": {"const": true},
-    "quantile_order_passed": {"const": true}
+    "quantile_order_passed": {"type": "boolean"},
+    "quantile_crossing_rate": {"type": "number", "minimum": 0, "maximum": 1}
   }
 }

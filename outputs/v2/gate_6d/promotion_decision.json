@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6D",
+  "subgate": "6D3",
+  "status": "closed",
+  "decision_date": "2026-07-27",
+  "human_authority": true,
+  "automatic_promotion_permitted": false,
+  "locked_test_accessed": false,
+  "locked_predictions_parsed": false,
+  "confirmatory_evaluation_performed": false,
+  "retained_model": "v1_frozen_champion",
+  "decisions": [
+    {
+      "candidate_id": "chronos_2_zero_shot",
+      "decision": "reject",
+      "promotion_eligible": false,
+      "rationale": "Chronos-2 was the strongest foundation-model challenger but produced 18.60 percent worse aggregate MAE, 15.69 percent worse peak-state MAE, no positive outer folds, a 21.05 percent maximum single-fold degradation, and failed the exact deterministic replay control.",
+      "next_action": "retain_incumbent"
+    },
+    {
+      "candidate_id": "timesfm_2_5_zero_shot",
+      "decision": "reject",
+      "promotion_eligible": false,
+      "rationale": "TimesFM 2.5 produced 34.36 percent worse aggregate MAE, 16.64 percent worse peak-state MAE, no positive outer folds, a 37.91 percent maximum single-fold degradation, and the highest memory, latency, runtime, and model-size burden among the governed candidates.",
+      "next_action": "retain_incumbent"
+    },
+    {
+      "candidate_id": "moirai_2_research_zero_shot",
+      "decision": "reject",
+      "promotion_eligible": false,
+      "rationale": "Moirai 2.0 produced 29.62 percent worse aggregate MAE, 17.38 percent worse peak-state MAE, no positive outer folds, a 33.19 percent maximum single-fold degradation, and remains independently prohibited from commercial promotion under its CC-BY-NC-4.0 weight license.",
+      "next_action": "retain_research_negative_benchmark"
+    }
+  ],
+  "closed_gate": "6D",
+  "next_gate": "6E",
+  "next_gate_unblocked": true
+}

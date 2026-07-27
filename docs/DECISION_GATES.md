@@ -28,7 +28,7 @@ The project advances through explicit evidence contracts. Each stage must pass i
 | 6A | V2 architecture and optimization governance | Closed | Provider-neutral architecture, optimization contract, artifact schemas, V1 immutability checks, acceptance tests |
 | 6B | Advanced tabular challengers | Closed | Approved search spaces, nested chronological evidence, complete trial records, Pareto evidence, human rejection record, retained V1 incumbent |
 | 6C | Neural forecasting | Closed | Five governed seeds, chronological evidence, stability, resource, portability, human rejection record, retained V1 incumbent |
-| 6D | Time-series foundation models | In progress | Gate 6D1 identity, license, context, adaptation, resource, and provenance lock; Gate 6D2 governed validation; Gate 6D3 human decision |
+| 6D | Time-series foundation models | Pending human decision | Gate 6D1 identity and license lock; Gate 6D2 complete validation evidence; Gate 6D3 human decision and closure |
 | 6E | Probabilistic optimization and uncertainty | Planned | Separate calibration, coverage and width evidence, governed uncertainty promotion |
 | 6F | Ensembles and governed routing | Planned | Out-of-fold-only weights, routing rules, constrained Pareto evidence, human approval |
 | 6G | Efficiency and portability | Planned | Runtime, memory, model-size, adapter parity, and reproducibility evidence |
@@ -129,13 +129,35 @@ Gate 6D1 freezes:
 - CPU, 6,144 MB memory, 1,200 MB download, 120-minute candidate, 360-minute total, batch-size, and cost boundaries;
 - Chronos-2 and TimesFM 2.5 as commercially promotion eligible under Apache-2.0 weights;
 - Moirai 2.0 as research-only under CC-BY-NC-4.0 weights and prohibited from promotion;
-- no model download, library loading, inference, prediction generation, metric calculation, or execution evidence in Gate 6D1;
-- final human promotion authority and a separate authorization requirement for Gate 6D2.
+- final human promotion authority.
 
-Gate 6D1 remains training-and-validation only in design. Locked-test access, locked-prediction parsing, confirmatory evaluation, automatic promotion, and V1 mutation are prohibited.
+## Gate 6D2 validation boundary
+
+Gate 6D2 freezes the completed foundation-model validation evidence:
+
+- three exact pinned model-weight identities and three exact source revisions;
+- three isolated recorded execution environments;
+- zero-shot univariate inference only;
+- the common 672-interval context and one-interval horizon;
+- four outer folds, four-interval purge, and 7,004 validation origins per candidate;
+- 21,012 out-of-fold prediction rows;
+- complete aggregate, peak-state, fold-level, diagnostic-quantile, resource, portability, failure, and lineage evidence;
+- Chronos-2 mean MAE of 4.743581, 18.60% worse than V1;
+- Moirai 2.0 mean MAE of 5.184533, 29.62% worse than V1;
+- TimesFM 2.5 mean MAE of 5.374107, 34.36% worse than V1;
+- zero positive outer folds for every candidate;
+- no promotion-eligible candidate;
+- raw native quantile crossings preserved without post-hoc sorting or calibration;
+- Chronos-2 exact deterministic replay failure recorded;
+- Moirai 2.0 commercial-use and promotion prohibition preserved;
+- all candidates completed inside the frozen CPU, memory, download-size, and runtime boundaries;
+- locked-test access, locked-prediction parsing, confirmatory evaluation, fine-tuning, calibration, search, and automatic promotion remained false;
+- V1 remained immutable.
+
+Gate 6D2 provides validation evidence only. It cannot be represented as confirmatory, production, savings, causal, drift, or optimization-impact evidence.
 
 ## Next permitted decision
 
-V1 remains closed and immutable. Gates 6A, 6B, 6C, and Gate 6D1 are closed.
+V1 remains closed and immutable. Gates 6A, 6B, and 6C are closed. Gate 6D1 is closed and Gate 6D2 validation is complete.
 
-The next permitted decision is **explicit authorization for Gate 6D2 governed foundation-model validation execution**. Without that authorization, no model weight may be downloaded, loaded, or used to generate forecasts. Gate 6D3 and Gate 6E remain blocked.
+The next permitted decision is **Gate 6D3: human foundation-model promotion decision and Gate 6D closure**. The evidence supports rejecting all three foundation-model candidates and retaining the frozen V1 champion. Gate 6E remains blocked until Gate 6D3 closes Gate 6D.

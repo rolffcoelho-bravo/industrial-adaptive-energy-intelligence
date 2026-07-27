@@ -170,18 +170,27 @@ Gate 6C used training and validation evidence only. Maximum prediction origin wa
 
 ### Gate 6D: time-series foundation models
 
-**Status:** Next.
+**Status:** In progress.
 
-Required evidence:
+Completed Gate 6D1 evidence:
 
-- prespecified foundation-model identities and versions;
-- model-weight, license, and external-provenance manifests;
-- zero-shot and permitted adaptation modes fixed before execution;
-- chronological training-and-validation-only evidence;
-- access, context, memory, latency, cost, and portability controls;
-- comparison with the frozen V1 incumbent and admissible V2 challengers;
-- no assumption of foundation-model superiority;
-- final human promotion, rejection, or deferral record.
+- Chronos-2, TimesFM 2.5, and Moirai 2.0 frozen as the three benchmark candidates;
+- exact model revisions, source revisions, weight SHA-256 identities, access modes, and licenses;
+- zero-shot univariate inference as the only admissible benchmark mode;
+- common seven-day context of 672 intervals and one-interval forecast horizon;
+- identical four-fold chronology, four-interval purge, and 7,004 validation origins;
+- fine-tuning, LoRA, calibration, search, model-specific context tuning, covariate inference, and ensembles prohibited;
+- CPU, memory, download-size, runtime, batch-size, cost, and portability limits frozen;
+- Chronos-2 and TimesFM 2.5 commercially promotion eligible under Apache-2.0 weights;
+- Moirai 2.0 retained as a research-only benchmark under CC-BY-NC-4.0 weights and prohibited from promotion;
+- implementation-only governance code, schemas, tests, closure manifest, documentation, and read-only CI;
+- no model weight download, inference, prediction generation, metric calculation, or locked-test access.
+
+Next required decision:
+
+- Gate 6D2 requires separate explicit authorization before any pinned model weight may be downloaded or any validation forecast may be generated;
+- Gate 6D2 must verify exact revisions and weight hashes, execute the frozen zero-shot lane, and publish complete performance, peak-state, failure, resource, cost, portability, prediction, and lineage evidence;
+- Gate 6D3 remains mandatory for the final human promotion, rejection, or deferral decision.
 
 ### Gates 6E-6G
 

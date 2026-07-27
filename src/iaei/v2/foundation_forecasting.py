@@ -349,8 +349,10 @@ def execute_foundation_candidate(
             predictions["prediction_q10"].le(predictions["prediction_q50"])
             & predictions["prediction_q50"].le(predictions["prediction_q90"])
         )
-        if not bool(predictions["quantile_order_passed"].all()):
-            raise FoundationForecastingError("Gate 6D2 produced crossed required quantiles")
+        quantile_order_passed = bool(predictions["quantile_order_passed"].all())
+        quantile_crossing_rate = float(
+            (~predictions["quantile_order_passed"]).mean()
+        )
 
         folds = _fold_results(candidate_id, predictions, reference)
         mean_mae = float(folds["mae"].mean())
@@ -379,6 +381,7 @@ def execute_foundation_candidate(
                 relative_mae_improvement,
                 relative_peak_change,
                 maximum_fold_degradation,
+                quantile_crossing_rate,
                 total_seconds,
                 peak_memory_mb,
             )
@@ -413,7 +416,8 @@ def execute_foundation_candidate(
             "deterministic_replay_passed": bool(
                 adapter_evidence["deterministic_replay_passed"]
             ),
-            "quantile_order_passed": True,
+            "quantile_order_passed": quantile_order_passed,
+            "quantile_crossing_rate": quantile_crossing_rate,
         }
         resource_evidence = {
             "candidate_id": candidate_id,

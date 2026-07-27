@@ -4,6 +4,7 @@ from typing import Any
 
 import numpy as np
 import pandas as pd
+import sklearn
 
 from iaei.modeling.hist_gradient_boosting import _feature_frame
 from iaei.targets import build_supervised_targets
@@ -53,7 +54,8 @@ def rebuild_frozen_point_predictions(
             observed = parameters[name]
             if not np.isclose(float(observed), float(expected), rtol=0.0, atol=0.0):
                 raise Gate6E2ExecutionError(
-                    f"Fold {fold_id} selected parameter {name} is inconsistent"
+                    f"Fold {fold_id} selected parameter {name} is inconsistent: "
+                    f"observed={observed}, committed={expected}"
                 )
 
         training_mask = pd.Series(False, index=silver.index)
@@ -90,31 +92,45 @@ def rebuild_frozen_point_predictions(
         peak_state = actual >= peak_threshold
         mae = float(np.mean(np.abs(actual - prediction)))
         peak_mae = float(np.mean(np.abs(actual[peak_state] - prediction[peak_state])))
+        committed_mae = float(committed_row["mae"])
+        committed_peak_mae = float(committed_row["peak_mae"])
         if not np.isclose(
             mae,
-            float(committed_row["mae"]),
+            committed_mae,
             rtol=1e-10,
             atol=1e-12,
         ):
             raise Gate6E2ExecutionError(
-                f"Fold {fold_id} reconstructed MAE does not match committed evidence"
+                f"Fold {fold_id} reconstructed MAE does not match committed evidence: "
+                f"observed={mae:.17g}, committed={committed_mae:.17g}, "
+                f"absolute_difference={abs(mae - committed_mae):.17g}, "
+                f"sklearn={sklearn.__version__}, numpy={np.__version__}, "
+                f"pandas={pd.__version__}"
             )
         if not np.isclose(
             peak_mae,
-            float(committed_row["peak_mae"]),
+            committed_peak_mae,
             rtol=1e-10,
             atol=1e-12,
         ):
             raise Gate6E2ExecutionError(
-                f"Fold {fold_id} reconstructed peak MAE is inconsistent"
+                f"Fold {fold_id} reconstructed peak MAE is inconsistent: "
+                f"observed={peak_mae:.17g}, committed={committed_peak_mae:.17g}, "
+                f"absolute_difference={abs(peak_mae - committed_peak_mae):.17g}, "
+                f"sklearn={sklearn.__version__}"
             )
         if len(prediction) != int(committed_row["validation_rows"]):
             raise Gate6E2ExecutionError(
-                f"Fold {fold_id} reconstruction row count is inconsistent"
+                f"Fold {fold_id} reconstruction row count is inconsistent: "
+                f"observed={len(prediction)}, "
+                f"committed={int(committed_row['validation_rows'])}"
             )
         if int(peak_state.sum()) != int(committed_row["peak_rows"]):
             raise Gate6E2ExecutionError(
-                f"Fold {fold_id} reconstruction peak count is inconsistent"
+                f"Fold {fold_id} reconstruction peak count is inconsistent: "
+                f"observed={int(peak_state.sum())}, "
+                f"committed={int(committed_row['peak_rows'])}, "
+                f"threshold={peak_threshold:.17g}"
             )
 
         prediction_frames.append(
@@ -146,9 +162,9 @@ def rebuild_frozen_point_predictions(
                 "validation_rows": int(len(prediction)),
                 "peak_rows": int(peak_state.sum()),
                 "reconstructed_mae": mae,
-                "committed_mae": float(committed_row["mae"]),
+                "committed_mae": committed_mae,
                 "reconstructed_peak_mae": peak_mae,
-                "committed_peak_mae": float(committed_row["peak_mae"]),
+                "committed_peak_mae": committed_peak_mae,
                 "metrics_match": True,
             }
         )
@@ -174,6 +190,11 @@ def rebuild_frozen_point_predictions(
         "point_model_search_performed": False,
         "selected_parameters_mutated": False,
         "committed_fold_metrics_verified": True,
+        "runtime": {
+            "scikit_learn": sklearn.__version__,
+            "numpy": np.__version__,
+            "pandas": pd.__version__,
+        },
         "folds": verification_rows,
     }
     return predictions.reset_index(drop=True), verification

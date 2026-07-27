@@ -5,13 +5,37 @@ from typing import Any
 import numpy as np
 import pandas as pd
 import sklearn
+from sklearn.pipeline import Pipeline
 
-from iaei.modeling.hist_gradient_boosting import _feature_frame
-from iaei.targets import build_supervised_targets
-from iaei.v2.uncertainty_execution import (
-    Gate6E2ExecutionError,
-    _fixed_pipeline,
+from iaei.modeling.candidates import build_feature_preprocessor
+from iaei.modeling.hist_gradient_boosting import (
+    _feature_frame,
+    build_hist_gradient_boosting_estimator,
 )
+from iaei.targets import build_supervised_targets
+
+
+class PointPredictionReconstructionError(RuntimeError):
+    """Raised when frozen point evidence cannot be reconstructed exactly."""
+
+
+def _fixed_pipeline(
+    model_contract: dict[str, Any],
+    parameters: dict[str, Any],
+) -> Pipeline:
+    pipeline = Pipeline(
+        steps=[
+            ("preprocessor", build_feature_preprocessor(model_contract)),
+            ("model", build_hist_gradient_boosting_estimator(model_contract)),
+        ]
+    )
+    pipeline.set_params(
+        model__learning_rate=float(parameters["learning_rate"]),
+        model__max_iter=int(parameters["max_iter"]),
+        model__max_leaf_nodes=int(parameters["max_leaf_nodes"]),
+        model__l2_regularization=float(parameters["l2_regularization"]),
+    )
+    return pipeline
 
 
 def rebuild_frozen_point_predictions(
@@ -40,7 +64,7 @@ def rebuild_frozen_point_predictions(
             committed_fold_results["fold_id"].eq(fold_id)
         ]
         if len(committed) != 1:
-            raise Gate6E2ExecutionError(
+            raise PointPredictionReconstructionError(
                 f"Fold {fold_id} committed HGB result is not unique"
             )
         committed_row = committed.iloc[0]
@@ -55,7 +79,7 @@ def rebuild_frozen_point_predictions(
         for name, expected in parameter_checks.items():
             observed = parameters[name]
             if not np.isclose(float(observed), float(expected), rtol=0.0, atol=0.0):
-                raise Gate6E2ExecutionError(
+                raise PointPredictionReconstructionError(
                     f"Fold {fold_id} selected parameter {name} is inconsistent: "
                     f"observed={observed}, committed={expected}"
                 )
@@ -77,7 +101,7 @@ def rebuild_frozen_point_predictions(
         valid_training = training_target.notna()
         validation_target = targets.loc[validation_index, target_name].astype(float)
         if validation_target.isna().any():
-            raise Gate6E2ExecutionError(
+            raise PointPredictionReconstructionError(
                 f"Fold {fold_id} reconstruction has missing validation targets"
             )
 
@@ -110,7 +134,7 @@ def rebuild_frozen_point_predictions(
         rows_match = len(prediction) == int(committed_row["validation_rows"])
         peaks_match = int(peak_state.sum()) == int(committed_row["peak_rows"])
         if strict_metric_verification and not mae_matches:
-            raise Gate6E2ExecutionError(
+            raise PointPredictionReconstructionError(
                 f"Fold {fold_id} reconstructed MAE does not match committed evidence: "
                 f"observed={mae:.17g}, committed={committed_mae:.17g}, "
                 f"absolute_difference={abs(mae - committed_mae):.17g}, "
@@ -118,20 +142,20 @@ def rebuild_frozen_point_predictions(
                 f"pandas={pd.__version__}"
             )
         if strict_metric_verification and not peak_mae_matches:
-            raise Gate6E2ExecutionError(
+            raise PointPredictionReconstructionError(
                 f"Fold {fold_id} reconstructed peak MAE is inconsistent: "
                 f"observed={peak_mae:.17g}, committed={committed_peak_mae:.17g}, "
                 f"absolute_difference={abs(peak_mae - committed_peak_mae):.17g}, "
                 f"sklearn={sklearn.__version__}"
             )
         if strict_metric_verification and not rows_match:
-            raise Gate6E2ExecutionError(
+            raise PointPredictionReconstructionError(
                 f"Fold {fold_id} reconstruction row count is inconsistent: "
                 f"observed={len(prediction)}, "
                 f"committed={int(committed_row['validation_rows'])}"
             )
         if strict_metric_verification and not peaks_match:
-            raise Gate6E2ExecutionError(
+            raise PointPredictionReconstructionError(
                 f"Fold {fold_id} reconstruction peak count is inconsistent: "
                 f"observed={int(peak_state.sum())}, "
                 f"committed={int(committed_row['peak_rows'])}, "
@@ -194,13 +218,13 @@ def rebuild_frozen_point_predictions(
         kind="stable",
     )
     if len(predictions) != int(point_manifest["prediction_row_count"]):
-        raise Gate6E2ExecutionError(
+        raise PointPredictionReconstructionError(
             "Reconstructed point predictions do not cover the frozen origins"
         )
     if int(predictions["row_position"].max()) != int(
         point_manifest["maximum_prediction_origin"]
     ):
-        raise Gate6E2ExecutionError(
+        raise PointPredictionReconstructionError(
             "Reconstructed point predictions cross the frozen boundary"
         )
     all_metrics_match = all(

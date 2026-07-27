@@ -7,7 +7,9 @@ on:
       - "configs/uncertainty_contract.yml"
       - "schemas/gate_6e_execution_manifest.schema.json"
       - "schemas/uncertainty_*.schema.json"
+      - "src/iaei/v2/point_prediction_reconstruction.py"
       - "src/iaei/v2/uncertainty_*.py"
+      - "scripts/reconstruct_gate_6e2_point_predictions.py"
       - "scripts/run_gate_6e2_uncertainty.py"
       - "scripts/validate_gate_6e2_evidence.py"
       - "tests/test_gate_6e2_uncertainty_execution.py"
@@ -94,6 +96,10 @@ jobs:
         run: |
           python scripts/download_data.py --verify
           python scripts/run_pipeline.py --silver
+
+      - name: Materialize frozen validation point predictions
+        run: |
+          python scripts/reconstruct_gate_6e2_point_predictions.py
 
       - name: Execute Gate 6E2 when evidence is absent
         id: execute

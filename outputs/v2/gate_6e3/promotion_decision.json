@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0.0",
+  "gate": "6E",
+  "subgate": "6E3",
+  "status": "closed",
+  "decision_date": "2026-07-28",
+  "human_authority": true,
+  "decision_outcome": "no_action",
+  "automatic_promotion_permitted": false,
+  "promoted_configuration": null,
+  "rejected_configurations": [
+    "expanding_all",
+    "rolling_672",
+    "rolling_2688",
+    "aci_672_0p005",
+    "aci_672_0p01",
+    "aci_672_0p02",
+    "aci_2688_0p005",
+    "aci_2688_0p01",
+    "aci_2688_0p02"
+  ],
+  "retained_model": "v1_frozen_champion",
+  "locked_test_accessed": false,
+  "locked_predictions_parsed": false,
+  "confirmatory_evaluation_performed": false,
+  "closed_gate": "6E",
+  "next_gate": "6F",
+  "next_gate_unblocked": true
+}

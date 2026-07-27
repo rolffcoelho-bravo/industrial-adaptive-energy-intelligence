@@ -1,0 +1,11 @@
+stage,configuration_id,wall_clock_seconds,p95_latency_ms_per_1000_rows,peak_memory_mb,cpu_execution_passed,deterministic_replay_passed
+calibration_residual_construction,shared,26.93116070000002,0.0,263.5546875,True,True
+interval_generation,expanding_all,3.4360483000000386,515.6208823529454,263.5546875,True,True
+interval_generation,rolling_672,0.966835500000002,139.75631353513037,263.5546875,True,True
+interval_generation,rolling_2688,2.77031599999998,396.35661050826764,263.5546875,True,True
+interval_generation,aci_672_0p005,1.1506267999999977,165.76011993145198,263.5546875,True,True
+interval_generation,aci_672_0p01,1.1614705000000072,168.38012278700162,263.5546875,True,True
+interval_generation,aci_672_0p02,1.1458690000000047,164.25672187320356,263.5546875,True,True
+interval_generation,aci_2688_0p005,2.9840011000000004,427.74959451742484,263.5546875,True,True
+interval_generation,aci_2688_0p01,2.9905028000000016,428.9533181039294,263.5546875,True,True
+interval_generation,aci_2688_0p02,2.979331600000023,427.75958023987766,263.5546875,True,True

@@ -1,0 +1,246 @@
+{
+  "calibration_residuals_sha256": "d3eaada10d46943f5d43e4bb7241f7e7cf1f9a478949a81288ae7eefabbb5671",
+  "folds": [
+    {
+      "calibration_tail_fraction": 0.15,
+      "eligible_inner_oof_residual_count": 15765,
+      "fold_id": 1,
+      "initial_calibration_origin_count": 2365,
+      "initial_calibration_origin_start": 18655,
+      "initial_calibration_origin_stop_exclusive": 21020,
+      "initial_calibration_score_sha256": "d44ee8c8592aa73923f8846a820ecb1392a91856e41d2ef1a08136415470614b",
+      "inner_split_count": 3,
+      "inner_splits": [
+        {
+          "fit_wall_clock_seconds": 1.6783349000000385,
+          "inner_split_id": 1,
+          "maximum_training_target_dependency": 5251,
+          "training_origin_count": 5251,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 5251,
+          "validation_origin_count": 5255,
+          "validation_origin_start": 5255,
+          "validation_origin_stop_exclusive": 10510
+        },
+        {
+          "fit_wall_clock_seconds": 2.247335000000021,
+          "inner_split_id": 2,
+          "maximum_training_target_dependency": 10506,
+          "training_origin_count": 10506,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 10506,
+          "validation_origin_count": 5255,
+          "validation_origin_start": 10510,
+          "validation_origin_stop_exclusive": 15765
+        },
+        {
+          "fit_wall_clock_seconds": 2.7425450999999725,
+          "inner_split_id": 3,
+          "maximum_training_target_dependency": 15761,
+          "training_origin_count": 15761,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 15761,
+          "validation_origin_count": 5255,
+          "validation_origin_start": 15765,
+          "validation_origin_stop_exclusive": 21020
+        }
+      ],
+      "outer_training_start": 0,
+      "outer_training_stop_exclusive": 21020,
+      "outer_training_target_iqr": 50.0475,
+      "outer_validation_start": 21024,
+      "outer_validation_stop_exclusive": 22775,
+      "selected_parameters": {
+        "l2_regularization": 1.0,
+        "learning_rate": 0.05,
+        "max_iter": 300,
+        "max_leaf_nodes": 31
+      }
+    },
+    {
+      "calibration_tail_fraction": 0.15,
+      "eligible_inner_oof_residual_count": 17076,
+      "fold_id": 2,
+      "initial_calibration_origin_count": 2562,
+      "initial_calibration_origin_start": 20209,
+      "initial_calibration_origin_stop_exclusive": 22771,
+      "initial_calibration_score_sha256": "8490166c6ee48e7fd1a8a52cc666056f8cce159e54826263f98d5c7c24d8db85",
+      "inner_split_count": 3,
+      "inner_splits": [
+        {
+          "fit_wall_clock_seconds": 1.6989946000000486,
+          "inner_split_id": 1,
+          "maximum_training_target_dependency": 5691,
+          "training_origin_count": 5691,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 5691,
+          "validation_origin_count": 5692,
+          "validation_origin_start": 5695,
+          "validation_origin_stop_exclusive": 11387
+        },
+        {
+          "fit_wall_clock_seconds": 2.285317099999986,
+          "inner_split_id": 2,
+          "maximum_training_target_dependency": 11383,
+          "training_origin_count": 11383,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 11383,
+          "validation_origin_count": 5692,
+          "validation_origin_start": 11387,
+          "validation_origin_stop_exclusive": 17079
+        },
+        {
+          "fit_wall_clock_seconds": 2.770273599999996,
+          "inner_split_id": 3,
+          "maximum_training_target_dependency": 17075,
+          "training_origin_count": 17075,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 17075,
+          "validation_origin_count": 5692,
+          "validation_origin_start": 17079,
+          "validation_origin_stop_exclusive": 22771
+        }
+      ],
+      "outer_training_start": 0,
+      "outer_training_stop_exclusive": 22771,
+      "outer_training_target_iqr": 49.915,
+      "outer_validation_start": 22775,
+      "outer_validation_stop_exclusive": 24526,
+      "selected_parameters": {
+        "l2_regularization": 0.0,
+        "learning_rate": 0.05,
+        "max_iter": 300,
+        "max_leaf_nodes": 31
+      }
+    },
+    {
+      "calibration_tail_fraction": 0.15,
+      "eligible_inner_oof_residual_count": 18390,
+      "fold_id": 3,
+      "initial_calibration_origin_count": 2759,
+      "initial_calibration_origin_start": 21763,
+      "initial_calibration_origin_stop_exclusive": 24522,
+      "initial_calibration_score_sha256": "2a9f6a652ae575be549716a1cde9b94eef438119c8f3247814077b24492228fb",
+      "inner_split_count": 3,
+      "inner_splits": [
+        {
+          "fit_wall_clock_seconds": 1.721687099999997,
+          "inner_split_id": 1,
+          "maximum_training_target_dependency": 6128,
+          "training_origin_count": 6128,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 6128,
+          "validation_origin_count": 6130,
+          "validation_origin_start": 6132,
+          "validation_origin_stop_exclusive": 12262
+        },
+        {
+          "fit_wall_clock_seconds": 2.1722068000000263,
+          "inner_split_id": 2,
+          "maximum_training_target_dependency": 12258,
+          "training_origin_count": 12258,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 12258,
+          "validation_origin_count": 6130,
+          "validation_origin_start": 12262,
+          "validation_origin_stop_exclusive": 18392
+        },
+        {
+          "fit_wall_clock_seconds": 2.623660799999982,
+          "inner_split_id": 3,
+          "maximum_training_target_dependency": 18388,
+          "training_origin_count": 18388,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 18388,
+          "validation_origin_count": 6130,
+          "validation_origin_start": 18392,
+          "validation_origin_stop_exclusive": 24522
+        }
+      ],
+      "outer_training_start": 0,
+      "outer_training_stop_exclusive": 24522,
+      "outer_training_target_iqr": 49.35,
+      "outer_validation_start": 24526,
+      "outer_validation_stop_exclusive": 26277,
+      "selected_parameters": {
+        "l2_regularization": 1.0,
+        "learning_rate": 0.1,
+        "max_iter": 300,
+        "max_leaf_nodes": 31
+      }
+    },
+    {
+      "calibration_tail_fraction": 0.15,
+      "eligible_inner_oof_residual_count": 19704,
+      "fold_id": 4,
+      "initial_calibration_origin_count": 2956,
+      "initial_calibration_origin_start": 23317,
+      "initial_calibration_origin_stop_exclusive": 26273,
+      "initial_calibration_score_sha256": "3220881b15cfe26f10aa9e0e869a392211b54c8f4cf29add863bcd3d24279a82",
+      "inner_split_count": 3,
+      "inner_splits": [
+        {
+          "fit_wall_clock_seconds": 1.76784889999999,
+          "inner_split_id": 1,
+          "maximum_training_target_dependency": 6565,
+          "training_origin_count": 6565,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 6565,
+          "validation_origin_count": 6568,
+          "validation_origin_start": 6569,
+          "validation_origin_stop_exclusive": 13137
+        },
+        {
+          "fit_wall_clock_seconds": 2.284345700000017,
+          "inner_split_id": 2,
+          "maximum_training_target_dependency": 13133,
+          "training_origin_count": 13133,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 13133,
+          "validation_origin_count": 6568,
+          "validation_origin_start": 13137,
+          "validation_origin_stop_exclusive": 19705
+        },
+        {
+          "fit_wall_clock_seconds": 2.7640347000000247,
+          "inner_split_id": 3,
+          "maximum_training_target_dependency": 19701,
+          "training_origin_count": 19701,
+          "training_origin_start": 0,
+          "training_origin_stop_exclusive": 19701,
+          "validation_origin_count": 6568,
+          "validation_origin_start": 19705,
+          "validation_origin_stop_exclusive": 26273
+        }
+      ],
+      "outer_training_start": 0,
+      "outer_training_stop_exclusive": 26273,
+      "outer_training_target_iqr": 47.879999999999995,
+      "outer_validation_start": 26277,
+      "outer_validation_stop_exclusive": 28028,
+      "selected_parameters": {
+        "l2_regularization": 0.0,
+        "learning_rate": 0.1,
+        "max_iter": 300,
+        "max_leaf_nodes": 31
+      }
+    }
+  ],
+  "gate": "6E",
+  "in_sample_residuals_used": false,
+  "inner_oof_residuals_required": true,
+  "point_model_id": "v1_frozen_champion",
+  "point_prediction_sha256": "6eb23c33fdfc296b21bb0649c8bbcd20ba1d077a8e6e388688d7e6f31642ae77",
+  "random_split_used": false,
+  "residual_score": "absolute_error",
+  "schema_version": "1.0.0",
+  "sequential_update_rule": "revealed_targets_strictly_before_current_target",
+  "silver_lineage": {
+    "byte_identical_alias": true,
+    "canonical_path": "data/processed/steel_energy_silver.parquet",
+    "contract_path": "data/processed/silver/energy_silver.parquet",
+    "sha256": "6619ee6cb42154ab8b30c691482db03647eba457f8ceb6cd1766e56a738bef76"
+  },
+  "status": "calibration_residuals_complete",
+  "subgate": "6E2"
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://shockbridgepulse.com/schemas/uncertainty_promotion_recommendation.schema.json",
+  "title": "Gate 6E2 uncertainty promotion recommendation",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "gate",
+    "subgate",
+    "status",
+    "selection_method",
+    "reference_configuration",
+    "automatic_promotion_permitted",
+    "human_decision_required",
+    "outcome",
+    "recommended_configuration",
+    "eligible_configurations",
+    "pareto_eligible_configurations",
+    "candidates",
+    "recommended_next_gate",
+    "next_gate_authorized"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "gate": {"const": "6E"},
+    "subgate": {"const": "6E2"},
+    "status": {"const": "validation_complete_pending_human_decision"},
+    "selection_method": {
+      "const": "constrained_pareto_then_deterministic_tie_break_then_human_approval"
+    },
+    "reference_configuration": {"const": "expanding_all"},
+    "automatic_promotion_permitted": {"const": false},
+    "human_decision_required": {"const": true},
+    "outcome": {
+      "enum": ["no_action", "recommend_reference", "recommend_challenger"]
+    },
+    "recommended_configuration": {"type": ["string", "null"]},
+    "eligible_configurations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "pareto_eligible_configurations": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "candidates": {
+      "type": "array",
+      "minItems": 9,
+      "maxItems": 9,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "configuration_id",
+          "method_id",
+          "hard_constraints_passed",
+          "relative_weighted_interval_score_improvement_vs_reference",
+          "relative_peak_weighted_interval_score_change_vs_reference",
+          "positive_outer_folds",
+          "maximum_single_fold_weighted_interval_score_relative_degradation",
+          "eligible_for_human_selection",
+          "failed_requirements"
+        ],
+        "properties": {
+          "configuration_id": {"type": "string", "minLength": 1},
+          "method_id": {"type": "string", "minLength": 1},
+          "hard_constraints_passed": {"type": "boolean"},
+          "relative_weighted_interval_score_improvement_vs_reference": {
+            "type": "number"
+          },
+          "relative_peak_weighted_interval_score_change_vs_reference": {
+            "type": "number"
+          },
+          "positive_outer_folds": {"type": "integer", "minimum": 0, "maximum": 4},
+          "maximum_single_fold_weighted_interval_score_relative_degradation": {
+            "type": "number"
+          },
+          "eligible_for_human_selection": {"type": "boolean"},
+          "failed_requirements": {
+            "type": "array",
+            "uniqueItems": true,
+            "items": {"type": "string", "minLength": 1}
+          }
+        }
+      }
+    },
+    "recommended_next_gate": {"const": "6E3"},
+    "next_gate_authorized": {"const": false}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"outcome": {"const": "no_action"}}},
+      "then": {
+        "properties": {
+          "recommended_configuration": {"const": null},
+          "eligible_configurations": {"maxItems": 0},
+          "pareto_eligible_configurations": {"maxItems": 0}
+        }
+      },
+      "else": {
+        "properties": {
+          "recommended_configuration": {"type": "string", "minLength": 1},
+          "eligible_configurations": {"minItems": 1},
+          "pareto_eligible_configurations": {"minItems": 1}
+        }
+      }
+    }
+  ]
+}

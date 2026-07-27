@@ -8,9 +8,9 @@ The retained point model is `v1_frozen_champion`, the frozen histogram-gradient-
 
 ## Frozen method set
 
-1. **Expanding absolute-residual conformal** — reference configuration `expanding_all`.
-2. **Rolling absolute-residual conformal** — configurations `rolling_672` and `rolling_2688`.
-3. **Adaptive conformal inference** — six configurations combining windows `672` and `2,688` with update rates `0.005`, `0.01`, and `0.02`.
+1. **Expanding absolute-residual conformal**: reference configuration `expanding_all`.
+2. **Rolling absolute-residual conformal**: configurations `rolling_672` and `rolling_2688`.
+3. **Adaptive conformal inference**: six configurations combining windows `672` and `2,688` with update rates `0.005`, `0.01`, and `0.02`.
 
 The complete Gate 6E configuration count is nine. No configuration may be added, removed, substituted, or tuned during Gate 6E2.
 

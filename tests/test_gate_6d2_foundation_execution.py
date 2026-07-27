@@ -148,3 +148,32 @@ def test_gate_6d2_schemas_are_valid_json_schemas() -> None:
     )
     for name in names:
         Draft202012Validator.check_schema(_load_json(SCHEMAS / name))
+
+
+def test_candidate_schema_accepts_recorded_replay_failure() -> None:
+    schema = _load_json(SCHEMAS / "foundation_candidate_evidence.schema.json")
+    payload = {
+        "schema_version": "1.0.0",
+        "gate": "6D",
+        "subgate": "6D2",
+        "candidate_id": "chronos_2_zero_shot",
+        "status": "success",
+        "benchmark_admissible": True,
+        "commercial_use_eligible": True,
+        "promotion_eligible_by_license": True,
+        "validation_origin_count": 7004,
+        "outer_fold_count": 4,
+        "mean_mae": 4.743580802977936,
+        "mean_peak_mae": 21.29347326376154,
+        "relative_mae_improvement_vs_v1": -0.18599801157854728,
+        "relative_peak_mae_change_vs_v1": 0.15691451243821594,
+        "positive_outer_folds": 0,
+        "maximum_single_fold_mae_relative_degradation": 0.21047123731077874,
+        "chronology_passed": True,
+        "resource_limits_passed": True,
+        "cpu_execution_passed": True,
+        "deterministic_replay_passed": False,
+        "quantile_order_passed": False,
+        "quantile_crossing_rate": 0.00028555111364934324,
+    }
+    assert list(Draft202012Validator(schema).iter_errors(payload)) == []

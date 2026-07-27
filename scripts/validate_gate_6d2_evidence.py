@@ -167,11 +167,13 @@ def _validate_metrics() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     uniqueness = predictions.groupby(["fold_id", "row_position"])[identity_columns].nunique()
     if int(uniqueness.to_numpy().max()) != 1:
         raise SystemExit("Gate 6D2 candidates do not share identical target evidence")
-    if not bool(
-        predictions["prediction_q10"].le(predictions["prediction_q50"]).all()
-        and predictions["prediction_q50"].le(predictions["prediction_q90"]).all()
-    ):
-        raise SystemExit("Gate 6D2 required quantiles cross")
+
+    observed_order = (
+        predictions["prediction_q10"].le(predictions["prediction_q50"])
+        & predictions["prediction_q50"].le(predictions["prediction_q90"])
+    )
+    if not observed_order.equals(predictions["quantile_order_passed"].astype(bool)):
+        raise SystemExit("Gate 6D2 quantile-order flags do not reconcile")
 
     for row in folds.itertuples(index=False):
         group = predictions.loc[
@@ -192,6 +194,9 @@ def _validate_metrics() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
 
     for row in candidates.itertuples(index=False):
         group = folds.loc[folds["candidate_id"].eq(row.candidate_id)]
+        prediction_group = predictions.loc[
+            predictions["candidate_id"].eq(row.candidate_id)
+        ]
         if not math.isclose(
             float(group["mae"].mean()),
             float(row.mean_mae),
@@ -206,6 +211,20 @@ def _validate_metrics() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
             abs_tol=1e-12,
         ):
             raise SystemExit("Gate 6D2 aggregate peak MAE does not reconcile")
+        crossing_rate = float(
+            (~prediction_group["quantile_order_passed"].astype(bool)).mean()
+        )
+        if not math.isclose(
+            crossing_rate,
+            float(row.quantile_crossing_rate),
+            rel_tol=0.0,
+            abs_tol=1e-12,
+        ):
+            raise SystemExit("Gate 6D2 quantile-crossing rate does not reconcile")
+        if bool(row.quantile_order_passed) != bool(
+            prediction_group["quantile_order_passed"].all()
+        ):
+            raise SystemExit("Gate 6D2 aggregate quantile-order flag does not reconcile")
     return candidates, folds, resources
 
 

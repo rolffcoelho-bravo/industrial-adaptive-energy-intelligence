@@ -1,9 +1,9 @@
 from __future__ import annotations
 
+import ctypes
 import hashlib
 import json
 import math
-import resource
 import shutil
 import subprocess
 import sys
@@ -15,7 +15,10 @@ import numpy as np
 import pandas as pd
 from sklearn.pipeline import Pipeline
 
-from iaei.modeling.candidates import build_feature_preprocessor, build_inner_time_series_split
+from iaei.modeling.candidates import (
+    build_feature_preprocessor,
+    build_inner_time_series_split,
+)
 from iaei.modeling.hist_gradient_boosting import (
     _feature_frame,
     build_hist_gradient_boosting_estimator,
@@ -23,11 +26,31 @@ from iaei.modeling.hist_gradient_boosting import (
 from iaei.targets import build_supervised_targets
 from iaei.v2.uncertainty_calibration import evaluate_intervals
 
+try:
+    import resource
+except ImportError:  # pragma: no cover - Windows runtime
+    resource = None
+
 ROOT = Path(__file__).resolve().parents[3]
 
 
 class Gate6E2ExecutionError(RuntimeError):
     """Raised when Gate 6E2 execution violates the frozen contract."""
+
+
+class _ProcessMemoryCounters(ctypes.Structure):
+    _fields_ = [
+        ("cb", ctypes.c_ulong),
+        ("PageFaultCount", ctypes.c_ulong),
+        ("PeakWorkingSetSize", ctypes.c_size_t),
+        ("WorkingSetSize", ctypes.c_size_t),
+        ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
+        ("QuotaPagedPoolUsage", ctypes.c_size_t),
+        ("QuotaPeakNonPagedPoolUsage", ctypes.c_size_t),
+        ("QuotaNonPagedPoolUsage", ctypes.c_size_t),
+        ("PagefileUsage", ctypes.c_size_t),
+        ("PeakPagefileUsage", ctypes.c_size_t),
+    ]
 
 
 def _load_json(path: Path) -> dict[str, Any]:
@@ -88,10 +111,24 @@ def _directory_size(path: Path) -> int:
 
 
 def _peak_rss_mb() -> float:
-    value = float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
-    if sys.platform == "darwin":
-        return value / (1024.0 * 1024.0)
-    return value / 1024.0
+    if resource is not None:
+        value = float(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss)
+        if sys.platform == "darwin":
+            return value / (1024.0 * 1024.0)
+        return value / 1024.0
+    if sys.platform == "win32":
+        counters = _ProcessMemoryCounters()
+        counters.cb = ctypes.sizeof(counters)
+        process = ctypes.windll.kernel32.GetCurrentProcess()
+        succeeded = ctypes.windll.psapi.GetProcessMemoryInfo(
+            process,
+            ctypes.byref(counters),
+            counters.cb,
+        )
+        if not succeeded:
+            raise Gate6E2ExecutionError("Could not read Windows process memory")
+        return float(counters.PeakWorkingSetSize) / (1024.0 * 1024.0)
+    raise Gate6E2ExecutionError("Unsupported process-memory platform")
 
 
 def _resolve_silver_path(contract: dict[str, Any]) -> tuple[Path, dict[str, Any]]:
@@ -297,7 +334,9 @@ def _build_calibration_residuals(
                 "eligible_inner_oof_residual_count": eligible_count,
                 "calibration_tail_fraction": tail_fraction,
                 "initial_calibration_origin_count": tail_count,
-                "initial_calibration_origin_start": int(calibration["row_position"].min()),
+                "initial_calibration_origin_start": int(
+                    calibration["row_position"].min()
+                ),
                 "initial_calibration_origin_stop_exclusive": int(
                     calibration["row_position"].max()
                 )

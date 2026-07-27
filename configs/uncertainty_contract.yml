@@ -1,0 +1,257 @@
+contract_version: 1.0.0
+gate: 6E
+subgate: 6E1
+status: closed
+uncertainty_name: governed_conformal_uncertainty_layer
+point_model_boundary:
+  model_id: v1_frozen_champion
+  selected_model: hist_gradient_boosting
+  release_tag: v1.0.0
+  selected_model_manifest: outputs/modeling/selected_model_manifest.json
+  candidate_manifest: outputs/modeling/hist_gradient_boosting_candidate_manifest.json
+  outer_fold_predictions: outputs/modeling/hist_gradient_boosting_out_of_fold_predictions.parquet
+  outer_fold_results: outputs/modeling/hist_gradient_boosting_validation_results.csv
+  point_model_search_permitted: false
+  point_prediction_mutation_permitted: false
+  point_prediction_parity_required: true
+  point_prediction_parity_absolute_tolerance: 1.0e-12
+evidence_boundary:
+  admissible_partitions:
+  - training
+  - validation
+  silver_path: data/processed/silver/energy_silver.parquet
+  chronological_folds_path: outputs/modeling/chronological_folds.json
+  target_contract_path: configs/target_contract.yml
+  outer_fold_count: 4
+  inner_fold_count: 3
+  purge_intervals: 4
+  validation_origin_count: 7004
+  maximum_prediction_origin_exclusive: 28028
+  maximum_target_dependency_exclusive: 28032
+  locked_test_start: 28032
+  locked_test_partition_permitted: false
+  locked_prediction_parsing_permitted: false
+  confirmatory_evaluation_permitted: false
+  random_split_permitted: false
+  full_sample_calibration_permitted: false
+calibration_protocol:
+  separate_from_point_fit: true
+  residual_score: absolute_error
+  inner_oof_residuals_required: true
+  in_sample_residuals_permitted: false
+  calibration_tail_fraction: 0.15
+  minimum_calibration_origins: 672
+  finite_sample_quantile_rule: ceil_n_plus_1_one_minus_alpha_higher
+  target_coverage_levels:
+  - 0.8
+  - 0.9
+  - 0.95
+  primary_coverage_level: 0.9
+  central_intervals: true
+  lower_support_bound_kwh: 0.0
+  support_clipping_applied_uniformly: true
+  raw_bounds_recorded: true
+  sequential_updates_permitted: true
+  update_information_rule: revealed_targets_strictly_before_current_target
+  maximum_update_target_dependency_offset: 0
+  first_outer_origin_uses_training_only_residuals: true
+  intervals_nested_required: true
+candidate_families:
+- method_id: expanding_absolute_conformal
+  role: reference
+  description: Expanding absolute-residual conformal intervals with sequentially revealed residual updates.
+  configurations:
+  - configuration_id: expanding_all
+    window_intervals: null
+    adaptive_gamma: null
+- method_id: rolling_absolute_conformal
+  role: challenger
+  description: Fixed trailing-window absolute-residual conformal intervals.
+  configurations:
+  - configuration_id: rolling_672
+    window_intervals: 672
+    adaptive_gamma: null
+  - configuration_id: rolling_2688
+    window_intervals: 2688
+    adaptive_gamma: null
+- method_id: adaptive_absolute_conformal
+  role: challenger
+  description: Adaptive conformal inference using absolute residuals and bounded sequential alpha updates.
+  adaptive_alpha_lower_bound: 0.001
+  adaptive_alpha_upper_bound: 0.5
+  configurations:
+  - configuration_id: aci_672_0p005
+    window_intervals: 672
+    adaptive_gamma: 0.005
+  - configuration_id: aci_672_0p01
+    window_intervals: 672
+    adaptive_gamma: 0.01
+  - configuration_id: aci_672_0p02
+    window_intervals: 672
+    adaptive_gamma: 0.02
+  - configuration_id: aci_2688_0p005
+    window_intervals: 2688
+    adaptive_gamma: 0.005
+  - configuration_id: aci_2688_0p01
+    window_intervals: 2688
+    adaptive_gamma: 0.01
+  - configuration_id: aci_2688_0p02
+    window_intervals: 2688
+    adaptive_gamma: 0.02
+excluded_methods:
+- method: conformalized_quantile_regression
+  reason: Requires new quantile-model fitting and would reopen predictive-model selection.
+- method: ensemble_batch_prediction_intervals
+  reason: Requires bootstrap ensemble refitting and belongs to a separately authorized ensemble design.
+- method: foundation_model_native_quantiles
+  reason: Gate 6D quantiles are diagnostic, uncalibrated, and tied to rejected point challengers.
+- method: parametric_gaussian_intervals
+  reason: Unsupported residual-distribution assumptions are outside the approved distribution-free layer.
+metrics:
+  required_by_coverage_level:
+  - empirical_coverage
+  - absolute_coverage_error
+  - mean_interval_width_kwh
+  - normalized_mean_interval_width
+  - interval_score
+  - peak_state_coverage
+  - peak_state_mean_interval_width_kwh
+  - peak_state_interval_score
+  aggregate_required:
+  - weighted_interval_score
+  - peak_state_weighted_interval_score
+  - maximum_outer_fold_absolute_coverage_error
+  - maximum_rolling_672_absolute_coverage_error
+  - longest_consecutive_miss_run
+  - interval_nesting_violation_count
+  - support_floor_activation_rate
+  - point_prediction_parity_violation_count
+  - chronology_violation_count
+  - nonfinite_evidence_count
+  - p95_latency_ms_per_1000_rows
+  - peak_memory_mb
+  - artifact_size_bytes
+  - deterministic_replay_passed
+  - cpu_portability_passed
+  normalization:
+    width_denominator: outer_training_target_iqr
+    zero_iqr_behavior: fail_closed
+  weighted_interval_score_levels:
+  - 0.8
+  - 0.9
+  - 0.95
+hard_constraints:
+- id: aggregate_80_absolute_coverage_error
+  operator: less_than_or_equal
+  threshold: 0.03
+- id: aggregate_90_absolute_coverage_error
+  operator: less_than_or_equal
+  threshold: 0.02
+- id: aggregate_95_absolute_coverage_error
+  operator: less_than_or_equal
+  threshold: 0.03
+- id: minimum_aggregate_peak_90_coverage
+  operator: greater_than_or_equal
+  threshold: 0.85
+- id: maximum_outer_fold_90_absolute_coverage_error
+  operator: less_than_or_equal
+  threshold: 0.05
+- id: maximum_rolling_672_90_absolute_coverage_error
+  operator: less_than_or_equal
+  threshold: 0.08
+- id: interval_nesting_violation_count
+  operator: equal
+  threshold: 0
+- id: support_violation_count
+  operator: equal
+  threshold: 0
+- id: point_prediction_parity_violation_count
+  operator: equal
+  threshold: 0
+- id: chronology_violation_count
+  operator: equal
+  threshold: 0
+- id: leakage_violation_count
+  operator: equal
+  threshold: 0
+- id: locked_test_access_count
+  operator: equal
+  threshold: 0
+- id: nonfinite_evidence_count
+  operator: equal
+  threshold: 0
+- id: missing_required_artifact_count
+  operator: equal
+  threshold: 0
+- id: deterministic_replay_failure_count
+  operator: equal
+  threshold: 0
+- id: cpu_portability_failure_count
+  operator: equal
+  threshold: 0
+optimization:
+  selection_method: constrained_pareto_then_deterministic_tie_break_then_human_approval
+  reference_configuration: expanding_all
+  primary_objective: weighted_interval_score
+  secondary_objectives:
+  - mean_interval_width_kwh_at_90
+  - peak_state_weighted_interval_score
+  - maximum_outer_fold_absolute_coverage_error
+  - maximum_rolling_672_absolute_coverage_error
+  - p95_latency_ms_per_1000_rows
+  challenger_requirements:
+    minimum_weighted_interval_score_relative_improvement_vs_reference: 0.01
+    minimum_positive_outer_folds: 3
+    maximum_single_fold_weighted_interval_score_relative_degradation: 0.02
+    maximum_peak_weighted_interval_score_relative_degradation: 0.01
+  reference_may_be_selected_when_feasible: true
+  no_action_when_no_configuration_feasible: true
+  automatic_promotion_permitted: false
+  final_authority: human
+  genai_vote_permitted: false
+  rationale_required: true
+execution_budget:
+  unique_configuration_count: 9
+  maximum_parallel_trials: 1
+  maximum_retries_per_configuration: 0
+  maximum_total_wall_clock_minutes: 120
+  maximum_peak_memory_mb: 4096
+  maximum_artifact_size_mb: 250
+  canonical_device: cpu
+  gpu_required: false
+  deterministic_seed: 20260725
+  external_api_cost_usd: 0.0
+  hosted_api_permitted: false
+outputs:
+  directory: outputs/v2/gate_6e
+  configuration_results: configuration_results.csv
+  coverage_results: coverage_results.csv
+  outer_fold_results: outer_fold_results.csv
+  interval_predictions: interval_predictions.parquet
+  calibration_lineage: calibration_lineage.json
+  resource_evidence: resource_evidence.csv
+  failure_records: failure_records.json
+  promotion_recommendation: promotion_recommendation.json
+  execution_manifest: gate_6e_execution_manifest.json
+claim_controls:
+  validation_only: true
+  probabilistic_authority_before_gate_6e3: false
+  production_claim_permitted: false
+  savings_claim_permitted: false
+  drift_claim_permitted: false
+  causal_claim_permitted: false
+  optimization_impact_claim_permitted: false
+  confirmatory_claim_permitted: false
+change_control:
+  change_before_execution_only: true
+  active_execution_mutation_permitted: false
+  new_contract_version_required: true
+  human_approval_required: true
+  historical_contracts_retained: true
+next_gate: 6E2
+next_gate_authorized: false
+blocked_gates:
+- 6E2
+- 6E3
+- 6F
+- 6G

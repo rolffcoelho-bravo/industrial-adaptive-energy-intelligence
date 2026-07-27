@@ -27,7 +27,7 @@ The release preserves the frozen model, untouched confirmatory evidence, five ap
 
 ## V2 governance
 
-Gate 6A established the provider-neutral V2 architecture before model execution. Gates 6B and 6C evaluated advanced tabular and compact neural challengers. Gate 6D evaluated pinned time-series foundation models, recorded the human rejection decision, retained the frozen V1 champion, and is now formally closed. Gate 6E uncertainty and probabilistic optimization is unblocked but not yet authorized for execution.
+Gate 6A established the provider-neutral V2 architecture before model execution. Gates 6B and 6C evaluated advanced tabular and compact neural challengers. Gate 6D evaluated pinned time-series foundation models, recorded the human rejection decision, retained the frozen V1 champion, and formally closed. Gate 6E1 now freezes the probabilistic uncertainty contract around that retained point champion. Gate 6E2 remains blocked pending separate execution approval.
 
 ```text
 Data Evidence
@@ -44,6 +44,7 @@ The architecture is provider-neutral. Search spaces, objectives, hard constraint
 - Architecture contract: [`configs/v2_architecture_contract.yml`](configs/v2_architecture_contract.yml)
 - Optimization contract: [`configs/optimization_governance.yml`](configs/optimization_governance.yml)
 - Foundation-model contract: [`configs/foundation_model_contract.yml`](configs/foundation_model_contract.yml)
+- Uncertainty contract: [`configs/uncertainty_contract.yml`](configs/uncertainty_contract.yml)
 - Architecture documentation: [`docs/V2_ARCHITECTURE.md`](docs/V2_ARCHITECTURE.md)
 - Optimization governance: [`docs/OPTIMIZATION_GOVERNANCE.md`](docs/OPTIMIZATION_GOVERNANCE.md)
 - Gate 6A closure: [`docs/GATE_6A_ARCHITECTURE_CLOSURE.md`](docs/GATE_6A_ARCHITECTURE_CLOSURE.md)
@@ -54,8 +55,10 @@ The architecture is provider-neutral. Search spaces, objectives, hard constraint
 - Gate 6D2 execution protocol: [`docs/GATE_6D2_EXECUTION_PROTOCOL.md`](docs/GATE_6D2_EXECUTION_PROTOCOL.md)
 - Gate 6D2 results: [`docs/GATE_6D2_EXECUTION_RESULTS.md`](docs/GATE_6D2_EXECUTION_RESULTS.md)
 - Gate 6D3 closure: [`docs/GATE_6D3_FOUNDATION_MODEL_CLOSURE.md`](docs/GATE_6D3_FOUNDATION_MODEL_CLOSURE.md)
+- Gate 6E protocol: [`docs/GATE_6E_UNCERTAINTY_PROTOCOL.md`](docs/GATE_6E_UNCERTAINTY_PROTOCOL.md)
+- Gate 6E1 scope lock: [`docs/GATE_6E1_SCOPE_LOCK.md`](docs/GATE_6E1_SCOPE_LOCK.md)
 
-Gate 6B rejected XGBoost, LightGBM, and CatBoost challengers. Gate 6C rejected compact N-HiTS, TiDE, and PatchTST challengers. Gate 6D rejected zero-shot Chronos-2, TimesFM 2.5, and research-only Moirai 2.0 after they were respectively 18.60%, 34.36%, and 29.62% worse than the frozen V1 champion on aggregate validation MAE. No foundation model improved any outer fold. The frozen V1 histogram-gradient-boosting model remains the reference champion.
+Gate 6B rejected XGBoost, LightGBM, and CatBoost challengers. Gate 6C rejected compact N-HiTS, TiDE, and PatchTST challengers. Gate 6D rejected zero-shot Chronos-2, TimesFM 2.5, and research-only Moirai 2.0 after they were respectively 18.60%, 34.36%, and 29.62% worse than the frozen V1 champion on aggregate validation MAE. No foundation model improved any outer fold. The frozen V1 histogram-gradient-boosting model remains the reference champion and the fixed center of the Gate 6E uncertainty layer.
 
 ## Analytical system
 
@@ -68,6 +71,7 @@ Gate 6B rejected XGBoost, LightGBM, and CatBoost challengers. Gate 6C rejected c
 | Confirmatory evaluation | One frozen model, one untouched test period, and one terminal evaluation |
 | Reporting | Machine-readable tables, decision-grade figures, governed LaTeX, visual approval, and formal closure |
 | V2 optimization governance | Nested chronological evidence, multiobjective constraints, fixed budgets and seeds, Pareto selection, and human promotion authority |
+| Uncertainty governance | Separate conformal calibration, coverage and sharpness constraints, interval-score optimization, and fail-closed human promotion |
 | Enterprise execution | Databricks notebooks, SQL transformations, workflow orchestration, and traceable experiments |
 | Portable execution | Python, DuckDB, Parquet, scikit-learn, Matplotlib, LaTeX, and GitHub Actions |
 
@@ -171,6 +175,9 @@ The pipeline blocks reporting, release, and V2 promotion when required evidence 
 - commercial-promotion prohibition for non-commercial model weights;
 - raw diagnostic-defect preservation without post-hoc correction;
 - human closure decisions bound to exact source-evidence and environment hashes;
+- separate uncertainty calibration around an immutable point-model center;
+- chronology-safe residual updates and exact point-prediction parity;
+- fail-closed coverage, interval nesting, replay, portability, and no-action controls;
 - rejection of provisional or unsupported results.
 
 ## Confirmatory result
@@ -263,9 +270,13 @@ Completed in V2:
 - formal closure of Gate 6D;
 - preserved Moirai non-commercial promotion boundary;
 - preserved V1 and locked-test boundaries;
-- Gate 6E unblocked.
+- Gate 6E1 conformal uncertainty contract and scope lock;
+- three frozen uncertainty method families and nine deterministic configurations;
+- frozen calibration chronology, coverage levels, support rule, metrics, constraints, budgets, and evidence outputs;
+- mandatory point-prediction parity, no-action outcome, and final human authority;
+- implementation-only Gate 6E1 closure with no calibration or interval generation.
 
-The next permitted work is Gate 6E probabilistic optimization and uncertainty contract design. No uncertainty calibration, probabilistic optimization, interval generation, or Gate 6E promotion decision is permitted until that contract and a separate explicit authorization are recorded.
+The next permitted decision is explicit authorization for Gate 6E2 governed uncertainty execution. Until that authorization is recorded, residual construction, calibration, interval generation, uncertainty metric calculation, resource evidence, and promotion recommendations remain prohibited. Gate 6E3, Gate 6F, and Gate 6G remain blocked.
 
 See [`docs/ROADMAP.md`](docs/ROADMAP.md) and [`docs/DECISION_GATES.md`](docs/DECISION_GATES.md).
 

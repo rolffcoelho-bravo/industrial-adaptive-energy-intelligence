@@ -8,6 +8,7 @@ import shutil
 import subprocess
 import sys
 import time
+from ctypes import wintypes
 from pathlib import Path
 from typing import Any
 
@@ -40,8 +41,8 @@ class Gate6E2ExecutionError(RuntimeError):
 
 class _ProcessMemoryCounters(ctypes.Structure):
     _fields_ = [
-        ("cb", ctypes.c_ulong),
-        ("PageFaultCount", ctypes.c_ulong),
+        ("cb", wintypes.DWORD),
+        ("PageFaultCount", wintypes.DWORD),
         ("PeakWorkingSetSize", ctypes.c_size_t),
         ("WorkingSetSize", ctypes.c_size_t),
         ("QuotaPeakPagedPoolUsage", ctypes.c_size_t),
@@ -117,16 +118,29 @@ def _peak_rss_mb() -> float:
             return value / (1024.0 * 1024.0)
         return value / 1024.0
     if sys.platform == "win32":
+        kernel32 = ctypes.WinDLL("kernel32", use_last_error=True)
+        psapi = ctypes.WinDLL("psapi", use_last_error=True)
+        kernel32.GetCurrentProcess.argtypes = []
+        kernel32.GetCurrentProcess.restype = wintypes.HANDLE
+        psapi.GetProcessMemoryInfo.argtypes = [
+            wintypes.HANDLE,
+            ctypes.POINTER(_ProcessMemoryCounters),
+            wintypes.DWORD,
+        ]
+        psapi.GetProcessMemoryInfo.restype = wintypes.BOOL
         counters = _ProcessMemoryCounters()
         counters.cb = ctypes.sizeof(counters)
-        process = ctypes.windll.kernel32.GetCurrentProcess()
-        succeeded = ctypes.windll.psapi.GetProcessMemoryInfo(
+        process = kernel32.GetCurrentProcess()
+        succeeded = psapi.GetProcessMemoryInfo(
             process,
             ctypes.byref(counters),
             counters.cb,
         )
         if not succeeded:
-            raise Gate6E2ExecutionError("Could not read Windows process memory")
+            error_code = ctypes.get_last_error()
+            raise Gate6E2ExecutionError(
+                f"Could not read Windows process memory: error={error_code}"
+            )
         return float(counters.PeakWorkingSetSize) / (1024.0 * 1024.0)
     raise Gate6E2ExecutionError("Unsupported process-memory platform")
 

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from iaei.contracts import (
@@ -82,3 +83,34 @@ def validate_gate_6d1_closure_manifest() -> dict[str, Any]:
     if gate_6c_closure.get("next_gate") != "6D":
         raise ContractError("Gate 6C closure does not authorize the Gate 6D sequence")
     return manifest
+
+
+def validate_foundation_candidate_evidence(path: Path) -> dict[str, Any]:
+    payload = load_json(path)
+    schema = load_json(SCHEMAS / "foundation_candidate_evidence.schema.json")
+    _validate_payload(payload, schema, label=f"Gate 6D2 candidate evidence {path.name}")
+    return payload
+
+
+def validate_foundation_provenance_manifest() -> dict[str, Any]:
+    path = ROOT / "outputs" / "v2" / "gate_6d" / "model_provenance_manifest.json"
+    payload = load_json(path)
+    schema = load_json(SCHEMAS / "foundation_provenance_manifest.schema.json")
+    _validate_payload(payload, schema, label="Gate 6D2 provenance manifest")
+    return payload
+
+
+def validate_foundation_promotion_recommendation() -> dict[str, Any]:
+    path = ROOT / "outputs" / "v2" / "gate_6d" / "promotion_recommendation.json"
+    payload = load_json(path)
+    schema = load_json(SCHEMAS / "foundation_promotion_recommendation.schema.json")
+    _validate_payload(payload, schema, label="Gate 6D2 promotion recommendation")
+    return payload
+
+
+def validate_foundation_execution_manifest() -> dict[str, Any]:
+    path = ROOT / "outputs" / "v2" / "gate_6d" / "gate_6d_execution_manifest.json"
+    payload = load_json(path)
+    schema = load_json(SCHEMAS / "foundation_execution_manifest.schema.json")
+    _validate_payload(payload, schema, label="Gate 6D2 execution manifest")
+    return payload

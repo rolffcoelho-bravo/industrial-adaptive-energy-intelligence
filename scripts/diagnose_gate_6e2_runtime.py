@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
+from typing import Any
 
 import pandas as pd
 
@@ -8,7 +10,13 @@ from iaei.contracts import load_yaml
 from iaei.modeling.splits import build_expanding_window_folds
 from iaei.paths import ROOT
 from iaei.v2.point_prediction_reconstruction import rebuild_frozen_point_predictions
-from iaei.v2.uncertainty_execution import _load_json
+
+
+def _load_json(path: Path) -> dict[str, Any]:
+    value = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(value, dict):
+        raise RuntimeError(f"Expected an object in {path}")
+    return value
 
 
 def main() -> None:

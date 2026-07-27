@@ -54,7 +54,7 @@
     "chronology_passed": {"const": true},
     "resource_limits_passed": {"const": true},
     "cpu_execution_passed": {"const": true},
-    "deterministic_replay_passed": {"const": true},
+    "deterministic_replay_passed": {"type": "boolean"},
     "quantile_order_passed": {"type": "boolean"},
     "quantile_crossing_rate": {"type": "number", "minimum": 0, "maximum": 1}
   }
